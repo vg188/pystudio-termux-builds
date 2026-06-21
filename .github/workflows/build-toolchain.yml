@@ -156,7 +156,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pystudio-${{ matrix.profile }}-toolchain-${{ matrix.source }}-${{ matrix.arch }}-${{ github.run_number }}
-          path: dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/**
+          path: |
+            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*.tar.gz
+            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/SHA256SUMS-*.txt
           if-no-files-found: error
 
   release:
@@ -184,6 +186,5 @@ jobs:
           tag_name: pystudio-toolchains-r${{ github.run_number }}
           name: PyStudio toolchains r${{ github.run_number }}
           files: |
-            artifacts/**/*.deb
             artifacts/**/*.tar.gz
             artifacts/**/SHA256SUMS-*.txt
