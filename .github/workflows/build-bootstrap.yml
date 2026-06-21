@@ -15,7 +15,7 @@ on:
       architectures:
         description: "Bootstrap architectures, comma-separated."
         required: false
-        default: aarch64
+        default: aarch64,arm,i686,x86_64
       additional_packages:
         description: "Optional package override, comma-separated."
         required: false
@@ -60,7 +60,7 @@ jobs:
           set -euo pipefail
 
           profile="${INPUT_PROFILE:-base}"
-          architectures="${INPUT_ARCHITECTURES:-aarch64}"
+          architectures="${INPUT_ARCHITECTURES:-aarch64,arm,i686,x86_64}"
           additional_packages="${INPUT_ADDITIONAL_PACKAGES:-}"
           publish_release="${INPUT_PUBLISH_RELEASE:-true}"
 
@@ -81,8 +81,10 @@ jobs:
           matrix_json="$(
             for p in $profiles; do
               [[ -f "profiles/bootstrap/$p.env" ]] || { echo "Unknown profile: $p" >&2; exit 1; }
-              jq -n --arg profile "$p" --arg architectures "$architectures" \
-                '{profile: $profile, architectures: $architectures}'
+              for a in $arch_list; do
+                jq -n --arg profile "$p" --arg arch "$a" \
+                  '{profile: $profile, arch: $arch}'
+              done
             done | jq -s -c .
           )"
 
@@ -93,7 +95,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
   build:
-    name: Build ${{ matrix.profile }} / ${{ matrix.architectures }}
+    name: Build ${{ matrix.profile }} / ${{ matrix.arch }}
     needs: resolve-inputs
     runs-on: ubuntu-24.04
     timeout-minutes: 360
@@ -119,13 +121,13 @@ jobs:
           ADDITIONAL_PACKAGES: ${{ needs.resolve-inputs.outputs.additional_packages }}
         run: |
           set -euo pipefail
-          bash scripts/ci/build-bootstrap.sh "${{ matrix.profile }}" "${{ matrix.architectures }}" "$ADDITIONAL_PACKAGES"
+          bash scripts/ci/build-bootstrap.sh "${{ matrix.profile }}" "${{ matrix.arch }}" "$ADDITIONAL_PACKAGES"
 
       - name: Upload bootstrap artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pystudio-bootstrap-${{ matrix.profile }}-${{ github.run_number }}
-          path: dist/bootstrap/${{ matrix.profile }}/**
+          name: pystudio-bootstrap-${{ matrix.profile }}-${{ matrix.arch }}-${{ github.run_number }}
+          path: dist/bootstrap/${{ matrix.profile }}/${{ matrix.arch }}/**
           if-no-files-found: error
 
   release:

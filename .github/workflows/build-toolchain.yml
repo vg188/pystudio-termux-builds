@@ -25,7 +25,7 @@ on:
       architectures:
         description: "Target architectures, comma-separated."
         required: false
-        default: aarch64
+        default: aarch64,arm,i686,x86_64
       packages:
         description: "Optional package override, space or comma separated."
         required: false
