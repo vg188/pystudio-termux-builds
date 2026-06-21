@@ -30,10 +30,13 @@
         "primaryRepository": "https://github.com/vg188/pystudio-nodejs-toolchain",
         "secondaryRepository": "https://github.com/vg188/pystudio-nodejs-toolchain2"
       },
-      "architectures": {},
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r4/pystudio-nodejs-toolchain-repo-aarch64.tar.gz"
+        }
+      },
       "installCommandName": "pystudio-install-nodejs",
-      "verifyCommands": ["node --version", "npm --version"],
-      "unavailableReason": "Waiting for a published Node.js toolchain repo asset."
+      "verifyCommands": ["node --version", "npm --version"]
     },
     {
       "id": "cpp",
