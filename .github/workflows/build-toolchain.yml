@@ -72,7 +72,7 @@ jobs:
 
           profile="${INPUT_PROFILE:-python}"
           source="${INPUT_SOURCE:-primary}"
-          architectures="${INPUT_ARCHITECTURES:-aarch64}"
+          architectures="${INPUT_ARCHITECTURES:-aarch64,arm,i686,x86_64}"
           packages="$(tr ',' ' ' <<< "${INPUT_PACKAGES:-}" | xargs || true)"
           publish_release="${INPUT_PUBLISH_RELEASE:-true}"
 
