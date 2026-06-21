@@ -14,7 +14,7 @@
       },
       "architectures": {
         "aarch64": {
-          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r3/pystudio-python-toolchain-repo-aarch64.tar.gz"
+          "repoArchiveUrl": "https://cdn.gh-proxy.org/https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r3/pystudio-python-toolchain-repo-aarch64.tar.gz"
         }
       },
       "installCommandName": "pystudio-install-python",
