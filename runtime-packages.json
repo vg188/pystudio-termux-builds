@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-21",
+  "profiles": [
+    {
+      "id": "python",
+      "group": "runtime",
+      "title": "Python / Pip",
+      "description": "CPython runtime, pip, and their Termux dependencies.",
+      "packages": ["python", "python-pip"],
+      "source": {
+        "primaryRepository": "https://github.com/vg188/pystudio-python-toolchain",
+        "secondaryRepository": "https://github.com/vg188/pystudio-python-toolchain2"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r3/pystudio-python-toolchain-repo-aarch64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-python",
+      "verifyCommands": ["python3 --version", "pip3 --version"]
+    },
+    {
+      "id": "nodejs",
+      "group": "runtime",
+      "title": "Node.js / npm",
+      "description": "Node.js runtime and npm package manager.",
+      "packages": ["nodejs", "npm"],
+      "source": {
+        "primaryRepository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "secondaryRepository": "https://github.com/vg188/pystudio-nodejs-toolchain2"
+      },
+      "architectures": {},
+      "installCommandName": "pystudio-install-nodejs",
+      "verifyCommands": ["node --version", "npm --version"],
+      "unavailableReason": "Waiting for a published Node.js toolchain repo asset."
+    },
+    {
+      "id": "cpp",
+      "group": "native-toolchain",
+      "title": "C/C++ Toolchain",
+      "description": "Compiler, sysroot, CMake, Ninja, Make, and pkg-config.",
+      "packages": ["libllvm", "ndk-sysroot", "make", "cmake", "ninja", "pkg-config"],
+      "source": {
+        "primaryRepository": "https://github.com/vg188/pystudio-cpp-toolchain",
+        "secondaryRepository": "https://github.com/vg188/pystudio-cpp-toolchain2"
+      },
+      "architectures": {},
+      "installCommandName": "pystudio-install-cpp",
+      "verifyCommands": ["clang --version", "cmake --version", "ninja --version"],
+      "unavailableReason": "Waiting for a published C/C++ toolchain repo asset."
+    }
+  ]
+}
