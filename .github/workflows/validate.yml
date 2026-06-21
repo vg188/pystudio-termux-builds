@@ -25,6 +25,12 @@ jobs:
             bash -n "$script"
           done
 
+      - name: Check Python syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci/*.py
+
       - name: Validate toolchain profiles
         shell: bash
         run: |
