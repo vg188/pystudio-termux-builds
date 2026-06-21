@@ -1,0 +1,189 @@
+name: Build PyStudio Toolchain Matrix
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "Toolchain profile."
+        required: false
+        type: choice
+        default: python
+        options:
+          - python
+          - nodejs
+          - cpp
+          - all
+      source:
+        description: "Source adapter."
+        required: false
+        type: choice
+        default: primary
+        options:
+          - primary
+          - secondary
+          - all
+      architectures:
+        description: "Target architectures, comma-separated."
+        required: false
+        default: aarch64
+      packages:
+        description: "Optional package override, space or comma separated."
+        required: false
+        default: ""
+      publish_release:
+        description: "Publish artifacts to a GitHub release."
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pystudio-toolchain-matrix-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+env:
+  PYSTUDIO_PACKAGE_NAME: com.vchangxiao.pystudio
+
+jobs:
+  resolve-inputs:
+    name: Resolve matrix
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix_json: ${{ steps.resolve.outputs.matrix_json }}
+      packages: ${{ steps.resolve.outputs.packages }}
+      publish_release: ${{ steps.resolve.outputs.publish_release }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve workflow inputs
+        id: resolve
+        shell: bash
+        env:
+          INPUT_PROFILE: ${{ github.event.inputs.profile }}
+          INPUT_SOURCE: ${{ github.event.inputs.source }}
+          INPUT_ARCHITECTURES: ${{ github.event.inputs.architectures }}
+          INPUT_PACKAGES: ${{ github.event.inputs.packages }}
+          INPUT_PUBLISH_RELEASE: ${{ github.event.inputs.publish_release }}
+        run: |
+          set -euo pipefail
+
+          profile="${INPUT_PROFILE:-python}"
+          source="${INPUT_SOURCE:-primary}"
+          architectures="${INPUT_ARCHITECTURES:-aarch64}"
+          packages="$(tr ',' ' ' <<< "${INPUT_PACKAGES:-}" | xargs || true)"
+          publish_release="${INPUT_PUBLISH_RELEASE:-true}"
+
+          if [[ "$profile" == "all" ]]; then
+            profiles="python nodejs cpp"
+          else
+            profiles="$profile"
+          fi
+
+          if [[ "$source" == "all" ]]; then
+            sources="primary secondary"
+          else
+            sources="$source"
+          fi
+
+          arch_list="$(tr ',' ' ' <<< "$architectures")"
+          for arch in $arch_list; do
+            case "$arch" in
+              aarch64|arm|i686|x86_64) ;;
+              *) echo "Unsupported architecture: $arch"; exit 1 ;;
+            esac
+          done
+
+          matrix_json="$(
+            for p in $profiles; do
+              [[ -f "profiles/toolchains/$p.env" ]] || { echo "Unknown profile: $p" >&2; exit 1; }
+              for s in $sources; do
+                case "$s" in primary|secondary) ;; *) echo "Unknown source: $s" >&2; exit 1 ;; esac
+                for a in $arch_list; do
+                  jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
+                    '{profile: $profile, source: $source, arch: $arch}'
+                done
+              done
+            done | jq -s -c .
+          )"
+
+          {
+            echo "matrix_json=$matrix_json"
+            echo "packages=$packages"
+            echo "publish_release=$publish_release"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.profile }} / ${{ matrix.source }} / ${{ matrix.arch }}
+    needs: resolve-inputs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.resolve-inputs.outputs.matrix_json) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        shell: bash
+        run: bash scripts/ci/free-space.sh
+
+      - name: Enable swap
+        shell: bash
+        run: bash scripts/ci/enable-swap.sh 16G
+
+      - name: Build toolchain packages
+        shell: bash
+        env:
+          PACKAGE_OVERRIDE: ${{ needs.resolve-inputs.outputs.packages }}
+        run: |
+          set -euo pipefail
+          bash scripts/ci/build-toolchain.sh "${{ matrix.profile }}" "${{ matrix.source }}" "${{ matrix.arch }}" "$PACKAGE_OVERRIDE"
+
+      - name: Build apt repository artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev xz-utils
+          bash scripts/ci/create-apt-repo.sh "${{ matrix.profile }}" "${{ matrix.source }}" "${{ matrix.arch }}"
+
+      - name: Upload toolchain artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pystudio-${{ matrix.profile }}-toolchain-${{ matrix.source }}-${{ matrix.arch }}-${{ github.run_number }}
+          path: dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/**
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs:
+      - resolve-inputs
+      - build
+    if: ${{ needs.resolve-inputs.outputs.publish_release == 'true' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List release files
+        shell: bash
+        run: |
+          set -euo pipefail
+          find artifacts -type f -print | sort
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pystudio-toolchains-r${{ github.run_number }}
+          name: PyStudio toolchains r${{ github.run_number }}
+          files: |
+            artifacts/**/*.deb
+            artifacts/**/*.tar.gz
+            artifacts/**/SHA256SUMS-*.txt

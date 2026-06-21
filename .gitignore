@@ -1,0 +1,7 @@
+dist/
+work/
+*.zip
+*.tar.gz
+*.tar.xz
+SHA256SUMS*.txt
+

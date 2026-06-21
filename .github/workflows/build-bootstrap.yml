@@ -1,0 +1,158 @@
+name: Build PyStudio Bootstrap Profiles
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "Bootstrap profile."
+        required: false
+        type: choice
+        default: base
+        options:
+          - base
+          - python-pip
+          - all
+      architectures:
+        description: "Bootstrap architectures, comma-separated."
+        required: false
+        default: aarch64
+      additional_packages:
+        description: "Optional package override, comma-separated."
+        required: false
+        default: ""
+      publish_release:
+        description: "Publish artifacts to a GitHub release."
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pystudio-bootstrap-profiles-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+env:
+  PYSTUDIO_PACKAGE_NAME: com.vchangxiao.pystudio
+
+jobs:
+  resolve-inputs:
+    name: Resolve matrix
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix_json: ${{ steps.resolve.outputs.matrix_json }}
+      additional_packages: ${{ steps.resolve.outputs.additional_packages }}
+      publish_release: ${{ steps.resolve.outputs.publish_release }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve workflow inputs
+        id: resolve
+        shell: bash
+        env:
+          INPUT_PROFILE: ${{ github.event.inputs.profile }}
+          INPUT_ARCHITECTURES: ${{ github.event.inputs.architectures }}
+          INPUT_ADDITIONAL_PACKAGES: ${{ github.event.inputs.additional_packages }}
+          INPUT_PUBLISH_RELEASE: ${{ github.event.inputs.publish_release }}
+        run: |
+          set -euo pipefail
+
+          profile="${INPUT_PROFILE:-base}"
+          architectures="${INPUT_ARCHITECTURES:-aarch64}"
+          additional_packages="${INPUT_ADDITIONAL_PACKAGES:-}"
+          publish_release="${INPUT_PUBLISH_RELEASE:-true}"
+
+          if [[ "$profile" == "all" ]]; then
+            profiles="base python-pip"
+          else
+            profiles="$profile"
+          fi
+
+          arch_list="$(tr ',' ' ' <<< "$architectures")"
+          for arch in $arch_list; do
+            case "$arch" in
+              aarch64|arm|i686|x86_64) ;;
+              *) echo "Unsupported architecture: $arch"; exit 1 ;;
+            esac
+          done
+
+          matrix_json="$(
+            for p in $profiles; do
+              [[ -f "profiles/bootstrap/$p.env" ]] || { echo "Unknown profile: $p" >&2; exit 1; }
+              jq -n --arg profile "$p" --arg architectures "$architectures" \
+                '{profile: $profile, architectures: $architectures}'
+            done | jq -s -c .
+          )"
+
+          {
+            echo "matrix_json=$matrix_json"
+            echo "additional_packages=$additional_packages"
+            echo "publish_release=$publish_release"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.profile }} / ${{ matrix.architectures }}
+    needs: resolve-inputs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.resolve-inputs.outputs.matrix_json) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        shell: bash
+        run: bash scripts/ci/free-space.sh
+
+      - name: Enable swap
+        shell: bash
+        run: bash scripts/ci/enable-swap.sh 16G
+
+      - name: Build bootstrap
+        shell: bash
+        env:
+          ADDITIONAL_PACKAGES: ${{ needs.resolve-inputs.outputs.additional_packages }}
+        run: |
+          set -euo pipefail
+          bash scripts/ci/build-bootstrap.sh "${{ matrix.profile }}" "${{ matrix.architectures }}" "$ADDITIONAL_PACKAGES"
+
+      - name: Upload bootstrap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pystudio-bootstrap-${{ matrix.profile }}-${{ github.run_number }}
+          path: dist/bootstrap/${{ matrix.profile }}/**
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs:
+      - resolve-inputs
+      - build
+    if: ${{ needs.resolve-inputs.outputs.publish_release == 'true' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List release files
+        shell: bash
+        run: |
+          set -euo pipefail
+          find artifacts -type f -print | sort
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pystudio-bootstrap-profiles-r${{ github.run_number }}
+          name: PyStudio bootstrap profiles r${{ github.run_number }}
+          files: |
+            artifacts/**/*.tar.xz
+            artifacts/**/*.tar.gz
+            artifacts/**/SHA256SUMS.txt
