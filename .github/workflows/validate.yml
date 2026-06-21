@@ -1,0 +1,75 @@
+name: Validate PyStudio Build Orchestrator
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate profiles and scripts
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check shell syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for script in scripts/ci/*.sh; do
+            bash -n "$script"
+          done
+
+      - name: Validate toolchain profiles
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in profiles/toolchains/*.env; do
+            (
+              set -euo pipefail
+              # shellcheck disable=SC1090
+              source "$profile"
+              test -n "$PROFILE_SLUG"
+              test -n "$PROFILE_NAME"
+              test -n "$DEFAULT_PACKAGES"
+              test -n "$PRIMARY_SOURCE_REPO"
+              test -n "$SECONDARY_SOURCE_REPO"
+            )
+          done
+
+      - name: Validate bootstrap profiles
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in profiles/bootstrap/*.env; do
+            (
+              set -euo pipefail
+              # shellcheck disable=SC1090
+              source "$profile"
+              test -n "$PROFILE_SLUG"
+              test -n "$PROFILE_NAME"
+              test -n "$SOURCE_REPO"
+              test -n "$ARTIFACT_PREFIX"
+              test -n "$BOOTSTRAP_ALIAS_SUFFIX"
+            )
+          done
+
+      - name: Validate matrix generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          matrix_json="$(
+            for p in python nodejs cpp; do
+              for s in primary secondary; do
+                jq -n --arg profile "$p" --arg source "$s" --arg arch aarch64 \
+                  '{profile: $profile, source: $source, arch: $arch}'
+              done
+            done | jq -s -c .
+          )"
+          jq -e 'length == 6' <<< "$matrix_json"
+
