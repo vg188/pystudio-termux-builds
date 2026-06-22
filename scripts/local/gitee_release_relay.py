@@ -32,6 +32,79 @@ URL_TIMEOUT = 120
 USER_AGENT = "pystudio-local-gitee-relay"
 
 
+def format_bytes(value: float) -> str:
+    units = ["B", "KiB", "MiB", "GiB", "TiB"]
+    size = float(value)
+    for unit in units:
+        if abs(size) < 1024 or unit == units[-1]:
+            if unit == "B":
+                return f"{size:.0f} {unit}"
+            return f"{size:.1f} {unit}"
+        size /= 1024
+    return f"{size:.1f} PiB"
+
+
+def format_speed(bytes_per_second: float) -> str:
+    return f"{format_bytes(bytes_per_second)}/s"
+
+
+class TransferProgress:
+    def __init__(
+        self,
+        action: str,
+        name: str,
+        total: int | None,
+        initial: int = 0,
+        interval: float = 0.5,
+    ) -> None:
+        self.action = action
+        self.name = name
+        self.total = total
+        self.initial = initial
+        self.current = initial
+        self.interval = interval
+        self.started_at = time.monotonic()
+        self.last_render_at = 0.0
+        self.last_line_length = 0
+        self.is_tty = sys.stderr.isatty()
+        self.render(force=True)
+
+    def update(self, amount: int) -> None:
+        self.current += amount
+        now = time.monotonic()
+        if now - self.last_render_at >= self.interval:
+            self.render()
+
+    def render(self, force: bool = False, done: bool = False) -> None:
+        now = time.monotonic()
+        if not force and not done and now - self.last_render_at < self.interval:
+            return
+        self.last_render_at = now
+        elapsed = max(now - self.started_at, 0.001)
+        transferred = max(self.current - self.initial, 0)
+        speed = transferred / elapsed
+
+        if self.total:
+            percent = min(self.current / self.total * 100, 100.0)
+            progress = f"{percent:6.2f}% {format_bytes(self.current)}/{format_bytes(self.total)}"
+        else:
+            progress = f"{format_bytes(self.current)}"
+
+        line = f"{self.action}: {self.name} {progress} {format_speed(speed)}"
+        if done:
+            line += f" in {elapsed:.1f}s"
+
+        if self.is_tty:
+            padding = " " * max(0, self.last_line_length - len(line))
+            print("\r" + line + padding, end="" if not done else "\n", file=sys.stderr, flush=True)
+            self.last_line_length = len(line)
+        else:
+            print(line, file=sys.stderr, flush=True)
+
+    def finish(self) -> None:
+        self.render(force=True, done=True)
+
+
 def safe_part(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9._+-]+", "_", value).strip("_")
 
@@ -132,9 +205,10 @@ def download_asset(
     github_token: str | None,
     retries: int,
     force: bool,
+    progress_interval: float,
 ) -> None:
     if destination.exists() and not force:
-        print(f"Download exists, skipping: {destination.name}")
+        print(f"Download exists, skipping: {destination.name} ({format_bytes(destination.stat().st_size)})")
         return
 
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -152,6 +226,7 @@ def download_asset(
             headers["Range"] = f"bytes={resume_from}-"
 
         request = urllib.request.Request(url, headers=headers)
+        progress: TransferProgress | None = None
         try:
             with urllib.request.urlopen(request, timeout=URL_TIMEOUT) as response:
                 if resume_from > 0 and getattr(response, "status", 200) != 206:
@@ -161,16 +236,31 @@ def download_asset(
                     mode = "wb"
                 else:
                     mode = "ab" if resume_from > 0 else "wb"
+                content_length = response.headers.get("Content-Length")
+                remaining = int(content_length) if content_length and content_length.isdigit() else None
+                total = resume_from + remaining if remaining is not None else None
+                progress = TransferProgress(
+                    "Downloading",
+                    destination.name,
+                    total=total,
+                    initial=resume_from,
+                    interval=progress_interval,
+                )
                 with partial.open(mode + "") as output:
                     while True:
                         chunk = response.read(1024 * 1024)
                         if not chunk:
                             break
                         output.write(chunk)
+                        progress.update(len(chunk))
             partial.replace(destination)
-            print(f"Downloaded: {destination.name}")
+            if progress:
+                progress.finish()
+            print(f"Downloaded: {destination.name} ({format_bytes(destination.stat().st_size)})")
             return
         except Exception as exc:
+            if progress:
+                progress.finish()
             if attempt >= retries:
                 raise
             wait = min(60, 5 * attempt)
@@ -229,9 +319,10 @@ def upload_asset(
     existing_assets: set[str],
 ) -> None:
     if file_path.name in existing_assets and not args.force_upload:
-        print(f"Remote asset exists, skipping: {file_path.name}")
+        print(f"Remote asset exists, skipping: {file_path.name} ({format_bytes(file_path.stat().st_size)})")
         return
 
+    file_size = file_path.stat().st_size
     url = (
         f"https://gitee.com/api/v5/repos/{args.gitee_owner}/{args.gitee_repo}"
         f"/releases/{release_id}/attach_files"
@@ -248,13 +339,20 @@ def upload_asset(
         str(args.connect_timeout),
         "--max-time",
         str(args.upload_timeout),
+        "--output",
+        os.devnull,
+        "--write-out",
+        (
+            f"\nUploaded: {file_path.name} ({format_bytes(file_size)}) "
+            "in %{time_total}s, average upload speed %{speed_upload} B/s\n"
+        ),
         "-F",
         f"access_token={token}",
         "-F",
         f"file=@{file_path.resolve()};filename={file_path.name}",
         url,
     ]
-    print(f"Uploading: {file_path.name}")
+    print(f"Uploading: {file_path.name} ({format_bytes(file_size)})")
     subprocess.run(command, check=True)
 
 
@@ -330,7 +428,14 @@ def run(args: argparse.Namespace) -> None:
     for url in urls:
         filename = mirrored_filename(url)
         destination = asset_dir / filename
-        download_asset(url, destination, github_token, args.download_retries, args.force_download)
+        download_asset(
+            url,
+            destination,
+            github_token,
+            args.download_retries,
+            args.force_download,
+            args.progress_interval,
+        )
         replacements[url] = gitee_release_url(args.gitee_owner, args.gitee_repo, args.gitee_tag, filename)
         local_files.append(destination)
 
@@ -377,6 +482,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--download-retries", type=int, default=5)
     parser.add_argument("--upload-retries", type=int, default=8)
+    parser.add_argument("--progress-interval", type=float, default=0.5)
     parser.add_argument("--connect-timeout", type=int, default=60)
     parser.add_argument("--upload-timeout", type=int, default=7200)
     parser.add_argument("--curl-path", default="curl")

@@ -40,6 +40,15 @@ python scripts/local/gitee_release_relay.py --include "pystudio-python-toolchain
 
 The default cache is `work/gitee-relay`, which is ignored by git.
 
+Transfer progress is enabled by default:
+
+- Downloads show percent, transferred size, total size when known, current
+  speed, and elapsed time.
+- Uploads use curl's progress meter, then print final upload size, total time,
+  and average upload speed.
+- `--progress-interval` controls the download progress refresh interval in
+  seconds. The default is `0.5`.
+
 ## Behavior
 
 - Downloads are cached locally.
