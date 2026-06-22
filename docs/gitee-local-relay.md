@@ -17,7 +17,7 @@ Why this exists:
 Set tokens in the current terminal. Do not commit them.
 
 ```powershell
-$env:GITEE_TOKEN="..."
+$env:gitee_yourba="..."
 $env:GITHUB_TOKEN=$env:git_token_vg188
 python scripts/local/gitee_release_relay.py `
   --manifest runtime-packages.json `
@@ -25,6 +25,9 @@ python scripts/local/gitee_release_relay.py `
   --gitee-repo pystudio-termux-builds `
   --gitee-branch main
 ```
+
+The Gitee token lookup order is `--gitee-token`, then `gitee_yourba`, then
+`GITEE_YOURBA`, then `GITEE_TOKEN`.
 
 For a smoke test, limit the upload:
 

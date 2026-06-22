@@ -48,6 +48,14 @@ def format_speed(bytes_per_second: float) -> str:
     return f"{format_bytes(bytes_per_second)}/s"
 
 
+def first_env_value(*names: str) -> str:
+    for name in names:
+        value = os.environ.get(name)
+        if value:
+            return value
+    return ""
+
+
 def read_text_preview(path: Path, limit: int = 4000) -> str:
     if not path.exists():
         return ""
@@ -437,7 +445,7 @@ def run(args: argparse.Namespace) -> None:
             print(f"{url} -> {gitee_release_url(args.gitee_owner, args.gitee_repo, args.gitee_tag, filename)}")
         return
 
-    gitee_token = args.gitee_token or os.environ.get("GITEE_TOKEN")
+    gitee_token = args.gitee_token or first_env_value("gitee_yourba", "GITEE_YOURBA", "GITEE_TOKEN")
     if not gitee_token:
         gitee_token = getpass.getpass("Gitee token: ")
 
