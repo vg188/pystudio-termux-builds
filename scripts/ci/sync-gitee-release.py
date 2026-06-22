@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import mimetypes
 import os
 import re
+import subprocess
 import sys
 import urllib.error
 import urllib.parse
@@ -156,43 +156,31 @@ def create_release(args: argparse.Namespace) -> dict[str, Any]:
     )
 
 
-def multipart_body(fields: dict[str, str], file_path: Path) -> tuple[bytes, str]:
-    boundary = "----pystudio-gitee-sync-boundary"
-    parts: list[bytes] = []
-
-    for name, value in fields.items():
-        parts.append(f"--{boundary}\r\n".encode("utf-8"))
-        parts.append(f'Content-Disposition: form-data; name="{name}"\r\n\r\n'.encode("utf-8"))
-        parts.append(value.encode("utf-8"))
-        parts.append(b"\r\n")
-
-    content_type = mimetypes.guess_type(file_path.name)[0] or "application/octet-stream"
-    parts.append(f"--{boundary}\r\n".encode("utf-8"))
-    parts.append(
-        (
-            f'Content-Disposition: form-data; name="file"; filename="{file_path.name}"\r\n'
-            f"Content-Type: {content_type}\r\n\r\n"
-        ).encode("utf-8")
-    )
-    parts.append(file_path.read_bytes())
-    parts.append(b"\r\n")
-    parts.append(f"--{boundary}--\r\n".encode("utf-8"))
-    return b"".join(parts), boundary
-
-
 def upload_file(args: argparse.Namespace, release_id: str, file_path: Path) -> None:
-    body, boundary = multipart_body({"access_token": args.gitee_token}, file_path)
     url = (
         f"https://gitee.com/api/v5/repos/{args.gitee_owner}/{args.gitee_repo}"
         f"/releases/{release_id}/attach_files"
     )
-    api_request(
-        url,
-        body,
-        {
-            "Content-Type": f"multipart/form-data; boundary={boundary}",
-            "User-Agent": "pystudio-gitee-sync",
-        },
+    subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--show-error",
+            "--location",
+            "--retry",
+            "5",
+            "--retry-all-errors",
+            "--connect-timeout",
+            "60",
+            "--max-time",
+            "3600",
+            "-F",
+            f"access_token={args.gitee_token}",
+            "-F",
+            f"file=@{file_path}",
+            url,
+        ],
+        check=True,
     )
 
 
