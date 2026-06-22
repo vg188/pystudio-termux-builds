@@ -10,6 +10,15 @@ on:
         default: python
         options:
           - python
+          - python-build
+          - python-science
+          - python-data
+          - python-image
+          - python-viz
+          - python-xml-html
+          - python-crypto-network
+          - python-gui-tk
+          - all-python
           - nodejs
           - cpp
           - all
@@ -76,8 +85,12 @@ jobs:
           packages="$(tr ',' ' ' <<< "${INPUT_PACKAGES:-}" | xargs || true)"
           publish_release="${INPUT_PUBLISH_RELEASE:-true}"
 
+          python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
+
           if [[ "$profile" == "all" ]]; then
             profiles="python nodejs cpp"
+          elif [[ "$profile" == "all-python" ]]; then
+            profiles="$python_profiles"
           else
             profiles="$profile"
           fi

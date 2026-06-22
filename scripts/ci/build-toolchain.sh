@@ -17,7 +17,8 @@ package_override="${4:-}"
 load_env_file "$ROOT/profiles/toolchains/$profile.env"
 load_env_file "$ROOT/sources/$source_kind.env"
 
-source_repo_var="$(printf '%s_SOURCE_REPO' "$profile" | tr '[:lower:]-' '[:upper:]_')"
+source_key="${PROFILE_SOURCE_KEY:-$profile}"
+source_repo_var="$(printf '%s_SOURCE_REPO' "$source_key" | tr '[:lower:]-' '[:upper:]_')"
 source_repo="${!source_repo_var:-}"
 if [[ -z "$source_repo" ]]; then
   source_repo="${SOURCE_UPSTREAM_REPO:-}"

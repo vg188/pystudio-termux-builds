@@ -20,8 +20,19 @@ Runtime toolchains are configured in `profiles/toolchains/`:
 | Profile | Packages | Primary source | Secondary source |
 | --- | --- | --- | --- |
 | `python` | `python python-pip` | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-build` | pip native build tools | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-science` | NumPy, SciPy, BLAS/FFT/Fortran support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-data` | packaged Python data/runtime utilities | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-image` | Pillow and image libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-viz` | matplotlib and rendering libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-xml-html` | lxml, XML, HTML, parser tooling | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-crypto-network` | crypto and protocol libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `nodejs` | `nodejs npm` | `pystudio-nodejs-toolchain` | `pystudio-nodejs-toolchain2` |
 | `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `pystudio-cpp-toolchain` | `pystudio-cpp-toolchain2` |
+
+See `docs/python-runtime-profiles.md` for the package-level split and notes
+about pip-only packages.
 
 Source adapters are configured in `sources/`:
 
@@ -42,7 +53,8 @@ Bootstrap profiles are configured in `profiles/bootstrap/`:
 Use **Actions -> Build PyStudio Toolchain Matrix** to build installable runtime
 packages. Select:
 
-- `profile`: `python`, `nodejs`, `cpp`, or `all`
+- `profile`: `python`, one of the split `python-*` profiles, `all-python`,
+  `nodejs`, `cpp`, or `all`
 - `source`: `primary`, `secondary`, or `all`
 - `architectures`: `aarch64`, `arm`, `i686`, `x86_64`, or a comma-separated list
 
