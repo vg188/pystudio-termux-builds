@@ -15,18 +15,14 @@ package_override="${4:-}"
 [[ -n "$arch" ]] || die "missing target architecture"
 
 load_env_file "$ROOT/profiles/toolchains/$profile.env"
+load_env_file "$ROOT/sources/$source_kind.env"
 
-case "$source_kind" in
-  primary)
-    source_repo="$PRIMARY_SOURCE_REPO"
-    ;;
-  secondary)
-    source_repo="$SECONDARY_SOURCE_REPO"
-    ;;
-  *)
-    die "unsupported source kind: $source_kind"
-    ;;
-esac
+source_repo_var="$(printf '%s_SOURCE_REPO' "$profile" | tr '[:lower:]-' '[:upper:]_')"
+source_repo="${!source_repo_var:-}"
+if [[ -z "$source_repo" ]]; then
+  source_repo="${SOURCE_UPSTREAM_REPO:-}"
+fi
+[[ -n "$source_repo" ]] || die "no source repository configured for profile '$profile' and source '$source_kind'"
 
 packages="$(printf '%s' "${package_override:-$DEFAULT_PACKAGES}" | normalize_list)"
 [[ -n "$packages" ]] || die "no packages requested"
@@ -40,7 +36,8 @@ rm -rf "$work_dir" "$stage_dir"
 mkdir -p "$work_dir" "$stage_dir"
 
 echo "Profile: $PROFILE_NAME ($profile)"
-echo "Source: $source_kind -> $source_repo"
+echo "Source: $SOURCE_NAME ($source_kind) -> $source_repo"
+echo "Patch set: ${SOURCE_PATCH_SET:-none}"
 echo "Architecture: $arch"
 echo "Packages: ${package_array[*]}"
 

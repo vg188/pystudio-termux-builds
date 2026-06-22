@@ -1,0 +1,51 @@
+name: Build PyStudio Toolchain
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/build-pystudio-*-toolchain.yml"
+      - "pystudio-package-set.txt"
+      - "PYSTUDIO_*_TOOLCHAIN.md"
+      - "scripts/**"
+      - "packages/**"
+      - "root-packages/**"
+      - "x11-packages/**"
+  workflow_dispatch:
+    inputs:
+      architectures:
+        description: "Target architectures, comma-separated."
+        required: false
+        default: aarch64,arm,i686,x86_64
+      packages:
+        description: "Optional package override, space or comma separated."
+        required: false
+        default: ""
+      publish_release:
+        description: "Publish artifacts to a GitHub release."
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pystudio-toolchain-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    uses: vg188/pystudio-termux-builds/.github/workflows/reusable-toolchain.yml@main
+    with:
+      profile: python
+      source: primary
+      architectures: ${{ inputs.architectures || 'aarch64,arm,i686,x86_64' }}
+      packages: ${{ inputs.packages || '' }}
+      publish_release: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_release }}
+      artifact_prefix: pystudio-python-toolchain
+      release_tag_prefix: pystudio-python-toolchain
+      release_name: PyStudio Python toolchain
+      orchestrator_ref: main
+    secrets: inherit

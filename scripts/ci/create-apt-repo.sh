@@ -8,6 +8,7 @@ source "$ROOT/scripts/ci/lib.sh"
 profile="${1:-}"
 source_kind="${2:-}"
 arch="${3:-}"
+artifact_prefix="${4:-}"
 
 [[ -n "$profile" ]] || die "missing toolchain profile"
 [[ -n "$source_kind" ]] || die "missing source kind"
@@ -17,7 +18,7 @@ stage_dir="$ROOT/dist/toolchains/$profile/$source_kind/$arch"
 output_dir="$stage_dir/output"
 repo_dir="$stage_dir/repo-$arch"
 binary_dir="$repo_dir/dists/stable/main/binary-$arch"
-artifact_slug="pystudio-$profile-toolchain-$source_kind"
+artifact_slug="${artifact_prefix:-pystudio-$profile-toolchain-$source_kind}"
 
 if ! find "$output_dir" -type f -name "*.deb" | grep -q .; then
   die "no deb files were produced in $output_dir"
@@ -46,4 +47,3 @@ tar -czf "$stage_dir/$artifact_slug-debs-$arch.tar.gz" -C "$output_dir" .
 
 find "$repo_dir" -type f -print | sort
 cat "$stage_dir/SHA256SUMS-$arch.txt"
-

@@ -39,8 +39,8 @@ profiles/
   toolchains/
   python-extensions/
 sources/
-  primary.yml
-  secondary.yml
+  primary.env
+  secondary.env
 patches/
   common/
   primary/
@@ -63,7 +63,7 @@ Examples:
 - `pystudio-cpp-toolchain`
 - `pystudio-cpp-toolchain2`
 
-Each child repo should contain only:
+The final target is for each child repo to contain only:
 
 ```text
 .github/workflows/build.yml
@@ -71,7 +71,8 @@ pystudio-build.yml
 README.md
 ```
 
-`pystudio-build.yml` declares the small differences:
+`pystudio-build.yml` or `children/toolchains/*.yml` declares the small
+differences:
 
 ```yaml
 profile: python
@@ -87,28 +88,31 @@ releasePrefix: pystudio-python-toolchain
 The child workflow calls the main repository reusable workflow or checks out
 the main repository scripts at a pinned ref.
 
+Current migration note: the existing toolchain repositories still contain full
+Termux package trees because they also act as transitional source adapters.
+Do not delete those trees until package patches have moved into the main
+repository under `patches/`.
+
 ## Two-Source Strategy
 
 Use two source adapters, but avoid treating them as equal forever.
 
 ### Source Adapter Model
 
-`sources/primary.yml`
+`sources/primary.env`
 
-```yaml
-id: primary
-upstream: msmt2018/termux-packages
-patchSet: primary
-priority: 10
+```bash
+SOURCE_ID=primary
+SOURCE_UPSTREAM_REPO=https://github.com/msmt2018/termux-packages.git
+SOURCE_PATCH_SET=primary
 ```
 
-`sources/secondary.yml`
+`sources/secondary.env`
 
-```yaml
-id: secondary
-upstream: msmt2018/termux-packages2
-patchSet: secondary
-priority: 20
+```bash
+SOURCE_ID=secondary
+SOURCE_UPSTREAM_REPO=https://github.com/msmt2018/termux-packages2.git
+SOURCE_PATCH_SET=secondary
 ```
 
 The main repo owns the policy:
@@ -170,12 +174,15 @@ metadata, install commands, and verification commands should stay the same.
 1. Keep current child repositories working.
 2. Move reusable build logic into `pystudio-termux-builds`.
 3. Replace child repo workflows with thin calls into the main repo.
-4. Move duplicated patches into `patches/common`.
-5. Keep only source-specific differences under `patches/primary` and
+4. Keep the existing full source forks as transitional source adapters.
+5. Move duplicated patches into `patches/common`.
+6. Keep only source-specific differences under `patches/primary` and
    `patches/secondary`.
-6. Generate `runtime-packages.json` from build metadata instead of hand-editing
+7. Point source adapters at upstream repositories plus main-repo patch sets.
+8. Thin child repositories down to workflow/config/README only.
+9. Generate `runtime-packages.json` from build metadata instead of hand-editing
    URLs.
-7. Mirror the final manifest and assets to Gitee through either CI or the local
+10. Mirror the final manifest and assets to Gitee through either CI or the local
    relay script.
 
 ## Tradeoff

@@ -1,0 +1,6 @@
+repository: vg188/pystudio-cpp-toolchain2
+profile: cpp
+source: secondary
+artifactPrefix: pystudio-cpp-toolchain
+releaseTagPrefix: pystudio-cpp-toolchain
+releaseName: PyStudio C/C++ toolchain

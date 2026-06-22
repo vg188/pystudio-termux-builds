@@ -1,0 +1,216 @@
+name: Reusable PyStudio Toolchain Build
+
+on:
+  workflow_call:
+    inputs:
+      profile:
+        description: "Toolchain profile: python, nodejs, or cpp."
+        required: true
+        type: string
+      source:
+        description: "Source adapter: primary or secondary."
+        required: true
+        type: string
+      architectures:
+        description: "Target architectures, comma-separated."
+        required: false
+        type: string
+        default: aarch64,arm,i686,x86_64
+      packages:
+        description: "Optional package override, space or comma separated."
+        required: false
+        type: string
+        default: ""
+      publish_release:
+        description: "Publish artifacts to a release in the caller repository."
+        required: false
+        type: boolean
+        default: true
+      artifact_prefix:
+        description: "Artifact filename prefix, e.g. pystudio-python-toolchain."
+        required: false
+        type: string
+        default: ""
+      release_tag_prefix:
+        description: "Release tag prefix, e.g. pystudio-python-toolchain."
+        required: false
+        type: string
+        default: ""
+      release_name:
+        description: "Release display name prefix."
+        required: false
+        type: string
+        default: ""
+      orchestrator_ref:
+        description: "Ref of vg188/pystudio-termux-builds to use."
+        required: false
+        type: string
+        default: main
+      pystudio_package_name:
+        description: "Android application package name."
+        required: false
+        type: string
+        default: com.vchangxiao.pystudio
+
+permissions:
+  contents: write
+
+jobs:
+  resolve-inputs:
+    name: Resolve matrix
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix_json: ${{ steps.resolve.outputs.matrix_json }}
+      packages: ${{ steps.resolve.outputs.packages }}
+      publish_release: ${{ steps.resolve.outputs.publish_release }}
+      artifact_prefix: ${{ steps.resolve.outputs.artifact_prefix }}
+      release_tag_prefix: ${{ steps.resolve.outputs.release_tag_prefix }}
+      release_name: ${{ steps.resolve.outputs.release_name }}
+    steps:
+      - name: Checkout orchestrator
+        uses: actions/checkout@v4
+        with:
+          repository: vg188/pystudio-termux-builds
+          ref: ${{ inputs.orchestrator_ref }}
+          path: orchestrator
+
+      - name: Resolve reusable workflow inputs
+        id: resolve
+        shell: bash
+        env:
+          INPUT_PROFILE: ${{ inputs.profile }}
+          INPUT_SOURCE: ${{ inputs.source }}
+          INPUT_ARCHITECTURES: ${{ inputs.architectures }}
+          INPUT_PACKAGES: ${{ inputs.packages }}
+          INPUT_PUBLISH_RELEASE: ${{ inputs.publish_release }}
+          INPUT_ARTIFACT_PREFIX: ${{ inputs.artifact_prefix }}
+          INPUT_RELEASE_TAG_PREFIX: ${{ inputs.release_tag_prefix }}
+          INPUT_RELEASE_NAME: ${{ inputs.release_name }}
+        run: |
+          set -euo pipefail
+
+          profile="${INPUT_PROFILE}"
+          source="${INPUT_SOURCE}"
+          architectures="${INPUT_ARCHITECTURES:-aarch64,arm,i686,x86_64}"
+          packages="$(tr ',' ' ' <<< "${INPUT_PACKAGES:-}" | xargs || true)"
+          publish_release="${INPUT_PUBLISH_RELEASE:-true}"
+          artifact_prefix="${INPUT_ARTIFACT_PREFIX:-pystudio-${profile}-toolchain-${source}}"
+          release_tag_prefix="${INPUT_RELEASE_TAG_PREFIX:-$artifact_prefix}"
+          release_name="${INPUT_RELEASE_NAME:-PyStudio ${profile} toolchain}"
+
+          [[ -f "orchestrator/profiles/toolchains/$profile.env" ]] || {
+            echo "Unknown toolchain profile: $profile" >&2
+            exit 1
+          }
+          [[ -f "orchestrator/sources/$source.env" ]] || {
+            echo "Unknown source adapter: $source" >&2
+            exit 1
+          }
+
+          arch_list="$(tr ',' ' ' <<< "$architectures")"
+          for arch in $arch_list; do
+            case "$arch" in
+              aarch64|arm|i686|x86_64) ;;
+              *) echo "Unsupported architecture: $arch"; exit 1 ;;
+            esac
+          done
+
+          matrix_json="$(
+            for arch in $arch_list; do
+              jq -n --arg profile "$profile" --arg source "$source" --arg arch "$arch" \
+                '{profile: $profile, source: $source, arch: $arch}'
+            done | jq -s -c .
+          )"
+
+          {
+            echo "matrix_json=$matrix_json"
+            echo "packages=$packages"
+            echo "publish_release=$publish_release"
+            echo "artifact_prefix=$artifact_prefix"
+            echo "release_tag_prefix=$release_tag_prefix"
+            echo "release_name=$release_name"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.profile }} / ${{ matrix.source }} / ${{ matrix.arch }}
+    needs: resolve-inputs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.resolve-inputs.outputs.matrix_json) }}
+    env:
+      PYSTUDIO_PACKAGE_NAME: ${{ inputs.pystudio_package_name }}
+    steps:
+      - name: Checkout orchestrator
+        uses: actions/checkout@v4
+        with:
+          repository: vg188/pystudio-termux-builds
+          ref: ${{ inputs.orchestrator_ref }}
+          path: orchestrator
+
+      - name: Free disk space
+        shell: bash
+        run: bash orchestrator/scripts/ci/free-space.sh
+
+      - name: Enable swap
+        shell: bash
+        run: bash orchestrator/scripts/ci/enable-swap.sh 16G
+
+      - name: Build toolchain packages
+        shell: bash
+        env:
+          PACKAGE_OVERRIDE: ${{ needs.resolve-inputs.outputs.packages }}
+        run: |
+          set -euo pipefail
+          bash orchestrator/scripts/ci/build-toolchain.sh "${{ matrix.profile }}" "${{ matrix.source }}" "${{ matrix.arch }}" "$PACKAGE_OVERRIDE"
+
+      - name: Build apt repository artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev xz-utils
+          bash orchestrator/scripts/ci/create-apt-repo.sh \
+            "${{ matrix.profile }}" \
+            "${{ matrix.source }}" \
+            "${{ matrix.arch }}" \
+            "${{ needs.resolve-inputs.outputs.artifact_prefix }}"
+
+      - name: Upload toolchain artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.resolve-inputs.outputs.artifact_prefix }}-${{ matrix.arch }}-${{ github.run_number }}
+          path: |
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*.tar.gz
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/SHA256SUMS-*.txt
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs:
+      - resolve-inputs
+      - build
+    if: ${{ needs.resolve-inputs.outputs.publish_release == 'true' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List release files
+        shell: bash
+        run: |
+          set -euo pipefail
+          find artifacts -type f -print | sort
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.resolve-inputs.outputs.release_tag_prefix }}-r${{ github.run_number }}
+          name: ${{ needs.resolve-inputs.outputs.release_name }} r${{ github.run_number }}
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/SHA256SUMS-*.txt
