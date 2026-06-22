@@ -48,6 +48,15 @@ def format_speed(bytes_per_second: float) -> str:
     return f"{format_bytes(bytes_per_second)}/s"
 
 
+def read_text_preview(path: Path, limit: int = 4000) -> str:
+    if not path.exists():
+        return ""
+    text = path.read_text(encoding="utf-8", errors="replace")
+    if len(text) <= limit:
+        return text
+    return text[:limit] + "\n... response truncated ..."
+
+
 class TransferProgress:
     def __init__(
         self,
@@ -323,24 +332,27 @@ def upload_asset(
         return
 
     file_size = file_path.stat().st_size
+    response_dir = Path(args.cache_dir) / "upload-responses"
+    response_dir.mkdir(parents=True, exist_ok=True)
+    response_path = response_dir / f"{safe_part(file_path.name)}.response.txt"
+    response_path.unlink(missing_ok=True)
     url = (
         f"https://gitee.com/api/v5/repos/{args.gitee_owner}/{args.gitee_repo}"
         f"/releases/{release_id}/attach_files"
     )
     command = [
         args.curl_path,
-        "--fail",
+        "--fail-with-body",
         "--show-error",
         "--location",
         "--retry",
         str(args.upload_retries),
-        "--retry-all-errors",
         "--connect-timeout",
         str(args.connect_timeout),
         "--max-time",
         str(args.upload_timeout),
         "--output",
-        os.devnull,
+        str(response_path),
         "--write-out",
         (
             f"\nUploaded: {file_path.name} ({format_bytes(file_size)}) "
@@ -353,7 +365,19 @@ def upload_asset(
         url,
     ]
     print(f"Uploading: {file_path.name} ({format_bytes(file_size)})")
-    subprocess.run(command, check=True)
+    result = subprocess.run(command, check=False)
+    if result.returncode != 0:
+        response_text = read_text_preview(response_path).strip()
+        message = (
+            f"Upload failed for {file_path.name} with curl exit code {result.returncode}. "
+            f"Gitee response was saved to {response_path}."
+        )
+        if response_text:
+            message += f"\nGitee response:\n{response_text}"
+        else:
+            message += "\nGitee did not return a response body."
+        raise RuntimeError(message)
+    existing_assets.add(file_path.name)
 
 
 def update_gitee_file(
@@ -490,8 +514,12 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
-    run(parse_args())
-    return 0
+    try:
+        run(parse_args())
+        return 0
+    except RuntimeError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

@@ -48,6 +48,9 @@ Transfer progress is enabled by default:
   and average upload speed.
 - `--progress-interval` controls the download progress refresh interval in
   seconds. The default is `0.5`.
+- Gitee HTTP 400 responses stop immediately instead of retrying the same large
+  upload. The response body is printed and saved under
+  `work/gitee-relay/upload-responses/`.
 
 ## Behavior
 
