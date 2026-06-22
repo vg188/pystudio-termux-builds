@@ -21,10 +21,10 @@ Runtime toolchains are configured in `profiles/toolchains/`:
 | --- | --- | --- | --- |
 | `python` | `python python-pip` | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-build` | pip native build tools | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-science` | NumPy, SciPy, BLAS/FFT/Fortran support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-science` | NumPy, SciPy, BLAS/FFT support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-data` | packaged Python data/runtime utilities | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-image` | Pillow and image libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-viz` | matplotlib and rendering libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
+| `python-viz` | matplotlib and font/rendering basics | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-xml-html` | lxml, XML, HTML, parser tooling | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-crypto-network` | crypto and protocol libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
