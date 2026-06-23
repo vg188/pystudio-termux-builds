@@ -1,6 +1,6 @@
 # Source Adapter Maintenance
 
-PyStudio now keeps package source trees in shared source adapter repositories:
+PyStudio keeps package source access centralized in the main orchestrator:
 
 - `vg188/pystudio-termux-source-termux`
   - upstream: `termux/termux-packages`
@@ -11,14 +11,16 @@ PyStudio now keeps package source trees in shared source adapter repositories:
 
 Toolchain repositories are thin workflow/config repositories. They do not carry
 package source trees. The main orchestrator selects a profile and source
-adapter, then the reusable workflow clones the shared source adapter.
+adapter, clones the configured upstream package tree, then applies the active
+PyStudio patch queue listed in `patches/source-adapters/<source>/series`.
 
 ## Fork Policy
 
-Keep GitHub fork relationships for source adapter repositories when possible.
-They are long-lived downstream package trees and benefit from GitHub's fork
-network features: upstream compare views, sync visibility, patch review, and
-easier rebasing/merging from upstream.
+Keep GitHub fork relationships for source adapter repositories when possible,
+but keep those forks clean. PyStudio-specific changes live in the main
+orchestrator as build-time patches, not as commits on the source fork branch.
+This keeps upstream compare views useful and avoids permanent
+`ahead N / behind M` drift.
 
 Thin toolchain repositories should not be forks. They are PyStudio-owned
 workflow/config shells, not upstream package trees.
@@ -30,7 +32,7 @@ If a source adapter was accidentally created as a normal repository, the clean
 fix is:
 
 1. Recreate it through GitHub's fork flow from the matching upstream repository.
-2. Push or cherry-pick PyStudio patches onto the fork's default branch.
+2. Reset the fork's default branch to the upstream default branch.
 3. Keep the `upstream` remote read-only locally:
 
 ```sh
@@ -39,26 +41,28 @@ git remote set-url --push upstream DISABLED
 
 If GitHub reports that a fork already exists in the same network, either reuse
 that fork with the root upstream configured locally, or rebuild the fork after
-exporting PyStudio patches. The current primary fork was rebuilt directly from
-`termux/termux-packages`.
+exporting PyStudio patches into `patches/source-adapters/`.
 
 ## Update Flow
 
-For each source adapter:
+The main repository contains a scheduled `Sync PyStudio Source Forks` workflow.
+It calls GitHub's upstream-sync API for each `SOURCE_FORK_REPO` listed in
+`sources/*.env`. Manual source-fork maintenance should normally be limited to:
 
 ```sh
-git fetch upstream
-git checkout master
-git merge upstream/master
+python3 scripts/ci/sync-source-forks.py
 ```
 
-Resolve conflicts by preserving PyStudio-specific changes:
+When a build breaks after an upstream change, inspect whether the active patch
+queue still applies cleanly. Preserve only patches that are still needed:
 
-- package name / prefix patches for `com.vchangxiao.pystudio`
-- checksum fixes required by current upstream archives
 - download retry hardening
 - package dependency trims that avoid Android SDK or GUI-only chains
+- host build fixes required by GitHub runners
 - source-specific fixes documented in `CONTEXT.md`
+
+Checksum or source URL fixes should be removed from the active `series` once
+upstream carries the same values.
 
 TUR is a supplemental source, not a full replacement for the main Termux package
 tree. Every build should select one source explicitly; select `tur` only for
@@ -75,5 +79,6 @@ pystudio-node-build-core-toolchain
 ```
 
 This keeps adding future source families straightforward: fork or mirror the
-new upstream source, add one `sources/<id>.env`, and point thin child workflows
-at that source through the main reusable workflow.
+new upstream source, add one `sources/<id>.env`, add a patch `series` if needed,
+and point thin child workflows at that source through the main reusable
+workflow.

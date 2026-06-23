@@ -59,8 +59,10 @@ jobs:
               test -n "$SOURCE_NAME"
               test -n "$SOURCE_UPSTREAM_REPO"
               test -n "$SOURCE_UPSTREAM_PARENT"
+              test -n "$SOURCE_FORK_REPO"
               test -n "$SOURCE_PATCH_SET"
               test -n "$SOURCE_FALLBACK_ORDER"
+              test -f "patches/source-adapters/$SOURCE_PATCH_SET/series"
             )
           done
 

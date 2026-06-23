@@ -1,0 +1,26 @@
+name: Sync PyStudio Source Forks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 19 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  sync-source-forks:
+    name: Sync clean source forks
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout orchestrator
+        uses: actions/checkout@v4
+
+      - name: Sync source forks with upstream
+        shell: bash
+        env:
+          SOURCE_SYNC_TOKEN: ${{ secrets.SOURCE_SYNC_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "$SOURCE_SYNC_TOKEN"
+          python3 scripts/ci/sync-source-forks.py --token "$SOURCE_SYNC_TOKEN"

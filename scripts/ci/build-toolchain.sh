@@ -45,6 +45,44 @@ echo "Packages: ${package_array[*]}"
 
 git clone --depth 1 "$source_repo" "$source_dir"
 
+apply_source_patch_set() {
+  local target_dir="$1"
+  local patch_set="${2:-}"
+  local source_label="${3:-$patch_set}"
+  local series patch_name patch_path entry
+
+  [[ -n "$patch_set" && "$patch_set" != "none" ]] || return 0
+  series="$ROOT/patches/source-adapters/$patch_set/series"
+  if [[ ! -f "$series" ]]; then
+    echo "No active patch series for source '$source_label' ($patch_set)."
+    return 0
+  fi
+
+  echo "Applying PyStudio source patch set '$patch_set' to '$source_label'"
+  while IFS= read -r patch_name || [[ -n "$patch_name" ]]; do
+    entry="${patch_name%%#*}"
+    entry="$(xargs <<< "$entry")"
+    [[ -n "$entry" ]] || continue
+
+    patch_path="$ROOT/patches/source-adapters/$patch_set/$entry"
+    [[ -f "$patch_path" ]] || die "patch listed in $series was not found: $entry"
+
+    if git -C "$target_dir" apply --reverse --check "$patch_path" >/dev/null 2>&1; then
+      echo "Patch already applied: $patch_set/$entry"
+      continue
+    fi
+
+    if ! git -C "$target_dir" apply --check "$patch_path" >/dev/null 2>&1; then
+      die "patch no longer applies cleanly to '$source_label': $patch_set/$entry"
+    fi
+
+    git -C "$target_dir" apply "$patch_path"
+    echo "Applied patch: $patch_set/$entry"
+  done < "$series"
+}
+
+apply_source_patch_set "$source_dir" "${SOURCE_PATCH_SET:-}" "$source_kind"
+
 source_env_value() {
   local source_id="$1"
   local var_name="$2"
@@ -73,13 +111,15 @@ package_relpath() {
 
 clone_fallback_source() {
   local fallback_id="$1"
-  local fallback_repo fallback_dir
+  local fallback_repo fallback_dir fallback_patch_set
   fallback_repo="$(source_env_value "$fallback_id" SOURCE_UPSTREAM_REPO)"
   [[ -n "$fallback_repo" ]] || die "no repository configured for fallback source '$fallback_id'"
   fallback_dir="$fallback_root/$fallback_id"
   if [[ ! -d "$fallback_dir/.git" ]]; then
     echo "Cloning fallback source '$fallback_id' -> $fallback_repo" >&2
     git clone --depth 1 "$fallback_repo" "$fallback_dir"
+    fallback_patch_set="$(source_env_value "$fallback_id" SOURCE_PATCH_SET)"
+    apply_source_patch_set "$fallback_dir" "$fallback_patch_set" "$fallback_id"
   fi
   printf '%s\n' "$fallback_dir"
 }
