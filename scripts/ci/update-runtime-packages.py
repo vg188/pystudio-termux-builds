@@ -9,6 +9,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -32,9 +33,17 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
         "description": "CPython runtime, pip, and their Termux dependencies.",
         "packages": ["python", "python-pip"],
         "primary_repo": "vg188/pystudio-python-toolchain",
-        "secondary_repo": "vg188/pystudio-python-toolchain2",
+        "secondary_repo": "vg188/pystudio-python-toolchain",
+        "primary_release_repo": "vg188/pystudio-python-toolchain",
+        "secondary_release_repo": "vg188/pystudio-python-toolchain",
         "tag_prefix": "pystudio-python-toolchain-r",
+        "primary_tag_prefix": "pystudio-python-toolchain-primary-r",
+        "secondary_tag_prefix": "pystudio-python-toolchain-secondary-r",
+        "primary_asset_prefix": "pystudio-python-toolchain-primary",
+        "secondary_asset_prefix": "pystudio-python-toolchain-secondary",
         "asset_prefix": "pystudio-python-toolchain",
+        "primary_legacy_tag_prefix": "pystudio-python-toolchain-r",
+        "primary_legacy_asset_prefix": "pystudio-python-toolchain",
         "installCommandName": "pystudio-install-python",
         "verifyCommands": ["python3 --version", "pip3 --version"],
     },
@@ -44,9 +53,17 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
         "description": "Node.js runtime and npm package manager.",
         "packages": ["nodejs", "npm"],
         "primary_repo": "vg188/pystudio-nodejs-toolchain",
-        "secondary_repo": "vg188/pystudio-nodejs-toolchain2",
+        "secondary_repo": "vg188/pystudio-nodejs-toolchain",
+        "primary_release_repo": "vg188/pystudio-nodejs-toolchain",
+        "secondary_release_repo": "vg188/pystudio-nodejs-toolchain",
         "tag_prefix": "pystudio-nodejs-toolchain-r",
+        "primary_tag_prefix": "pystudio-nodejs-toolchain-primary-r",
+        "secondary_tag_prefix": "pystudio-nodejs-toolchain-secondary-r",
+        "primary_asset_prefix": "pystudio-nodejs-toolchain-primary",
+        "secondary_asset_prefix": "pystudio-nodejs-toolchain-secondary",
         "asset_prefix": "pystudio-nodejs-toolchain",
+        "primary_legacy_tag_prefix": "pystudio-nodejs-toolchain-r",
+        "primary_legacy_asset_prefix": "pystudio-nodejs-toolchain",
         "installCommandName": "pystudio-install-nodejs",
         "verifyCommands": ["node --version", "npm --version"],
     },
@@ -72,13 +89,16 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
             "libffi",
             "libsqlite",
         ],
-        "primary_repo": "vg188/pystudio-nodejs-toolchain",
-        "secondary_repo": "vg188/pystudio-nodejs-toolchain2",
+        "primary_repo": "vg188/pystudio-node-build-core-toolchain",
+        "secondary_repo": "vg188/pystudio-node-build-core-toolchain",
         "primary_release_repo": "vg188/pystudio-node-build-core-toolchain",
         "secondary_release_repo": "vg188/pystudio-node-build-core-toolchain",
         "tag_prefix": "pystudio-node-build-core-toolchain-r",
+        "primary_tag_prefix": "pystudio-node-build-core-toolchain-primary-r",
+        "secondary_tag_prefix": "pystudio-node-build-core-toolchain-secondary-r",
         "primary_asset_prefix": "pystudio-node-build-core-toolchain-primary",
         "secondary_asset_prefix": "pystudio-node-build-core-toolchain-secondary",
+        "asset_prefix": "pystudio-node-build-core-toolchain",
         "installCommandName": "pystudio-install-node-build-core",
         "verifyCommands": ["node --version", "npm --version", "cmake --version", "pkg-config --version"],
     },
@@ -111,13 +131,16 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
             "tree-sitter-xml",
             "tree-sitter-yaml",
         ],
-        "primary_repo": "vg188/pystudio-nodejs-toolchain",
-        "secondary_repo": "vg188/pystudio-nodejs-toolchain2",
+        "primary_repo": "vg188/pystudio-tree-sitter-toolchain",
+        "secondary_repo": "vg188/pystudio-tree-sitter-toolchain",
         "primary_release_repo": "vg188/pystudio-tree-sitter-toolchain",
         "secondary_release_repo": "vg188/pystudio-tree-sitter-toolchain",
         "tag_prefix": "pystudio-tree-sitter-toolchain-r",
+        "primary_tag_prefix": "pystudio-tree-sitter-toolchain-primary-r",
+        "secondary_tag_prefix": "pystudio-tree-sitter-toolchain-secondary-r",
         "primary_asset_prefix": "pystudio-tree-sitter-toolchain-primary",
         "secondary_asset_prefix": "pystudio-tree-sitter-toolchain-secondary",
+        "asset_prefix": "pystudio-tree-sitter-toolchain",
         "installCommandName": "pystudio-install-tree-sitter",
         "verifyCommands": ["tree-sitter --version"],
     },
@@ -127,9 +150,17 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
         "description": "Compiler, sysroot, CMake, Ninja, Make, and pkg-config.",
         "packages": ["libllvm", "ndk-sysroot", "make", "cmake", "ninja", "pkg-config"],
         "primary_repo": "vg188/pystudio-cpp-toolchain",
-        "secondary_repo": "vg188/pystudio-cpp-toolchain2",
+        "secondary_repo": "vg188/pystudio-cpp-toolchain",
+        "primary_release_repo": "vg188/pystudio-cpp-toolchain",
+        "secondary_release_repo": "vg188/pystudio-cpp-toolchain",
         "tag_prefix": "pystudio-cpp-toolchain-r",
+        "primary_tag_prefix": "pystudio-cpp-toolchain-primary-r",
+        "secondary_tag_prefix": "pystudio-cpp-toolchain-secondary-r",
+        "primary_asset_prefix": "pystudio-cpp-toolchain-primary",
+        "secondary_asset_prefix": "pystudio-cpp-toolchain-secondary",
         "asset_prefix": "pystudio-cpp-toolchain",
+        "primary_legacy_tag_prefix": "pystudio-cpp-toolchain-r",
+        "primary_legacy_asset_prefix": "pystudio-cpp-toolchain",
         "installCommandName": "pystudio-install-cpp",
         "verifyCommands": ["clang --version", "cmake --version", "ninja --version"],
     },
@@ -148,22 +179,34 @@ def github_headers(token: str) -> dict[str, str]:
 
 def fetch_json(url: str, token: str = "") -> Any:
     request = urllib.request.Request(url, headers=github_headers(token))
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"GET {url} failed: HTTP {exc.code}: {detail}") from exc
+    for attempt in range(1, 6):
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"GET {url} failed: HTTP {exc.code}: {detail}") from exc
+        except urllib.error.URLError:
+            if attempt == 5:
+                raise
+            time.sleep(attempt * 3)
+    raise RuntimeError(f"GET {url} failed unexpectedly")
 
 
 def fetch_text(url: str, token: str = "") -> str:
     request = urllib.request.Request(url, headers=github_headers(token))
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            return response.read().decode("utf-8")
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"GET {url} failed: HTTP {exc.code}: {detail}") from exc
+    for attempt in range(1, 6):
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return response.read().decode("utf-8")
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"GET {url} failed: HTTP {exc.code}: {detail}") from exc
+        except urllib.error.URLError:
+            if attempt == 5:
+                raise
+            time.sleep(attempt * 3)
+    raise RuntimeError(f"GET {url} failed unexpectedly")
 
 
 def release_download_url(repo: str, tag: str, asset_name: str) -> str:
@@ -244,27 +287,19 @@ def ordered_profiles(manifest: dict[str, Any], order: list[str]) -> None:
 
 
 def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[str, Any], token: str) -> None:
-    primary_release_repo = config.get("primary_release_repo", config["primary_repo"])
-    secondary_release_repo = config.get("secondary_release_repo", config["secondary_repo"])
-    primary_asset_prefix = config.get("primary_asset_prefix", config["asset_prefix"])
-    secondary_asset_prefix = config.get("secondary_asset_prefix", config["asset_prefix"])
-    if "primary_release_repo" in config:
-        primary = latest_release_with_asset_prefix(
-            primary_release_repo,
-            config["tag_prefix"],
-            primary_asset_prefix,
+    release_repo = config.get("primary_release_repo", config["primary_repo"])
+    asset_prefix = config["asset_prefix"]
+    release = latest_release_with_asset_prefix(release_repo, config["tag_prefix"], asset_prefix, token)
+    if not release and config.get("primary_legacy_tag_prefix") and config.get("primary_legacy_asset_prefix"):
+        release = latest_release_with_asset_prefix(
+            release_repo,
+            config["primary_legacy_tag_prefix"],
+            config["primary_legacy_asset_prefix"],
             token,
         )
-        secondary = latest_release_with_asset_prefix(
-            secondary_release_repo,
-            config["tag_prefix"],
-            secondary_asset_prefix,
-            token,
-        )
-    else:
-        primary = latest_release(primary_release_repo, config["tag_prefix"], token)
-        secondary = latest_release(secondary_release_repo, config["tag_prefix"], token)
-    if not primary and not secondary:
+        if release:
+            asset_prefix = config["primary_legacy_asset_prefix"]
+    if not release:
         print(f"Skipping {profile_id}: no releases found.")
         return
 
@@ -277,12 +312,10 @@ def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[
             "description": config["description"],
             "packages": config["packages"],
             "source": {
-                "primaryRepository": f"https://github.com/{config['primary_repo']}",
-                "secondaryRepository": f"https://github.com/{config['secondary_repo']}",
+                "repository": f"https://github.com/{release_repo}",
             },
             "release": {
-                "primaryTag": primary["tag_name"] if primary else entry.get("release", {}).get("primaryTag", ""),
-                "secondaryTag": secondary["tag_name"] if secondary else entry.get("release", {}).get("secondaryTag", ""),
+                "tag": release["tag_name"],
             },
             "installCommandName": config["installCommandName"],
             "verifyCommands": config["verifyCommands"],
@@ -293,26 +326,23 @@ def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[
     asset_count = 0
     for arch in ARCHITECTURES:
         arch_entry = architectures.setdefault(arch, {})
-        for release, repo, asset_prefix, key_prefix in (
-            (primary, primary_release_repo, primary_asset_prefix, ""),
-            (secondary, secondary_release_repo, secondary_asset_prefix, "fallback"),
+        for stale_key in (
+            "fallbackRepoArchiveUrl",
+            "fallbackDebsArchiveUrl",
+            "fallbackSha256SumsUrl",
         ):
-            if not release:
-                continue
-            names = asset_names(release)
-            repo_asset = f"{asset_prefix}-repo-{arch}.tar.gz"
-            debs_asset = f"{asset_prefix}-debs-{arch}.tar.gz"
-            sums_asset = f"SHA256SUMS-{arch}.txt"
-            key = (key_prefix + "RepoArchiveUrl") if key_prefix else "repoArchiveUrl"
-            if repo_asset in names:
-                arch_entry[key] = release_download_url(repo, release["tag_name"], repo_asset)
-                asset_count += 1
-            key = (key_prefix + "DebsArchiveUrl") if key_prefix else "debsArchiveUrl"
-            if debs_asset in names:
-                arch_entry[key] = release_download_url(repo, release["tag_name"], debs_asset)
-            key = (key_prefix + "Sha256SumsUrl") if key_prefix else "sha256SumsUrl"
-            if sums_asset in names:
-                arch_entry[key] = release_download_url(repo, release["tag_name"], sums_asset)
+            arch_entry.pop(stale_key, None)
+        names = asset_names(release)
+        repo_asset = f"{asset_prefix}-repo-{arch}.tar.gz"
+        debs_asset = f"{asset_prefix}-debs-{arch}.tar.gz"
+        sums_asset = f"SHA256SUMS-{arch}.txt"
+        if repo_asset in names:
+            arch_entry["repoArchiveUrl"] = release_download_url(release_repo, release["tag_name"], repo_asset)
+            asset_count += 1
+        if debs_asset in names:
+            arch_entry["debsArchiveUrl"] = release_download_url(release_repo, release["tag_name"], debs_asset)
+        if sums_asset in names:
+            arch_entry["sha256SumsUrl"] = release_download_url(release_repo, release["tag_name"], sums_asset)
 
     if asset_count == 0 and profile_id not in profiles:
         print(f"Skipping {profile_id}: no matching assets found.")

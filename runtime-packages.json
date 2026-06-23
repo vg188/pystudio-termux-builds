@@ -18,45 +18,31 @@
         "python-pip"
       ],
       "source": {
-        "primaryRepository": "https://github.com/vg188/pystudio-python-toolchain",
-        "secondaryRepository": "https://github.com/vg188/pystudio-python-toolchain2"
+        "repository": "https://github.com/vg188/pystudio-python-toolchain"
       },
       "release": {
-        "primaryTag": "pystudio-python-toolchain-r10",
-        "secondaryTag": "pystudio-python-toolchain-r5"
+        "tag": "pystudio-python-toolchain-r10"
       },
       "architectures": {
         "aarch64": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-repo-aarch64.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-debs-aarch64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-aarch64.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-repo-aarch64.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-debs-aarch64.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/SHA256SUMS-aarch64.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-aarch64.txt"
         },
         "arm": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-repo-arm.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-debs-arm.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-arm.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-repo-arm.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-debs-arm.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/SHA256SUMS-arm.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-arm.txt"
         },
         "i686": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-repo-i686.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-debs-i686.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-i686.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-repo-i686.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-debs-i686.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/SHA256SUMS-i686.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-i686.txt"
         },
         "x86_64": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-repo-x86_64.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-debs-x86_64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-x86_64.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-repo-x86_64.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/pystudio-python-toolchain-debs-x86_64.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain2/releases/download/pystudio-python-toolchain-r5/SHA256SUMS-x86_64.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/SHA256SUMS-x86_64.txt"
         }
       },
       "installCommandName": "pystudio-install-python",
@@ -75,45 +61,31 @@
         "npm"
       ],
       "source": {
-        "primaryRepository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "secondaryRepository": "https://github.com/vg188/pystudio-nodejs-toolchain2"
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain"
       },
       "release": {
-        "primaryTag": "pystudio-nodejs-toolchain-r6",
-        "secondaryTag": "pystudio-nodejs-toolchain-r6"
+        "tag": "pystudio-nodejs-toolchain-r6"
       },
       "architectures": {
         "aarch64": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-aarch64.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-aarch64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-aarch64.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-aarch64.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-aarch64.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-aarch64.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-aarch64.txt"
         },
         "arm": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-arm.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-arm.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-arm.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-arm.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-arm.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-arm.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-arm.txt"
         },
         "i686": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-i686.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-i686.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-i686.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-i686.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-i686.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-i686.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-i686.txt"
         },
         "x86_64": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-x86_64.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-x86_64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-x86_64.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-repo-x86_64.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/pystudio-nodejs-toolchain-debs-x86_64.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain2/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-x86_64.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r6/SHA256SUMS-x86_64.txt"
         }
       },
       "installCommandName": "pystudio-install-nodejs",
@@ -136,44 +108,30 @@
         "pkg-config"
       ],
       "source": {
-        "primaryRepository": "https://github.com/vg188/pystudio-cpp-toolchain",
-        "secondaryRepository": "https://github.com/vg188/pystudio-cpp-toolchain2"
+        "repository": "https://github.com/vg188/pystudio-cpp-toolchain"
       },
       "release": {
-        "primaryTag": "pystudio-cpp-toolchain-r6",
-        "secondaryTag": "pystudio-cpp-toolchain-r6"
+        "tag": "pystudio-cpp-toolchain-r6"
       },
       "architectures": {
         "aarch64": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-aarch64.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-aarch64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-aarch64.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-aarch64.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-aarch64.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-aarch64.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-aarch64.txt"
         },
         "arm": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-arm.tar.gz",
-          "debsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-arm.tar.gz",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-arm.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-arm.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-arm.txt"
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-arm.tar.gz"
         },
         "i686": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-i686.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-i686.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-i686.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-i686.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-i686.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-i686.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-i686.txt"
         },
         "x86_64": {
           "repoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-x86_64.tar.gz",
           "debsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-x86_64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-x86_64.txt",
-          "fallbackRepoArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-repo-x86_64.tar.gz",
-          "fallbackDebsArchiveUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-debs-x86_64.tar.gz",
-          "fallbackSha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain2/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-x86_64.txt"
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/SHA256SUMS-x86_64.txt"
         }
       },
       "installCommandName": "pystudio-install-cpp",

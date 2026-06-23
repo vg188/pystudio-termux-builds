@@ -69,12 +69,15 @@ pystudio-build.yml
 README.md
 ```
 
-`pystudio-build.yml` or `children/toolchains/*.yml` declares the small
-differences:
+`pystudio-build.yml` declares the small differences:
 
 ```yaml
 profile: python
-source: primary
+defaultSource: primary
+availableSources:
+  - primary
+  - secondary
+  - tur
 architectures:
   - aarch64
   - arm
@@ -108,7 +111,7 @@ from clean upstream without losing PyStudio-specific work.
 ## Multi-Source Strategy
 
 Use full source adapters for normal/fallback builds and supplemental sources
-only when explicitly selected.
+only when explicitly selected. A build run selects exactly one source.
 
 ### Source Adapter Model
 
@@ -141,15 +144,14 @@ SOURCE_PATCH_SET=tur
 
 The main repo owns the policy:
 
-- Try primary first for normal builds.
-- Use secondary as fallback when primary fails or when a package is known to
-  work better there.
+- Select primary for normal builds.
+- Select secondary for fallback or comparison builds when primary fails or when
+  a package is known to work better there.
 - Promote fixes from secondary back to common patches when they are source
   independent.
 - Keep source-specific patches in the managed source forks and archive them in
   the main repository.
-- Keep TUR out of broad `source=all` matrices because it is not a full package
-  tree replacement.
+- Select TUR explicitly because it is not a full package tree replacement.
 
 ### Recommended Build Modes
 
@@ -166,16 +168,6 @@ The main repo owns the policy:
 
    Explicit supplemental source path. Use only for packages known to exist in
    TUR or for future extension profiles designed around TUR.
-
-4. `source=race`
-
-   Optional future mode. Launch primary and secondary in parallel, publish the
-   first successful artifact, and record the winner in the manifest.
-
-5. `source=both`
-
-   Audit mode. Build both sources and compare package lists, sizes, checksums,
-   and install behavior. Useful before changing app defaults.
 
 ## Manifest Policy
 

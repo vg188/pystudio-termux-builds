@@ -1,6 +1,0 @@
-repository: vg188/pystudio-tree-sitter-toolchain
-profile: tree-sitter
-source: primary
-artifactPrefix: pystudio-tree-sitter-toolchain-primary
-releaseTagPrefix: pystudio-tree-sitter-toolchain
-releaseName: PyStudio Tree-sitter toolchain

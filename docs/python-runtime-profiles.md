@@ -38,21 +38,25 @@ PyStudio package repository has already been unpacked.
 
 ## Build
 
-Build every Python profile, both source adapters, and all four architectures:
+Build every Python profile for the selected source and all four architectures:
 
 ```powershell
 # Actions -> Build PyStudio Toolchain Matrix
 profile: all-python
-source: all
+source: primary
 architectures: aarch64,arm,i686,x86_64
 publish_release: true
 ```
 
-This resolves to 72 build jobs:
+This resolves to 36 build jobs:
 
 ```text
-9 Python profiles x 2 source adapters x 4 architectures
+9 Python profiles x 1 selected source x 4 architectures
 ```
+
+During each job, the selected source tree is still allowed to borrow missing
+package directories from the configured fallback sources. The release contains
+one installable repository result, not multiple competing source results.
 
 For smoke tests, restrict the matrix:
 

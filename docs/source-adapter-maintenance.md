@@ -61,8 +61,8 @@ Resolve conflicts by preserving PyStudio-specific changes:
 - source-specific fixes documented in `CONTEXT.md`
 
 TUR is a supplemental source, not a full replacement for the main Termux package
-tree. Keep broad `source=all` runs on `primary secondary`; select `tur`
-explicitly only for packages that are known to exist there.
+tree. Every build should select one source explicitly; select `tur` only for
+packages that are known to exist there.
 
 After merging upstream, run focused child builds before broad releases:
 

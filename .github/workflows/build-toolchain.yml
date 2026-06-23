@@ -31,7 +31,6 @@ on:
           - primary
           - secondary
           - tur
-          - all
       architectures:
         description: "Target architectures, comma-separated."
         required: false
@@ -96,11 +95,7 @@ jobs:
             profiles="$profile"
           fi
 
-          if [[ "$source" == "all" ]]; then
-            sources="primary secondary"
-          else
-            sources="$source"
-          fi
+          sources="$source"
 
           arch_list="$(tr ',' ' ' <<< "$architectures")"
           for arch in $arch_list; do

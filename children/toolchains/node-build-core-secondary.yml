@@ -1,6 +1,0 @@
-repository: vg188/pystudio-node-build-core-toolchain
-profile: node-build-core
-source: secondary
-artifactPrefix: pystudio-node-build-core-toolchain-secondary
-releaseTagPrefix: pystudio-node-build-core-toolchain
-releaseName: PyStudio Node build core toolchain

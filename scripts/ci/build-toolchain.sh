@@ -32,6 +32,7 @@ mapfile -t package_array < <(tr ' ' '\n' <<< "$packages" | sed '/^$/d')
 work_dir="$ROOT/work/toolchains/$profile/$source_kind/$arch"
 source_dir="$work_dir/source"
 stage_dir="$ROOT/dist/toolchains/$profile/$source_kind/$arch"
+fallback_root="$work_dir/fallback-sources"
 
 rm -rf "$work_dir" "$stage_dir"
 mkdir -p "$work_dir" "$stage_dir"
@@ -43,6 +44,99 @@ echo "Architecture: $arch"
 echo "Packages: ${package_array[*]}"
 
 git clone --depth 1 "$source_repo" "$source_dir"
+
+source_env_value() {
+  local source_id="$1"
+  local var_name="$2"
+  local file="$ROOT/sources/$source_id.env"
+  [[ -f "$file" ]] || die "source file not found: $file"
+  (
+    set -euo pipefail
+    # shellcheck disable=SC1090
+    source "$file"
+    printf '%s' "${!var_name:-}"
+  )
+}
+
+package_relpath() {
+  local root="$1"
+  local package="$2"
+  local parent
+  for parent in packages root-packages x11-packages tur disabled-packages; do
+    if [[ -d "$root/$parent/$package" ]]; then
+      printf '%s/%s\n' "$parent" "$package"
+      return 0
+    fi
+  done
+  return 1
+}
+
+clone_fallback_source() {
+  local fallback_id="$1"
+  local fallback_repo fallback_dir
+  fallback_repo="$(source_env_value "$fallback_id" SOURCE_UPSTREAM_REPO)"
+  [[ -n "$fallback_repo" ]] || die "no repository configured for fallback source '$fallback_id'"
+  fallback_dir="$fallback_root/$fallback_id"
+  if [[ ! -d "$fallback_dir/.git" ]]; then
+    echo "Cloning fallback source '$fallback_id' -> $fallback_repo" >&2
+    git clone --depth 1 "$fallback_repo" "$fallback_dir"
+  fi
+  printf '%s\n' "$fallback_dir"
+}
+
+overlay_missing_packages_from_fallback() {
+  local fallback_id="$1"
+  local fallback_dir parent package_dir package_name target_parent target_dir
+  fallback_dir="$(clone_fallback_source "$fallback_id")"
+
+  for parent in packages root-packages x11-packages; do
+    [[ -d "$fallback_dir/$parent" ]] || continue
+    mkdir -p "$source_dir/$parent"
+    while IFS= read -r package_dir; do
+      package_name="$(basename "$package_dir")"
+      target_parent="$parent"
+      target_dir="$source_dir/$target_parent/$package_name"
+      if [[ ! -d "$target_dir" ]]; then
+        cp -a "$package_dir" "$target_dir"
+      fi
+    done < <(find "$fallback_dir/$parent" -mindepth 1 -maxdepth 1 -type d | sort)
+  done
+}
+
+copy_explicit_package_from_fallbacks() {
+  local package="$1"
+  local relpath fallback_id fallback_dir source_relpath target_relpath
+
+  if relpath="$(package_relpath "$source_dir" "$package")"; then
+    echo "Package '$package' found in selected source at $relpath"
+    return 0
+  fi
+
+  for fallback_id in ${SOURCE_FALLBACK_ORDER:-}; do
+    fallback_dir="$(clone_fallback_source "$fallback_id")"
+    if source_relpath="$(package_relpath "$fallback_dir" "$package")"; then
+      target_relpath="$source_relpath"
+      if [[ "$source_relpath" == tur/* || "$source_relpath" == disabled-packages/* ]]; then
+        target_relpath="packages/$package"
+      fi
+      mkdir -p "$source_dir/$(dirname "$target_relpath")"
+      rm -rf "$source_dir/$target_relpath"
+      cp -a "$fallback_dir/$source_relpath" "$source_dir/$target_relpath"
+      echo "Package '$package' copied from '$fallback_id' at $source_relpath"
+      return 0
+    fi
+  done
+
+  echo "Package '$package' was not found in selected or fallback sources; letting build-package report details."
+}
+
+for fallback_id in ${SOURCE_FALLBACK_ORDER:-}; do
+  overlay_missing_packages_from_fallback "$fallback_id"
+done
+
+for package in "${package_array[@]}"; do
+  copy_explicit_package_from_fallbacks "$package"
+done
 
 pushd "$source_dir"
 rm -rf output

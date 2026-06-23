@@ -1,6 +1,10 @@
 repository: vg188/pystudio-nodejs-toolchain
 profile: nodejs
-source: primary
+defaultSource: primary
+availableSources:
+  - primary
+  - secondary
+  - tur
 artifactPrefix: pystudio-nodejs-toolchain
 releaseTagPrefix: pystudio-nodejs-toolchain
 releaseName: PyStudio Node.js toolchain

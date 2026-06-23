@@ -3,33 +3,32 @@
 This is the control repository for PyStudio Termux bootstrap and runtime
 toolchain builds.
 
-The previous split repositories are still useful as transitional source
-adapters, but the repeated CI logic now lives here:
+The repeated CI logic lives here:
 
 - one workflow for runtime toolchains
 - one workflow for bootstraps
 - one apt repository packager
 - one profile directory for package sets
-- one source adapter directory for `primary` and `secondary`
+- one source adapter directory for managed package sources
 - one reusable workflow that child repositories can call
 
 ## Profiles
 
 Runtime toolchains are configured in `profiles/toolchains/`:
 
-| Profile | Packages | Primary source | Secondary source |
-| --- | --- | --- | --- |
-| `python` | `python python-pip` | `primary` | `secondary` |
-| `python-build` | pip native build tools | `primary` | `secondary` |
-| `python-science` | NumPy, SciPy, BLAS/FFT support | `primary` | `secondary` |
-| `python-data` | packaged Python data/runtime utilities | `primary` | `secondary` |
-| `python-image` | Pillow and image libraries | `primary` | `secondary` |
-| `python-viz` | matplotlib and font/rendering basics | `primary` | `secondary` |
-| `python-xml-html` | lxml, XML, HTML, parser tooling | `primary` | `secondary` |
-| `python-crypto-network` | crypto and protocol libraries | `primary` | `secondary` |
-| `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `primary` | `secondary` |
-| `nodejs` | `nodejs npm` | `primary` | `secondary` |
-| `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `primary` | `secondary` |
+| Profile | Packages | Default source |
+| --- | --- | --- |
+| `python` | `python python-pip` | `primary` |
+| `python-build` | pip native build tools | `primary` |
+| `python-science` | NumPy, SciPy, BLAS/FFT support | `primary` |
+| `python-data` | packaged Python data/runtime utilities | `primary` |
+| `python-image` | Pillow and image libraries | `primary` |
+| `python-viz` | matplotlib and font/rendering basics | `primary` |
+| `python-xml-html` | lxml, XML, HTML, parser tooling | `primary` |
+| `python-crypto-network` | crypto and protocol libraries | `primary` |
+| `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `primary` |
+| `nodejs` | `nodejs npm` | `primary` |
+| `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `primary` |
 
 See `docs/python-runtime-profiles.md` for the package-level split and notes
 about pip-only packages.
@@ -42,9 +41,9 @@ Source adapters are configured in `sources/`:
 | `secondary` | `pystudio-termux-source-pacman` | `termux-pacman/termux-packages` |
 | `tur` | `pystudio-termux-source-tur` | `termux-user-repository/tur` |
 
-`primary` and `secondary` are full package-tree sources and are included when
-`source=all` is selected. `tur` is a supplemental source and should be selected
-explicitly for packages that live in TUR.
+Each build selects exactly one source. `primary` is the normal source,
+`secondary` is the fallback/comparison source, and `tur` is a supplemental
+source for packages that live in TUR.
 
 Bootstrap profiles are configured in `profiles/bootstrap/`:
 
@@ -60,7 +59,7 @@ packages. Select:
 
 - `profile`: `python`, one of the split `python-*` profiles, `all-python`,
   `nodejs`, `cpp`, or `all`
-- `source`: `primary`, `secondary`, `tur`, or `all`
+- `source`: `primary`, `secondary`, or `tur`
 - `architectures`: `aarch64`, `arm`, `i686`, `x86_64`, or a comma-separated list
 
 By default, manual toolchain runs build `aarch64`, `arm`, `i686`, and `x86_64`
@@ -79,6 +78,14 @@ selection workflow.
 Bootstrap runs use the same default four-architecture matrix. Selecting
 `profile=all` builds `base` and `python-pip` for each architecture as separate
 jobs.
+
+Each toolchain child repository exposes one workflow with a `source` input:
+
+- `vg188/pystudio-python-toolchain`
+- `vg188/pystudio-nodejs-toolchain`
+- `vg188/pystudio-cpp-toolchain`
+- `vg188/pystudio-tree-sitter-toolchain`
+- `vg188/pystudio-node-build-core-toolchain`
 
 Tree-sitter and Node.js native build core are opt-in child-repository builds:
 

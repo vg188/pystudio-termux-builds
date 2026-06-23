@@ -1,6 +1,10 @@
 repository: vg188/pystudio-python-toolchain
 profile: python
-source: primary
+defaultSource: primary
+availableSources:
+  - primary
+  - secondary
+  - tur
 artifactPrefix: pystudio-python-toolchain
 releaseTagPrefix: pystudio-python-toolchain
 releaseName: PyStudio Python toolchain

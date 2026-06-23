@@ -60,6 +60,7 @@ jobs:
               test -n "$SOURCE_UPSTREAM_REPO"
               test -n "$SOURCE_UPSTREAM_PARENT"
               test -n "$SOURCE_PATCH_SET"
+              test -n "$SOURCE_FALLBACK_ORDER"
             )
           done
 
