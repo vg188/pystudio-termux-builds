@@ -45,7 +45,9 @@ jobs:
     name: Update manifests and mirrors
     runs-on: ubuntu-24.04
     env:
-      EXTENSION_TAG: ${{ github.event.client_payload.release_tag || github.event.inputs.extension_tag || '' }}
+      SOURCE_REPOSITORY: ${{ github.event.client_payload.source_repository || '' }}
+      PAYLOAD_RELEASE_TAG: ${{ github.event.client_payload.release_tag || '' }}
+      INPUT_EXTENSION_TAG: ${{ github.event.inputs.extension_tag || '' }}
       SYNC_MODELSCOPE: ${{ github.event.inputs.sync_modelscope || 'true' }}
       UPDATE_GITEE: ${{ github.event.inputs.update_gitee || 'true' }}
       GITEE_OWNER: ${{ github.event.inputs.gitee_owner || 'yourba' }}
@@ -73,8 +75,12 @@ jobs:
         run: |
           set -euo pipefail
           args=(--manifest runtime-packages.json)
-          if [[ -n "$EXTENSION_TAG" ]]; then
-            args+=(--extension-tag "$EXTENSION_TAG")
+          extension_tag="$INPUT_EXTENSION_TAG"
+          if [[ "$SOURCE_REPOSITORY" == "vg188/pystudio-python-extensions" && -n "$PAYLOAD_RELEASE_TAG" ]]; then
+            extension_tag="$PAYLOAD_RELEASE_TAG"
+          fi
+          if [[ -n "$extension_tag" ]]; then
+            args+=(--extension-tag "$extension_tag")
           fi
           python3 scripts/ci/update-runtime-packages.py "${args[@]}"
           python3 -m json.tool runtime-packages.json >/dev/null
