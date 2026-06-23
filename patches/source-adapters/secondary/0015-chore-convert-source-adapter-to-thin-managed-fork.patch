@@ -44,7 +44,7 @@ index ab3195b044de1403d575b27a9fdc38a6e17e8bf1..00000000000000000000000000000000
 -  contents: write
 -
 -concurrency:
--  group: pystudio-python-toolchain2-${{ github.ref }}-${{ github.event_name }}
+-  group: pystudio-python-toolchain-${{ github.ref }}-${{ github.event_name }}
 -  cancel-in-progress: false
 -
 -jobs:
@@ -56,11 +56,10 @@ index ab3195b044de1403d575b27a9fdc38a6e17e8bf1..00000000000000000000000000000000
 -      architectures: ${{ inputs.architectures || 'aarch64,arm,i686,x86_64' }}
 -      packages: ${{ inputs.packages || '' }}
 -      publish_release: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_release }}
--      artifact_prefix: pystudio-python-toolchain2
--      release_tag_prefix: pystudio-python-toolchain2
+-      artifact_prefix: pystudio-python-toolchain
+-      release_tag_prefix: pystudio-python-toolchain
 -      release_name: PyStudio Python toolchain secondary
 -      orchestrator_ref: main
 -    secrets: inherit
 -- 
 2.47.0.windows.2
-
