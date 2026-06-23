@@ -573,7 +573,7 @@
         "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain"
       },
       "release": {
-        "tag": "pystudio-tree-sitter-toolchain-r1"
+        "tag": "pystudio-tree-sitter-toolchain-r3"
       },
       "installCommandName": "pystudio-install-tree-sitter",
       "verifyCommands": [
@@ -581,24 +581,24 @@
       ],
       "architectures": {
         "aarch64": {
-          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-repo-aarch64.tar.gz",
-          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-debs-aarch64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/SHA256SUMS-aarch64.txt"
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-repo-aarch64.tar.gz",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-debs-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/SHA256SUMS-aarch64.txt"
         },
         "arm": {
-          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-repo-arm.tar.gz",
-          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-debs-arm.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/SHA256SUMS-arm.txt"
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-repo-arm.tar.gz",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-debs-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/SHA256SUMS-arm.txt"
         },
         "i686": {
-          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-repo-i686.tar.gz",
-          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-debs-i686.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/SHA256SUMS-i686.txt"
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-repo-i686.tar.gz",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-debs-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/SHA256SUMS-i686.txt"
         },
         "x86_64": {
-          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-repo-x86_64.tar.gz",
-          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/pystudio-tree-sitter-toolchain-debs-x86_64.tar.gz",
-          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r1/SHA256SUMS-x86_64.txt"
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-repo-x86_64.tar.gz",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/pystudio-tree-sitter-toolchain-debs-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r3/SHA256SUMS-x86_64.txt"
         }
       }
     }
