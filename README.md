@@ -45,8 +45,8 @@ Bootstrap profiles are configured in `profiles/bootstrap/`:
 
 | Profile | Additional packages | Source |
 | --- | --- | --- |
-| `base` | none | `pystudio-termux-generator` |
-| `python-pip` | `python,python-pip` | `pystudio-python-pip-bootstrap` |
+| `base` | `proot` | `pystudio-termux-generator` |
+| `python-pip` | `proot,python,python-pip` | `pystudio-python-pip-bootstrap` |
 
 ## GitHub Actions
 
@@ -62,8 +62,8 @@ By default, manual toolchain runs build `aarch64`, `arm`, `i686`, and `x86_64`
 as separate matrix jobs, so the architectures run in parallel.
 
 Use **Actions -> Build PyStudio Bootstrap Profiles** to build bootstrap
-tarballs. Select `base` for a minimal terminal bootstrap or `python-pip` for an
-integrated Python/Pip bootstrap.
+tarballs. Select `base` for a minimal terminal bootstrap with the proot
+compatibility fallback, or `python-pip` for an integrated Python/Pip bootstrap.
 
 Child repositories can call
 `.github/workflows/reusable-toolchain.yml` in this repository. This keeps the
