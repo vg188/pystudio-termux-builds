@@ -30,6 +30,7 @@ on:
         options:
           - primary
           - secondary
+          - tur
           - all
       architectures:
         description: "Target architectures, comma-separated."
@@ -113,7 +114,7 @@ jobs:
             for p in $profiles; do
               [[ -f "profiles/toolchains/$p.env" ]] || { echo "Unknown profile: $p" >&2; exit 1; }
               for s in $sources; do
-                case "$s" in primary|secondary) ;; *) echo "Unknown source: $s" >&2; exit 1 ;; esac
+                case "$s" in primary|secondary|tur) ;; *) echo "Unknown source: $s" >&2; exit 1 ;; esac
                 for a in $arch_list; do
                   jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
                     '{profile: $profile, source: $source, arch: $arch}'

@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 13:12:54 +0800
+Subject: [PATCH 06/16] fix: stream xz package index output
+
+
+diff --git a/.github/workflows/build-pystudio-python-toolchain.yml b/.github/workflows/build-pystudio-python-toolchain.yml
+index 255daffd85ee51a6ff86c8ca117fd71091b7ab77..675f8468f0fb54ce47aefd50ba2da29b55daffcf 100644
+--- a/.github/workflows/build-pystudio-python-toolchain.yml
++++ b/.github/workflows/build-pystudio-python-toolchain.yml
+@@ -162,7 +162,7 @@ jobs:
+             cd "$repo_dir"
+             dpkg-scanpackages --multiversion pool/main > "dists/stable/main/binary-$arch/Packages"
+             gzip -9ck "dists/stable/main/binary-$arch/Packages" > "dists/stable/main/binary-$arch/Packages.gz"
+-            xz -T0 -9ek "dists/stable/main/binary-$arch/Packages" > "dists/stable/main/binary-$arch/Packages.xz"
++            xz -T0 -9ck "dists/stable/main/binary-$arch/Packages" > "dists/stable/main/binary-$arch/Packages.xz"
+           )
+ 
+           find "$repo_dir/pool/main" -type f -name "*.deb" -print0 |
+-- 
+2.47.0.windows.2
+

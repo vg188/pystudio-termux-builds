@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 12:12:10 +0800
+Subject: [PATCH 02/16] ci: use debian package format default
+
+
+diff --git a/.github/workflows/build-pystudio-runtime-packages.yml b/.github/workflows/build-pystudio-runtime-packages.yml
+index b4fc3265fbc0cae9d9f60fbc90cfae73b55ba088..f95e90d931780f78847e07b8bd9d80adb2bc9133 100644
+--- a/.github/workflows/build-pystudio-runtime-packages.yml
++++ b/.github/workflows/build-pystudio-runtime-packages.yml
+@@ -134,7 +134,6 @@ jobs:
+           ./scripts/run-docker.sh -d ./build-package.sh \
+             -C \
+             -a "${{ matrix.target_arch }}" \
+-            --format debian \
+             "${packages[@]}"
+ 
+       - name: Build apt repository artifact
+diff --git a/repo.json b/repo.json
+index dc1b04391d52a72f2e6fd15650bd0f221a82e71c..fe356d3cfbb446b8465ce60dde24f035e4f39ba1 100644
+--- a/repo.json
++++ b/repo.json
+@@ -1,5 +1,5 @@
+ {
+-  "pkg_format": "pacman",
++  "pkg_format": "debian",
+   "packages": {
+     "name": "termux-main",
+     "distribution": "main",
+-- 
+2.47.0.windows.2
+

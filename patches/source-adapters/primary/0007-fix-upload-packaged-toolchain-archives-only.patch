@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 13:45:58 +0800
+Subject: [PATCH 07/16] fix: upload packaged toolchain archives only
+
+
+diff --git a/.github/workflows/build-pystudio-python-toolchain.yml b/.github/workflows/build-pystudio-python-toolchain.yml
+index 675f8468f0fb54ce47aefd50ba2da29b55daffcf..e8471351de294a921a368068b72a44f7ccb2b250 100644
+--- a/.github/workflows/build-pystudio-python-toolchain.yml
++++ b/.github/workflows/build-pystudio-python-toolchain.yml
+@@ -180,8 +180,6 @@ jobs:
+         with:
+           name: pystudio-python-toolchain-${{ matrix.target_arch }}-${{ github.run_number }}
+           path: |
+-            output/**/*.deb
+-            repo-${{ matrix.target_arch }}/**
+             pystudio-python-toolchain-repo-${{ matrix.target_arch }}.tar.gz
+             pystudio-python-toolchain-debs-${{ matrix.target_arch }}.tar.gz
+             SHA256SUMS-${{ matrix.target_arch }}.txt
+@@ -212,6 +210,5 @@ jobs:
+           tag_name: pystudio-python-toolchain-r${{ github.run_number }}
+           name: PyStudio Python toolchain r${{ github.run_number }}
+           files: |
+-            artifacts/**/*.deb
+             artifacts/**/*.tar.gz
+             artifacts/**/SHA256SUMS-*.txt
+-- 
+2.47.0.windows.2
+

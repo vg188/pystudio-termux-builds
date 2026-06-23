@@ -19,27 +19,32 @@ Runtime toolchains are configured in `profiles/toolchains/`:
 
 | Profile | Packages | Primary source | Secondary source |
 | --- | --- | --- | --- |
-| `python` | `python python-pip` | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-build` | pip native build tools | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-science` | NumPy, SciPy, BLAS/FFT support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-data` | packaged Python data/runtime utilities | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-image` | Pillow and image libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-viz` | matplotlib and font/rendering basics | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-xml-html` | lxml, XML, HTML, parser tooling | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-crypto-network` | crypto and protocol libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
-| `nodejs` | `nodejs npm` | `pystudio-nodejs-toolchain` | `pystudio-nodejs-toolchain2` |
-| `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `pystudio-cpp-toolchain` | `pystudio-cpp-toolchain2` |
+| `python` | `python python-pip` | `primary` | `secondary` |
+| `python-build` | pip native build tools | `primary` | `secondary` |
+| `python-science` | NumPy, SciPy, BLAS/FFT support | `primary` | `secondary` |
+| `python-data` | packaged Python data/runtime utilities | `primary` | `secondary` |
+| `python-image` | Pillow and image libraries | `primary` | `secondary` |
+| `python-viz` | matplotlib and font/rendering basics | `primary` | `secondary` |
+| `python-xml-html` | lxml, XML, HTML, parser tooling | `primary` | `secondary` |
+| `python-crypto-network` | crypto and protocol libraries | `primary` | `secondary` |
+| `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `primary` | `secondary` |
+| `nodejs` | `nodejs npm` | `primary` | `secondary` |
+| `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `primary` | `secondary` |
 
 See `docs/python-runtime-profiles.md` for the package-level split and notes
 about pip-only packages.
 
 Source adapters are configured in `sources/`:
 
-| Source | Upstream family | Transitional source repos |
+| Source | Source adapter repository | Upstream family |
 | --- | --- | --- |
-| `primary` | `msmt2018/termux-packages` | `pystudio-python-toolchain`, `pystudio-nodejs-toolchain`, `pystudio-cpp-toolchain` |
-| `secondary` | `msmt2018/termux-packages2` | `pystudio-python-toolchain2`, `pystudio-nodejs-toolchain2`, `pystudio-cpp-toolchain2` |
+| `primary` | `pystudio-termux-source-termux` | `termux/termux-packages` |
+| `secondary` | `pystudio-termux-source-pacman` | `termux-pacman/termux-packages` |
+| `tur` | `pystudio-termux-source-tur` | `termux-user-repository/tur` |
+
+`primary` and `secondary` are full package-tree sources and are included when
+`source=all` is selected. `tur` is a supplemental source and should be selected
+explicitly for packages that live in TUR.
 
 Bootstrap profiles are configured in `profiles/bootstrap/`:
 
@@ -55,7 +60,7 @@ packages. Select:
 
 - `profile`: `python`, one of the split `python-*` profiles, `all-python`,
   `nodejs`, `cpp`, or `all`
-- `source`: `primary`, `secondary`, or `all`
+- `source`: `primary`, `secondary`, `tur`, or `all`
 - `architectures`: `aarch64`, `arm`, `i686`, `x86_64`, or a comma-separated list
 
 By default, manual toolchain runs build `aarch64`, `arm`, `i686`, and `x86_64`
@@ -82,13 +87,21 @@ Tree-sitter and Node.js native build core are opt-in child-repository builds:
 
 Those repositories are intentionally thin and call the reusable workflow in
 this repository. The profile definitions still live in `profiles/toolchains/`.
+The full Termux package trees live only in the shared source adapter
+repositories listed above. Source repositories are direct forks of their root
+upstreams where GitHub's fork network allows it; they no longer depend on
+`msmt2018` as an upstream middle layer.
+
+See `docs/source-adapter-maintenance.md` for upstream sync and patch
+maintenance.
 
 ## Migration Plan
 
-Phase 1 keeps the current source forks as adapters so builds remain close to the
-versions already tested in GitHub Actions. In this phase the child workflows are
-thin, but the source trees remain in place.
+Phase 1 keeps shared source adapter repositories so builds remain close to the
+versions already tested in GitHub Actions. Child workflows are thin and do not
+carry package source trees.
 
-Phase 2 should move source patches into this repository under a future
-`patches/` directory, then clone upstream sources directly. At that point the
-child repositories can become truly ultra-thin: workflow, config, and README.
+Phase 2 keeps a source patch archive in `patches/source-adapters/` and uses it
+as the recovery path when a source fork needs to be rebuilt from a clean
+upstream. The active builds still clone the managed source forks so existing
+patches remain applied during normal CI runs.

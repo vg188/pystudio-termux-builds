@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 22 Jun 2026 19:39:35 +0800
+Subject: [PATCH 13/16] ci: drop termux-am from toolchain termux-tools deps
+
+
+diff --git a/packages/termux-tools/build.sh b/packages/termux-tools/build.sh
+index 9973785b2bca259321db3ac77a5e122875cd8539..a02b7c915d5cd80005d258942af6ca2ac9e8d9fa 100644
+--- a/packages/termux-tools/build.sh
++++ b/packages/termux-tools/build.sh
+@@ -16,7 +16,7 @@ TERMUX_PKG_SUGGESTS="termux-api"
+ # Some of these packages are not dependencies and used only to ensure
+ # that core packages are installed after upgrading (we removed busybox
+ # from essentials).
+-TERMUX_PKG_DEPENDS="bzip2, coreutils, curl, dash, diffutils, findutils, gawk, grep, gzip, less, procps, psmisc, sed, tar, termux-am (>= 0.8.0), termux-am-socket (>= 1.5.0), termux-core, termux-exec, util-linux, xz-utils, dialog"
++TERMUX_PKG_DEPENDS="bzip2, coreutils, curl, dash, diffutils, findutils, gawk, grep, gzip, less, procps, psmisc, sed, tar, termux-core, termux-exec, util-linux, xz-utils, dialog"
+ 
+ # Optional packages that are distributed as part of bootstrap archives.
+ TERMUX_PKG_RECOMMENDS="ed, dos2unix, inetutils, net-tools, patch, unzip"
+-- 
+2.47.0.windows.2
+

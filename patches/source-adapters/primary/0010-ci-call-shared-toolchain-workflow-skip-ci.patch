@@ -1,0 +1,206 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 22 Jun 2026 12:53:28 +0800
+Subject: [PATCH 10/16] ci: call shared toolchain workflow [skip ci]
+
+
+diff --git a/.github/workflows/build-pystudio-python-toolchain.yml b/.github/workflows/build-pystudio-python-toolchain.yml
+index 3f749f133f4fafce7e53e0e85368c5e26dcc7e5a..237b21ea6317e34c0938bf6e8c397b19b31a0dd0 100644
+--- a/.github/workflows/build-pystudio-python-toolchain.yml
++++ b/.github/workflows/build-pystudio-python-toolchain.yml
+@@ -35,180 +35,17 @@ concurrency:
+   group: pystudio-python-toolchain-${{ github.ref }}-${{ github.event_name }}
+   cancel-in-progress: false
+ 
+-env:
+-  PYSTUDIO_PACKAGE_NAME: com.vchangxiao.pystudio
+-
+ jobs:
+-  resolve-inputs:
+-    name: Resolve inputs
+-    runs-on: ubuntu-24.04
+-    outputs:
+-      architectures_json: ${{ steps.resolve.outputs.architectures_json }}
+-      packages: ${{ steps.resolve.outputs.packages }}
+-      publish_release: ${{ steps.resolve.outputs.publish_release }}
+-    steps:
+-      - name: Checkout repository
+-        uses: actions/checkout@v4
+-
+-      - name: Resolve workflow inputs
+-        id: resolve
+-        shell: bash
+-        env:
+-          INPUT_ARCHITECTURES: ${{ github.event.inputs.architectures }}
+-          INPUT_PACKAGES: ${{ github.event.inputs.packages }}
+-          INPUT_PUBLISH_RELEASE: ${{ github.event.inputs.publish_release }}
+-        run: |
+-          set -euo pipefail
+-
+-          architectures="${INPUT_ARCHITECTURES:-aarch64,arm,i686,x86_64}"
+-          packages="${INPUT_PACKAGES:-}"
+-          publish_release="${INPUT_PUBLISH_RELEASE:-true}"
+-
+-          if [[ -z "$packages" ]]; then
+-            packages="$(grep -v '^[[:space:]]*$' pystudio-package-set.txt | tr '\n' ' ' | xargs)"
+-          fi
+-          packages="$(tr ',' ' ' <<< "$packages" | xargs)"
+-
+-          arch_list="$(tr ',' ' ' <<< "$architectures")"
+-          for arch in $arch_list; do
+-            case "$arch" in
+-              aarch64|arm|i686|x86_64) ;;
+-              *) echo "Unsupported architecture: $arch"; exit 1 ;;
+-            esac
+-          done
+-          architectures_json="$(for arch in $arch_list; do printf '%s\n' "$arch"; done | jq -R . | jq -s -c .)"
+-
+-          {
+-            echo "architectures_json=$architectures_json"
+-            echo "packages=$packages"
+-            echo "publish_release=$publish_release"
+-          } >> "$GITHUB_OUTPUT"
+-
+   build:
+-    name: Build ${{ matrix.target_arch }}
+-    needs: resolve-inputs
+-    runs-on: ubuntu-24.04
+-    timeout-minutes: 360
+-    strategy:
+-      fail-fast: false
+-      matrix:
+-        target_arch: ${{ fromJson(needs.resolve-inputs.outputs.architectures_json) }}
+-    env:
+-      PYSTUDIO_PACKAGES: ${{ needs.resolve-inputs.outputs.packages }}
+-    steps:
+-      - name: Checkout repository
+-        uses: actions/checkout@v4
+-
+-      - name: Enable zram
+-        uses: ./.github/actions/zram
+-        with:
+-          algorithm: zstd
+-          size: 16G
+-          priority: 100
+-          device_name: /dev/zram0
+-
+-      - name: Free disk space
+-        shell: bash
+-        run: |
+-          set -euo pipefail
+-          ./scripts/free-space.sh
+-
+-      - name: Build PyStudio Python toolchain
+-        shell: bash
+-        run: |
+-          set -euo pipefail
+-
+-          mapfile -t packages < <(tr ' ' '\n' <<< "$PYSTUDIO_PACKAGES" | sed '/^$/d')
+-          if [[ "${#packages[@]}" -eq 0 ]]; then
+-            echo "No packages requested."
+-            exit 1
+-          fi
+-
+-          rm -rf output repo-${{ matrix.target_arch }}
+-          mkdir -p output
+-
+-          echo "PyStudio package name: $PYSTUDIO_PACKAGE_NAME"
+-          echo "Target architecture: ${{ matrix.target_arch }}"
+-          echo "Packages: ${packages[*]}"
+-
+-          ./scripts/run-docker.sh -d ./build-package.sh \
+-            -C \
+-            -a "${{ matrix.target_arch }}" \
+-            "${packages[@]}"
+-
+-      - name: Build apt repository artifact
+-        shell: bash
+-        run: |
+-          set -euo pipefail
+-
+-          sudo apt-get update
+-          sudo apt-get install -y dpkg-dev xz-utils
+-
+-          arch="${{ matrix.target_arch }}"
+-          repo_dir="repo-$arch"
+-          binary_dir="$repo_dir/dists/stable/main/binary-$arch"
+-
+-          if ! find output -type f -name "*.deb" | grep -q .; then
+-            echo "No deb files were produced."
+-            exit 1
+-          fi
+-
+-          mkdir -p "$repo_dir/pool/main" "$binary_dir"
+-          find output -type f -name "*.deb" -print0 |
+-            sort -z |
+-            xargs -0 -I{} cp -f "{}" "$repo_dir/pool/main/"
+-
+-          (
+-            cd "$repo_dir"
+-            dpkg-scanpackages --multiversion pool/main > "dists/stable/main/binary-$arch/Packages"
+-            gzip -9ck "dists/stable/main/binary-$arch/Packages" > "dists/stable/main/binary-$arch/Packages.gz"
+-            xz -T0 -9ck "dists/stable/main/binary-$arch/Packages" > "dists/stable/main/binary-$arch/Packages.xz"
+-          )
+-
+-          find "$repo_dir/pool/main" -type f -name "*.deb" -print0 |
+-            sort -z |
+-            xargs -0 sha256sum > "SHA256SUMS-$arch.txt"
+-
+-          tar -czf "pystudio-python-toolchain-repo-$arch.tar.gz" -C "$repo_dir" .
+-          tar -czf "pystudio-python-toolchain-debs-$arch.tar.gz" -C output .
+-
+-          find "$repo_dir" -type f -print | sort
+-          cat "SHA256SUMS-$arch.txt"
+-
+-      - name: Upload Python toolchain artifact
+-        uses: actions/upload-artifact@v4
+-        with:
+-          name: pystudio-python-toolchain-${{ matrix.target_arch }}-${{ github.run_number }}
+-          path: |
+-            pystudio-python-toolchain-repo-${{ matrix.target_arch }}.tar.gz
+-            pystudio-python-toolchain-debs-${{ matrix.target_arch }}.tar.gz
+-            SHA256SUMS-${{ matrix.target_arch }}.txt
+-          if-no-files-found: error
+-
+-  release:
+-    name: Publish release
+-    needs:
+-      - resolve-inputs
+-      - build
+-    if: ${{ needs.resolve-inputs.outputs.publish_release == 'true' }}
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Download Python toolchain artifacts
+-        uses: actions/download-artifact@v4
+-        with:
+-          path: artifacts
+-
+-      - name: List release files
+-        shell: bash
+-        run: |
+-          set -euo pipefail
+-          find artifacts -type f -print | sort
+-
+-      - name: Create release
+-        uses: softprops/action-gh-release@v2
+-        with:
+-          tag_name: pystudio-python-toolchain-r${{ github.run_number }}
+-          name: PyStudio Python toolchain r${{ github.run_number }}
+-          files: |
+-            artifacts/**/*.tar.gz
+-            artifacts/**/SHA256SUMS-*.txt
++    uses: vg188/pystudio-termux-builds/.github/workflows/reusable-toolchain.yml@main
++    with:
++      profile: python
++      source: primary
++      architectures: ${{ inputs.architectures || 'aarch64,arm,i686,x86_64' }}
++      packages: ${{ inputs.packages || '' }}
++      publish_release: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_release }}
++      artifact_prefix: pystudio-python-toolchain
++      release_tag_prefix: pystudio-python-toolchain
++      release_name: PyStudio Python toolchain
++      orchestrator_ref: main
++    secrets: inherit
+-- 
+2.47.0.windows.2
+

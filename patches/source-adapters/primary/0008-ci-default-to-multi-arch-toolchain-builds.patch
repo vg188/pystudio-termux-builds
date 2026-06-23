@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 16:23:49 +0800
+Subject: [PATCH 08/16] ci: default to multi-arch toolchain builds
+
+
+diff --git a/.github/workflows/build-pystudio-python-toolchain.yml b/.github/workflows/build-pystudio-python-toolchain.yml
+index e8471351de294a921a368068b72a44f7ccb2b250..1b6c348fcb69e47f67219b880e045c42ea9441eb 100644
+--- a/.github/workflows/build-pystudio-python-toolchain.yml
++++ b/.github/workflows/build-pystudio-python-toolchain.yml
+@@ -17,7 +17,7 @@ on:
+       architectures:
+         description: "Target architectures, comma-separated."
+         required: false
+-        default: "aarch64"
++        default: "aarch64,arm,i686,x86_64"
+       packages:
+         description: "Runtime packages to build, space or comma separated."
+         required: false
+-- 
+2.47.0.windows.2
+

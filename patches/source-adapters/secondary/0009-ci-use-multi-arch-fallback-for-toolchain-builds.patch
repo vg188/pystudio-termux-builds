@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 16:27:28 +0800
+Subject: [PATCH 09/16] ci: use multi-arch fallback for toolchain builds
+
+
+diff --git a/.github/workflows/build-pystudio-python-toolchain.yml b/.github/workflows/build-pystudio-python-toolchain.yml
+index 1b6c348fcb69e47f67219b880e045c42ea9441eb..3f749f133f4fafce7e53e0e85368c5e26dcc7e5a 100644
+--- a/.github/workflows/build-pystudio-python-toolchain.yml
++++ b/.github/workflows/build-pystudio-python-toolchain.yml
+@@ -60,7 +60,7 @@ jobs:
+         run: |
+           set -euo pipefail
+ 
+-          architectures="${INPUT_ARCHITECTURES:-aarch64}"
++          architectures="${INPUT_ARCHITECTURES:-aarch64,arm,i686,x86_64}"
+           packages="${INPUT_PACKAGES:-}"
+           publish_release="${INPUT_PUBLISH_RELEASE:-true}"
+ 
+-- 
+2.47.0.windows.2
+

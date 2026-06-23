@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 12:44:00 +0800
+Subject: [PATCH 04/16] ci: default runtime build to python and pip
+
+
+diff --git a/PYSTUDIO_RUNTIME_PACKAGES.md b/PYSTUDIO_RUNTIME_PACKAGES.md
+index a72b7a7f13786b4447943d395390c33d21eb8ed2..dc62d8bfc0fe68e0344e0b78bb6d0aeb93045aa1 100644
+--- a/PYSTUDIO_RUNTIME_PACKAGES.md
++++ b/PYSTUDIO_RUNTIME_PACKAGES.md
+@@ -12,11 +12,12 @@ The default workflow builds `aarch64` packages for:
+ 
+ - `python`
+ - `python-pip`
+-- `nodejs`
+-- `npm`
+ 
+ Dependencies are built from source instead of downloaded from the official
+ Termux repositories, so the generated packages keep the PyStudio prefix.
+ 
+ The workflow publishes raw `.deb` files and a minimal apt repository archive
+ with `Packages`, `Packages.gz`, and `Packages.xz` indexes.
++
++Additional packages such as `nodejs npm` can be built with `workflow_dispatch`
++by passing them in the `packages` input.
+diff --git a/pystudio-package-set.txt b/pystudio-package-set.txt
+index 2ad1fcf74ec19b978324c00d9f57e7a3d0d1f74e..1e32b0b387774220f526bff24ebae6feb46b370a 100644
+--- a/pystudio-package-set.txt
++++ b/pystudio-package-set.txt
+@@ -1,4 +1,2 @@
+ python
+ python-pip
+-nodejs
+-npm
+-- 
+2.47.0.windows.2
+

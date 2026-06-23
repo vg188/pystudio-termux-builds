@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: yourba <3312882215@qq.com>
+Date: Tue, 23 Jun 2026 22:43:19 +0800
+Subject: [PATCH 15/16] chore: convert source adapter to thin managed fork
+
+
+diff --git a/.github/workflows/build-pystudio-python-toolchain.yml b/.github/workflows/build-pystudio-python-toolchain.yml
+deleted file mode 100644
+index ab3195b044de1403d575b27a9fdc38a6e17e8bf1..0000000000000000000000000000000000000000
+--- a/.github/workflows/build-pystudio-python-toolchain.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-name: Build PyStudio Python Toolchain
+-
+-on:
+-  push:
+-    branches:
+-      - main
+-    paths:
+-      - ".github/workflows/build-pystudio-python-toolchain.yml"
+-      - "pystudio-package-set.txt"
+-      - "PYSTUDIO_PYTHON_TOOLCHAIN.md"
+-      - "scripts/**"
+-      - "packages/**"
+-      - "root-packages/**"
+-      - "x11-packages/**"
+-  workflow_dispatch:
+-    inputs:
+-      architectures:
+-        description: "Target architectures, comma-separated."
+-        required: false
+-        default: "aarch64,arm,i686,x86_64"
+-      packages:
+-        description: "Runtime packages to build, space or comma separated."
+-        required: false
+-        default: ""
+-      publish_release:
+-        description: "Publish artifacts to a GitHub release."
+-        required: false
+-        type: boolean
+-        default: true
+-
+-permissions:
+-  contents: write
+-
+-concurrency:
+-  group: pystudio-python-toolchain2-${{ github.ref }}-${{ github.event_name }}
+-  cancel-in-progress: false
+-
+-jobs:
+-  build:
+-    uses: vg188/pystudio-termux-builds/.github/workflows/reusable-toolchain.yml@main
+-    with:
+-      profile: python
+-      source: secondary
+-      architectures: ${{ inputs.architectures || 'aarch64,arm,i686,x86_64' }}
+-      packages: ${{ inputs.packages || '' }}
+-      publish_release: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_release }}
+-      artifact_prefix: pystudio-python-toolchain2
+-      release_tag_prefix: pystudio-python-toolchain2
+-      release_name: PyStudio Python toolchain secondary
+-      orchestrator_ref: main
+-    secrets: inherit
+-- 
+2.47.0.windows.2
+

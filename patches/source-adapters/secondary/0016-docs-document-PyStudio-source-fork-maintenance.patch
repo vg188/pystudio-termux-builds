@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: yourba <3312882215@qq.com>
+Date: Tue, 23 Jun 2026 22:43:31 +0800
+Subject: [PATCH 16/16] docs: document PyStudio source fork maintenance
+
+
+diff --git a/PYSTUDIO_SOURCE.md b/PYSTUDIO_SOURCE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..abdcdae0d0611b94b2f5c69e2a85a91832bfc1a2
+--- /dev/null
++++ b/PYSTUDIO_SOURCE.md
+@@ -0,0 +1,30 @@
++# PyStudio Termux Source Pacman
++
++Shared secondary Termux package source adapter for PyStudio. This repository is
++the PyStudio fork of the upstream termux-pacman package tree.
++
++This repository owns package source files, build scripts, and source-side
++patches only. Toolchain builds are triggered from thin child repositories and
++orchestrated by `vg188/pystudio-termux-builds`.
++
++## Upstream Maintenance
++
++Upstream remote:
++
++```sh
++git remote add upstream https://github.com/termux-pacman/termux-packages.git
++git remote set-url --push upstream DISABLED
++```
++
++Recommended update flow:
++
++```sh
++git fetch upstream
++git checkout master
++git merge upstream/master
++```
++
++After resolving conflicts, run focused builds through the thin child
++repositories before publishing broad runtime package updates. Keep PyStudio
++package-name, Android-prefix, download hardening, and dependency-trim patches
++in this source adapter, not in the thin toolchain repositories.
+-- 
+2.47.0.windows.2
+

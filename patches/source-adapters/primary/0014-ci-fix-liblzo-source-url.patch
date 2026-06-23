@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 22 Jun 2026 21:38:39 +0800
+Subject: [PATCH 14/16] ci: fix liblzo source url
+
+
+diff --git a/packages/liblzo/build.sh b/packages/liblzo/build.sh
+index 5f7cbf5d52845148011df44f362d954a84998df8..912aaf2fc4fcd113eb89f284da214dc13e71cf80 100644
+--- a/packages/liblzo/build.sh
++++ b/packages/liblzo/build.sh
+@@ -4,7 +4,7 @@ TERMUX_PKG_LICENSE="GPL-2.0"
+ TERMUX_PKG_MAINTAINER="@termux"
+ TERMUX_PKG_VERSION=2.10
+ TERMUX_PKG_REVISION=4
+-TERMUX_PKG_SRCURL=https://fossies.org/linux/misc/lzo-$TERMUX_PKG_VERSION.tar.xz
+-TERMUX_PKG_SHA256=37ed4369e45944c53306b0d6a36b66f03e5b6aede8849c9b6388f4b62b20b443
++TERMUX_PKG_SRCURL=https://www.oberhumer.com/opensource/lzo/download/lzo-$TERMUX_PKG_VERSION.tar.gz
++TERMUX_PKG_SHA256=c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072
+ TERMUX_PKG_BREAKS="liblzo-dev"
+ TERMUX_PKG_REPLACES="liblzo-dev"
+-- 
+2.47.0.windows.2
+

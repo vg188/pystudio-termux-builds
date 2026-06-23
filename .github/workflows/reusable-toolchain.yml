@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       source:
-        description: "Source adapter: primary or secondary."
+        description: "Source adapter, for example primary, secondary, or tur."
         required: true
         type: string
       architectures:

@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 22 Jun 2026 18:24:45 +0800
+Subject: [PATCH 11/16] fix: update doxygen checksum
+
+
+diff --git a/packages/doxygen/build.sh b/packages/doxygen/build.sh
+index 66f144bf6d0f578b8449af4bb83fcb96398c4c44..be9ed073261ef6976528659bf02717634e064604 100644
+--- a/packages/doxygen/build.sh
++++ b/packages/doxygen/build.sh
+@@ -4,7 +4,7 @@ TERMUX_PKG_LICENSE="GPL-2.0"
+ TERMUX_PKG_MAINTAINER="@termux"
+ TERMUX_PKG_VERSION="1.17.0"
+ TERMUX_PKG_SRCURL=https://github.com/doxygen/doxygen/archive/refs/tags/Release_${TERMUX_PKG_VERSION//./_}.tar.gz
+-TERMUX_PKG_SHA256=5f5ff512c257c5562172066df00b828ce67549c2d7f249e43a5cc8482326e134
++TERMUX_PKG_SHA256=28199ea88989fc56e302c927ef979596fe9247dd231e767ba6edcdbaa49f78aa
+ TERMUX_PKG_DEPENDS="libc++, libiconv"
+ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+ -DBISON_EXECUTABLE=$(command -v bison)
+-- 
+2.47.0.windows.2
+

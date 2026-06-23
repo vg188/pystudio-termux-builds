@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 21 Jun 2026 12:42:07 +0800
+Subject: [PATCH 03/16] fix: build host Python with native gcc
+
+
+diff --git a/scripts/build/setup/termux_setup_build_python.sh b/scripts/build/setup/termux_setup_build_python.sh
+index d762c7362d4e2fbb747c61c9fe6ca557c1af49e2..a7edda1c33279fc42f3cfc4b1ee7578fd0bef699 100644
+--- a/scripts/build/setup/termux_setup_build_python.sh
++++ b/scripts/build/setup/termux_setup_build_python.sh
+@@ -62,26 +62,21 @@ termux_setup_build_python() {
+ 			(
+ 			# We are using env -i as there are a lot of environment variable that need
+ 			# to be unset, so better just start from scratch
+-			# Also whoever on crack wrote the build scripts for python, didn't think of
+-			# supporting the standard LD environment variable or even LDFLAGS properly.
+-			# So instead of using LDFLAGS we have to pass linker arguments to CC and CXX
+-			# and hope that Clang C and C++ drivers keep on ignoring link flags. It is
+-			# not at all possible to specify a separate linker without patches as it is
+-			# hardcoded to "$(CC) -shared" and "$(CXX) -shared"
+-			# Whoever that person is needs to stop writing build scripts and instead
+-			# question his impact on his mere existence on the world
++			# Build the host Python with the runner's native compiler, not the
++			# Termux cross compiler selected for target packages.
+ 			mkdir host-build/
+ 			cd host-build/ && \
+ 			env -i \
+-				CC="clang-${TERMUX_HOST_LLVM_MAJOR_VERSION} -fuse-ld=lld" \
+-				CXX="clang++-${TERMUX_HOST_LLVM_MAJOR_VERSION} -fuse-ld=lld" \
++				CC="gcc" \
++				CXX="g++" \
+ 				LDFLAGS="-Wl,-rpath=$_PYTHON_FOLDER/host-build-prefix/lib" \
+-				PATH="/usr/bin" \
++				PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+ 				../configure \
+ 					--with-ensurepip=install \
+ 					--enable-shared \
+ 					--prefix="$_PYTHON_FOLDER/host-build-prefix"
+ 			env -i \
++				PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+ 				make -j "$(nproc)" install
+ 			)
+ 
+-- 
+2.47.0.windows.2
+

@@ -5,12 +5,12 @@ turn package-specific repositories into thin adapters.
 
 ## Goals
 
-- Keep shared scripts, profiles, package patches, release metadata, and mirror
+- Keep shared scripts, profiles, patch archives, release metadata, and mirror
   logic in one main repository.
-- Keep separate child repositories only where separate Actions history,
-  releases, or source-specific patches are useful.
-- Support two upstream source families without duplicating every maintenance
-  change.
+- Keep separate child repositories only where separate Actions history or
+  releases are useful.
+- Support multiple upstream source families without duplicating every
+  maintenance change.
 - Make the app consume one stable manifest, regardless of which source built a
   package successfully.
 
@@ -26,7 +26,7 @@ Owns:
 - shared build scripts
 - package profiles
 - source selection policy
-- shared patches
+- source patch archives
 - runtime manifest generation
 - Gitee mirror tooling
 - validation
@@ -41,10 +41,9 @@ profiles/
 sources/
   primary.env
   secondary.env
+  tur.env
 patches/
-  common/
-  primary/
-  secondary/
+  source-adapters/
 scripts/
   ci/
   local/
@@ -57,11 +56,10 @@ manifests/
 Examples:
 
 - `pystudio-python-toolchain`
-- `pystudio-python-toolchain2`
 - `pystudio-nodejs-toolchain`
-- `pystudio-nodejs-toolchain2`
 - `pystudio-cpp-toolchain`
-- `pystudio-cpp-toolchain2`
+- `pystudio-tree-sitter-toolchain`
+- `pystudio-node-build-core-toolchain`
 
 The final target is for each child repo to contain only:
 
@@ -88,14 +86,29 @@ releasePrefix: pystudio-python-toolchain
 The child workflow calls the main repository reusable workflow or checks out
 the main repository scripts at a pinned ref.
 
-Current migration note: the existing toolchain repositories still contain full
-Termux package trees because they also act as transitional source adapters.
-Do not delete those trees until package patches have moved into the main
-repository under `patches/`.
+Current rule: child repositories must not contain full Termux package trees.
+They select a profile/source/architecture and call the reusable workflow in the
+main repository.
 
-## Two-Source Strategy
+### Source Repositories
 
-Use two source adapters, but avoid treating them as equal forever.
+Source repositories are direct forks of their long-term upstreams:
+
+- `vg188/pystudio-termux-source-termux`
+  - upstream: `termux/termux-packages`
+- `vg188/pystudio-termux-source-pacman`
+  - upstream: `termux-pacman/termux-packages`
+- `vg188/pystudio-termux-source-tur`
+  - upstream: `termux-user-repository/tur`
+
+The active builds clone these managed forks directly. The main repository keeps
+patch archives under `patches/source-adapters/` so a source fork can be rebuilt
+from clean upstream without losing PyStudio-specific work.
+
+## Multi-Source Strategy
+
+Use full source adapters for normal/fallback builds and supplemental sources
+only when explicitly selected.
 
 ### Source Adapter Model
 
@@ -103,7 +116,8 @@ Use two source adapters, but avoid treating them as equal forever.
 
 ```bash
 SOURCE_ID=primary
-SOURCE_UPSTREAM_REPO=https://github.com/msmt2018/termux-packages.git
+SOURCE_UPSTREAM_REPO=https://github.com/vg188/pystudio-termux-source-termux.git
+SOURCE_UPSTREAM_PARENT=termux/termux-packages
 SOURCE_PATCH_SET=primary
 ```
 
@@ -111,8 +125,18 @@ SOURCE_PATCH_SET=primary
 
 ```bash
 SOURCE_ID=secondary
-SOURCE_UPSTREAM_REPO=https://github.com/msmt2018/termux-packages2.git
+SOURCE_UPSTREAM_REPO=https://github.com/vg188/pystudio-termux-source-pacman.git
+SOURCE_UPSTREAM_PARENT=termux-pacman/termux-packages
 SOURCE_PATCH_SET=secondary
+```
+
+`sources/tur.env`
+
+```bash
+SOURCE_ID=tur
+SOURCE_UPSTREAM_REPO=https://github.com/vg188/pystudio-termux-source-tur.git
+SOURCE_UPSTREAM_PARENT=termux-user-repository/tur
+SOURCE_PATCH_SET=tur
 ```
 
 The main repo owns the policy:
@@ -122,7 +146,10 @@ The main repo owns the policy:
   work better there.
 - Promote fixes from secondary back to common patches when they are source
   independent.
-- Keep source-specific patches isolated.
+- Keep source-specific patches in the managed source forks and archive them in
+  the main repository.
+- Keep TUR out of broad `source=all` matrices because it is not a full package
+  tree replacement.
 
 ### Recommended Build Modes
 
@@ -135,12 +162,17 @@ The main repo owns the policy:
    Fallback and comparison path. Run when primary fails or for packages with a
    known secondary advantage.
 
-3. `source=race`
+3. `source=tur`
+
+   Explicit supplemental source path. Use only for packages known to exist in
+   TUR or for future extension profiles designed around TUR.
+
+4. `source=race`
 
    Optional future mode. Launch primary and secondary in parallel, publish the
    first successful artifact, and record the winner in the manifest.
 
-4. `source=both`
+5. `source=both`
 
    Audit mode. Build both sources and compare package lists, sizes, checksums,
    and install behavior. Useful before changing app defaults.
@@ -171,19 +203,16 @@ metadata, install commands, and verification commands should stay the same.
 
 ## Migration Plan
 
-1. Keep current child repositories working.
-2. Move reusable build logic into `pystudio-termux-builds`.
-3. Replace child repo workflows with thin calls into the main repo.
-4. Keep the existing full source forks as transitional source adapters.
-5. Move duplicated patches into `patches/common`.
-6. Keep only source-specific differences under `patches/primary` and
-   `patches/secondary`.
-7. Point source adapters at upstream repositories plus main-repo patch sets.
-8. Thin child repositories down to workflow/config/README only.
-9. Generate `runtime-packages.json` from build metadata instead of hand-editing
+1. Keep reusable build logic in `pystudio-termux-builds`.
+2. Keep package trees only in direct upstream source forks.
+3. Keep toolchain child repositories as workflow/config/README shells.
+4. Archive PyStudio source patch series in `patches/source-adapters/`.
+5. Add new source families by adding one managed source fork and one
+   `sources/<id>.env`.
+6. Generate `runtime-packages.json` from build metadata instead of hand-editing
    URLs.
-10. Mirror the final manifest and assets to Gitee through either CI or the local
-   relay script.
+7. Mirror the final manifest and assets to ModelScope/Gitee through CI or the
+   local relay script.
 
 ## Tradeoff
 
