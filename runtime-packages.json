@@ -182,6 +182,404 @@
         "cmake --version",
         "ninja --version"
       ]
+    },
+    {
+      "id": "pip-build-core",
+      "group": "pip-toolchain",
+      "title": "Pip Build Core",
+      "description": "Pip, compilers, make, CMake, Ninja, pkg-config, pybind11, and common native headers.",
+      "packages": [
+        "python-pip",
+        "build-essential",
+        "make",
+        "cmake",
+        "ninja",
+        "pkg-config",
+        "pybind11",
+        "python-cmake",
+        "libffi",
+        "openssl",
+        "zlib",
+        "libxml2",
+        "libxslt"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-pip-build-core-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-pip-build-core-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-pip-build-core-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-pip-build-core-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-pip-build-core-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-pip-build-core",
+      "verifyCommands": [
+        "python3 -m pip --version",
+        "make --version",
+        "cmake --version",
+        "pkg-config --version"
+      ]
+    },
+    {
+      "id": "native-libs-scientific",
+      "group": "native-libs",
+      "title": "Scientific Native Libraries",
+      "description": "Native numeric libraries commonly needed by NumPy, SciPy, sparse solvers, HDF5, NetCDF, and scientific wheels.",
+      "packages": [
+        "libopenblas",
+        "suitesparse",
+        "arpack-ng",
+        "fftw",
+        "gsl",
+        "qhull",
+        "libhdf5",
+        "netcdf-c",
+        "pybind11"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-scientific-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-scientific-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-scientific-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-scientific-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-scientific-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-scientific",
+      "verifyCommands": [
+        "python3 -m pip --version"
+      ]
+    },
+    {
+      "id": "native-libs-data",
+      "group": "native-libs",
+      "title": "Data Native Libraries",
+      "description": "Native data storage and interchange libraries for DuckDB, Arrow, ORC, HDF5, NetCDF, SQLite, YAML, XML, and Zstd.",
+      "packages": [
+        "libduckdb",
+        "libarrow-cpp",
+        "apache-orc",
+        "libhdf5",
+        "netcdf-c",
+        "libsqlite",
+        "libyaml",
+        "zstd",
+        "libxml2",
+        "libxslt"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-data-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-data-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-data-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-data-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-data-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-data",
+      "verifyCommands": [
+        "sqlite3 --version"
+      ]
+    },
+    {
+      "id": "native-libs-image",
+      "group": "native-libs",
+      "title": "Image Native Libraries",
+      "description": "Lightweight native JPEG, PNG, TIFF, WebP, OpenJPEG, FreeType, Fontconfig, and Leptonica dependencies for pip-built image packages.",
+      "packages": [
+        "libjpeg-turbo",
+        "libpng",
+        "libtiff",
+        "openjpeg",
+        "libwebp",
+        "freetype",
+        "fontconfig",
+        "leptonica"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-image-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-image-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-image-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-image-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-image-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-image",
+      "verifyCommands": [
+        "fc-match --version"
+      ]
+    },
+    {
+      "id": "native-libs-visualize",
+      "group": "native-libs",
+      "title": "Visualization Native Libraries",
+      "description": "Lightweight native plotting dependencies for pip-built visualization packages, avoiding Android SDK/Gradle dependency chains.",
+      "packages": [
+        "freetype",
+        "fontconfig",
+        "libpng",
+        "qhull"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-visualize-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-visualize-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-visualize-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-visualize-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-visualize-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-visualize",
+      "verifyCommands": [
+        "fc-match --version"
+      ]
+    },
+    {
+      "id": "native-libs-markup",
+      "group": "native-libs",
+      "title": "XML / HTML Native Libraries",
+      "description": "Native XML, HTML, YAML, tree-sitter, cleanup, and XML security dependencies.",
+      "packages": [
+        "libxml2",
+        "libxslt",
+        "xmlsec",
+        "html-xml-utils",
+        "tidy",
+        "gumbo-parser",
+        "lexbor",
+        "libexpat",
+        "libyaml",
+        "tree-sitter-html",
+        "tree-sitter-xml"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-markup-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-markup-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-markup-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-markup-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-markup-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-markup",
+      "verifyCommands": [
+        "xmllint --version"
+      ]
+    },
+    {
+      "id": "native-libs-crypto-network",
+      "group": "native-libs",
+      "title": "Crypto / Network Native Libraries",
+      "description": "Native OpenSSL, libffi, libsodium, SSH, curl, HTTP/2, protobuf, gRPC, Kerberos, and c-ares dependencies.",
+      "packages": [
+        "openssl",
+        "libffi",
+        "libsodium",
+        "libssh2",
+        "libcurl",
+        "libnghttp2",
+        "c-ares",
+        "libprotobuf",
+        "libgrpc",
+        "krb5"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-crypto-network-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-crypto-network-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-crypto-network-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-crypto-network-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-crypto-network-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-crypto-network",
+      "verifyCommands": [
+        "openssl version",
+        "curl --version"
+      ]
+    },
+    {
+      "id": "native-libs-media",
+      "group": "native-libs",
+      "title": "Media Native Libraries",
+      "description": "Lightweight native FLAC, Ogg/Vorbis/Opus, TagLib, WebP, PNG, and JPEG codec dependencies for pip-built media packages.",
+      "packages": [
+        "libflac",
+        "libogg",
+        "libvorbis",
+        "libopus",
+        "opusfile",
+        "libwebp",
+        "libpng",
+        "libjpeg-turbo",
+        "taglib"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions"
+      },
+      "release": {
+        "tag": "pystudio-python-extensions-r17"
+      },
+      "architectures": {
+        "aarch64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-repo-aarch64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-media-aarch64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-debs-aarch64.tar.gz"
+        },
+        "arm": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-repo-arm.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-media-arm.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-debs-arm.tar.gz"
+        },
+        "i686": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-repo-i686.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-media-i686.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-debs-i686.tar.gz"
+        },
+        "x86_64": {
+          "repoArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-repo-x86_64.tar.gz",
+          "sha256SumsUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/SHA256SUMS-native-libs-media-x86_64.txt",
+          "debsArchiveUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-r17/pystudio-python-extensions-native-libs-media-debs-x86_64.tar.gz"
+        }
+      },
+      "installCommandName": "pystudio-install-native-libs-media",
+      "verifyCommands": [
+        "flac --version"
+      ]
     }
   ]
 }
