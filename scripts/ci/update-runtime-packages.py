@@ -50,6 +50,38 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
         "installCommandName": "pystudio-install-nodejs",
         "verifyCommands": ["node --version", "npm --version"],
     },
+    "node-build-core": {
+        "group": "npm-toolchain",
+        "title": "Node.js Native Build Core",
+        "description": "Build tools and native headers for npm packages that need source compilation.",
+        "packages": [
+            "nodejs",
+            "npm",
+            "python",
+            "build-essential",
+            "make",
+            "cmake",
+            "ninja",
+            "pkg-config",
+            "binutils",
+            "ndk-sysroot",
+            "libllvm",
+            "python-cmake",
+            "openssl",
+            "zlib",
+            "libffi",
+            "libsqlite",
+        ],
+        "primary_repo": "vg188/pystudio-nodejs-toolchain",
+        "secondary_repo": "vg188/pystudio-nodejs-toolchain2",
+        "primary_release_repo": "vg188/pystudio-termux-builds",
+        "secondary_release_repo": "vg188/pystudio-termux-builds",
+        "tag_prefix": "pystudio-toolchains-r",
+        "primary_asset_prefix": "pystudio-node-build-core-toolchain-primary",
+        "secondary_asset_prefix": "pystudio-node-build-core-toolchain-secondary",
+        "installCommandName": "pystudio-install-node-build-core",
+        "verifyCommands": ["node --version", "npm --version", "cmake --version", "pkg-config --version"],
+    },
     "cpp": {
         "group": "native-toolchain",
         "title": "C/C++ Toolchain",
@@ -127,6 +159,28 @@ def latest_release(repo: str, tag_prefix: str, token: str, explicit_tag: str = "
     return max(candidates, key=lambda release: release_number(release["tag_name"], tag_prefix))
 
 
+def latest_release_with_asset_prefix(
+    repo: str,
+    tag_prefix: str,
+    asset_prefix: str,
+    token: str,
+) -> dict[str, Any] | None:
+    owner, name = repo.split("/", 1)
+    url = f"{GITHUB_API}/repos/{owner}/{name}/releases?per_page=100"
+    releases = fetch_json(url, token)
+    candidates = []
+    for release in releases:
+        if release.get("draft") or release.get("prerelease"):
+            continue
+        if not release.get("tag_name", "").startswith(tag_prefix):
+            continue
+        if any(asset.get("name", "").startswith(asset_prefix) for asset in release.get("assets", [])):
+            candidates.append(release)
+    if not candidates:
+        return None
+    return max(candidates, key=lambda release: release_number(release["tag_name"], tag_prefix))
+
+
 def asset_names(release: dict[str, Any] | None) -> set[str]:
     if not release:
         return set()
@@ -151,8 +205,26 @@ def ordered_profiles(manifest: dict[str, Any], order: list[str]) -> None:
 
 
 def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[str, Any], token: str) -> None:
-    primary = latest_release(config["primary_repo"], config["tag_prefix"], token)
-    secondary = latest_release(config["secondary_repo"], config["tag_prefix"], token)
+    primary_release_repo = config.get("primary_release_repo", config["primary_repo"])
+    secondary_release_repo = config.get("secondary_release_repo", config["secondary_repo"])
+    primary_asset_prefix = config.get("primary_asset_prefix", config["asset_prefix"])
+    secondary_asset_prefix = config.get("secondary_asset_prefix", config["asset_prefix"])
+    if "primary_release_repo" in config:
+        primary = latest_release_with_asset_prefix(
+            primary_release_repo,
+            config["tag_prefix"],
+            primary_asset_prefix,
+            token,
+        )
+        secondary = latest_release_with_asset_prefix(
+            secondary_release_repo,
+            config["tag_prefix"],
+            secondary_asset_prefix,
+            token,
+        )
+    else:
+        primary = latest_release(primary_release_repo, config["tag_prefix"], token)
+        secondary = latest_release(secondary_release_repo, config["tag_prefix"], token)
     if not primary and not secondary:
         print(f"Skipping {profile_id}: no releases found.")
         return
@@ -179,27 +251,33 @@ def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[
     )
 
     architectures = entry.setdefault("architectures", {})
+    asset_count = 0
     for arch in ARCHITECTURES:
         arch_entry = architectures.setdefault(arch, {})
-        for release, repo, key_prefix in (
-            (primary, config["primary_repo"], ""),
-            (secondary, config["secondary_repo"], "fallback"),
+        for release, repo, asset_prefix, key_prefix in (
+            (primary, primary_release_repo, primary_asset_prefix, ""),
+            (secondary, secondary_release_repo, secondary_asset_prefix, "fallback"),
         ):
             if not release:
                 continue
             names = asset_names(release)
-            repo_asset = f"{config['asset_prefix']}-repo-{arch}.tar.gz"
-            debs_asset = f"{config['asset_prefix']}-debs-{arch}.tar.gz"
+            repo_asset = f"{asset_prefix}-repo-{arch}.tar.gz"
+            debs_asset = f"{asset_prefix}-debs-{arch}.tar.gz"
             sums_asset = f"SHA256SUMS-{arch}.txt"
             key = (key_prefix + "RepoArchiveUrl") if key_prefix else "repoArchiveUrl"
             if repo_asset in names:
                 arch_entry[key] = release_download_url(repo, release["tag_name"], repo_asset)
+                asset_count += 1
             key = (key_prefix + "DebsArchiveUrl") if key_prefix else "debsArchiveUrl"
             if debs_asset in names:
                 arch_entry[key] = release_download_url(repo, release["tag_name"], debs_asset)
             key = (key_prefix + "Sha256SumsUrl") if key_prefix else "sha256SumsUrl"
             if sums_asset in names:
                 arch_entry[key] = release_download_url(repo, release["tag_name"], sums_asset)
+
+    if asset_count == 0 and profile_id not in profiles:
+        print(f"Skipping {profile_id}: no matching assets found.")
+        return
 
     if profile_id not in profiles:
         manifest.setdefault("profiles", []).append(entry)

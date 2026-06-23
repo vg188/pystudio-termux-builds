@@ -20,6 +20,7 @@ on:
           - python-gui-tk
           - all-python
           - nodejs
+          - node-build-core
           - cpp
           - all
       source:
