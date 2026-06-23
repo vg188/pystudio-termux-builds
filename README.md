@@ -29,6 +29,7 @@ Runtime toolchains are configured in `profiles/toolchains/`:
 | `python-crypto-network` | crypto and protocol libraries | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `pystudio-python-toolchain` | `pystudio-python-toolchain2` |
 | `nodejs` | `nodejs npm` | `pystudio-nodejs-toolchain` | `pystudio-nodejs-toolchain2` |
+| `tree-sitter` | Tree-sitter CLI and common parser grammars | `pystudio-nodejs-toolchain` | `pystudio-nodejs-toolchain2` |
 | `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `pystudio-cpp-toolchain` | `pystudio-cpp-toolchain2` |
 
 See `docs/python-runtime-profiles.md` for the package-level split and notes
@@ -54,7 +55,7 @@ Use **Actions -> Build PyStudio Toolchain Matrix** to build installable runtime
 packages. Select:
 
 - `profile`: `python`, one of the split `python-*` profiles, `all-python`,
-  `nodejs`, `cpp`, or `all`
+  `nodejs`, `node-build-core`, `tree-sitter`, `cpp`, or `all`
 - `source`: `primary`, `secondary`, or `all`
 - `architectures`: `aarch64`, `arm`, `i686`, `x86_64`, or a comma-separated list
 

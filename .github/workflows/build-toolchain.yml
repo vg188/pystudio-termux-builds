@@ -21,6 +21,7 @@ on:
           - all-python
           - nodejs
           - node-build-core
+          - tree-sitter
           - cpp
           - all
       source:
