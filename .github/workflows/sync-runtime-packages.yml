@@ -1,0 +1,143 @@
+name: Sync Runtime Package Manifest
+
+on:
+  workflow_dispatch:
+    inputs:
+      extension_tag:
+        description: "Optional pystudio-python-extensions release tag to import."
+        required: false
+        default: ""
+      sync_modelscope:
+        description: "Upload app-facing assets and manifest to ModelScope."
+        required: false
+        type: boolean
+        default: true
+      update_gitee:
+        description: "Push ModelScope-backed runtime-packages.json to Gitee."
+        required: false
+        type: boolean
+        default: true
+      gitee_owner:
+        description: "Gitee owner."
+        required: false
+        default: yourba
+      gitee_repo:
+        description: "Gitee repository."
+        required: false
+        default: pystudio-termux-builds
+      gitee_branch:
+        description: "Gitee branch."
+        required: false
+        default: main
+  repository_dispatch:
+    types:
+      - runtime-packages-sync
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-runtime-packages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync-runtime-packages:
+    name: Update manifests and mirrors
+    runs-on: ubuntu-24.04
+    env:
+      EXTENSION_TAG: ${{ github.event.client_payload.release_tag || github.event.inputs.extension_tag || '' }}
+      SYNC_MODELSCOPE: ${{ github.event.inputs.sync_modelscope || 'true' }}
+      UPDATE_GITEE: ${{ github.event.inputs.update_gitee || 'true' }}
+      GITEE_OWNER: ${{ github.event.inputs.gitee_owner || 'yourba' }}
+      GITEE_REPO: ${{ github.event.inputs.gitee_repo || 'pystudio-termux-builds' }}
+      GITEE_BRANCH: ${{ github.event.inputs.gitee_branch || 'main' }}
+      MODELSCOPE_TOKEN: ${{ secrets.MODELSCOPE_TOKEN }}
+      GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+
+      - name: Configure git
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config --global user.name "PyStudio Bot"
+          git config --global user.email "pystudio-bot@users.noreply.github.com"
+
+      - name: Update GitHub runtime manifest
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          args=(--manifest runtime-packages.json)
+          if [[ -n "$EXTENSION_TAG" ]]; then
+            args+=(--extension-tag "$EXTENSION_TAG")
+          fi
+          python3 scripts/ci/update-runtime-packages.py "${args[@]}"
+          python3 -m json.tool runtime-packages.json >/dev/null
+
+      - name: Install ModelScope CLI
+        if: ${{ env.SYNC_MODELSCOPE == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user --upgrade modelscope
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Sync app-facing assets to ModelScope
+        if: ${{ env.SYNC_MODELSCOPE == 'true' }}
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -n "$MODELSCOPE_TOKEN"
+          python3 scripts/local/modelscope_release_relay.py \
+            --manifest runtime-packages.json \
+            --modelscope-token "$MODELSCOPE_TOKEN" \
+            --github-token "$GITHUB_TOKEN" \
+            --skip-existing-remote \
+            --progress-interval 2
+
+      - name: Commit GitHub manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add runtime-packages.json
+          if git diff --cached --quiet; then
+            echo "No GitHub manifest changes to commit."
+          else
+            git commit -m "chore: update runtime package manifest"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Push ModelScope manifest to Gitee
+        if: ${{ env.UPDATE_GITEE == 'true' && env.SYNC_MODELSCOPE == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GITEE_TOKEN"
+          test -f work/gitee-relay/manifest/runtime-packages-modelscope.json
+
+          rm -rf gitee-repo
+          git clone "https://${GITEE_OWNER}:${GITEE_TOKEN}@gitee.com/${GITEE_OWNER}/${GITEE_REPO}.git" gitee-repo
+          cd gitee-repo
+
+          if git rev-parse --verify "origin/${GITEE_BRANCH}" >/dev/null 2>&1; then
+            git checkout -B "$GITEE_BRANCH" "origin/${GITEE_BRANCH}"
+          else
+            git checkout -B "$GITEE_BRANCH"
+          fi
+
+          cp ../work/gitee-relay/manifest/runtime-packages-modelscope.json runtime-packages.json
+          git add runtime-packages.json
+          if git diff --cached --quiet; then
+            echo "No Gitee manifest changes to commit."
+          else
+            git commit -m "chore: update runtime package manifest"
+            git push origin "HEAD:${GITEE_BRANCH}"
+          fi

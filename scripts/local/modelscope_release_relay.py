@@ -181,6 +181,22 @@ def run(args: argparse.Namespace) -> None:
     for url in urls:
         filename = mirrored_filename(url)
         destination = asset_dir / filename
+        path_in_repo = f"{args.assets_prefix.strip('/')}/{filename}"
+        modelscope_url = modelscope_file_url(
+            args.repo_id,
+            path_in_repo,
+            args.revision,
+            args.endpoint,
+        )
+        replacements[url] = modelscope_url
+        if (
+            args.skip_existing_remote
+            and not args.force_upload
+            and remote_file_exists(modelscope_url)
+        ):
+            print(f"Remote asset exists, skipping download: {path_in_repo}")
+            continue
+
         if not args.no_download:
             download_asset(
                 url,
@@ -193,13 +209,6 @@ def run(args: argparse.Namespace) -> None:
         if not destination.exists():
             raise RuntimeError(f"Local asset is missing: {destination}")
 
-        path_in_repo = f"{args.assets_prefix.strip('/')}/{filename}"
-        replacements[url] = modelscope_file_url(
-            args.repo_id,
-            path_in_repo,
-            args.revision,
-            args.endpoint,
-        )
         upload_plan.append((destination, path_in_repo))
 
     mirrored_manifest = rewrite_urls(manifest, replacements)
@@ -251,6 +260,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-assets", type=int, default=0, help="Limit assets for a smoke test.")
     parser.add_argument("--force-download", action="store_true")
     parser.add_argument("--force-upload", action="store_true")
+    parser.add_argument("--skip-existing-remote", action="store_true")
     parser.add_argument("--no-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--create-repo", action="store_true", default=True)
