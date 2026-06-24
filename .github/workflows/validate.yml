@@ -99,6 +99,7 @@ jobs:
               source "$source"
               test -n "$SOURCE_ID"
               test -n "$SOURCE_NAME"
+              test -n "$SOURCE_REPO"
               test -n "$SOURCE_UPSTREAM_REPO"
               test -n "$SOURCE_UPSTREAM_PARENT"
               test -n "$SOURCE_FORK_REPO"

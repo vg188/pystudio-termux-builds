@@ -11,8 +11,9 @@ PyStudio keeps package source access centralized in the main orchestrator:
 
 Toolchain repositories are thin workflow/config repositories. They do not carry
 package source trees. The main orchestrator selects a profile and source
-adapter, clones the configured upstream package tree, then applies the active
-PyStudio patch queue listed in `patches/source-adapters/<source>/series`.
+adapter, clones the configured PyStudio source mirror fork, then applies the
+active PyStudio patch queue listed in
+`patches/source-adapters/<source>/series`.
 
 ## Fork Policy
 
@@ -21,6 +22,11 @@ but keep those forks clean. PyStudio-specific changes live in the main
 orchestrator as build-time patches, not as commits on the source fork branch.
 This keeps upstream compare views useful and avoids permanent
 `ahead N / behind M` drift.
+
+Disable GitHub Actions in source adapter forks. Upstream workflows in these
+forks are kept only as source files; they are not PyStudio release workflows
+and often require upstream-only secrets such as package repository or cloud
+credentials. The main orchestrator owns source sync and build execution.
 
 Thin toolchain repositories should not be forks. They are PyStudio-owned
 workflow/config shells, not upstream package trees.
@@ -46,12 +52,23 @@ exporting PyStudio patches into `patches/source-adapters/`.
 ## Update Flow
 
 The main repository contains a scheduled `Sync PyStudio Source Forks` workflow.
-It calls GitHub's upstream-sync API for each `SOURCE_FORK_REPO` listed in
-`sources/*.env`. Manual source-fork maintenance should normally be limited to:
+For each `sources/*.env` entry it:
+
+1. verifies that `SOURCE_FORK_REPO` is still a fork of `SOURCE_UPSTREAM_PARENT`;
+2. disables GitHub Actions in that source fork;
+3. syncs the fork default branch from upstream;
+4. leaves PyStudio patches in this repository instead of committing them to the
+   fork.
+
+Manual source-fork maintenance should normally be limited to:
 
 ```sh
 python3 scripts/ci/sync-source-forks.py
 ```
+
+Use `--keep-actions` only for diagnostics. Source fork workflow failures are
+not build failures unless they happen in `vg188/pystudio-termux-builds` or one
+of the thin toolchain child repositories.
 
 When a build breaks after an upstream change, inspect whether the active patch
 queue still applies cleanly. Preserve only patches that are still needed:

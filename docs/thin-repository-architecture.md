@@ -108,6 +108,10 @@ The active builds clone these managed forks directly. The main repository keeps
 patch archives under `patches/source-adapters/` so a source fork can be rebuilt
 from clean upstream without losing PyStudio-specific work.
 
+GitHub Actions stay disabled in source repositories. They are source mirrors,
+not build executors. Upstream workflows may remain in the tree, but PyStudio
+build and release jobs live in the main repository or thin child repositories.
+
 ## Multi-Source Strategy
 
 Use full source adapters for normal/fallback builds and supplemental sources
@@ -119,7 +123,8 @@ only when explicitly selected. A build run selects exactly one source.
 
 ```bash
 SOURCE_ID=primary
-SOURCE_UPSTREAM_REPO=https://github.com/vg188/pystudio-termux-source-termux.git
+SOURCE_REPO=https://github.com/vg188/pystudio-termux-source-termux.git
+SOURCE_UPSTREAM_REPO=https://github.com/termux/termux-packages.git
 SOURCE_UPSTREAM_PARENT=termux/termux-packages
 SOURCE_PATCH_SET=primary
 ```
@@ -128,7 +133,8 @@ SOURCE_PATCH_SET=primary
 
 ```bash
 SOURCE_ID=secondary
-SOURCE_UPSTREAM_REPO=https://github.com/vg188/pystudio-termux-source-pacman.git
+SOURCE_REPO=https://github.com/vg188/pystudio-termux-source-pacman.git
+SOURCE_UPSTREAM_REPO=https://github.com/termux-pacman/termux-packages.git
 SOURCE_UPSTREAM_PARENT=termux-pacman/termux-packages
 SOURCE_PATCH_SET=secondary
 ```
@@ -137,7 +143,8 @@ SOURCE_PATCH_SET=secondary
 
 ```bash
 SOURCE_ID=tur
-SOURCE_UPSTREAM_REPO=https://github.com/vg188/pystudio-termux-source-tur.git
+SOURCE_REPO=https://github.com/vg188/pystudio-termux-source-tur.git
+SOURCE_UPSTREAM_REPO=https://github.com/termux-user-repository/tur.git
 SOURCE_UPSTREAM_PARENT=termux-user-repository/tur
 SOURCE_PATCH_SET=tur
 ```
@@ -149,8 +156,8 @@ The main repo owns the policy:
   a package is known to work better there.
 - Promote fixes from secondary back to common patches when they are source
   independent.
-- Keep source-specific patches in the managed source forks and archive them in
-  the main repository.
+- Keep source-specific patches as build-time patch series in the main
+  repository.
 - Select TUR explicitly because it is not a full package tree replacement.
 
 ### Recommended Build Modes

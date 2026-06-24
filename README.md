@@ -45,6 +45,11 @@ Each build selects exactly one source. `primary` is the normal source,
 `secondary` is the fallback/comparison source, and `tur` is a supplemental
 source for packages that live in TUR.
 
+The source adapter repositories are managed mirror forks. Builds clone the
+`SOURCE_REPO` fork URL from `sources/*.env`; `SOURCE_UPSTREAM_REPO` is used only
+by the main repository sync workflow. GitHub Actions should remain disabled in
+those source forks so inherited upstream CI does not run in the PyStudio fork.
+
 Bootstrap profiles are configured in `profiles/bootstrap/`:
 
 | Profile | Additional packages | Source |

@@ -21,7 +21,7 @@ source_key="${PROFILE_SOURCE_KEY:-$profile}"
 source_repo_var="$(printf '%s_SOURCE_REPO' "$source_key" | tr '[:lower:]-' '[:upper:]_')"
 source_repo="${!source_repo_var:-}"
 if [[ -z "$source_repo" ]]; then
-  source_repo="${SOURCE_UPSTREAM_REPO:-}"
+  source_repo="${SOURCE_REPO:-${SOURCE_UPSTREAM_REPO:-}}"
 fi
 [[ -n "$source_repo" ]] || die "no source repository configured for profile '$profile' and source '$source_kind'"
 
@@ -98,6 +98,16 @@ source_env_value() {
   )
 }
 
+source_env_repo() {
+  local source_id="$1"
+  local repo
+  repo="$(source_env_value "$source_id" SOURCE_REPO)"
+  if [[ -z "$repo" ]]; then
+    repo="$(source_env_value "$source_id" SOURCE_UPSTREAM_REPO)"
+  fi
+  printf '%s' "$repo"
+}
+
 package_relpath() {
   local root="$1"
   local package="$2"
@@ -114,7 +124,7 @@ package_relpath() {
 clone_fallback_source() {
   local fallback_id="$1"
   local fallback_repo fallback_dir fallback_patch_set
-  fallback_repo="$(source_env_value "$fallback_id" SOURCE_UPSTREAM_REPO)"
+  fallback_repo="$(source_env_repo "$fallback_id")"
   [[ -n "$fallback_repo" ]] || die "no repository configured for fallback source '$fallback_id'"
   fallback_dir="$fallback_root/$fallback_id"
   if [[ ! -d "$fallback_dir/.git" ]]; then
