@@ -25,7 +25,7 @@ new file mode 100644
 index 0000000000..1111111111
 --- /dev/null
 +++ b/packages/debugpy/build.sh
-@@ -0,0 +1,41 @@
+@@ -0,0 +1,42 @@
 +TERMUX_PKG_HOMEPAGE=https://github.com/microsoft/debugpy
 +TERMUX_PKG_DESCRIPTION="Python debugger implementation for Debug Adapter Protocol"
 +TERMUX_PKG_LICENSE="MIT"
@@ -42,11 +42,12 @@ index 0000000000..1111111111
 +	# Avoid accidentally packaging host-built pydevd extension modules.
 +	export SKIP_CYTHON_BUILD=1
 +
-+	python3 - <<'PY'
-+import os
++	local srcdir="${TERMUX_PKG_SRCDIR:-$PWD}"
++	python3 - "$srcdir" <<'PY'
++import sys
 +from pathlib import Path
 +
-+setup = Path(os.environ["TERMUX_PKG_SRCDIR"]) / "setup.py"
++setup = Path(sys.argv[1]) / "setup.py"
 +text = setup.read_text()
 +needle = '''            subprocess.check_call([
 +                sys.executable,
