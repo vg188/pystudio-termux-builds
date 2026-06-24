@@ -760,5 +760,127 @@
         "tree-sitter"
       ]
     }
+  ],
+  "bootstraps": [
+    {
+      "id": "base",
+      "group": "bootstrap",
+      "title": "Base Bootstrap",
+      "description": "Minimal PyStudio terminal bootstrap with proot and core shell packages.",
+      "packageName": "com.vchangxiao.pystudio",
+      "packages": [
+        "proot"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-termux-generator.git"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-bootstrap-profiles-r1"
+      },
+      "archiveFormat": "termux-bootstrap-tar.xz",
+      "installMode": "extract-rootfs",
+      "architectures": {
+        "aarch64": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-aarch64.tar.xz",
+          "bootstrapArchiveSize": 19702696,
+          "bootstrapArchiveSha256": "6e2bfcf15c4b3e7fe046c72fc6961ee2de12d8e0c514724eccd9c07dc1dc123a",
+          "termuxBootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/bootstrap-aarch64.tar.xz",
+          "termuxBootstrapArchiveSize": 19702696,
+          "termuxBootstrapArchiveSha256": "6e2bfcf15c4b3e7fe046c72fc6961ee2de12d8e0c514724eccd9c07dc1dc123a",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-bootstrap-assets-aarch64.tar.gz",
+          "assetsArchiveSize": 39549890,
+          "assetsArchiveSha256": "224bbc0c1aac5b992827c7de800549baf8f356469dae155c73c2cdc5752f5499"
+        },
+        "arm": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-arm.tar.xz",
+          "bootstrapArchiveSize": 18630184,
+          "bootstrapArchiveSha256": "97ca6a240b15d17d4e1cd95074fff5ad63d41bb10e252662d7df4dee5fd89405",
+          "termuxBootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/bootstrap-arm.tar.xz",
+          "termuxBootstrapArchiveSize": 18630184,
+          "termuxBootstrapArchiveSha256": "97ca6a240b15d17d4e1cd95074fff5ad63d41bb10e252662d7df4dee5fd89405",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-bootstrap-assets-arm.tar.gz",
+          "assetsArchiveSize": 37393867,
+          "assetsArchiveSha256": "29e3e132aae3261ead539596389dc37f0be9edcdb521662f7a50e04afac75167"
+        },
+        "i686": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-i686.tar.xz",
+          "bootstrapArchiveSize": 20041152,
+          "bootstrapArchiveSha256": "fb807c693f5ca0c5299914d1879ade3de08f15244c283d8e249d784c0280c4b1",
+          "termuxBootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/bootstrap-i686.tar.xz",
+          "termuxBootstrapArchiveSize": 20041152,
+          "termuxBootstrapArchiveSha256": "fb807c693f5ca0c5299914d1879ade3de08f15244c283d8e249d784c0280c4b1",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-bootstrap-assets-i686.tar.gz",
+          "assetsArchiveSize": 40228860,
+          "assetsArchiveSha256": "0be55758343483534bbfa1060bc78036d5ca93ed5846f27952473e591c420116"
+        },
+        "x86_64": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-x86_64.tar.xz",
+          "bootstrapArchiveSize": 20328920,
+          "bootstrapArchiveSha256": "fa636561b61264f0bd4689cfcce8df718d880b97638dade37bea1db106ca59bf",
+          "termuxBootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/bootstrap-x86_64.tar.xz",
+          "termuxBootstrapArchiveSize": 20328920,
+          "termuxBootstrapArchiveSha256": "fa636561b61264f0bd4689cfcce8df718d880b97638dade37bea1db106ca59bf",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-bootstrap-assets-x86_64.tar.gz",
+          "assetsArchiveSize": 40799838,
+          "assetsArchiveSha256": "5969325db3f2630f25057b57e0cd0ae63c0cb90609ff884c32f9115314315f41"
+        }
+      }
+    },
+    {
+      "id": "python-pip",
+      "group": "bootstrap",
+      "title": "Python/Pip Bootstrap",
+      "description": "PyStudio terminal bootstrap with proot, Python, and pip preinstalled.",
+      "packageName": "com.vchangxiao.pystudio",
+      "packages": [
+        "proot",
+        "python",
+        "python-pip"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-python-pip-bootstrap.git"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-bootstrap-profiles-r1"
+      },
+      "archiveFormat": "termux-bootstrap-tar.xz",
+      "installMode": "extract-rootfs",
+      "architectures": {
+        "aarch64": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-aarch64.tar.xz",
+          "bootstrapArchiveSize": 26142640,
+          "bootstrapArchiveSha256": "9b3a5ffa008fabf024660af9d7c30474b517167ccffbe4f57b496be1ca7eb36a",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-python-pip-bootstrap-assets-aarch64.tar.gz",
+          "assetsArchiveSize": 52430800,
+          "assetsArchiveSha256": "81f61252ad2584f5c25f3a628c69b48fe52766f89a7018d72e2bddc7e4d01170"
+        },
+        "arm": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-arm.tar.xz",
+          "bootstrapArchiveSize": 24891900,
+          "bootstrapArchiveSha256": "2a8a75d7da7f21b1fa6094ddab89708cb2c8bb7ed2c238205cb377349c3639d7",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-python-pip-bootstrap-assets-arm.tar.gz",
+          "assetsArchiveSize": 49919469,
+          "assetsArchiveSha256": "78a688a6df6e00e14f3a3d407f98017558747d65c5007fedaafd7a25bf7bb2d6"
+        },
+        "i686": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-i686.tar.xz",
+          "bootstrapArchiveSize": 26713232,
+          "bootstrapArchiveSha256": "87d13facbd3193b94f5f1e044fac2e0257842e4b6b9b7b49b7230a1bc34a3b5e",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-python-pip-bootstrap-assets-i686.tar.gz",
+          "assetsArchiveSize": 53576087,
+          "assetsArchiveSha256": "082d970507032e33b92eee624ed722f5f31a33231e94b3258015621422dddbe1"
+        },
+        "x86_64": {
+          "bootstrapArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-x86_64.tar.xz",
+          "bootstrapArchiveSize": 27055576,
+          "bootstrapArchiveSha256": "1beb2de1130121923e4ae83e2ac18e122568ab3713e9c81aeaa36242c6306c85",
+          "assetsArchiveUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/pystudio-python-pip-bootstrap-assets-x86_64.tar.gz",
+          "assetsArchiveSize": 54255598,
+          "assetsArchiveSha256": "07c6975035c3d9d82eb53d2d0aae3919f81a7a6a1edeb6b8db59b10d7cb3e333"
+        }
+      }
+    }
   ]
 }

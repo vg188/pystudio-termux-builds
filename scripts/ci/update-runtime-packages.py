@@ -20,6 +20,10 @@ from typing import Any
 
 ARCHITECTURES = ["aarch64", "arm", "i686", "x86_64"]
 GITHUB_API = "https://api.github.com"
+REPO_ROOT = Path(__file__).resolve().parents[2]
+PYSTUDIO_PACKAGE_NAME = os.environ.get("PYSTUDIO_PACKAGE_NAME", "com.vchangxiao.pystudio")
+BOOTSTRAP_RELEASE_REPO = "vg188/pystudio-termux-builds"
+BOOTSTRAP_TAG_PREFIX = "pystudio-bootstrap-profiles-r"
 EXTENSIONS_REPO = "vg188/pystudio-python-extensions"
 EXTENSIONS_METADATA_URL = (
     "https://raw.githubusercontent.com/vg188/pystudio-python-extensions/main/"
@@ -354,6 +358,11 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
     },
 }
 
+BOOTSTRAP_DESCRIPTIONS = {
+    "base": "Minimal PyStudio terminal bootstrap with proot and core shell packages.",
+    "python-pip": "PyStudio terminal bootstrap with proot, Python, and pip preinstalled.",
+}
+
 
 def github_headers(token: str) -> dict[str, str]:
     headers = {
@@ -457,10 +466,31 @@ def asset_names(release: dict[str, Any] | None) -> set[str]:
     return {asset["name"] for asset in release.get("assets", [])}
 
 
+def release_asset_map(release: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
+    if not release:
+        return {}
+    return {asset["name"]: asset for asset in release.get("assets", [])}
+
+
+def asset_sha256(asset: dict[str, Any]) -> str:
+    digest = str(asset.get("digest", ""))
+    if digest.startswith("sha256:"):
+        return digest.split(":", 1)[1]
+    return ""
+
+
+def set_asset_metadata(entry: dict[str, Any], key_prefix: str, asset: dict[str, Any]) -> None:
+    entry[f"{key_prefix}Url"] = str(asset["browser_download_url"])
+    entry[f"{key_prefix}Size"] = int(asset.get("size", 0))
+    sha256 = asset_sha256(asset)
+    if sha256:
+        entry[f"{key_prefix}Sha256"] = sha256
+
+
 def load_manifest(path: Path) -> dict[str, Any]:
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
-    return {"version": 1, "architectures": ARCHITECTURES, "profiles": []}
+    return {"version": 1, "architectures": ARCHITECTURES, "bootstraps": [], "profiles": []}
 
 
 def profile_index(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -505,6 +535,113 @@ def ordered_profiles(manifest: dict[str, Any], order: list[str]) -> None:
     profiles = manifest.get("profiles", [])
     rank = {profile_id: index for index, profile_id in enumerate(order)}
     profiles.sort(key=lambda profile: (rank.get(profile.get("id", ""), 10000), profile.get("id", "")))
+
+
+def parse_env_value(raw_value: str) -> str:
+    try:
+        parts = shlex.split(raw_value, comments=False, posix=True)
+    except ValueError:
+        return raw_value.strip().strip("\"'")
+    return parts[0] if parts else ""
+
+
+def parse_env_file(path: Path) -> dict[str, str]:
+    values: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, raw_value = line.split("=", 1)
+        key = key.strip()
+        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key):
+            values[key] = parse_env_value(raw_value.strip())
+    return values
+
+
+def package_list_from_env(value: str) -> list[str]:
+    return unique_strings([part for part in re.split(r"[\s,]+", value) if part])
+
+
+def bootstrap_profile_configs() -> list[dict[str, Any]]:
+    profiles_dir = REPO_ROOT / "profiles" / "bootstrap"
+    order = {"base": 0, "python-pip": 1}
+    configs: list[dict[str, Any]] = []
+    for path in sorted(profiles_dir.glob("*.env")):
+        env = parse_env_file(path)
+        profile_id = env.get("PROFILE_SLUG", path.stem)
+        profile_name = env.get("PROFILE_NAME", profile_id.replace("-", " ").title())
+        configs.append(
+            {
+                "id": profile_id,
+                "title": f"{profile_name} Bootstrap",
+                "description": BOOTSTRAP_DESCRIPTIONS.get(
+                    profile_id,
+                    f"PyStudio {profile_name} bootstrap rootfs.",
+                ),
+                "packages": package_list_from_env(env.get("DEFAULT_ADDITIONAL_PACKAGES", "")),
+                "source_repo": env.get("SOURCE_REPO", ""),
+                "artifact_prefix": env.get("ARTIFACT_PREFIX", f"pystudio-{profile_id}-bootstrap"),
+                "alias_suffix": env.get("BOOTSTRAP_ALIAS_SUFFIX", f"{profile_id}-bootstrap"),
+            }
+        )
+    return sorted(configs, key=lambda config: (order.get(config["id"], 100), config["id"]))
+
+
+def upsert_bootstraps(manifest: dict[str, Any], token: str) -> None:
+    release = latest_release(BOOTSTRAP_RELEASE_REPO, BOOTSTRAP_TAG_PREFIX, token)
+    if not release:
+        print("Skipping bootstraps: no releases found.")
+        return
+
+    assets = release_asset_map(release)
+    bootstraps: list[dict[str, Any]] = []
+    for config in bootstrap_profile_configs():
+        entry: dict[str, Any] = {
+            "id": config["id"],
+            "group": "bootstrap",
+            "title": config["title"],
+            "description": config["description"],
+            "packageName": PYSTUDIO_PACKAGE_NAME,
+            "packages": config["packages"],
+            "source": {"repository": config["source_repo"]},
+            "release": {
+                "repository": f"https://github.com/{BOOTSTRAP_RELEASE_REPO}",
+                "tag": release["tag_name"],
+            },
+            "archiveFormat": "termux-bootstrap-tar.xz",
+            "installMode": "extract-rootfs",
+            "architectures": {},
+        }
+
+        for arch in ARCHITECTURES:
+            arch_entry: dict[str, Any] = {}
+            alias_asset = assets.get(
+                f"{PYSTUDIO_PACKAGE_NAME}-f-droid-{config['alias_suffix']}-{arch}.tar.xz"
+            )
+            generic_asset = assets.get(f"bootstrap-{arch}.tar.xz")
+            assets_archive = assets.get(f"{config['artifact_prefix']}-assets-{arch}.tar.gz")
+
+            if alias_asset:
+                set_asset_metadata(arch_entry, "bootstrapArchive", alias_asset)
+            elif generic_asset:
+                set_asset_metadata(arch_entry, "bootstrapArchive", generic_asset)
+
+            if generic_asset and config["id"] == "base":
+                set_asset_metadata(arch_entry, "termuxBootstrapArchive", generic_asset)
+
+            if assets_archive:
+                set_asset_metadata(arch_entry, "assetsArchive", assets_archive)
+
+            if arch_entry:
+                entry["architectures"][arch] = arch_entry
+
+        if entry["architectures"]:
+            bootstraps.append(entry)
+            print(f"Updated bootstrap {config['id']}: {', '.join(entry['architectures'])}.")
+        else:
+            print(f"Skipping bootstrap {config['id']}: no matching assets found.")
+
+    manifest["bootstraps"] = bootstraps
 
 
 def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[str, Any], token: str) -> None:
@@ -661,6 +798,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--manifest", default="runtime-packages.json")
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
     parser.add_argument("--extension-tag", default="")
+    parser.add_argument("--skip-bootstraps", action="store_true")
     parser.add_argument("--skip-core", action="store_true")
     parser.add_argument("--skip-extensions", action="store_true")
     return parser.parse_args()
@@ -673,6 +811,9 @@ def main() -> int:
     manifest["version"] = int(manifest.get("version", 1))
     manifest["updatedAt"] = dt.date.today().isoformat()
     manifest["architectures"] = ARCHITECTURES
+
+    if not args.skip_bootstraps:
+        upsert_bootstraps(manifest, args.github_token)
 
     if not args.skip_core:
         for profile_id, config in CORE_PROFILES.items():
