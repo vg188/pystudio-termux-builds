@@ -54,7 +54,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: pystudio-toolchain-matrix-${{ github.ref }}-${{ github.event_name }}
+  group: pystudio-toolchain-matrix-${{ github.ref }}-${{ inputs.profile || 'default' }}-${{ inputs.source || 'primary' }}
   cancel-in-progress: false
 
 env:
