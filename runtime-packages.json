@@ -912,6 +912,155 @@
       }
     },
     {
+      "id": "git",
+      "type": "package-set",
+      "group": "developer-tool",
+      "profile": "git",
+      "title": "Git",
+      "description": "Git version control with SSH support for clone, fetch, and push workflows.",
+      "packages": [
+        "git",
+        "openssh"
+      ],
+      "commands": [
+        "git",
+        "git-upload-pack",
+        "git-receive-pack",
+        "git-shell",
+        "ssh",
+        "scp",
+        "sftp",
+        "ssh-keygen"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r16"
+      },
+      "install": {
+        "mode": "install-apt-repository",
+        "command": "pystudio-install-git",
+        "verifyCommands": [
+          "git --version",
+          "ssh -V"
+        ]
+      },
+      "availableArchitectures": [
+        "aarch64",
+        "arm",
+        "i686",
+        "x86_64"
+      ],
+      "artifacts": {
+        "aarch64": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-git-toolchain-primary-repo-aarch64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-repo-aarch64.tar.gz",
+            "size": 58049394,
+            "sha256": "4d2d609dcd99fdb165ee7446e9555b9473711d2cb18b2dc5af3913ea0e6facde"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-git-toolchain-primary-debs-aarch64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-debs-aarch64.tar.gz",
+            "size": 57990350,
+            "sha256": "1537000628c606fb352c325d8f9a3dd42a3ebe072e4b1ce6f295dc8180eb4885"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-aarch64.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/SHA256SUMS-aarch64.txt",
+            "size": 27649,
+            "sha256": "839da8ab836a973dbe35b448e1317906309268f604774b61648861b2c357f3d8"
+          }
+        ],
+        "arm": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-git-toolchain-primary-repo-arm.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-repo-arm.tar.gz",
+            "size": 54510696,
+            "sha256": "bab44fbc4612e99b93f1a6f477a5e89c850e0d84cde3ab3532755020a98de59f"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-git-toolchain-primary-debs-arm.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-debs-arm.tar.gz",
+            "size": 54451191,
+            "sha256": "3489dbdac72f6546513c26194d7ba348b94307edd7f16cabfdd7e37bc017fe5a"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-arm.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/SHA256SUMS-arm.txt",
+            "size": 26185,
+            "sha256": "85683b2465035e92a70827483bf919589724fd2d6cc5a08c760f791681765d42"
+          }
+        ],
+        "i686": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-git-toolchain-primary-repo-i686.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-repo-i686.tar.gz",
+            "size": 58095347,
+            "sha256": "303d7645b6c6c465f08fa75d63a5b29751d4165b9f62b530447acd616ce2dfac"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-git-toolchain-primary-debs-i686.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-debs-i686.tar.gz",
+            "size": 58036715,
+            "sha256": "592b9f2c3789c629e83daffd9f3e50508962603d1a525b87a1a96f21c9ffbdca"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-i686.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/SHA256SUMS-i686.txt",
+            "size": 26551,
+            "sha256": "dabdaf41562a9e6b1949adc8ca1e7185140b782d56a534a581b2c06d8ba844c8"
+          }
+        ],
+        "x86_64": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-git-toolchain-primary-repo-x86_64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-repo-x86_64.tar.gz",
+            "size": 58740331,
+            "sha256": "a49d975f63f8452b8a5920044a227df3d551f1815616d0d3131285e987236cfa"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-git-toolchain-primary-debs-x86_64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-debs-x86_64.tar.gz",
+            "size": 58682292,
+            "sha256": "6c4f5519c25912fce74dc65f07b8038bdcd951f43545130853e16fe7e6e64c17"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-x86_64.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/SHA256SUMS-x86_64.txt",
+            "size": 27283,
+            "sha256": "fe43e1c59963c6803bde7c84b5db1b455151a190a7db14dcda22c9bab5d06ef9"
+          }
+        ]
+      }
+    },
+    {
       "id": "native-libs-crypto-network",
       "type": "package-set",
       "group": "native-libs",
