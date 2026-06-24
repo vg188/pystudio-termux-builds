@@ -42,6 +42,7 @@ echo "Source: $SOURCE_NAME ($source_kind) -> $source_repo"
 echo "Patch set: ${SOURCE_PATCH_SET:-none}"
 echo "Architecture: $arch"
 echo "Packages: ${package_array[*]}"
+echo "Android package: ${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
 
 git clone --depth 1 "$source_repo" "$source_dir"
 
@@ -82,6 +83,7 @@ apply_source_patch_set() {
 }
 
 apply_source_patch_set "$source_dir" "${SOURCE_PATCH_SET:-}" "$source_kind"
+bash "$ROOT/scripts/ci/configure-termux-prefix.sh" "$source_dir" "${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
 
 source_env_value() {
   local source_id="$1"
@@ -186,5 +188,9 @@ bash ./scripts/run-docker.sh -d ./build-package.sh \
   -a "$arch" \
   "${package_array[@]}"
 popd
+
+python3 "$ROOT/scripts/ci/check-deb-prefix.py" \
+  "$source_dir/output" \
+  --package-name "${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
 
 cp -a "$source_dir/output" "$stage_dir/output"
