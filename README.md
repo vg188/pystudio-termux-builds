@@ -27,6 +27,10 @@ Runtime toolchains are configured in `profiles/toolchains/`:
 | `python-xml-html` | lxml, XML, HTML, parser tooling | `primary` |
 | `python-crypto-network` | crypto and protocol libraries | `primary` |
 | `python-gui-tk` | tkinter/Tcl/Tk/X11 runtime support | `primary` |
+| `python-lsp` | Pyright and Ruff for Python editor integration | `primary` |
+| `cpp-lsp` | clangd plus Bear/compiledb compilation database tools | `primary` |
+| `debug-tools` | debugpy plus LLDB/lldb-server | `primary` |
+| `git` | Git with SSH support | `primary` |
 | `nodejs` | `nodejs npm` | `primary` |
 | `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `primary` |
 
@@ -63,7 +67,8 @@ Use **Actions -> Build PyStudio Toolchain Matrix** to build installable runtime
 packages. Select:
 
 - `profile`: `python`, one of the split `python-*` profiles, `all-python`,
-  `nodejs`, `cpp`, or `all`
+  `python-lsp`, `cpp-lsp`, `debug-tools`, `git`, `all-dev-tools`, `nodejs`,
+  `cpp`, or `all`
 - `source`: `primary`, `secondary`, or `tur`
 - `architectures`: `aarch64`, `arm`, `i686`, `x86_64`, or a comma-separated list
 

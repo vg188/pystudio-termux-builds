@@ -16,6 +16,7 @@ repositories only when a user asks for that capability.
 | `python-xml-html` | XML, HTML, and parser tooling. | `python-lxml libxml2 libxslt html-xml-utils html2text xmlstarlet xmlsec tree-sitter-html tree-sitter-xml` |
 | `python-crypto-network` | Crypto and protocol libraries. | `python-cryptography python-bcrypt python-pycryptodomex openssl libffi libsodium libgcrypt libnghttp2 libnghttp3 libmicrohttpd libxmlrpc` |
 | `python-gui-tk` | Tkinter runtime support and Tcl/Tk/X11 dependencies. | `tk tcl tcllib xorgproto libx11 libxft libxext python-xlib` |
+| `python-lsp` | Python editor language tooling. | `pyright ruff` |
 
 Every optional profile also includes `python python-pip` so each generated apt
 repository is installable on top of a minimal bootstrap without assuming another
@@ -35,6 +36,8 @@ PyStudio package repository has already been unpacked.
   `pycairo`, and `libcairo` are intentionally excluded from the default full
   Python matrix. They should become separate opt-in profiles after the smaller
   matrix is stable.
+- `python-lsp` also includes `nodejs` because Pyright runs on Node.js, while
+  Ruff is built from the Termux `ruff` package.
 
 ## Build
 

@@ -1,0 +1,143 @@
+diff --git a/packages/compiledb/build.sh b/packages/compiledb/build.sh
+new file mode 100644
+index 0000000000..1111111111
+--- /dev/null
++++ b/packages/compiledb/build.sh
+@@ -0,0 +1,16 @@
++TERMUX_PKG_HOMEPAGE=https://github.com/nickdiego/compiledb
++TERMUX_PKG_DESCRIPTION="Tool for generating Clang JSON compilation database files"
++TERMUX_PKG_LICENSE="GPL-3.0-or-later"
++TERMUX_PKG_MAINTAINER="@pystudio"
++TERMUX_PKG_VERSION=0.10.7
++TERMUX_PKG_SRCURL=https://files.pythonhosted.org/packages/0e/62/d0fc807871757841c32e6fbe433ebad422528a468336a0cf82fea226f41d/compiledb-${TERMUX_PKG_VERSION}.tar.gz
++TERMUX_PKG_SHA256=97752d8810b6977654a11a22cdc41bf6b71473bcdb5da312bc135f36d6af8271
++TERMUX_PKG_DEPENDS="python, python-pip, python-click, python-bashlex"
++TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="setuptools-scm, wheel"
++TERMUX_PKG_BUILD_IN_SRC=true
++TERMUX_PKG_PLATFORM_INDEPENDENT=true
++
++termux_step_pre_configure() {
++	# The sdist does not carry git metadata for setuptools-scm.
++	export SETUPTOOLS_SCM_PRETEND_VERSION="$TERMUX_PKG_VERSION"
++}
+diff --git a/packages/debugpy/build.sh b/packages/debugpy/build.sh
+new file mode 100644
+index 0000000000..1111111111
+--- /dev/null
++++ b/packages/debugpy/build.sh
+@@ -0,0 +1,16 @@
++TERMUX_PKG_HOMEPAGE=https://github.com/microsoft/debugpy
++TERMUX_PKG_DESCRIPTION="Python debugger implementation for Debug Adapter Protocol"
++TERMUX_PKG_LICENSE="MIT"
++TERMUX_PKG_MAINTAINER="@pystudio"
++TERMUX_PKG_VERSION=1.8.21
++TERMUX_PKG_SRCURL=https://files.pythonhosted.org/packages/f2/aa/12037145b7a56eaa5b29b41872f7a21b538e807e13f32c4d3c46e59be084/debugpy-${TERMUX_PKG_VERSION}.tar.gz
++TERMUX_PKG_SHA256=a3c53278e84c94e11bd87c53970ec391d1a67396c8b22609fcac576520e611a6
++TERMUX_PKG_DEPENDS="python, python-pip"
++TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="setuptools, wheel"
++TERMUX_PKG_BUILD_IN_SRC=true
++TERMUX_PKG_PLATFORM_INDEPENDENT=true
++
++termux_step_pre_configure() {
++	# Avoid accidentally packaging host-built pydevd extension modules.
++	export SKIP_CYTHON_BUILD=1
++}
+diff --git a/packages/debugpy/skip-cython-build.patch b/packages/debugpy/skip-cython-build.patch
+new file mode 100644
+index 0000000000..1111111111
+--- /dev/null
++++ b/packages/debugpy/skip-cython-build.patch
+@@ -0,0 +1,21 @@
++--- a/setup.py
+++++ b/setup.py
++@@ -77,11 +77,12 @@
++         self.announce(
++             "Compiling pydevd Cython extension modules (set SKIP_CYTHON_BUILD=1 to omit)."
++         )
++         try:
++-            subprocess.check_call([
++-                sys.executable,
++-                os.path.join(PYDEVD_ROOT, "setup_pydevd_cython.py"),
++-                "build_ext",
++-                "--inplace",
++-            ])
+++            if not os.getenv("SKIP_CYTHON_BUILD"):
+++                subprocess.check_call([
+++                    sys.executable,
+++                    os.path.join(PYDEVD_ROOT, "setup_pydevd_cython.py"),
+++                    "build_ext",
+++                    "--inplace",
+++                ])
++         except subprocess.SubprocessError:
+diff --git a/packages/pyright/build.sh b/packages/pyright/build.sh
+new file mode 100644
+index 0000000000..1111111111
+--- /dev/null
++++ b/packages/pyright/build.sh
+@@ -0,0 +1,32 @@
++TERMUX_PKG_HOMEPAGE=https://microsoft.github.io/pyright/
++TERMUX_PKG_DESCRIPTION="Static type checker and language server for Python"
++TERMUX_PKG_LICENSE="MIT"
++TERMUX_PKG_MAINTAINER="@pystudio"
++TERMUX_PKG_VERSION=1.1.410
++TERMUX_PKG_SRCURL=https://registry.npmjs.org/pyright/-/pyright-${TERMUX_PKG_VERSION}.tgz
++TERMUX_PKG_SHA256=4d6b7a25f9617ea8ff7b2e98cd87c146d132a95cbfb29bf58bd638018a76ac48
++TERMUX_PKG_DEPENDS="nodejs | nodejs-lts"
++TERMUX_PKG_BUILD_IN_SRC=true
++TERMUX_PKG_PLATFORM_INDEPENDENT=true
++
++termux_step_configure() {
++	:
++}
++
++termux_step_make() {
++	:
++}
++
++termux_step_make_install() {
++	local dest="$TERMUX_PREFIX/lib/node_modules/pyright"
++	rm -rf "$dest"
++	mkdir -p "$dest"
++
++	cp -a . "$dest"
++	chmod +x "$dest/index.js" "$dest/langserver.index.js"
++	termux-fix-shebang "$dest/index.js" "$dest/langserver.index.js"
++
++	mkdir -p "$TERMUX_PREFIX/bin"
++	ln -sfr "$dest/index.js" "$TERMUX_PREFIX/bin/pyright"
++	ln -sfr "$dest/langserver.index.js" "$TERMUX_PREFIX/bin/pyright-langserver"
++}
+diff --git a/packages/python-bashlex/build.sh b/packages/python-bashlex/build.sh
+new file mode 100644
+index 0000000000..1111111111
+--- /dev/null
++++ b/packages/python-bashlex/build.sh
+@@ -0,0 +1,11 @@
++TERMUX_PKG_HOMEPAGE=https://github.com/idank/bashlex
++TERMUX_PKG_DESCRIPTION="Python parser for bash"
++TERMUX_PKG_LICENSE="GPL-3.0-or-later"
++TERMUX_PKG_MAINTAINER="@pystudio"
++TERMUX_PKG_VERSION=0.18
++TERMUX_PKG_SRCURL=https://files.pythonhosted.org/packages/76/60/aae0bb54f9af5e0128ba90eb83d8d0d506ee8f0475c4fdda3deeda20b1d2/bashlex-${TERMUX_PKG_VERSION}.tar.gz
++TERMUX_PKG_SHA256=5bb03a01c6d5676338c36fd1028009c8ad07e7d61d8a1ce3f513b7fff52796ee
++TERMUX_PKG_DEPENDS="python, python-pip"
++TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel"
++TERMUX_PKG_BUILD_IN_SRC=true
++TERMUX_PKG_PLATFORM_INDEPENDENT=true
+diff --git a/packages/python-click/build.sh b/packages/python-click/build.sh
+new file mode 100644
+index 0000000000..1111111111
+--- /dev/null
++++ b/packages/python-click/build.sh
+@@ -0,0 +1,11 @@
++TERMUX_PKG_HOMEPAGE=https://palletsprojects.com/p/click/
++TERMUX_PKG_DESCRIPTION="Composable command line interface toolkit"
++TERMUX_PKG_LICENSE="BSD-3-Clause"
++TERMUX_PKG_MAINTAINER="@pystudio"
++TERMUX_PKG_VERSION=8.4.1
++TERMUX_PKG_SRCURL=https://files.pythonhosted.org/packages/9b/98/518d8e5081007684232226f475082b30087d0f585e8457db087298259f49/click-${TERMUX_PKG_VERSION}.tar.gz
++TERMUX_PKG_SHA256=918b5633eddf6b41c32d4f454bf0de810065c74e3f7dbf8ee5452f8be88d3e96
++TERMUX_PKG_DEPENDS="python, python-pip"
++TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="flit_core"
++TERMUX_PKG_BUILD_IN_SRC=true
++TERMUX_PKG_PLATFORM_INDEPENDENT=true

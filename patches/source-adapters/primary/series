@@ -1,3 +1,4 @@
 0003-fix-build-host-Python-with-native-gcc.patch
 0012-ci-harden-source-download-retries.patch
 0013-ci-drop-termux-am-from-toolchain-termux-tools-deps.patch
+0017-add-pystudio-lsp-debug-packages.patch

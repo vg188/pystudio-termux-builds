@@ -19,6 +19,11 @@ on:
           - python-crypto-network
           - python-gui-tk
           - all-python
+          - python-lsp
+          - cpp-lsp
+          - debug-tools
+          - git
+          - all-dev-tools
           - nodejs
           - cpp
           - all
@@ -86,11 +91,14 @@ jobs:
           publish_release="${INPUT_PUBLISH_RELEASE:-true}"
 
           python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
+          dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
 
           if [[ "$profile" == "all" ]]; then
             profiles="python nodejs cpp"
           elif [[ "$profile" == "all-python" ]]; then
             profiles="$python_profiles"
+          elif [[ "$profile" == "all-dev-tools" ]]; then
+            profiles="$dev_tool_profiles"
           else
             profiles="$profile"
           fi

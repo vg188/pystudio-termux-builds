@@ -60,6 +60,8 @@ Examples:
 - `pystudio-cpp-toolchain`
 - `pystudio-tree-sitter-toolchain`
 - `pystudio-node-build-core-toolchain`
+- optional future split repositories for `python-lsp`, `cpp-lsp`,
+  `debug-tools`, and `git`
 
 The final target is for each child repo to contain only:
 
