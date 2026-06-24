@@ -92,12 +92,14 @@ Tree-sitter and Node.js native build core are opt-in child-repository builds:
 - `vg188/pystudio-tree-sitter-toolchain`
 - `vg188/pystudio-node-build-core-toolchain`
 
-`runtime-packages.json` is the app-facing download index. Each profile lists
-the Termux `packages`, user-facing executable `commands`, release URLs, and
-`verifyCommands` used after installation. The app download window should index
-`title`, `description`, `packages`, and `commands` so searches such as
-`pip`, `openssl`, `xz`, `cmake`, or `xmllint` can find the right optional
-download.
+`runtime-packages.json` is the app-facing download index. It uses a unified
+`items[]` catalog for both bootstrap archives and optional package sets. Each
+item exposes the same display fields (`title`, `description`, `packages`,
+`commands`), the same install metadata, and per-architecture artifact lists.
+The app download window should index `title`, `description`, `packages`, and
+`commands` so searches such as `pip`, `openssl`, `xz`, `cmake`, or `xmllint`
+can find the right optional download. See `docs/runtime-manifest-schema.md`
+for the current schema.
 
 Those repositories are intentionally thin and call the reusable workflow in
 this repository. The profile definitions still live in `profiles/toolchains/`.

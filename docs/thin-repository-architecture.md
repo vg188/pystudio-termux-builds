@@ -174,24 +174,33 @@ The main repo owns the policy:
 The app should not know about all build repositories. It should read one
 manifest from the main repository or Gitee mirror.
 
-Each profile entry can include source metadata:
+Manifest schema v2 uses one normalized `items[]` catalog for bootstrap archives
+and runtime package sets. Each item includes display/search fields, install
+metadata, release metadata, and a per-architecture artifact list:
 
 ```json
 {
   "id": "python",
-  "preferredSource": "primary",
-  "fallbackSource": "secondary",
-  "architectures": {
-    "aarch64": {
-      "repoArchiveUrl": "...",
-      "fallbackRepoArchiveUrl": "..."
-    }
+  "type": "package-set",
+  "group": "runtime",
+  "install": {
+    "mode": "install-apt-repository",
+    "command": "pystudio-install-python"
+  },
+  "artifacts": {
+    "aarch64": [
+      {
+        "role": "apt-repository",
+        "downloadUrl": "..."
+      }
+    ]
   }
 }
 ```
 
-When Gitee mirroring is enabled, only URL fields change. Package IDs, source
-metadata, install commands, and verification commands should stay the same.
+When ModelScope or Gitee mirroring is enabled, only artifact `downloadUrl`
+fields change. Package IDs, source metadata, install commands, and
+verification commands should stay the same.
 
 ## Migration Plan
 

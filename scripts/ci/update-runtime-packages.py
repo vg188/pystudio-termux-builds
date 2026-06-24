@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 
+SCHEMA_VERSION = 2
 ARCHITECTURES = ["aarch64", "arm", "i686", "x86_64"]
 GITHUB_API = "https://api.github.com"
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -363,6 +364,27 @@ BOOTSTRAP_DESCRIPTIONS = {
     "python-pip": "PyStudio terminal bootstrap with proot, Python, and pip preinstalled.",
 }
 
+BOOTSTRAP_COMMANDS = [
+    "sh",
+    "bash",
+    "dash",
+    "ls",
+    "pwd",
+    "cat",
+    "cp",
+    "mv",
+    "rm",
+    "mkdir",
+    "pkg",
+    "apt",
+    "dpkg",
+    "proot",
+]
+
+BOOTSTRAP_PROFILE_COMMANDS = {
+    "python-pip": ["python", "python3", "pip", "pip3"],
+}
+
 
 def github_headers(token: str) -> dict[str, str]:
     headers = {
@@ -460,12 +482,6 @@ def latest_release_with_asset_prefix(
     return max(candidates, key=lambda release: release_number(release["tag_name"], tag_prefix))
 
 
-def asset_names(release: dict[str, Any] | None) -> set[str]:
-    if not release:
-        return set()
-    return {asset["name"] for asset in release.get("assets", [])}
-
-
 def release_asset_map(release: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
     if not release:
         return {}
@@ -479,23 +495,26 @@ def asset_sha256(asset: dict[str, Any]) -> str:
     return ""
 
 
-def set_asset_metadata(entry: dict[str, Any], key_prefix: str, asset: dict[str, Any]) -> None:
-    entry[f"{key_prefix}Url"] = str(asset["browser_download_url"])
-    entry[f"{key_prefix}Size"] = int(asset.get("size", 0))
+def artifact_format(file_name: str) -> str:
+    for suffix in (".tar.xz", ".tar.gz", ".txt", ".deb"):
+        if file_name.endswith(suffix):
+            return suffix.removeprefix(".")
+    return Path(file_name).suffix.removeprefix(".") or "binary"
+
+
+def artifact_from_asset(role: str, asset: dict[str, Any]) -> dict[str, Any]:
+    file_name = str(asset["name"])
+    artifact: dict[str, Any] = {
+        "role": role,
+        "fileName": file_name,
+        "format": artifact_format(file_name),
+        "downloadUrl": str(asset["browser_download_url"]),
+        "size": int(asset.get("size", 0)),
+    }
     sha256 = asset_sha256(asset)
     if sha256:
-        entry[f"{key_prefix}Sha256"] = sha256
-
-
-def load_manifest(path: Path) -> dict[str, Any]:
-    if path.exists():
-        return json.loads(path.read_text(encoding="utf-8"))
-    return {"version": 1, "architectures": ARCHITECTURES, "bootstraps": [], "profiles": []}
-
-
-def profile_index(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    profiles = manifest.setdefault("profiles", [])
-    return {profile["id"]: profile for profile in profiles}
+        artifact["sha256"] = sha256
+    return artifact
 
 
 def unique_strings(values: list[str]) -> list[str]:
@@ -531,10 +550,122 @@ def profile_commands(profile_id: str, metadata: dict[str, Any]) -> list[str]:
     return command_names_from_verify(metadata.get("verifyCommands", []))
 
 
-def ordered_profiles(manifest: dict[str, Any], order: list[str]) -> None:
-    profiles = manifest.get("profiles", [])
-    rank = {profile_id: index for index, profile_id in enumerate(order)}
-    profiles.sort(key=lambda profile: (rank.get(profile.get("id", ""), 10000), profile.get("id", "")))
+def item_order_key(item_id: str) -> tuple[int, int, str]:
+    bootstrap_order = {"bootstrap-base": 0, "bootstrap-python-pip": 1}
+    runtime_order = {
+        "python": 0,
+        "nodejs": 1,
+        "cpp": 2,
+        "tree-sitter": 3,
+        "node-build-core": 4,
+    }
+    if item_id in bootstrap_order:
+        return (0, bootstrap_order[item_id], item_id)
+    if item_id in runtime_order:
+        return (1, runtime_order[item_id], item_id)
+    return (2, 10000, item_id)
+
+
+def ordered_items(manifest: dict[str, Any]) -> None:
+    manifest.get("items", []).sort(key=lambda item: item_order_key(item.get("id", "")))
+
+
+def base_item(
+    *,
+    item_id: str,
+    item_type: str,
+    group: str,
+    title: str,
+    description: str,
+    packages: list[str],
+    commands: list[str],
+    source_repository: str,
+    release_repository: str,
+    release_tag: str,
+    install_mode: str,
+    install_command: str | None,
+    verify_commands: list[str],
+    profile: str,
+) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "type": item_type,
+        "group": group,
+        "profile": profile,
+        "title": title,
+        "description": description,
+        "packages": packages,
+        "commands": commands,
+        "source": {
+            "repository": source_repository,
+        },
+        "release": {
+            "repository": release_repository,
+            "tag": release_tag,
+        },
+        "install": {
+            "mode": install_mode,
+            "command": install_command,
+            "verifyCommands": verify_commands,
+        },
+        "availableArchitectures": [],
+        "artifacts": {},
+    }
+
+
+def set_arch_artifacts(item: dict[str, Any], arch: str, artifacts: list[dict[str, Any]]) -> None:
+    if not artifacts:
+        return
+    item["artifacts"][arch] = artifacts
+    item["availableArchitectures"] = sorted(item["artifacts"], key=ARCHITECTURES.index)
+
+
+def validate_manifest(manifest: dict[str, Any]) -> None:
+    if manifest.get("schemaVersion") != SCHEMA_VERSION:
+        raise RuntimeError(f"manifest schemaVersion must be {SCHEMA_VERSION}")
+    if manifest.get("architectures") != ARCHITECTURES:
+        raise RuntimeError("manifest architectures are not normalized")
+    if not isinstance(manifest.get("items"), list):
+        raise RuntimeError("manifest items must be a list")
+
+    ids: set[str] = set()
+    for item in manifest["items"]:
+        item_id = item.get("id")
+        if not item_id or item_id in ids:
+            raise RuntimeError(f"invalid or duplicate manifest item id: {item_id!r}")
+        ids.add(item_id)
+
+        for key in (
+            "type",
+            "group",
+            "profile",
+            "title",
+            "description",
+            "packages",
+            "commands",
+            "source",
+            "release",
+            "install",
+            "availableArchitectures",
+            "artifacts",
+        ):
+            if key not in item:
+                raise RuntimeError(f"manifest item {item_id} missing key: {key}")
+
+        if sorted(item["artifacts"], key=ARCHITECTURES.index) != item["availableArchitectures"]:
+            raise RuntimeError(f"manifest item {item_id} has inconsistent architecture lists")
+
+        for arch, artifacts in item["artifacts"].items():
+            if arch not in ARCHITECTURES:
+                raise RuntimeError(f"manifest item {item_id} has unsupported architecture: {arch}")
+            if not isinstance(artifacts, list) or not artifacts:
+                raise RuntimeError(f"manifest item {item_id} has no artifacts for {arch}")
+            for artifact in artifacts:
+                for key in ("role", "fileName", "format", "downloadUrl", "size"):
+                    if key not in artifact:
+                        raise RuntimeError(
+                            f"manifest item {item_id} artifact for {arch} missing key: {key}"
+                        )
 
 
 def parse_env_value(raw_value: str) -> str:
@@ -594,27 +725,29 @@ def upsert_bootstraps(manifest: dict[str, Any], token: str) -> None:
         return
 
     assets = release_asset_map(release)
-    bootstraps: list[dict[str, Any]] = []
     for config in bootstrap_profile_configs():
-        entry: dict[str, Any] = {
-            "id": config["id"],
-            "group": "bootstrap",
-            "title": config["title"],
-            "description": config["description"],
-            "packageName": PYSTUDIO_PACKAGE_NAME,
-            "packages": config["packages"],
-            "source": {"repository": config["source_repo"]},
-            "release": {
-                "repository": f"https://github.com/{BOOTSTRAP_RELEASE_REPO}",
-                "tag": release["tag_name"],
-            },
-            "archiveFormat": "termux-bootstrap-tar.xz",
-            "installMode": "extract-rootfs",
-            "architectures": {},
-        }
+        profile_id = config["id"]
+        entry = base_item(
+            item_id=f"bootstrap-{profile_id}",
+            item_type="bootstrap",
+            group="bootstrap",
+            title=config["title"],
+            description=config["description"],
+            packages=config["packages"],
+            commands=unique_strings(
+                BOOTSTRAP_COMMANDS + BOOTSTRAP_PROFILE_COMMANDS.get(profile_id, [])
+            ),
+            source_repository=config["source_repo"],
+            release_repository=f"https://github.com/{BOOTSTRAP_RELEASE_REPO}",
+            release_tag=release["tag_name"],
+            install_mode="extract-rootfs",
+            install_command=None,
+            verify_commands=[],
+            profile=profile_id,
+        )
 
         for arch in ARCHITECTURES:
-            arch_entry: dict[str, Any] = {}
+            arch_artifacts: list[dict[str, Any]] = []
             alias_asset = assets.get(
                 f"{PYSTUDIO_PACKAGE_NAME}-f-droid-{config['alias_suffix']}-{arch}.tar.xz"
             )
@@ -622,26 +755,23 @@ def upsert_bootstraps(manifest: dict[str, Any], token: str) -> None:
             assets_archive = assets.get(f"{config['artifact_prefix']}-assets-{arch}.tar.gz")
 
             if alias_asset:
-                set_asset_metadata(arch_entry, "bootstrapArchive", alias_asset)
+                arch_artifacts.append(artifact_from_asset("rootfs", alias_asset))
             elif generic_asset:
-                set_asset_metadata(arch_entry, "bootstrapArchive", generic_asset)
+                arch_artifacts.append(artifact_from_asset("rootfs", generic_asset))
 
-            if generic_asset and config["id"] == "base":
-                set_asset_metadata(arch_entry, "termuxBootstrapArchive", generic_asset)
+            if generic_asset and profile_id == "base":
+                arch_artifacts.append(artifact_from_asset("compat-rootfs", generic_asset))
 
             if assets_archive:
-                set_asset_metadata(arch_entry, "assetsArchive", assets_archive)
+                arch_artifacts.append(artifact_from_asset("asset-bundle", assets_archive))
 
-            if arch_entry:
-                entry["architectures"][arch] = arch_entry
+            set_arch_artifacts(entry, arch, arch_artifacts)
 
-        if entry["architectures"]:
-            bootstraps.append(entry)
-            print(f"Updated bootstrap {config['id']}: {', '.join(entry['architectures'])}.")
+        if entry["artifacts"]:
+            manifest.setdefault("items", []).append(entry)
+            print(f"Updated bootstrap {profile_id}: {', '.join(entry['availableArchitectures'])}.")
         else:
-            print(f"Skipping bootstrap {config['id']}: no matching assets found.")
-
-    manifest["bootstraps"] = bootstraps
+            print(f"Skipping bootstrap {profile_id}: no matching assets found.")
 
 
 def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[str, Any], token: str) -> None:
@@ -661,54 +791,44 @@ def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[
         print(f"Skipping {profile_id}: no releases found.")
         return
 
-    profiles = profile_index(manifest)
-    entry = profiles.get(profile_id, {"id": profile_id})
-    entry.update(
-        {
-            "group": config["group"],
-            "title": config["title"],
-            "description": config["description"],
-            "packages": config["packages"],
-            "commands": profile_commands(profile_id, config),
-            "source": {
-                "repository": f"https://github.com/{release_repo}",
-            },
-            "release": {
-                "tag": release["tag_name"],
-            },
-            "installCommandName": config["installCommandName"],
-            "verifyCommands": config["verifyCommands"],
-        }
+    entry = base_item(
+        item_id=profile_id,
+        item_type="package-set",
+        group=config["group"],
+        title=config["title"],
+        description=config["description"],
+        packages=config["packages"],
+        commands=profile_commands(profile_id, config),
+        source_repository=f"https://github.com/{release_repo}",
+        release_repository=f"https://github.com/{release_repo}",
+        release_tag=release["tag_name"],
+        install_mode="install-apt-repository",
+        install_command=config["installCommandName"],
+        verify_commands=config["verifyCommands"],
+        profile=profile_id,
     )
 
-    architectures = entry.setdefault("architectures", {})
     asset_count = 0
+    assets = release_asset_map(release)
     for arch in ARCHITECTURES:
-        arch_entry = architectures.setdefault(arch, {})
-        for stale_key in (
-            "fallbackRepoArchiveUrl",
-            "fallbackDebsArchiveUrl",
-            "fallbackSha256SumsUrl",
-        ):
-            arch_entry.pop(stale_key, None)
-        names = asset_names(release)
+        arch_artifacts: list[dict[str, Any]] = []
         repo_asset = f"{asset_prefix}-repo-{arch}.tar.gz"
         debs_asset = f"{asset_prefix}-debs-{arch}.tar.gz"
         sums_asset = f"SHA256SUMS-{arch}.txt"
-        if repo_asset in names:
-            arch_entry["repoArchiveUrl"] = release_download_url(release_repo, release["tag_name"], repo_asset)
+        if repo_asset in assets:
+            arch_artifacts.append(artifact_from_asset("apt-repository", assets[repo_asset]))
             asset_count += 1
-        if debs_asset in names:
-            arch_entry["debsArchiveUrl"] = release_download_url(release_repo, release["tag_name"], debs_asset)
-        if sums_asset in names:
-            arch_entry["sha256SumsUrl"] = release_download_url(release_repo, release["tag_name"], sums_asset)
+        if debs_asset in assets:
+            arch_artifacts.append(artifact_from_asset("debian-packages", assets[debs_asset]))
+        if sums_asset in assets:
+            arch_artifacts.append(artifact_from_asset("checksums", assets[sums_asset]))
+        set_arch_artifacts(entry, arch, arch_artifacts)
 
-    if asset_count == 0 and profile_id not in profiles:
+    if asset_count == 0:
         print(f"Skipping {profile_id}: no matching assets found.")
         return
 
-    if profile_id not in profiles:
-        manifest.setdefault("profiles", []).append(entry)
+    manifest.setdefault("items", []).append(entry)
     print(f"Updated {profile_id}.")
 
 
@@ -742,24 +862,23 @@ def upsert_extension_profiles(
         print("Skipping Python extensions: no release found.")
         return
 
-    names = asset_names(release)
-    profiles = profile_index(manifest)
+    assets = release_asset_map(release)
     for meta in metadata.get("profiles", []):
         profile_id = meta["id"]
-        arch_map: dict[str, dict[str, str]] = {}
+        arch_map: dict[str, list[dict[str, Any]]] = {}
         for arch in ARCHITECTURES:
             repo_asset = f"pystudio-python-extensions-{profile_id}-repo-{arch}.tar.gz"
             debs_asset = f"pystudio-python-extensions-{profile_id}-debs-{arch}.tar.gz"
             sums_asset = f"SHA256SUMS-{profile_id}-{arch}.txt"
-            if repo_asset not in names or sums_asset not in names:
+            if repo_asset not in assets or sums_asset not in assets:
                 continue
-            arch_entry = {
-                "repoArchiveUrl": release_download_url(EXTENSIONS_REPO, release["tag_name"], repo_asset),
-                "sha256SumsUrl": release_download_url(EXTENSIONS_REPO, release["tag_name"], sums_asset),
-            }
-            if debs_asset in names:
-                arch_entry["debsArchiveUrl"] = release_download_url(EXTENSIONS_REPO, release["tag_name"], debs_asset)
-            arch_map[arch] = arch_entry
+            arch_artifacts = [
+                artifact_from_asset("apt-repository", assets[repo_asset]),
+                artifact_from_asset("checksums", assets[sums_asset]),
+            ]
+            if debs_asset in assets:
+                arch_artifacts.append(artifact_from_asset("debian-packages", assets[debs_asset]))
+            arch_map[arch] = arch_artifacts
 
         if not arch_map:
             continue
@@ -767,29 +886,30 @@ def upsert_extension_profiles(
         try:
             packages = fetch_extension_packages(meta["packageFile"], token)
         except RuntimeError as exc:
-            existing = profiles.get(profile_id, {})
-            packages = existing.get("packages", [])
-            print(f"Warning: keeping existing package list for {profile_id}: {exc}")
+            packages = []
+            print(f"Warning: no package list for {profile_id}: {exc}")
 
-        entry = profiles.get(profile_id, {"id": profile_id})
-        entry.update(
-            {
-                "group": meta.get("group", "python-extension"),
-                "title": meta.get("title", profile_id),
-                "description": meta.get("description", ""),
-                "packages": packages,
-                "commands": profile_commands(profile_id, meta),
-                "source": {"repository": f"https://github.com/{EXTENSIONS_REPO}"},
-                "release": {"tag": release["tag_name"]},
-                "architectures": {**entry.get("architectures", {}), **arch_map},
-                "installCommandName": meta.get("installCommandName", f"pystudio-install-{profile_id}"),
-                "verifyCommands": meta.get("verifyCommands", []),
-            }
+        entry = base_item(
+            item_id=profile_id,
+            item_type="package-set",
+            group=meta.get("group", "python-extension"),
+            title=meta.get("title", profile_id),
+            description=meta.get("description", ""),
+            packages=packages,
+            commands=profile_commands(profile_id, meta),
+            source_repository=f"https://github.com/{EXTENSIONS_REPO}",
+            release_repository=f"https://github.com/{EXTENSIONS_REPO}",
+            release_tag=release["tag_name"],
+            install_mode="install-apt-repository",
+            install_command=meta.get("installCommandName", f"pystudio-install-{profile_id}"),
+            verify_commands=meta.get("verifyCommands", []),
+            profile=profile_id,
         )
+        for arch, artifacts in arch_map.items():
+            set_arch_artifacts(entry, arch, artifacts)
         if meta.get("heavy"):
             entry["heavy"] = True
-        if profile_id not in profiles:
-            manifest.setdefault("profiles", []).append(entry)
+        manifest.setdefault("items", []).append(entry)
         print(f"Updated extension profile {profile_id}: {', '.join(sorted(arch_map))}.")
 
 
@@ -807,10 +927,13 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     path = Path(args.manifest)
-    manifest = load_manifest(path)
-    manifest["version"] = int(manifest.get("version", 1))
-    manifest["updatedAt"] = dt.date.today().isoformat()
-    manifest["architectures"] = ARCHITECTURES
+    manifest: dict[str, Any] = {
+        "schemaVersion": SCHEMA_VERSION,
+        "generatedAt": dt.date.today().isoformat(),
+        "packageName": PYSTUDIO_PACKAGE_NAME,
+        "architectures": ARCHITECTURES,
+        "items": [],
+    }
 
     if not args.skip_bootstraps:
         upsert_bootstraps(manifest, args.github_token)
@@ -822,9 +945,10 @@ def main() -> int:
     if not args.skip_extensions:
         upsert_extension_profiles(manifest, args.github_token, args.extension_tag)
 
-    ordered_profiles(manifest, list(CORE_PROFILES) + [profile["id"] for profile in manifest.get("profiles", [])])
+    ordered_items(manifest)
+    validate_manifest(manifest)
     path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {path} with {len(manifest.get('profiles', []))} profiles.")
+    print(f"Wrote {path} with {len(manifest.get('items', []))} items.")
     return 0
 
 
