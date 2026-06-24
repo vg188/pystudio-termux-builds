@@ -5,7 +5,7 @@ Subject: [PATCH 12/16] ci: harden source download retries
 
 
 diff --git a/scripts/build/termux_download.sh b/scripts/build/termux_download.sh
-index b3205cd3da199d2a5b0c16ccf892a75289d93592..c663439c890e1923d925056b6f30e412ee15c657 100755
+index b3205cd3da199d2a5b0c16ccf892a75289d93592..63cac8cabf 100755
 --- a/scripts/build/termux_download.sh
 +++ b/scripts/build/termux_download.sh
 @@ -37,11 +37,11 @@ termux_download() {
@@ -23,15 +23,62 @@ index b3205cd3da199d2a5b0c16ccf892a75289d93592..c663439c890e1923d925056b6f30e412
  		--speed-limit 1000   # Expect at least 1000 Bytes per second
  		--speed-time 60      # Fail if the minimum speed isn't met for at least 60 seconds
  		--location           # Follow redirects
-@@ -54,7 +54,7 @@ termux_download() {
- 	echo "Downloading ${URL}"
- 	if ! curl "${CURL_OPTIONS[@]}" --output "$TMPFILE" "$URL"; then
- 		local error=1
+@@ -51,24 +51,46 @@ termux_download() {
+ 		CURL_OPTIONS+=(--no-progress-meter) # Don't print out transfer statistics
+ 	fi
+ 
+-	echo "Downloading ${URL}"
+-	if ! curl "${CURL_OPTIONS[@]}" --output "$TMPFILE" "$URL"; then
+-		local error=1
 -		local retry=2
++	local mirror_base="${PYSTUDIO_SOURCE_MIRROR_BASE:-https://github.com/vg188/pystudio-termux-builds/releases/download/source-mirrors}"
++	local -a DOWNLOAD_URLS=("$URL")
++	case "$URL" in
++		"https://salsa.debian.org/cpython-team/python3-defaults/-/archive/f358ab52bf2932ad55b1a72a29c9762169e6ac47/python3-defaults-f358ab52bf2932ad55b1a72a29c9762169e6ac47.tar.gz")
++			DOWNLOAD_URLS+=("$mirror_base/python3-defaults-f358ab52bf2932ad55b1a72a29c9762169e6ac47.tar.gz")
++			;;
++		"https://thrysoee.dk/editline/libedit-20240517-3.1.tar.gz")
++			DOWNLOAD_URLS+=("$mirror_base/libedit-20240517-3.1.tar.gz")
++			;;
++	esac
++
++	local download_url
++	local error=1
++	for download_url in "${DOWNLOAD_URLS[@]}"; do
++		if [[ "$download_url" != "$URL" ]]; then
++			echo "Trying fallback mirror ${download_url}"
++		fi
++		echo "Downloading ${download_url}"
++		error=1
++		if curl "${CURL_OPTIONS[@]}" --output "$TMPFILE" "$download_url"; then
++			error=0
++			break
++		fi
 +		local retry=5
  		local delay=60
  		local try
  		for (( try=1; try <= retry; try++ )); do
+-			echo "Retrying #${try} download ${URL} in ${delay}"
++			echo "Retrying #${try} download ${download_url} in ${delay}"
+ 			sleep "${delay}"
+-			if curl "${CURL_OPTIONS[@]}" --output "$TMPFILE" "$URL"; then
++			if curl "${CURL_OPTIONS[@]}" --output "$TMPFILE" "$download_url"; then
+ 				error=0
+ 				break
+ 			fi
+ 		done
+-		if [[ "${error}" != 0 ]]; then
+-			echo "Failed to download $URL" 1>&2
+-			return 1
+-		fi
++		[[ "$error" == 0 ]] && break
++	done
++
++	if [[ "${error}" != 0 ]]; then
++		echo "Failed to download $URL" 1>&2
++		return 1
+ 	fi
+ 
+ 	local ACTUAL_CHECKSUM
 -- 
 2.47.0.windows.2
-
