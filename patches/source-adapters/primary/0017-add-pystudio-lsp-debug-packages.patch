@@ -25,7 +25,7 @@ new file mode 100644
 index 0000000000..1111111111
 --- /dev/null
 +++ b/packages/debugpy/build.sh
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,41 @@
 +TERMUX_PKG_HOMEPAGE=https://github.com/microsoft/debugpy
 +TERMUX_PKG_DESCRIPTION="Python debugger implementation for Debug Adapter Protocol"
 +TERMUX_PKG_LICENSE="MIT"
@@ -41,34 +41,32 @@ index 0000000000..1111111111
 +termux_step_pre_configure() {
 +	# Avoid accidentally packaging host-built pydevd extension modules.
 +	export SKIP_CYTHON_BUILD=1
++
++	python3 - <<'PY'
++import os
++from pathlib import Path
++
++setup = Path(os.environ["TERMUX_PKG_SRCDIR"]) / "setup.py"
++text = setup.read_text()
++needle = '''            subprocess.check_call([
++                sys.executable,
++                os.path.join(PYDEVD_ROOT, "setup_pydevd_cython.py"),
++                "build_ext",
++                "--inplace",
++            ])'''
++replacement = '''            if not os.getenv("SKIP_CYTHON_BUILD"):
++                subprocess.check_call([
++                    sys.executable,
++                    os.path.join(PYDEVD_ROOT, "setup_pydevd_cython.py"),
++                    "build_ext",
++                    "--inplace",
++                ])'''
++if replacement not in text:
++    if needle not in text:
++        raise SystemExit("debugpy setup.py Cython build block not found")
++    setup.write_text(text.replace(needle, replacement))
++PY
 +}
-diff --git a/packages/debugpy/skip-cython-build.patch b/packages/debugpy/skip-cython-build.patch
-new file mode 100644
-index 0000000000..1111111111
---- /dev/null
-+++ b/packages/debugpy/skip-cython-build.patch
-@@ -0,0 +1,21 @@
-+--- a/setup.py
-++++ b/setup.py
-+@@ -77,11 +77,12 @@
-+         self.announce(
-+             "Compiling pydevd Cython extension modules (set SKIP_CYTHON_BUILD=1 to omit)."
-+         )
-+         try:
-+-            subprocess.check_call([
-+-                sys.executable,
-+-                os.path.join(PYDEVD_ROOT, "setup_pydevd_cython.py"),
-+-                "build_ext",
-+-                "--inplace",
-+-            ])
-++            if not os.getenv("SKIP_CYTHON_BUILD"):
-++                subprocess.check_call([
-++                    sys.executable,
-++                    os.path.join(PYDEVD_ROOT, "setup_pydevd_cython.py"),
-++                    "build_ext",
-++                    "--inplace",
-++                ])
-+         except subprocess.SubprocessError:
 diff --git a/packages/pyright/build.sh b/packages/pyright/build.sh
 new file mode 100644
 index 0000000000..1111111111
