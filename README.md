@@ -92,6 +92,13 @@ Tree-sitter and Node.js native build core are opt-in child-repository builds:
 - `vg188/pystudio-tree-sitter-toolchain`
 - `vg188/pystudio-node-build-core-toolchain`
 
+`runtime-packages.json` is the app-facing download index. Each profile lists
+the Termux `packages`, user-facing executable `commands`, release URLs, and
+`verifyCommands` used after installation. The app download window should index
+`title`, `description`, `packages`, and `commands` so searches such as
+`pip`, `openssl`, `xz`, `cmake`, or `xmllint` can find the right optional
+download.
+
 Those repositories are intentionally thin and call the reusable workflow in
 this repository. The profile definitions still live in `profiles/toolchains/`.
 The full Termux package trees live only in the shared source adapter

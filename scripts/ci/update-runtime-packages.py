@@ -8,6 +8,7 @@ import datetime as dt
 import json
 import os
 import re
+import shlex
 import sys
 import time
 import urllib.error
@@ -26,12 +27,144 @@ EXTENSIONS_METADATA_URL = (
 )
 EXTENSIONS_RAW_BASE = "https://raw.githubusercontent.com/vg188/pystudio-python-extensions/main/"
 
+EXTENSION_PROFILE_COMMANDS: dict[str, list[str]] = {
+    "pip-build-core": [
+        "python",
+        "python3",
+        "pip",
+        "pip3",
+        "make",
+        "cmake",
+        "ctest",
+        "cpack",
+        "ninja",
+        "pkg-config",
+        "pkgconf",
+        "pybind11-config",
+        "openssl",
+        "xmllint",
+        "xmlcatalog",
+        "xsltproc",
+    ],
+    "pip-build-rust": ["rustc", "cargo", "rustdoc", "uv"],
+    "native-libs-scientific": [
+        "gsl-config",
+        "h5cc",
+        "h5dump",
+        "h5ls",
+        "ncdump",
+        "ncgen",
+        "fftw-wisdom",
+        "qhull",
+        "rbox",
+        "qconvex",
+        "qdelaunay",
+        "qvoronoi",
+    ],
+    "native-libs-data": [
+        "duckdb",
+        "sqlite3",
+        "zstd",
+        "unzstd",
+        "zstdcat",
+        "xmlcatalog",
+        "xmllint",
+        "xsltproc",
+    ],
+    "native-libs-image": [
+        "fc-cache",
+        "fc-list",
+        "fc-match",
+        "freetype-config",
+        "cjpeg",
+        "djpeg",
+        "jpegtran",
+        "pngfix",
+        "tiffinfo",
+        "tiffcp",
+        "cwebp",
+        "dwebp",
+        "img2webp",
+        "webpinfo",
+        "webpmux",
+        "opj_compress",
+        "opj_decompress",
+    ],
+    "native-libs-visualize": ["fc-cache", "fc-list", "fc-match", "freetype-config", "qhull"],
+    "native-libs-markup": [
+        "xmllint",
+        "xmlcatalog",
+        "xsltproc",
+        "xmlsec1",
+        "tidy",
+        "hxclean",
+        "hxcopy",
+        "hxextract",
+        "hxnormalize",
+        "hxpipe",
+        "hxselect",
+        "hxtoc",
+    ],
+    "native-libs-crypto-network": [
+        "openssl",
+        "curl",
+        "protoc",
+        "grpc_cpp_plugin",
+        "kinit",
+        "klist",
+        "kdestroy",
+        "kvno",
+    ],
+    "native-libs-media": [
+        "flac",
+        "metaflac",
+        "opusdec",
+        "opusenc",
+        "opusinfo",
+        "cwebp",
+        "dwebp",
+        "jpegtran",
+        "cjpeg",
+        "djpeg",
+        "taglib-config",
+    ],
+    "prebuilt-python-scientific": ["python", "python3", "pip", "pip3"],
+    "prebuilt-python-data": ["python", "python3", "pip", "pip3"],
+    "prebuilt-python-image": ["python", "python3", "pip", "pip3"],
+    "prebuilt-python-visualize": ["python", "python3", "pip", "pip3"],
+    "prebuilt-python-markup": ["python", "python3", "pip", "pip3"],
+    "prebuilt-python-crypto-network": ["python", "python3", "pip", "pip3"],
+    "prebuilt-python-media": ["python", "python3", "pip", "pip3", "ffmpeg", "ffprobe"],
+    "prebuilt-python-ai-ml": ["python", "python3", "pip", "pip3"],
+}
+
 CORE_PROFILES: dict[str, dict[str, Any]] = {
     "python": {
         "group": "runtime",
         "title": "Python / Pip",
         "description": "CPython runtime, pip, and their Termux dependencies.",
         "packages": ["python", "python-pip"],
+        "commands": [
+            "python",
+            "python3",
+            "python-config",
+            "python3-config",
+            "pip",
+            "pip3",
+            "pydoc",
+            "pydoc3",
+            "idle",
+            "idle3",
+            "py3compile",
+            "py3clean",
+            "openssl",
+            "sqlite3",
+            "xz",
+            "unxz",
+            "xzcat",
+            "lzma",
+            "unlzma",
+        ],
         "primary_repo": "vg188/pystudio-python-toolchain",
         "secondary_repo": "vg188/pystudio-python-toolchain",
         "primary_release_repo": "vg188/pystudio-python-toolchain",
@@ -52,6 +185,7 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
         "title": "Node.js / npm",
         "description": "Node.js runtime and npm package manager.",
         "packages": ["nodejs", "npm"],
+        "commands": ["node", "npm", "npx"],
         "primary_repo": "vg188/pystudio-nodejs-toolchain",
         "secondary_repo": "vg188/pystudio-nodejs-toolchain",
         "primary_release_repo": "vg188/pystudio-nodejs-toolchain",
@@ -88,6 +222,35 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
             "zlib",
             "libffi",
             "libsqlite",
+        ],
+        "commands": [
+            "node",
+            "npm",
+            "npx",
+            "python",
+            "python3",
+            "pip",
+            "pip3",
+            "cc",
+            "c++",
+            "clang",
+            "clang++",
+            "ar",
+            "as",
+            "ld",
+            "lld",
+            "llvm-ar",
+            "llvm-ranlib",
+            "make",
+            "cmake",
+            "ctest",
+            "cpack",
+            "ninja",
+            "pkg-config",
+            "pkgconf",
+            "openssl",
+            "sqlite3",
+            "xz",
         ],
         "primary_repo": "vg188/pystudio-node-build-core-toolchain",
         "secondary_repo": "vg188/pystudio-node-build-core-toolchain",
@@ -131,6 +294,7 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
             "tree-sitter-xml",
             "tree-sitter-yaml",
         ],
+        "commands": ["tree-sitter"],
         "primary_repo": "vg188/pystudio-tree-sitter-toolchain",
         "secondary_repo": "vg188/pystudio-tree-sitter-toolchain",
         "primary_release_repo": "vg188/pystudio-tree-sitter-toolchain",
@@ -149,6 +313,30 @@ CORE_PROFILES: dict[str, dict[str, Any]] = {
         "title": "C/C++ Toolchain",
         "description": "Compiler, sysroot, CMake, Ninja, Make, and pkg-config.",
         "packages": ["libllvm", "ndk-sysroot", "make", "cmake", "ninja", "pkg-config"],
+        "commands": [
+            "cc",
+            "c++",
+            "clang",
+            "clang++",
+            "cpp",
+            "ar",
+            "as",
+            "ld",
+            "lld",
+            "llvm-ar",
+            "llvm-ranlib",
+            "strip",
+            "readelf",
+            "objdump",
+            "nm",
+            "make",
+            "cmake",
+            "ctest",
+            "cpack",
+            "ninja",
+            "pkg-config",
+            "pkgconf",
+        ],
         "primary_repo": "vg188/pystudio-cpp-toolchain",
         "secondary_repo": "vg188/pystudio-cpp-toolchain",
         "primary_release_repo": "vg188/pystudio-cpp-toolchain",
@@ -280,6 +468,39 @@ def profile_index(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {profile["id"]: profile for profile in profiles}
 
 
+def unique_strings(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        value = value.strip()
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result
+
+
+def command_names_from_verify(verify_commands: list[str]) -> list[str]:
+    commands: list[str] = []
+    for command in verify_commands:
+        try:
+            parts = shlex.split(command)
+        except ValueError:
+            parts = command.split()
+        if parts:
+            commands.append(Path(parts[0]).name)
+    return unique_strings(commands)
+
+
+def profile_commands(profile_id: str, metadata: dict[str, Any]) -> list[str]:
+    explicit = metadata.get("commands")
+    if isinstance(explicit, list):
+        return unique_strings([str(command) for command in explicit])
+    if profile_id in EXTENSION_PROFILE_COMMANDS:
+        return EXTENSION_PROFILE_COMMANDS[profile_id]
+    return command_names_from_verify(metadata.get("verifyCommands", []))
+
+
 def ordered_profiles(manifest: dict[str, Any], order: list[str]) -> None:
     profiles = manifest.get("profiles", [])
     rank = {profile_id: index for index, profile_id in enumerate(order)}
@@ -311,6 +532,7 @@ def upsert_core_profile(manifest: dict[str, Any], profile_id: str, config: dict[
             "title": config["title"],
             "description": config["description"],
             "packages": config["packages"],
+            "commands": profile_commands(profile_id, config),
             "source": {
                 "repository": f"https://github.com/{release_repo}",
             },
@@ -419,6 +641,7 @@ def upsert_extension_profiles(
                 "title": meta.get("title", profile_id),
                 "description": meta.get("description", ""),
                 "packages": packages,
+                "commands": profile_commands(profile_id, meta),
                 "source": {"repository": f"https://github.com/{EXTENSIONS_REPO}"},
                 "release": {"tag": release["tag_name"]},
                 "architectures": {**entry.get("architectures", {}), **arch_map},
