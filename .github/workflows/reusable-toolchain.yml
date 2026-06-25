@@ -160,7 +160,13 @@ jobs:
 
       - name: Enable swap
         shell: bash
-        run: bash orchestrator/scripts/ci/enable-swap.sh 16G
+        run: |
+          set -euo pipefail
+          swap_size=16G
+          if [[ "${{ matrix.profile }}" == "cpp-lsp" && "${{ matrix.arch }}" == "aarch64" ]]; then
+            swap_size=4G
+          fi
+          bash orchestrator/scripts/ci/enable-swap.sh "$swap_size"
 
       - name: Build toolchain packages
         shell: bash
