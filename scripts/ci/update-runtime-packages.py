@@ -958,10 +958,18 @@ def upsert_extension_profiles(
     token: str,
     extension_tag: str = "",
 ) -> None:
+    extension_tag_prefix = "pystudio-python-extensions-r"
+    if extension_tag and not extension_tag.startswith(extension_tag_prefix):
+        print(
+            "Warning: ignoring extension tag "
+            f"{extension_tag!r}; expected prefix {extension_tag_prefix!r}."
+        )
+        extension_tag = ""
+
     metadata = fetch_json(EXTENSIONS_METADATA_URL, token)
     release = latest_release(
         EXTENSIONS_REPO,
-        "pystudio-python-extensions-r",
+        extension_tag_prefix,
         token,
         explicit_tag=extension_tag,
     )
