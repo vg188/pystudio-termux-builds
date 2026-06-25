@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-06-24",
+  "generatedAt": "2026-06-25",
   "packageName": "com.vchangxiao.pystudio",
   "architectures": [
     "aarch64",
@@ -907,6 +907,310 @@
             "downloadUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-r4/SHA256SUMS-x86_64.txt",
             "size": 5988,
             "sha256": "b3090ed1fbc09a7e7c762fac16559b2c415c89740b2c331f98918a9631a4b5b9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "python-lsp",
+      "type": "package-set",
+      "group": "editor-extension",
+      "profile": "python-lsp",
+      "title": "Python LSP",
+      "description": "Pyright language server and Ruff linter/formatter for Python editing.",
+      "packages": [
+        "python",
+        "python-pip",
+        "nodejs",
+        "pyright",
+        "ruff",
+        "python-ruff"
+      ],
+      "commands": [
+        "python",
+        "python3",
+        "pip",
+        "pip3",
+        "node",
+        "pyright",
+        "pyright-langserver",
+        "ruff"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r18"
+      },
+      "install": {
+        "mode": "install-apt-repository",
+        "command": "pystudio-install-python-lsp",
+        "verifyCommands": [
+          "pyright --version",
+          "ruff --version"
+        ]
+      },
+      "availableArchitectures": [
+        "aarch64",
+        "arm",
+        "i686",
+        "x86_64"
+      ],
+      "artifacts": {
+        "aarch64": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-python-lsp-toolchain-primary-repo-aarch64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-repo-aarch64.tar.gz",
+            "size": 88444516,
+            "sha256": "7259e8de6e3ef1da697081fb450fe051ca42220b6afefee7871ac4af1b6b94b4"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-python-lsp-toolchain-primary-debs-aarch64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-debs-aarch64.tar.gz",
+            "size": 88404175,
+            "sha256": "85a903ca2b905a996fa57f54720f11a2531506428df2ef9dce1eaf1036158d97"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-aarch64.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/SHA256SUMS-aarch64.txt",
+            "size": 18258,
+            "sha256": "2bb0c19f54b9e4b6ce263922ac729873fd977f660210ef21777d4e0d81dc8229"
+          }
+        ],
+        "arm": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-python-lsp-toolchain-primary-repo-arm.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-repo-arm.tar.gz",
+            "size": 83249773,
+            "sha256": "13e76775c68d159c57d4bfc9e284acc661736840aadaffbc8e5d30fa357b427c"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-python-lsp-toolchain-primary-debs-arm.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-debs-arm.tar.gz",
+            "size": 83210700,
+            "sha256": "3d1e75d03d0154c9c94bd54a8da7a7620fbe4859729e44c92202c76a844d075a"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-arm.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/SHA256SUMS-arm.txt",
+            "size": 17342,
+            "sha256": "5f3e5122c2a389d467297851a675f0c01223d8600a88bc7b5b3e0d451402f527"
+          }
+        ],
+        "i686": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-python-lsp-toolchain-primary-repo-i686.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-repo-i686.tar.gz",
+            "size": 92079468,
+            "sha256": "16830575a10fbdc9eb702a3252767f45446edfe0513238db4a7cb99f2a47860d"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-python-lsp-toolchain-primary-debs-i686.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-debs-i686.tar.gz",
+            "size": 92040736,
+            "sha256": "a47d32fd294f0c033c555b3dc1773f93b87fc62953171ac2c54e142009db806e"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-i686.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/SHA256SUMS-i686.txt",
+            "size": 17571,
+            "sha256": "67de2c2d1c9b90f8d5bc503fb6f93cc0be1f0106fb9c68823dbfe67d0f0cbb20"
+          }
+        ],
+        "x86_64": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-python-lsp-toolchain-primary-repo-x86_64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-repo-x86_64.tar.gz",
+            "size": 90537866,
+            "sha256": "7630a7805fb0df3e520fcebdfae8b1781d79b3822472b4656386aa2eb63525cc"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-python-lsp-toolchain-primary-debs-x86_64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-debs-x86_64.tar.gz",
+            "size": 90499407,
+            "sha256": "69623bcc82f6d12fef024e45c56d8700fc2c2ef707975c06ccdbd55e8a9a7ada"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-x86_64.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/SHA256SUMS-x86_64.txt",
+            "size": 18029,
+            "sha256": "ea12403a95c9abf477aa50d1cb9bb5721996633ee7b49853ebbb1b04f3e7629e"
+          }
+        ]
+      }
+    },
+    {
+      "id": "debug-tools",
+      "type": "package-set",
+      "group": "debug-toolchain",
+      "profile": "debug-tools",
+      "title": "Debug Tools",
+      "description": "debugpy plus LLDB and lldb-server for Python and native debugging.",
+      "packages": [
+        "python",
+        "python-pip",
+        "debugpy",
+        "libllvm",
+        "lldb"
+      ],
+      "commands": [
+        "python",
+        "python3",
+        "debugpy",
+        "debugpy-adapter",
+        "lldb",
+        "lldb-server"
+      ],
+      "source": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r14"
+      },
+      "install": {
+        "mode": "install-apt-repository",
+        "command": "pystudio-install-debug-tools",
+        "verifyCommands": [
+          "python -m debugpy --version",
+          "lldb --version",
+          "lldb-server --help"
+        ]
+      },
+      "availableArchitectures": [
+        "aarch64",
+        "arm",
+        "i686",
+        "x86_64"
+      ],
+      "artifacts": {
+        "aarch64": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-debug-tools-toolchain-primary-repo-aarch64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-repo-aarch64.tar.gz",
+            "size": 281433527,
+            "sha256": "2011e9ce73a64e4483f93a77c65091f6a47469b38ae53b4f2dd1a3626764d8e0"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-debug-tools-toolchain-primary-debs-aarch64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-debs-aarch64.tar.gz",
+            "size": 281384770,
+            "sha256": "f6117394bbec147756f2378369c9472706925190a4eac6dc9dcac4f3d8770aa1"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-aarch64.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/SHA256SUMS-aarch64.txt",
+            "size": 22916,
+            "sha256": "294101a280dba4282e22594b32c09f52ca40be683ed48f99e6545f8669edf692"
+          }
+        ],
+        "arm": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-debug-tools-toolchain-primary-repo-arm.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-repo-arm.tar.gz",
+            "size": 294195052,
+            "sha256": "a7a53a2bd95a5ee03f82ff55cf19400e1110743651621903ead0c537573be120"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-debug-tools-toolchain-primary-debs-arm.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-debs-arm.tar.gz",
+            "size": 294147492,
+            "sha256": "7037fd15235129e291b4541b78b9ec2a746fce16a6aaa4dd9b010ae2bcf9e2c3"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-arm.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/SHA256SUMS-arm.txt",
+            "size": 21760,
+            "sha256": "8e2d20e408c9b5e1006d01876bc7d8b7ca96ebb0701724b9b387ba8396ce28e1"
+          }
+        ],
+        "i686": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-debug-tools-toolchain-primary-repo-i686.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-repo-i686.tar.gz",
+            "size": 306305381,
+            "sha256": "8f02e7740012b286c13b9faf656cc4d71887af770af67e0b090695b93fe94d92"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-debug-tools-toolchain-primary-debs-i686.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-debs-i686.tar.gz",
+            "size": 306255502,
+            "sha256": "6298809f61fb2f5259ea158e97c4e8c01edf5dec488f4708dd6539061a0ec676"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-i686.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/SHA256SUMS-i686.txt",
+            "size": 22049,
+            "sha256": "ae0a4072a9460fc5df7e069e04c022f589831d3f56fbacb894a50a872d5d8023"
+          }
+        ],
+        "x86_64": [
+          {
+            "role": "apt-repository",
+            "fileName": "pystudio-debug-tools-toolchain-primary-repo-x86_64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-repo-x86_64.tar.gz",
+            "size": 297177320,
+            "sha256": "cfb2f8b0bfb4ce27548d52711d5ec917c4cff0b9935376cc66e5ba0242c6055d"
+          },
+          {
+            "role": "debian-packages",
+            "fileName": "pystudio-debug-tools-toolchain-primary-debs-x86_64.tar.gz",
+            "format": "tar.gz",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-debs-x86_64.tar.gz",
+            "size": 297130370,
+            "sha256": "f9f519c7e31a61c710ec26ac618a956cad1ab959953d9eb711ebf948a86cf546"
+          },
+          {
+            "role": "checksums",
+            "fileName": "SHA256SUMS-x86_64.txt",
+            "format": "txt",
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/SHA256SUMS-x86_64.txt",
+            "size": 22627,
+            "sha256": "8fdab13c7c9dfb9e93f54b0a6c36f6d37c0b5d41bd86ca60dbfc359de082506c"
           }
         ]
       }
