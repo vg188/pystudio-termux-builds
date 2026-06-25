@@ -76,13 +76,19 @@ def modelscope_file_url(
 
 def remote_file_exists(url: str) -> bool:
     request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "pystudio-modelscope-relay"})
-    try:
-        with urllib.request.urlopen(request, timeout=60) as response:
-            return 200 <= response.status < 400
-    except urllib.error.HTTPError as exc:
-        if exc.code == 404:
-            return False
-        raise
+    for attempt in range(1, 4):
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                return 200 <= response.status < 400
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                return False
+            if attempt == 3:
+                raise
+        except urllib.error.URLError:
+            if attempt == 3:
+                raise
+        time.sleep(attempt * 2)
 
 
 def run_modelscope_command(command: list[str], token: str) -> None:
@@ -143,7 +149,20 @@ def upload_asset(
         "--commit-message",
         f"upload {local_file.name}",
     ]
-    run_modelscope_command(command, token)
+    for attempt in range(1, args.upload_retries + 1):
+        try:
+            run_modelscope_command(command, token)
+            break
+        except RuntimeError as exc:
+            if not force and remote_file_exists(url):
+                print(f"Remote asset exists after upload failure, continuing: {path_in_repo}")
+                break
+            if attempt == args.upload_retries:
+                raise
+            delay = min(60, attempt * 10)
+            print(f"Warning: upload attempt {attempt} failed for {path_in_repo}: {exc}")
+            print(f"Retrying ModelScope upload in {delay}s...")
+            time.sleep(delay)
     elapsed = max(time.monotonic() - started, 0.001)
     print(
         f"Uploaded to ModelScope: {path_in_repo} "
@@ -266,6 +285,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--create-repo", action="store_true", default=True)
     parser.add_argument("--no-create-repo", action="store_false", dest="create_repo")
     parser.add_argument("--download-retries", type=int, default=5)
+    parser.add_argument("--upload-retries", type=int, default=5)
     parser.add_argument("--progress-interval", type=float, default=0.5)
     parser.add_argument("--modelscope-token", default="")
     parser.add_argument("--github-token", default="")
