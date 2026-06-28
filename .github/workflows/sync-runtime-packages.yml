@@ -8,12 +8,12 @@ on:
         required: false
         default: ""
       sync_modelscope:
-        description: "Upload app-facing assets and manifest to ModelScope."
+        description: "Upload app-facing assets and manifest to ModelScope. Disabled by default; GitHub Releases are the primary source."
         required: false
         type: boolean
-        default: true
+        default: false
       update_gitee:
-        description: "Push ModelScope-backed runtime-packages.json to Gitee."
+        description: "Push runtime-packages.json to Gitee. By default it keeps GitHub release download URLs."
         required: false
         type: boolean
         default: true
@@ -48,7 +48,7 @@ jobs:
       SOURCE_REPOSITORY: ${{ github.event.client_payload.source_repository || '' }}
       PAYLOAD_RELEASE_TAG: ${{ github.event.client_payload.release_tag || '' }}
       INPUT_EXTENSION_TAG: ${{ github.event.inputs.extension_tag || '' }}
-      SYNC_MODELSCOPE: ${{ github.event.inputs.sync_modelscope || 'true' }}
+      SYNC_MODELSCOPE: ${{ github.event.inputs.sync_modelscope || 'false' }}
       UPDATE_GITEE: ${{ github.event.inputs.update_gitee || 'true' }}
       GITEE_OWNER: ${{ github.event.inputs.gitee_owner || 'yourba' }}
       GITEE_REPO: ${{ github.event.inputs.gitee_repo || 'pystudio-termux-builds' }}
@@ -121,13 +121,12 @@ jobs:
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
-      - name: Push ModelScope manifest to Gitee
-        if: ${{ env.UPDATE_GITEE == 'true' && env.SYNC_MODELSCOPE == 'true' }}
+      - name: Push runtime manifest to Gitee
+        if: ${{ env.UPDATE_GITEE == 'true' }}
         shell: bash
         run: |
           set -euo pipefail
           test -n "$GITEE_TOKEN"
-          test -f work/gitee-relay/manifest/runtime-packages-modelscope.json
 
           rm -rf gitee-repo
           git clone "https://${GITEE_OWNER}:${GITEE_TOKEN}@gitee.com/${GITEE_OWNER}/${GITEE_REPO}.git" gitee-repo
@@ -139,7 +138,12 @@ jobs:
             git checkout -B "$GITEE_BRANCH"
           fi
 
-          cp ../work/gitee-relay/manifest/runtime-packages-modelscope.json runtime-packages.json
+          source_manifest="../runtime-packages.json"
+          if [[ "$SYNC_MODELSCOPE" == "true" && -f ../work/gitee-relay/manifest/runtime-packages-modelscope.json ]]; then
+            source_manifest="../work/gitee-relay/manifest/runtime-packages-modelscope.json"
+          fi
+
+          cp "$source_manifest" runtime-packages.json
           git add runtime-packages.json
           if git diff --cached --quiet; then
             echo "No Gitee manifest changes to commit."

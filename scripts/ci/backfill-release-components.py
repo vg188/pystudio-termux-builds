@@ -224,10 +224,6 @@ def backfill_deb_bundle_asset(
 
     assets = release.get("assets", [])
     asset_map = {asset["name"]: asset for asset in assets}
-    asset = asset_map.get(asset_name)
-    if not asset:
-        print(f"Missing release asset, skipping: {release['tag_name']}/{asset_name}")
-        return False
 
     artifact_prefix, arch = info
     existing_assets = set(asset_map)
@@ -235,6 +231,11 @@ def backfill_deb_bundle_asset(
     if index_name in existing_assets and not args.force_upload:
         print(f"Component index exists, skipping bundle: {asset_name}")
         return False
+
+    source_asset_names = [asset_name]
+    repo_fallback_asset = f"{artifact_prefix}-repo-{arch}.tar.gz"
+    if repo_fallback_asset in asset_map:
+        source_asset_names.append(repo_fallback_asset)
 
     repo_part = safe_part(args.repo)
     tag = release["tag_name"]
@@ -246,19 +247,36 @@ def backfill_deb_bundle_asset(
     shutil.rmtree(work_dir, ignore_errors=True)
     work_dir.mkdir(parents=True, exist_ok=True)
 
-    for attempt in range(1, 4):
-        print(f"Downloading {args.repo}/{tag}/{asset_name}")
-        download(token, str(asset["browser_download_url"]), archive_path)
-        shutil.rmtree(extract_dir, ignore_errors=True)
-        try:
-            safe_extract_tar(archive_path, extract_dir)
+    last_extract_error: Exception | None = None
+    for source_asset_name in source_asset_names:
+        asset = asset_map.get(source_asset_name)
+        if not asset:
+            print(f"Missing release asset, skipping source: {tag}/{source_asset_name}")
+            continue
+        archive_path = work_dir / source_asset_name
+        for attempt in range(1, 4):
+            print(f"Downloading {args.repo}/{tag}/{source_asset_name}")
+            download(token, str(asset["browser_download_url"]), archive_path)
+            shutil.rmtree(extract_dir, ignore_errors=True)
+            try:
+                safe_extract_tar(archive_path, extract_dir)
+                last_extract_error = None
+                break
+            except (EOFError, tarfile.TarError, OSError) as exc:
+                last_extract_error = exc
+                if attempt == 3:
+                    break
+                print(f"Warning: extract attempt {attempt} failed for {source_asset_name}: {exc}")
+                archive_path.unlink(missing_ok=True)
+                time.sleep(attempt * 5)
+        if last_extract_error is None and extract_dir.exists():
+            if source_asset_name != asset_name:
+                print(f"Using fallback source asset for {asset_name}: {source_asset_name}")
             break
-        except (EOFError, tarfile.TarError, OSError) as exc:
-            if attempt == 3:
-                raise
-            print(f"Warning: extract attempt {attempt} failed for {asset_name}: {exc}")
-            archive_path.unlink(missing_ok=True)
-            time.sleep(attempt * 5)
+
+    if last_extract_error is not None:
+        raise last_extract_error
+
     debs = find_debs(extract_dir)
     if not debs:
         print(f"No debs found in {asset_name}, skipping.")
