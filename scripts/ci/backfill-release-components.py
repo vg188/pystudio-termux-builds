@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -14,7 +15,8 @@ import urllib.parse
 import urllib.request
 from typing import Any
 
-from component_index import build_component_index, find_debs, safe_extract_tar, write_component_index
+from component_index import find_debs, safe_extract_tar
+from package_repo import build_package_repo
 
 
 GITHUB_API = "https://api.github.com"
@@ -26,7 +28,7 @@ def headers(token: str, extra: dict[str, str] | None = None) -> dict[str, str]:
     result = {
         "Accept": "application/vnd.github+json",
         "Authorization": f"Bearer {token}",
-        "User-Agent": "pystudio-component-backfill",
+        "User-Agent": "pystudio-package-repo-backfill",
         "X-GitHub-Api-Version": "2022-11-28",
     }
     if extra:
@@ -44,6 +46,19 @@ def request_json(token: str, method: str, url: str, payload: dict[str, Any] | No
             with urllib.request.urlopen(request, timeout=120) as response:
                 body = response.read().decode("utf-8")
                 return json.loads(body) if body else {}
+        except urllib.error.URLError:
+            if attempt == 5:
+                raise
+            time.sleep(attempt * 3)
+
+
+def request_empty(token: str, method: str, url: str) -> None:
+    request = urllib.request.Request(url, method=method, headers=headers(token))
+    for attempt in range(1, 6):
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                response.read()
+            return
         except urllib.error.URLError:
             if attempt == 5:
                 raise
@@ -82,18 +97,29 @@ def download(token: str, url: str, destination: Path) -> None:
             time.sleep(attempt * 5)
 
 
+def delete_asset(token: str, repo: str, asset: dict[str, Any]) -> None:
+    owner_repo = urllib.parse.quote(repo, safe="/")
+    asset_id = int(asset["id"])
+    request_empty(token, "DELETE", f"{GITHUB_API}/repos/{owner_repo}/releases/assets/{asset_id}")
+    print(f"Deleted loose component asset: {asset['name']}")
+
+
 def upload_asset(
     token: str,
     repo: str,
     release_id: int,
-    existing_assets: set[str],
+    asset_map: dict[str, dict[str, Any]],
     path: Path,
     name: str,
     force: bool,
 ) -> None:
-    if name in existing_assets and not force:
+    existing = asset_map.get(name)
+    if existing and not force:
         print(f"Asset exists, skipping: {name}")
         return
+    if existing and force:
+        delete_asset(token, repo, existing)
+        asset_map.pop(name, None)
 
     owner_repo = urllib.parse.quote(repo, safe="/")
     query = urllib.parse.urlencode({"name": name})
@@ -112,15 +138,14 @@ def upload_asset(
     )
     for attempt in range(1, 6):
         try:
-            with urllib.request.urlopen(request, timeout=300) as response:
-                response.read()
-            existing_assets.add(name)
-            print(f"Uploaded component asset: {name}")
+            with urllib.request.urlopen(request, timeout=600) as response:
+                uploaded = json.loads(response.read().decode("utf-8"))
+            asset_map[name] = uploaded
+            print(f"Uploaded package repository asset: {name}")
             return
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode("utf-8", errors="replace")
             if exc.code == 422 and "already_exists" in detail and not force:
-                existing_assets.add(name)
                 print(f"Asset exists after upload race, skipping: {name}")
                 return
             if attempt == 5:
@@ -135,11 +160,7 @@ def release_pages(token: str, repo: str) -> list[dict[str, Any]]:
     releases: list[dict[str, Any]] = []
     page = 1
     while True:
-        batch = request_json(
-            token,
-            "GET",
-            f"{GITHUB_API}/repos/{repo}/releases?per_page=100&page={page}",
-        )
+        batch = request_json(token, "GET", f"{GITHUB_API}/repos/{repo}/releases?per_page=100&page={page}")
         if not batch:
             return releases
         releases.extend(batch)
@@ -160,7 +181,7 @@ def repo_slug_from_url(value: str) -> str:
 
 
 def safe_part(value: str) -> str:
-    return re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("._") or "asset"
+    return re.sub(r"[^A-Za-z0-9_.+-]+", "-", value).strip(".-") or "asset"
 
 
 def selected_releases(args: argparse.Namespace, token: str) -> list[dict[str, Any]]:
@@ -188,6 +209,13 @@ def deb_bundle_info(asset_name: str) -> tuple[str, str] | None:
     return None
 
 
+def version_from_release_tag(tag: str) -> str:
+    match = re.search(r"(r\d+)$", tag)
+    if match:
+        return match.group(1)
+    return safe_part(tag)
+
+
 def profile_from_artifact_prefix(artifact_prefix: str) -> str:
     profile = artifact_prefix
     for prefix in ("pystudio-python-extensions-", "pystudio-"):
@@ -209,6 +237,39 @@ def source_from_artifact_prefix(artifact_prefix: str) -> str:
     return "primary"
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def write_archive(repo_dir: Path, archive_path: Path) -> None:
+    archive_path.unlink(missing_ok=True)
+    with tarfile.open(archive_path, "w:gz") as archive:
+        for path in sorted(repo_dir.rglob("*")):
+            archive.add(path, arcname=path.relative_to(repo_dir).as_posix())
+
+
+def cleanup_loose_component_assets(
+    token: str,
+    repo: str,
+    asset_map: dict[str, dict[str, Any]],
+    artifact_prefix: str,
+    arch: str,
+) -> None:
+    names = [
+        name
+        for name in asset_map
+        if name == f"{artifact_prefix}-component-index-{arch}.json"
+        or (name.startswith(f"{artifact_prefix}-component-{arch}-") and name.endswith(".deb"))
+    ]
+    for name in sorted(names):
+        delete_asset(token, repo, asset_map[name])
+        asset_map.pop(name, None)
+
+
 def backfill_deb_bundle_asset(
     args: argparse.Namespace,
     token: str,
@@ -222,14 +283,19 @@ def backfill_deb_bundle_asset(
         print(f"Skipping non-deb bundle asset: {asset_name}")
         return False
 
-    assets = release.get("assets", [])
-    asset_map = {asset["name"]: asset for asset in assets}
-
+    asset_map = {asset["name"]: asset for asset in release.get("assets", [])}
     artifact_prefix, arch = info
-    existing_assets = set(asset_map)
-    index_name = f"{artifact_prefix}-component-index-{arch}.json"
-    if index_name in existing_assets and not args.force_upload:
-        print(f"Component index exists, skipping bundle: {asset_name}")
+    tag = str(release["tag_name"])
+    version = version_from_release_tag(tag)
+    repo_slug = f"{artifact_prefix}-apt-repo-v1-{arch}-{version}"
+    archive_name = f"{repo_slug}.tar.gz"
+    checksum_name = f"{archive_name}.sha256"
+    metadata_name = f"{repo_slug}.json"
+
+    if archive_name in asset_map and not args.force_upload:
+        print(f"Package repo snapshot exists, skipping bundle: {archive_name}")
+        if args.cleanup_loose_components:
+            cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
         return False
 
     source_asset_names = [asset_name]
@@ -238,12 +304,12 @@ def backfill_deb_bundle_asset(
         source_asset_names.append(repo_fallback_asset)
 
     repo_part = safe_part(args.repo)
-    tag = release["tag_name"]
     work_dir = args.work_dir / repo_part / tag / artifact_prefix / arch
-    archive_path = work_dir / asset_name
     extract_dir = work_dir / "extract"
-    components_dir = work_dir / "components"
-    index_path = work_dir / index_name
+    repo_dir = work_dir / repo_slug
+    metadata_path = work_dir / metadata_name
+    archive_path = work_dir / archive_name
+    checksum_path = work_dir / checksum_name
     shutil.rmtree(work_dir, ignore_errors=True)
     work_dir.mkdir(parents=True, exist_ok=True)
 
@@ -253,13 +319,13 @@ def backfill_deb_bundle_asset(
         if not asset:
             print(f"Missing release asset, skipping source: {tag}/{source_asset_name}")
             continue
-        archive_path = work_dir / source_asset_name
+        archive_source_path = work_dir / source_asset_name
         for attempt in range(1, 4):
             print(f"Downloading {args.repo}/{tag}/{source_asset_name}")
-            download(token, str(asset["browser_download_url"]), archive_path)
+            download(token, str(asset["browser_download_url"]), archive_source_path)
             shutil.rmtree(extract_dir, ignore_errors=True)
             try:
-                safe_extract_tar(archive_path, extract_dir)
+                safe_extract_tar(archive_source_path, extract_dir)
                 last_extract_error = None
                 break
             except (EOFError, tarfile.TarError, OSError) as exc:
@@ -267,7 +333,7 @@ def backfill_deb_bundle_asset(
                 if attempt == 3:
                     break
                 print(f"Warning: extract attempt {attempt} failed for {source_asset_name}: {exc}")
-                archive_path.unlink(missing_ok=True)
+                archive_source_path.unlink(missing_ok=True)
                 time.sleep(attempt * 5)
         if last_extract_error is None and extract_dir.exists():
             if source_asset_name != asset_name:
@@ -282,28 +348,25 @@ def backfill_deb_bundle_asset(
         print(f"No debs found in {asset_name}, skipping.")
         return False
 
-    index = build_component_index(
+    metadata = build_package_repo(
         debs=debs,
-        components_dir=components_dir,
+        repo_dir=repo_dir,
         artifact_prefix=artifact_prefix,
         profile=profile or profile_from_artifact_prefix(artifact_prefix),
         source=source or source_from_artifact_prefix(artifact_prefix),
         arch=arch,
+        version=version,
     )
-    write_component_index(index, index_path)
+    metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_archive(repo_dir, archive_path)
+    digest = sha256_file(archive_path)
+    checksum_path.write_text(f"{digest}  {archive_name}\n", encoding="utf-8")
 
-    for component in index["packages"]:
-        component_path = components_dir / component["assetName"]
-        upload_asset(
-            token,
-            args.repo,
-            int(release["id"]),
-            existing_assets,
-            component_path,
-            component["assetName"],
-            args.force_upload,
-        )
-    upload_asset(token, args.repo, int(release["id"]), existing_assets, index_path, index_name, args.force_upload)
+    upload_asset(token, args.repo, int(release["id"]), asset_map, archive_path, archive_name, args.force_upload)
+    upload_asset(token, args.repo, int(release["id"]), asset_map, checksum_path, checksum_name, args.force_upload)
+    upload_asset(token, args.repo, int(release["id"]), asset_map, metadata_path, metadata_name, args.force_upload)
+    if args.cleanup_loose_components:
+        cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
     return True
 
 
@@ -347,29 +410,32 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
                 asset_name = entry.get("debianPackageAssets", {}).get(arch)
                 if not asset_name:
                     continue
+                artifact_prefix = str(asset_name).rsplit(f"-debs-{arch}.tar.gz", 1)[0]
                 if backfill_deb_bundle_asset(
                     args,
                     token,
                     release,
                     str(asset_name),
                     profile=str(entry.get("profile") or entry.get("id") or ""),
-                    source=source_from_artifact_prefix(str(asset_name).rsplit(f"-debs-{arch}.tar.gz", 1)[0]),
+                    source=source_from_artifact_prefix(artifact_prefix),
                 ):
                     uploaded += 1
         finally:
             args.repo = original_repo
 
-    print(f"Migration plan backfill complete: processed {uploaded} deb bundles.")
+    print(f"Migration plan backfill complete: processed {uploaded} package repositories.")
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Backfill component .deb assets into existing releases.")
+    parser = argparse.ArgumentParser(description="Backfill apt-style package repository snapshots into releases.")
     parser.add_argument("--repo", default="vg188/pystudio-termux-builds")
     parser.add_argument("--tag-prefix", default="")
     parser.add_argument("--tags", default="", help="Comma-separated release tags to process. Defaults to all matching.")
     parser.add_argument("--max-releases", type=int, default=0)
-    parser.add_argument("--work-dir", type=Path, default=Path("work/component-backfill"))
+    parser.add_argument("--work-dir", type=Path, default=Path("work/package-repo-backfill"))
     parser.add_argument("--force-upload", action="store_true")
+    parser.add_argument("--cleanup-loose-components", action="store_true", default=True)
+    parser.add_argument("--no-cleanup-loose-components", action="store_false", dest="cleanup_loose_components")
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
     parser.add_argument("--migration-plan", type=Path, default=None)
     args = parser.parse_args()

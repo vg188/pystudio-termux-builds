@@ -40,11 +40,13 @@ jobs:
           from pathlib import Path
 
           manifest = json.loads(Path("runtime-packages.json").read_text(encoding="utf-8"))
-          assert manifest["schemaVersion"] == 4
+          assert manifest["schemaVersion"] == 5
           assert manifest["architectures"] == ["aarch64", "arm", "i686", "x86_64"]
           assert "entries" in manifest and isinstance(manifest["entries"], list)
-          assert "components" in manifest and isinstance(manifest["components"], dict)
-          assert "componentPackages" in manifest and isinstance(manifest["componentPackages"], dict)
+          assert "repositories" in manifest and isinstance(manifest["repositories"], dict)
+          assert manifest["packageManagement"]["mode"] == "apt-repository-v1"
+          assert "components" not in manifest
+          assert "componentPackages" not in manifest
           assert "items" not in manifest
 
           ids = set()
@@ -74,25 +76,27 @@ jobs:
                       for artifact in artifacts:
                           for key in ("role", "fileName", "format", "downloadUrl", "size"):
                               assert key in artifact, (entry["id"], arch, key)
-              elif entry["kind"] == "bundle":
-                  assert entry["install"]["mode"] == "install-components"
-                  assert sorted(entry["componentRefs"], key=manifest["architectures"].index) == entry["availableArchitectures"]
-                  for arch, refs in entry["componentRefs"].items():
+              elif entry["kind"] == "package-set":
+                  assert entry["install"]["mode"] == "install-from-package-repository"
+                  assert sorted(entry["repositoryRefs"], key=manifest["architectures"].index) == entry["availableArchitectures"]
+                  for arch, ref in entry["repositoryRefs"].items():
                       assert arch in manifest["architectures"]
-                      assert refs
-                      for ref in refs:
-                          assert ref in manifest["components"], (entry["id"], arch, ref)
+                      assert ref in manifest["repositories"], (entry["id"], arch, ref)
+                      assert manifest["repositories"][ref]["architecture"] == arch
               else:
                   raise AssertionError(entry["kind"])
 
-          for component_id, component in manifest["components"].items():
-              assert component["id"] == component_id
-              assert component["kind"] == "component"
-              assert component["format"] == "deb"
-              assert component["architecture"] in manifest["architectures"]
-              assert component_id in manifest["componentPackages"][component["architecture"]][component["package"]]
-              for key in ("package", "version", "dependencyNames", "commands", "release", "artifact"):
-                  assert key in component, (component_id, key)
+          for repo_id, repository in manifest["repositories"].items():
+              assert repository["id"] == repo_id
+              assert repository["kind"] == "apt-repository"
+              assert repository["format"] == "apt-repo-v1"
+              assert repository["architecture"] in manifest["architectures"]
+              assert repository["indexPath"].endswith("/Packages.xz")
+              for key in ("profile", "distribution", "component", "packageRoot", "version", "release", "snapshot", "mirrors"):
+                  assert key in repository, (repo_id, key)
+              snapshot = repository["snapshot"]
+              for key in ("role", "fileName", "format", "downloadUrl", "size"):
+                  assert key in snapshot, (repo_id, key)
           PY
 
       - name: Validate legacy migration plan

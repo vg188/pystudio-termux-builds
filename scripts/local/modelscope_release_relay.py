@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Mirror runtime package assets to a public ModelScope dataset repository.
+"""Mirror PyStudio apt-style package repositories to ModelScope.
 
-This tool is intended to run on a developer PC. It reuses the local asset
-cache used by the Gitee relay, uploads selected files to ModelScope, then
-generates a manifest whose app-facing package URLs point at ModelScope.
+The GitHub release remains the authority and stores compact repository
+snapshots. This relay downloads those snapshots, expands them into a
+Termux-style `dists/` + `pool/` tree, uploads that tree to ModelScope, and then
+uploads the same schema-5 runtime manifest for lightweight discovery.
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ import json
 import os
 import subprocess
 import sys
+import tarfile
 import time
 import urllib.error
 import urllib.parse
@@ -21,26 +23,19 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-from gitee_release_relay import (
+from transfer_utils import (
     download_asset,
     first_env_value,
     format_bytes,
-    gitee_release_url,
-    mirrored_filename,
     read_manifest,
-    rewrite_urls,
     safe_part,
-    source_urls_from_manifest,
 )
 
 
-DEFAULT_INCLUDE = (
-    r"("
-    r"-component-[^/]+\.deb|"
-    r"bootstrap[^/]*\.tar\.xz)$"
-)
 DEFAULT_REPO_ID = "yourba/pystudio-termux-builds"
 DEFAULT_ENDPOINT = "https://modelscope.cn"
+DEFAULT_REVISION = "master"
+DEFAULT_RESOLVE_BASE = f"https://modelscope.cn/datasets/{DEFAULT_REPO_ID}/resolve/{DEFAULT_REVISION}/"
 
 
 def windows_user_env(name: str) -> str:
@@ -67,12 +62,7 @@ def modelscope_token_from_env() -> str:
     )
 
 
-def modelscope_file_url(
-    repo_id: str,
-    path_in_repo: str,
-    revision: str,
-    endpoint: str,
-) -> str:
+def modelscope_file_url(repo_id: str, path_in_repo: str, revision: str, endpoint: str) -> str:
     owner, dataset = repo_id.split("/", 1)
     query = urllib.parse.urlencode({"Revision": revision, "FilePath": path_in_repo})
     return f"{endpoint.rstrip('/')}/api/v1/datasets/{owner}/{dataset}/repo?{query}"
@@ -93,6 +83,7 @@ def remote_file_exists(url: str) -> bool:
             if attempt == 3:
                 raise
         time.sleep(attempt * 2)
+    return False
 
 
 def run_modelscope_command(command: list[str], token: str) -> None:
@@ -123,17 +114,11 @@ def create_or_reuse_dataset(args: argparse.Namespace, token: str) -> None:
     run_modelscope_command(command, token)
 
 
-def upload_asset(
-    args: argparse.Namespace,
-    token: str,
-    local_file: Path,
-    path_in_repo: str,
-    force: bool,
-) -> None:
+def upload_file(args: argparse.Namespace, token: str, local_file: Path, path_in_repo: str, force: bool) -> None:
     size = local_file.stat().st_size
     url = modelscope_file_url(args.repo_id, path_in_repo, args.revision, args.endpoint)
     if not force and remote_file_exists(url):
-        print(f"Remote asset exists, skipping: {path_in_repo} ({format_bytes(size)})")
+        print(f"Remote file exists, skipping: {path_in_repo} ({format_bytes(size)})")
         return
 
     print(f"Uploading to ModelScope: {path_in_repo} ({format_bytes(size)})")
@@ -151,7 +136,7 @@ def upload_asset(
         "--endpoint",
         args.endpoint,
         "--commit-message",
-        f"upload {local_file.name}",
+        f"upload {path_in_repo}",
     ]
     for attempt in range(1, args.upload_retries + 1):
         try:
@@ -159,7 +144,7 @@ def upload_asset(
             break
         except RuntimeError as exc:
             if not force and remote_file_exists(url):
-                print(f"Remote asset exists after upload failure, continuing: {path_in_repo}")
+                print(f"Remote file exists after upload failure, continuing: {path_in_repo}")
                 break
             if attempt == args.upload_retries:
                 raise
@@ -174,14 +159,80 @@ def upload_asset(
     )
 
 
-def collect_urls(args: argparse.Namespace, manifest: dict[str, Any]) -> list[str]:
-    include = args.include or DEFAULT_INCLUDE
-    urls = source_urls_from_manifest(manifest, include)
-    if args.max_assets:
-        urls = urls[: args.max_assets]
-    if not urls:
-        raise RuntimeError("No matching GitHub release URLs found in manifest.")
-    return urls
+def safe_extract_tar(archive_path: Path, destination: Path) -> None:
+    destination.mkdir(parents=True, exist_ok=True)
+    root = destination.resolve()
+    with tarfile.open(archive_path, mode="r:*") as archive:
+        for member in archive.getmembers():
+            target = (destination / member.name).resolve()
+            if os.path.commonpath([root, target]) != str(root):
+                raise RuntimeError(f"unsafe tar member path: {member.name}")
+        archive.extractall(destination)
+
+
+def modelscope_repo_path_from_base_url(base_url: str, resolve_base: str) -> str:
+    if not base_url.startswith(resolve_base):
+        raise RuntimeError(f"ModelScope baseUrl is not under expected resolve base: {base_url}")
+    path = urllib.parse.unquote(base_url[len(resolve_base) :])
+    return path.strip("/")
+
+
+def collect_repository_snapshots(args: argparse.Namespace, manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    snapshots: list[dict[str, Any]] = []
+    for repository in manifest.get("repositories", {}).values():
+        snapshot = repository.get("snapshot", {})
+        download_url = str(snapshot.get("downloadUrl", ""))
+        if not download_url:
+            continue
+        if args.include and args.include not in repository.get("id", "") and args.include not in download_url:
+            continue
+        base_url = ""
+        for mirror in repository.get("mirrors", []):
+            if mirror.get("id") == "modelscope" and mirror.get("kind") == "full-repo":
+                base_url = str(mirror.get("baseUrl", ""))
+                break
+        if not base_url:
+            continue
+        snapshots.append(
+            {
+                "repositoryId": repository["id"],
+                "downloadUrl": download_url,
+                "fileName": snapshot.get("fileName") or Path(urllib.parse.urlparse(download_url).path).name,
+                "basePath": modelscope_repo_path_from_base_url(base_url, args.resolve_base),
+            }
+        )
+    if args.max_repositories:
+        snapshots = snapshots[: args.max_repositories]
+    return snapshots
+
+
+def upload_snapshot_contents(args: argparse.Namespace, token: str, snapshot: dict[str, Any], github_token: str) -> int:
+    cache_dir = Path(args.cache_dir)
+    archive_path = cache_dir / "snapshots" / safe_part(str(snapshot["repositoryId"])) / str(snapshot["fileName"])
+    extract_dir = cache_dir / "extracted" / safe_part(str(snapshot["repositoryId"]))
+
+    download_asset(
+        str(snapshot["downloadUrl"]),
+        archive_path,
+        github_token,
+        args.download_retries,
+        args.force_download,
+        args.progress_interval,
+    )
+    if args.force_extract and extract_dir.exists():
+        import shutil
+
+        shutil.rmtree(extract_dir)
+    if not extract_dir.exists():
+        safe_extract_tar(archive_path, extract_dir)
+
+    uploaded = 0
+    for local_file in sorted(path for path in extract_dir.rglob("*") if path.is_file()):
+        rel = local_file.relative_to(extract_dir).as_posix()
+        path_in_repo = f"{snapshot['basePath'].rstrip('/')}/{rel}"
+        upload_file(args, token, local_file, path_in_repo, args.force_upload)
+        uploaded += 1
+    return uploaded
 
 
 def run(args: argparse.Namespace) -> None:
@@ -190,82 +241,26 @@ def run(args: argparse.Namespace) -> None:
     if not token and not args.dry_run:
         token = getpass.getpass("ModelScope token: ")
 
-    manifest = read_manifest(Path(args.manifest))
-    urls = collect_urls(args, manifest)
-
-    cache_dir = Path(args.cache_dir)
-    asset_dir = cache_dir / "assets"
-    manifest_dir = cache_dir / "manifest"
-    asset_dir.mkdir(parents=True, exist_ok=True)
-    manifest_dir.mkdir(parents=True, exist_ok=True)
-
-    replacements: dict[str, str] = {}
-    upload_plan: list[tuple[Path, str]] = []
-    for url in urls:
-        filename = mirrored_filename(url)
-        destination = asset_dir / filename
-        path_in_repo = f"{args.assets_prefix.strip('/')}/{filename}"
-        modelscope_url = modelscope_file_url(
-            args.repo_id,
-            path_in_repo,
-            args.revision,
-            args.endpoint,
-        )
-        replacements[url] = modelscope_url
-        if (
-            args.skip_existing_remote
-            and not args.force_upload
-            and remote_file_exists(modelscope_url)
-        ):
-            print(f"Remote asset exists, skipping download: {path_in_repo}")
-            continue
-
-        if not args.no_download:
-            download_asset(
-                url,
-                destination,
-                github_token,
-                args.download_retries,
-                args.force_download,
-                args.progress_interval,
-            )
-        if not destination.exists():
-            raise RuntimeError(f"Local asset is missing: {destination}")
-
-        upload_plan.append((destination, path_in_repo))
-
-    mirrored_manifest = rewrite_urls(manifest, replacements)
-    manifest_bytes = (json.dumps(mirrored_manifest, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
-    manifest_path = manifest_dir / args.output_manifest_name
+    manifest_path = Path(args.manifest)
+    manifest = read_manifest(manifest_path)
+    snapshots = collect_repository_snapshots(args, manifest)
 
     if args.dry_run:
-        print(
-            f"Dry run: {len(upload_plan)} assets plus one manifest would be "
-            f"uploaded to ModelScope dataset {args.repo_id}."
-        )
-        print(f"Manifest would be written: {manifest_path} ({format_bytes(len(manifest_bytes))})")
-        for local_file, path_in_repo in upload_plan:
-            url = modelscope_file_url(args.repo_id, path_in_repo, args.revision, args.endpoint)
-            print(f"{local_file} -> {url}")
-        manifest_url = modelscope_file_url(
-            args.repo_id,
-            args.output_manifest_name,
-            args.revision,
-            args.endpoint,
-        )
-        print(f"{manifest_path} -> {manifest_url}")
+        print(f"Dry run: {len(snapshots)} package repositories would be mirrored to {args.repo_id}.")
+        for snapshot in snapshots:
+            print(f"{snapshot['downloadUrl']} -> {snapshot['basePath']}/")
+        print(f"{manifest_path} -> {args.output_manifest_name}")
         return
-
-    manifest_path.write_bytes(manifest_bytes)
-    upload_plan.append((manifest_path, args.output_manifest_name))
 
     if args.create_repo:
         create_or_reuse_dataset(args, token)
 
-    for local_file, path_in_repo in upload_plan:
-        force = args.force_upload or path_in_repo == args.output_manifest_name
-        upload_asset(args, token, local_file, path_in_repo, force)
+    total_files = 0
+    for snapshot in snapshots:
+        total_files += upload_snapshot_contents(args, token, snapshot, github_token)
 
+    upload_file(args, token, manifest_path, args.output_manifest_name, force=True)
+    print(f"Uploaded {total_files} package repository files to ModelScope.")
     print("ModelScope manifest URL:")
     print(modelscope_file_url(args.repo_id, args.output_manifest_name, args.revision, args.endpoint))
 
@@ -273,18 +268,17 @@ def run(args: argparse.Namespace) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", default="runtime-packages.json")
-    parser.add_argument("--cache-dir", default="work/gitee-relay")
+    parser.add_argument("--cache-dir", default="work/modelscope-relay")
     parser.add_argument("--repo-id", default=DEFAULT_REPO_ID)
     parser.add_argument("--endpoint", default=DEFAULT_ENDPOINT)
-    parser.add_argument("--revision", default="master")
-    parser.add_argument("--assets-prefix", default="assets")
-    parser.add_argument("--output-manifest-name", default="runtime-packages-modelscope.json")
-    parser.add_argument("--include", default=DEFAULT_INCLUDE, help="Regex filter for source URLs.")
-    parser.add_argument("--max-assets", type=int, default=0, help="Limit assets for a smoke test.")
+    parser.add_argument("--revision", default=DEFAULT_REVISION)
+    parser.add_argument("--resolve-base", default=DEFAULT_RESOLVE_BASE)
+    parser.add_argument("--output-manifest-name", default="runtime-packages.json")
+    parser.add_argument("--include", default="", help="Optional repository id or URL substring filter.")
+    parser.add_argument("--max-repositories", type=int, default=0, help="Limit repositories for a smoke test.")
     parser.add_argument("--force-download", action="store_true")
+    parser.add_argument("--force-extract", action="store_true")
     parser.add_argument("--force-upload", action="store_true")
-    parser.add_argument("--skip-existing-remote", action="store_true")
-    parser.add_argument("--no-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--create-repo", action="store_true", default=True)
     parser.add_argument("--no-create-repo", action="store_false", dest="create_repo")

@@ -176,23 +176,25 @@ jobs:
           set -euo pipefail
           bash orchestrator/scripts/ci/build-toolchain.sh "${{ matrix.profile }}" "${{ matrix.source }}" "${{ matrix.arch }}" "$PACKAGE_OVERRIDE"
 
-      - name: Build component artifacts
+      - name: Build package repository snapshot
         shell: bash
         run: |
           set -euo pipefail
-          bash orchestrator/scripts/ci/create-component-artifacts.sh \
+          bash orchestrator/scripts/ci/create-package-repo.sh \
             "${{ matrix.profile }}" \
             "${{ matrix.source }}" \
             "${{ matrix.arch }}" \
-            "${{ needs.resolve-inputs.outputs.artifact_prefix }}"
+            "${{ needs.resolve-inputs.outputs.artifact_prefix }}" \
+            "r${{ github.run_number }}"
 
-      - name: Upload component artifacts
+      - name: Upload package repository snapshot
         uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.resolve-inputs.outputs.artifact_prefix }}-${{ matrix.arch }}-${{ github.run_number }}
           path: |
-            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-component-index-*.json
-            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/components/*.deb
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz.sha256
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.json
           if-no-files-found: error
 
   release:
@@ -220,8 +222,9 @@ jobs:
           tag_name: ${{ needs.resolve-inputs.outputs.release_tag_prefix }}-r${{ github.run_number }}
           name: ${{ needs.resolve-inputs.outputs.release_name }} r${{ github.run_number }}
           files: |
-            artifacts/**/*-component-index-*.json
-            artifacts/**/*.deb
+            artifacts/**/*-apt-repo-v1-*.tar.gz
+            artifacts/**/*-apt-repo-v1-*.tar.gz.sha256
+            artifacts/**/*-apt-repo-v1-*.json
 
       - name: Trigger runtime package manifest sync
         shell: bash

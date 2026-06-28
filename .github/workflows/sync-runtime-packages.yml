@@ -8,12 +8,12 @@ on:
         required: false
         default: ""
       sync_modelscope:
-        description: "Upload app-facing assets and manifest to ModelScope. Disabled by default; GitHub Releases are the primary source."
+        description: "Expand apt repo snapshots and mirror them to ModelScope. Disabled by default."
         required: false
         type: boolean
         default: false
       update_gitee:
-        description: "Push runtime-packages.json to Gitee. By default it keeps GitHub release download URLs."
+        description: "Push the lightweight runtime-packages.json manifest to Gitee."
         required: false
         type: boolean
         default: true
@@ -48,8 +48,8 @@ jobs:
       SOURCE_REPOSITORY: ${{ github.event.client_payload.source_repository || '' }}
       PAYLOAD_RELEASE_TAG: ${{ github.event.client_payload.release_tag || '' }}
       INPUT_EXTENSION_TAG: ${{ github.event.inputs.extension_tag || '' }}
-      SYNC_MODELSCOPE: ${{ github.event.inputs.sync_modelscope || 'false' }}
-      UPDATE_GITEE: ${{ github.event.inputs.update_gitee || 'true' }}
+      SYNC_MODELSCOPE: ${{ github.event.client_payload.sync_modelscope || github.event.inputs.sync_modelscope || 'false' }}
+      UPDATE_GITEE: ${{ github.event.client_payload.update_gitee || github.event.inputs.update_gitee || 'true' }}
       GITEE_OWNER: ${{ github.event.inputs.gitee_owner || 'yourba' }}
       GITEE_REPO: ${{ github.event.inputs.gitee_repo || 'pystudio-termux-builds' }}
       GITEE_BRANCH: ${{ github.event.inputs.gitee_branch || 'main' }}
@@ -93,7 +93,7 @@ jobs:
           python3 -m pip install --user --upgrade modelscope
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Sync app-facing assets to ModelScope
+      - name: Sync package repositories to ModelScope
         if: ${{ env.SYNC_MODELSCOPE == 'true' }}
         shell: bash
         env:
@@ -105,7 +105,6 @@ jobs:
             --manifest runtime-packages.json \
             --modelscope-token "$MODELSCOPE_TOKEN" \
             --github-token "$GITHUB_TOKEN" \
-            --skip-existing-remote \
             --progress-interval 2
 
       - name: Commit GitHub manifest
@@ -138,12 +137,7 @@ jobs:
             git checkout -B "$GITEE_BRANCH"
           fi
 
-          source_manifest="../runtime-packages.json"
-          if [[ "$SYNC_MODELSCOPE" == "true" && -f ../work/gitee-relay/manifest/runtime-packages-modelscope.json ]]; then
-            source_manifest="../work/gitee-relay/manifest/runtime-packages-modelscope.json"
-          fi
-
-          cp "$source_manifest" runtime-packages.json
+          cp ../runtime-packages.json runtime-packages.json
           git add runtime-packages.json
           if git diff --cached --quiet; then
             echo "No Gitee manifest changes to commit."

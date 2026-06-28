@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "generatedAt": "2026-06-28",
   "packageName": "com.vchangxiao.pystudio",
   "architectures": [
@@ -9,19 +9,30 @@
     "x86_64"
   ],
   "packageManagement": {
-    "mode": "component-deb-v2",
-    "componentKey": "id",
+    "mode": "apt-repository-v1",
+    "distribution": "pystudio",
+    "component": "main",
     "entryKey": "entries",
-    "resolver": "select an entry for the device architecture, install its componentRefs, then recursively resolve dependencyNames through componentPackages[arch]",
-    "bootstrapMode": "extract the selected rootfs before installing component bundles"
+    "repositoryKey": "repositories",
+    "resolver": "select a package-set entry for the device architecture, fetch the referenced Packages.xz index, resolve Depends/Pre-Depends recursively, then download missing .deb files from pool/main",
+    "bootstrapMode": "extract a bootstrap rootfs before installing package-set entries"
   },
-  "components": {},
-  "componentPackages": {
-    "aarch64": {},
-    "arm": {},
-    "i686": {},
-    "x86_64": {}
-  },
+  "manifestMirrors": [
+    {
+      "id": "gitee",
+      "kind": "manifest-only",
+      "manifestUrl": "https://gitee.com/yourba/pystudio-termux-builds/raw/main/runtime-packages.json",
+      "priority": 5,
+      "region": "CN"
+    },
+    {
+      "id": "github",
+      "kind": "manifest",
+      "manifestUrl": "https://raw.githubusercontent.com/vg188/pystudio-termux-builds/main/runtime-packages.json",
+      "priority": 50
+    }
+  ],
+  "repositories": {},
   "entries": [
     {
       "id": "bootstrap-base",

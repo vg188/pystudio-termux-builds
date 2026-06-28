@@ -1,10 +1,24 @@
-# ModelScope Runtime Package Relay
+# ModelScope Package Repository Relay
 
-`scripts/local/modelscope_release_relay.py` mirrors selected runtime package
-assets to a public ModelScope dataset repository.
+`scripts/local/modelscope_release_relay.py` mirrors PyStudio package
+repositories to a public ModelScope dataset.
 
-This is the preferred free mainland-download mirror after Gitee's release
-attachment limits proved too small for PyStudio runtime packages.
+GitHub Releases remain the authority and store compact
+`*-apt-repo-v1-ARCH-rN.tar.gz` snapshots. The relay downloads those snapshots,
+expands them, and uploads the resulting Termux-style directory tree:
+
+```text
+repo/<owner>/<repo>/<release-tag>/<artifact-prefix>/<arch>/
+  dists/pystudio/main/binary-ARCH/Packages.xz
+  dists/pystudio/main/binary-ARCH/Packages.gz
+  dists/pystudio/main/binary-ARCH/Packages
+  dists/pystudio/Release
+  pool/main/.../*.deb
+  repo-metadata.json
+```
+
+Gitee is not a package mirror. It only stores the lightweight
+`runtime-packages.json` manifest.
 
 ## Setup
 
@@ -14,8 +28,8 @@ Install the ModelScope CLI:
 python -m pip install -U modelscope
 ```
 
-Set a user environment variable named `modelscope_yourba`. The script also
-checks `MODELSCOPE_YOURBA` and `MODELSCOPE_TOKEN`.
+Set a user environment variable named `modelscope_yourba`. The scripts also
+check `MODELSCOPE_YOURBA` and `MODELSCOPE_TOKEN`.
 
 ```powershell
 $env:modelscope_yourba="..."
@@ -36,71 +50,52 @@ modelscope create yourba/pystudio-termux-builds `
 Dry run:
 
 ```powershell
-python scripts/local/modelscope_release_relay.py --dry-run --max-assets 2
+python scripts/local/modelscope_release_relay.py --dry-run --max-repositories 2
 ```
 
-Upload all app-facing runtime package archives and checksum files:
+Mirror every package repository referenced by `runtime-packages.json`:
 
 ```powershell
 python scripts/local/modelscope_release_relay.py
 ```
 
-If the GitHub assets are already cached under `work/gitee-relay/assets`, skip
-the download step:
+Mirror one repository by ID or URL substring:
 
 ```powershell
-python scripts/local/modelscope_release_relay.py --no-download
+python scripts/local/modelscope_release_relay.py --include python-lsp
 ```
 
-By default, the script mirrors only:
+The script shows download progress and upload speed. It skips remote files that
+already exist unless `--force-upload` is set.
 
-- `*-repo-*.tar.gz`
-- `SHA256SUMS-*.txt`
+## Cleanup
 
-It intentionally skips `*-debs-*.tar.gz`, which is useful for debugging but not
-needed by the app's normal runtime package installer.
-
-To mirror every archive, including raw `.deb` bundles, override the filter:
+The old flat mirror used `assets/**` and `runtime-packages-modelscope.json`.
+Those are no longer used by schema 5. Use:
 
 ```powershell
-python scripts/local/modelscope_release_relay.py `
-  --include "(-repo-[^/]+\.tar\.gz|-debs-[^/]+\.tar\.gz|SHA256SUMS-[^/]+\.txt)$"
+python scripts/local/modelscope_cleanup_unused.py --dry-run
+python scripts/local/modelscope_cleanup_unused.py
 ```
 
-## Output
+If ModelScope returns failed deletions, the script exits non-zero and prints the
+first failed paths. In that case, delete those files from the ModelScope web UI
+or rerun with a token that has dataset delete permission.
 
-The generated manifest is written locally to:
+## App URLs
 
-```text
-work/gitee-relay/manifest/runtime-packages-modelscope.json
+The schema 5 manifest already contains ModelScope full-repo mirrors:
+
+```json
+{
+  "id": "modelscope",
+  "kind": "full-repo",
+  "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/...",
+  "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/.../Packages.xz",
+  "priority": 10,
+  "region": "CN"
+}
 ```
 
-It is also uploaded to the ModelScope dataset root. The public URL uses this
-shape:
-
-```text
-https://modelscope.cn/api/v1/datasets/yourba/pystudio-termux-builds/repo?Revision=master&FilePath=runtime-packages-modelscope.json
-```
-
-Current public dataset:
-
-```text
-https://www.modelscope.cn/datasets/yourba/pystudio-termux-builds
-```
-
-The first full relay uploaded 47 app-facing files, about 3.04 GiB total, then
-refreshed `runtime-packages-modelscope.json` with 47 ModelScope package URLs.
-The debug-only `*-debs-*.tar.gz` URLs remain pointed at GitHub.
-
-## Verification
-
-After upload, verify that public download works:
-
-```powershell
-$url="https://modelscope.cn/api/v1/datasets/yourba/pystudio-termux-builds/repo?Revision=master&FilePath=runtime-packages-modelscope.json"
-curl.exe -L -I $url
-curl.exe -L -r 0-1023 -o NUL $url
-```
-
-ModelScope may return either `206 Partial Content` or `200 OK` depending on the
-CDN path, but the public manifest must be readable without authentication.
+The app downloads `Packages.xz` from `indexUrl`, then resolves `.deb` files by
+joining `baseUrl` with each package stanza's `Filename` field.
