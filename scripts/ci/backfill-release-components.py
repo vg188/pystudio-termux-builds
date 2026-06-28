@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import tarfile
 import time
 import urllib.error
 import urllib.parse
@@ -52,15 +53,32 @@ def request_json(token: str, method: str, url: str, payload: dict[str, Any] | No
 def download(token: str, url: str, destination: Path) -> None:
     request = urllib.request.Request(url, headers=headers(token, {"Accept": "application/octet-stream"}))
     destination.parent.mkdir(parents=True, exist_ok=True)
+    partial = destination.with_suffix(destination.suffix + ".part")
     for attempt in range(1, 6):
         try:
+            if partial.exists():
+                partial.unlink()
             with urllib.request.urlopen(request, timeout=300) as response:
-                with destination.open("wb") as output:
-                    shutil.copyfileobj(response, output)
+                content_length = response.headers.get("Content-Length")
+                expected = int(content_length) if content_length and content_length.isdigit() else None
+                copied = 0
+                with partial.open("wb") as output:
+                    while True:
+                        chunk = response.read(1024 * 1024)
+                        if not chunk:
+                            break
+                        output.write(chunk)
+                        copied += len(chunk)
+                if expected is not None and copied != expected:
+                    raise RuntimeError(
+                        f"incomplete download for {destination.name}: got {copied} bytes, expected {expected}"
+                    )
+            partial.replace(destination)
             return
-        except urllib.error.URLError:
+        except (urllib.error.URLError, EOFError, RuntimeError) as exc:
             if attempt == 5:
                 raise
+            print(f"Warning: download attempt {attempt} failed for {destination.name}: {exc}")
             time.sleep(attempt * 5)
 
 
@@ -228,9 +246,19 @@ def backfill_deb_bundle_asset(
     shutil.rmtree(work_dir, ignore_errors=True)
     work_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"Downloading {args.repo}/{tag}/{asset_name}")
-    download(token, str(asset["browser_download_url"]), archive_path)
-    safe_extract_tar(archive_path, extract_dir)
+    for attempt in range(1, 4):
+        print(f"Downloading {args.repo}/{tag}/{asset_name}")
+        download(token, str(asset["browser_download_url"]), archive_path)
+        shutil.rmtree(extract_dir, ignore_errors=True)
+        try:
+            safe_extract_tar(archive_path, extract_dir)
+            break
+        except (EOFError, tarfile.TarError, OSError) as exc:
+            if attempt == 3:
+                raise
+            print(f"Warning: extract attempt {attempt} failed for {asset_name}: {exc}")
+            archive_path.unlink(missing_ok=True)
+            time.sleep(attempt * 5)
     debs = find_debs(extract_dir)
     if not debs:
         print(f"No debs found in {asset_name}, skipping.")
