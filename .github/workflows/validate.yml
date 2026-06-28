@@ -40,17 +40,19 @@ jobs:
           from pathlib import Path
 
           manifest = json.loads(Path("runtime-packages.json").read_text(encoding="utf-8"))
-          assert manifest["schemaVersion"] == 2
+          assert manifest["schemaVersion"] == 4
           assert manifest["architectures"] == ["aarch64", "arm", "i686", "x86_64"]
-          assert "items" in manifest and isinstance(manifest["items"], list)
-          assert "profiles" not in manifest and "bootstraps" not in manifest
+          assert "entries" in manifest and isinstance(manifest["entries"], list)
+          assert "components" in manifest and isinstance(manifest["components"], dict)
+          assert "componentPackages" in manifest and isinstance(manifest["componentPackages"], dict)
+          assert "items" not in manifest
 
           ids = set()
-          for item in manifest["items"]:
-              assert item["id"] not in ids
-              ids.add(item["id"])
+          for entry in manifest["entries"]:
+              assert entry["id"] not in ids
+              ids.add(entry["id"])
               for key in (
-                  "type",
+                  "kind",
                   "group",
                   "profile",
                   "title",
@@ -61,16 +63,59 @@ jobs:
                   "release",
                   "install",
                   "availableArchitectures",
-                  "artifacts",
               ):
-                  assert key in item, (item["id"], key)
-              assert sorted(item["artifacts"], key=manifest["architectures"].index) == item["availableArchitectures"]
-              for arch, artifacts in item["artifacts"].items():
-                  assert arch in manifest["architectures"]
-                  assert isinstance(artifacts, list) and artifacts
-                  for artifact in artifacts:
-                      for key in ("role", "fileName", "format", "downloadUrl", "size"):
-                          assert key in artifact, (item["id"], arch, key)
+                  assert key in entry, (entry["id"], key)
+              if entry["kind"] == "bootstrap":
+                  assert entry["install"]["mode"] == "extract-rootfs"
+                  assert sorted(entry["artifacts"], key=manifest["architectures"].index) == entry["availableArchitectures"]
+                  for arch, artifacts in entry["artifacts"].items():
+                      assert arch in manifest["architectures"]
+                      assert any(artifact["role"] == "rootfs" for artifact in artifacts)
+                      for artifact in artifacts:
+                          for key in ("role", "fileName", "format", "downloadUrl", "size"):
+                              assert key in artifact, (entry["id"], arch, key)
+              elif entry["kind"] == "bundle":
+                  assert entry["install"]["mode"] == "install-components"
+                  assert sorted(entry["componentRefs"], key=manifest["architectures"].index) == entry["availableArchitectures"]
+                  for arch, refs in entry["componentRefs"].items():
+                      assert arch in manifest["architectures"]
+                      assert refs
+                      for ref in refs:
+                          assert ref in manifest["components"], (entry["id"], arch, ref)
+              else:
+                  raise AssertionError(entry["kind"])
+
+          for component_id, component in manifest["components"].items():
+              assert component["id"] == component_id
+              assert component["kind"] == "component"
+              assert component["format"] == "deb"
+              assert component["architecture"] in manifest["architectures"]
+              assert component_id in manifest["componentPackages"][component["architecture"]][component["package"]]
+              for key in ("package", "version", "dependencyNames", "commands", "release", "artifact"):
+                  assert key in component, (component_id, key)
+          PY
+
+      - name: Validate legacy migration plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          plan = json.loads(Path("migration/runtime-packages-v2-components.json").read_text(encoding="utf-8"))
+          assert plan["schemaVersion"] == 1
+          assert len(plan["entries"]) == 15
+          ids = set()
+          arches = ["aarch64", "arm", "i686", "x86_64"]
+          for entry in plan["entries"]:
+              assert entry["id"] not in ids
+              ids.add(entry["id"])
+              assert entry["release"]["repository"].startswith("https://github.com/")
+              assert entry["release"]["tag"]
+              assert sorted(entry["debianPackageAssets"]) == arches
+              for arch, asset in entry["debianPackageAssets"].items():
+                  assert asset.endswith(f"-debs-{arch}.tar.gz"), (entry["id"], arch, asset)
           PY
 
       - name: Validate toolchain profiles
@@ -132,9 +177,10 @@ jobs:
           set -euo pipefail
           python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
+          sources="primary secondary tur"
           toolchain_matrix_json="$(
             for p in python nodejs cpp proot; do
-              for s in primary secondary; do
+              for s in $sources; do
                 for a in aarch64 arm i686 x86_64; do
                   jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
                     '{profile: $profile, source: $source, arch: $arch}'
@@ -142,12 +188,12 @@ jobs:
               done
             done | jq -s -c .
           )"
-          jq -e 'length == 32' <<< "$toolchain_matrix_json"
+          jq -e 'length == 48' <<< "$toolchain_matrix_json"
 
           python_matrix_json="$(
             for p in $python_profiles; do
               test -f "profiles/toolchains/$p.env"
-              for s in primary secondary; do
+              for s in $sources; do
                 for a in aarch64 arm i686 x86_64; do
                   jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
                     '{profile: $profile, source: $source, arch: $arch}'
@@ -155,23 +201,23 @@ jobs:
               done
             done | jq -s -c .
           )"
-          jq -e 'length == 72' <<< "$python_matrix_json"
+          jq -e 'length == 108' <<< "$python_matrix_json"
 
           tree_sitter_matrix_json="$(
             test -f "profiles/toolchains/tree-sitter.env"
-            for s in primary secondary; do
+            for s in $sources; do
               for a in aarch64 arm i686 x86_64; do
                 jq -n --arg profile "tree-sitter" --arg source "$s" --arg arch "$a" \
                   '{profile: $profile, source: $source, arch: $arch}'
               done
             done | jq -s -c .
           )"
-          jq -e 'length == 8' <<< "$tree_sitter_matrix_json"
+          jq -e 'length == 12' <<< "$tree_sitter_matrix_json"
 
           dev_tool_matrix_json="$(
             for p in $dev_tool_profiles; do
               test -f "profiles/toolchains/$p.env"
-              for s in primary secondary; do
+              for s in $sources; do
                 for a in aarch64 arm i686 x86_64; do
                   jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
                     '{profile: $profile, source: $source, arch: $arch}'
@@ -179,7 +225,7 @@ jobs:
               done
             done | jq -s -c .
           )"
-          jq -e 'length == 32' <<< "$dev_tool_matrix_json"
+          jq -e 'length == 48' <<< "$dev_tool_matrix_json"
 
           bootstrap_matrix_json="$(
             for p in base python-pip; do

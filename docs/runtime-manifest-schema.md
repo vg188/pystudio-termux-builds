@@ -1,57 +1,62 @@
 # Runtime Manifest Schema
 
 `runtime-packages.json` is the app-facing catalog for PyStudio bootstrap
-archives and optional runtime package sets.
+archives and optional runtime components.
 
-## Version 2
+## Version 4
 
-Schema version 2 intentionally uses one `items[]` list for every downloadable
-unit. Item type differences are expressed through `type`, `install.mode`, and
-artifact `role` values instead of using separate top-level structures.
+Schema version 4 is component-first. Bootstrap archives are still downloaded as
+rootfs files, but every optional runtime/toolchain entry is a logical bundle
+that references independent `.deb` components. The app package manager installs
+only missing components and resolves dependencies through the manifest graph.
 
 Top-level fields:
 
 ```json
 {
-  "schemaVersion": 2,
-  "generatedAt": "2026-06-24",
+  "schemaVersion": 4,
+  "generatedAt": "2026-06-28",
   "packageName": "com.vchangxiao.pystudio",
   "architectures": ["aarch64", "arm", "i686", "x86_64"],
-  "items": []
+  "packageManagement": {
+    "mode": "component-deb-v2",
+    "componentKey": "id",
+    "entryKey": "entries"
+  },
+  "entries": [],
+  "components": {},
+  "componentPackages": {}
 }
 ```
 
-Each item has the same display and lookup shape:
+## Entries
+
+`entries[]` is the unified app catalog. Every entry has the same display/search
+fields: `title`, `description`, `packages`, and `commands`.
+
+Bootstrap entry:
 
 ```json
 {
-  "id": "python",
-  "type": "package-set",
-  "group": "runtime",
-  "profile": "python",
-  "title": "Python / Pip",
-  "description": "CPython runtime, pip, and their Termux dependencies.",
-  "packages": ["python", "python-pip"],
-  "commands": ["python", "python3", "pip", "pip3"],
-  "source": {
-    "repository": "https://github.com/vg188/pystudio-python-toolchain"
-  },
-  "release": {
-    "repository": "https://github.com/vg188/pystudio-python-toolchain",
-    "tag": "pystudio-python-toolchain-r10"
-  },
+  "id": "bootstrap-base",
+  "kind": "bootstrap",
+  "group": "bootstrap",
+  "profile": "base",
+  "title": "Base Bootstrap",
+  "description": "Minimal PyStudio terminal bootstrap.",
+  "packages": ["proot"],
+  "commands": ["sh", "bash", "pkg", "dpkg"],
   "install": {
-    "mode": "install-apt-repository",
-    "command": "pystudio-install-python",
-    "verifyCommands": ["python3 --version", "pip3 --version"]
+    "mode": "extract-rootfs",
+    "verifyCommands": []
   },
-  "availableArchitectures": ["aarch64", "arm", "i686", "x86_64"],
+  "availableArchitectures": ["aarch64"],
   "artifacts": {
     "aarch64": [
       {
-        "role": "apt-repository",
-        "fileName": "pystudio-python-toolchain-repo-aarch64.tar.gz",
-        "format": "tar.gz",
+        "role": "rootfs",
+        "fileName": "com.vchangxiao.pystudio-f-droid-bootstrap-aarch64.tar.xz",
+        "format": "tar.xz",
         "downloadUrl": "https://github.com/...",
         "size": 123456,
         "sha256": "..."
@@ -61,41 +66,79 @@ Each item has the same display and lookup shape:
 }
 ```
 
-## Item Types
+Bundle entry:
 
-- `bootstrap`: a rootfs archive that the app extracts to initialize a terminal.
-  It uses `install.mode = extract-rootfs`.
-- `package-set`: an optional package repository/bundle that the app can install
-  after bootstrap. It uses `install.mode = install-apt-repository`.
+```json
+{
+  "id": "python",
+  "kind": "bundle",
+  "group": "runtime",
+  "profile": "python",
+  "title": "Python / Pip",
+  "description": "CPython runtime, pip, and their Termux dependencies.",
+  "packages": ["python", "python-pip"],
+  "commands": ["python", "python3", "pip", "pip3"],
+  "install": {
+    "mode": "install-components",
+    "verifyCommands": ["python3 --version", "pip3 --version"]
+  },
+  "availableArchitectures": ["aarch64"],
+  "componentRefs": {
+    "aarch64": ["deb:aarch64:python:3.12.11-1"]
+  }
+}
+```
 
-## Artifact Roles
+## Components
 
-Bootstrap items may contain:
+`components` is keyed by component ID. A component is a single downloadable
+`.deb` asset.
 
-- `rootfs`: preferred app-specific bootstrap archive.
-- `compat-rootfs`: generic Termux-style bootstrap archive kept for compatibility
-  or diagnostics.
-- `asset-bundle`: full CI artifact bundle for that bootstrap profile and
-  architecture.
+```json
+{
+  "id": "deb:aarch64:python:3.12.11-1",
+  "kind": "component",
+  "format": "deb",
+  "package": "python",
+  "version": "3.12.11-1",
+  "architecture": "aarch64",
+  "debArchitecture": "aarch64",
+  "commands": ["python", "python3"],
+  "dependencyNames": ["libandroid-support", "openssl", "zlib"],
+  "dependencies": {
+    "depends": "libandroid-support, openssl, zlib",
+    "preDepends": "",
+    "names": ["libandroid-support", "openssl", "zlib"]
+  },
+  "artifact": {
+    "role": "component-deb",
+    "fileName": "python_3.12.11-1_aarch64.deb",
+    "assetName": "pystudio-python-toolchain-component-aarch64-python_3.12.11-1_aarch64.deb",
+    "format": "deb",
+    "downloadUrl": "https://github.com/...",
+    "size": 123456,
+    "sha256": "..."
+  }
+}
+```
 
-Package-set items may contain:
+`componentPackages[arch][package]` maps package names to component IDs. The app
+uses this table when a selected component declares `dependencyNames`.
 
-- `apt-repository`: preferred installable apt repository archive.
-- `debian-packages`: raw `.deb` bundle for debugging or custom installers.
-- `checksums`: release checksum text file.
+## App Install Flow
 
-Only real downloadable artifact fields are named `downloadUrl`. Mirror scripts
-rewrite `downloadUrl` values to ModelScope or Gitee-backed URLs while leaving
-metadata such as `source.repository` and `release.repository` unchanged.
+1. Choose the current ABI from `architectures`.
+2. Search `entries[]` by `title`, `description`, `packages`, and `commands`.
+3. For `kind = bootstrap`, download the `rootfs` artifact for the ABI and
+   extract it into the app prefix.
+4. For `kind = bundle`, start with `componentRefs[abi]`.
+5. For every selected component, read `dependencyNames` and resolve names
+   through `componentPackages[abi]`.
+6. Download each missing component `.deb`, verify `sha256` when present, and
+   install it into the same prefix.
+7. Treat installed package names and component IDs as local state so another
+   bundle can reuse already installed components.
 
-## App Selection
-
-Recommended app flow:
-
-1. Read `architectures` and choose the current device ABI.
-2. Filter `items` where the ABI is in `availableArchitectures`.
-3. Search over `title`, `description`, `packages`, and `commands`.
-4. For `type = bootstrap`, download the artifact with `role = rootfs`.
-5. For `type = package-set`, download the artifact with
-   `role = apt-repository`.
-6. Verify `sha256` when present, then apply `install.mode`.
+Only real downloadable fields are named `downloadUrl`. Mirror scripts rewrite
+these URLs to ModelScope-backed URLs while leaving metadata such as
+`source.repository` and `release.repository` unchanged.

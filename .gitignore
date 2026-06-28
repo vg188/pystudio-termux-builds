@@ -4,4 +4,5 @@ work/
 *.tar.gz
 *.tar.xz
 SHA256SUMS*.txt
-
+__pycache__/
+*.pyc

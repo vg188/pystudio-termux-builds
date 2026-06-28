@@ -34,7 +34,11 @@ from gitee_release_relay import (
 )
 
 
-DEFAULT_INCLUDE = r"(-repo-[^/]+\.tar\.gz|SHA256SUMS-[^/]+\.txt|bootstrap[^/]*\.(tar\.xz|tar\.gz))$"
+DEFAULT_INCLUDE = (
+    r"("
+    r"-component-[^/]+\.deb|"
+    r"bootstrap[^/]*\.tar\.xz)$"
+)
 DEFAULT_REPO_ID = "yourba/pystudio-termux-builds"
 DEFAULT_ENDPOINT = "https://modelscope.cn"
 

@@ -7,7 +7,7 @@ The repeated CI logic lives here:
 
 - one workflow for runtime toolchains
 - one workflow for bootstraps
-- one apt repository packager
+- one component package indexer
 - one profile directory for package sets
 - one source adapter directory for managed package sources
 - one reusable workflow that child repositories can call
@@ -76,12 +76,12 @@ By default, manual toolchain runs build `aarch64`, `arm`, `i686`, and `x86_64`
 as separate matrix jobs, so the architectures run in parallel.
 
 Use **Actions -> Build PyStudio Bootstrap Profiles** to build bootstrap
-tarballs. Select `base` for a minimal terminal bootstrap with the proot
-compatibility fallback, or `python-pip` for an integrated Python/Pip bootstrap.
+tarballs. Select `base` for a minimal terminal bootstrap, or `python-pip` for
+an integrated Python/Pip bootstrap.
 
 Child repositories can call
 `.github/workflows/reusable-toolchain.yml` in this repository. This keeps the
-runtime build logic, apt repository packaging, artifact naming, and release
+runtime build logic, component indexing, artifact naming, and release
 publishing in one place while the child repository keeps only its profile/source
 selection workflow.
 
@@ -103,13 +103,21 @@ Tree-sitter and Node.js native build core are opt-in child-repository builds:
 - `vg188/pystudio-node-build-core-toolchain`
 
 `runtime-packages.json` is the app-facing download index. It uses a unified
-`items[]` catalog for both bootstrap archives and optional package sets. Each
-item exposes the same display fields (`title`, `description`, `packages`,
-`commands`), the same install metadata, and per-architecture artifact lists.
-The app download window should index `title`, `description`, `packages`, and
-`commands` so searches such as `pip`, `openssl`, `xz`, `cmake`, or `xmllint`
-can find the right optional download. See `docs/runtime-manifest-schema.md`
-for the current schema.
+`entries[]` catalog for bootstrap archives and optional bundles. Optional
+bundles reference independent `.deb` components through `componentRefs`, while
+the global `components` and `componentPackages` maps provide download URLs,
+commands, checksums, and dependency resolution data. The app download window
+should index `title`, `description`, `packages`, and `commands` so searches
+such as `pip`, `openssl`, `xz`, `cmake`, or `xmllint` can find the right
+optional bundle. See `docs/runtime-manifest-schema.md` for the current schema.
+See `docs/component-package-architecture.md` for the component build and app
+resolver design.
+See `docs/app-package-manager-guide.md` for app-side package manager
+implementation guidance.
+The legacy schema-2 package sets that need migration are listed in
+`migration/runtime-packages-v2-components.json`; the backfill workflow uses this
+plan to split previous `*-debs-ARCH.tar.gz` assets into component `.deb`
+release assets.
 
 Those repositories are intentionally thin and call the reusable workflow in
 this repository. The profile definitions still live in `profiles/toolchains/`.
