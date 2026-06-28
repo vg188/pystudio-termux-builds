@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       profile:
-        description: "Toolchain profile: python, nodejs, or cpp."
+        description: "Toolchain profile: python, nodejs, proot, or cpp."
         required: true
         type: string
       source:

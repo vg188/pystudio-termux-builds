@@ -24,6 +24,7 @@ on:
           - debug-tools
           - git
           - all-dev-tools
+          - proot
           - nodejs
           - cpp
           - all
@@ -94,7 +95,7 @@ jobs:
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
 
           if [[ "$profile" == "all" ]]; then
-            profiles="python nodejs cpp"
+            profiles="python nodejs proot cpp"
           elif [[ "$profile" == "all-python" ]]; then
             profiles="$python_profiles"
           elif [[ "$profile" == "all-dev-tools" ]]; then
