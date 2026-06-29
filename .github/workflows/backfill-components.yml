@@ -76,7 +76,7 @@ jobs:
             if [[ "$INPUT_FORCE_UPLOAD" == "true" ]]; then
               args+=(--force-upload)
             fi
-            python3 scripts/ci/backfill-release-components.py "${args[@]}"
+            python3 -u scripts/ci/backfill-release-components.py "${args[@]}"
             exit 0
           fi
 
@@ -92,7 +92,7 @@ jobs:
             if [[ "$INPUT_FORCE_UPLOAD" == "true" ]]; then
               args+=(--force-upload)
             fi
-            python3 scripts/ci/backfill-release-components.py "${args[@]}"
+            python3 -u scripts/ci/backfill-release-components.py "${args[@]}"
           done
 
       - name: Trigger runtime package manifest sync

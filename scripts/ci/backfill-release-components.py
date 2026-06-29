@@ -28,6 +28,28 @@ MAX_RATE_LIMIT_SLEEP_SECONDS = 3900
 GITHUB_API_RETRIES = 20
 
 
+def log(message: str) -> None:
+    print(message, flush=True)
+
+
+def format_size(size: int | None) -> str:
+    if size is None:
+        return "unknown size"
+    value = float(size)
+    for unit in ("B", "KiB", "MiB", "GiB"):
+        if value < 1024 or unit == "GiB":
+            return f"{value:.1f} {unit}" if unit != "B" else f"{int(value)} {unit}"
+        value /= 1024
+    return f"{value:.1f} GiB"
+
+
+def asset_size(asset: dict[str, Any] | None) -> int | None:
+    if not asset:
+        return None
+    value = asset.get("size", asset.get("sizeInBytes"))
+    return int(value) if isinstance(value, int) else None
+
+
 def headers(token: str, extra: dict[str, str] | None = None) -> dict[str, str]:
     result = {
         "Accept": "application/vnd.github+json",
@@ -91,6 +113,9 @@ def download(token: str, url: str, destination: Path) -> None:
                 content_length = response.headers.get("Content-Length")
                 expected = int(content_length) if content_length and content_length.isdigit() else None
                 copied = 0
+                started_at = time.monotonic()
+                last_report_at = started_at
+                log(f"Downloading asset body: {destination.name} ({format_size(expected)})")
                 with partial.open("wb") as output:
                     while True:
                         chunk = response.read(1024 * 1024)
@@ -98,16 +123,37 @@ def download(token: str, url: str, destination: Path) -> None:
                             break
                         output.write(chunk)
                         copied += len(chunk)
+                        now = time.monotonic()
+                        if now - last_report_at >= 10:
+                            elapsed = max(0.001, now - started_at)
+                            speed = copied / elapsed
+                            if expected is not None:
+                                log(
+                                    f"Downloading {destination.name}: "
+                                    f"{format_size(copied)} / {format_size(expected)} "
+                                    f"at {format_size(int(speed))}/s"
+                                )
+                            else:
+                                log(
+                                    f"Downloading {destination.name}: "
+                                    f"{format_size(copied)} at {format_size(int(speed))}/s"
+                                )
+                            last_report_at = now
                 if expected is not None and copied != expected:
                     raise RuntimeError(
                         f"incomplete download for {destination.name}: got {copied} bytes, expected {expected}"
                     )
+                elapsed = max(0.001, time.monotonic() - started_at)
+                log(
+                    f"Downloaded {destination.name}: {format_size(copied)} "
+                    f"at {format_size(int(copied / elapsed))}/s"
+                )
             partial.replace(destination)
             return
         except (urllib.error.URLError, EOFError, RuntimeError) as exc:
             if attempt == GITHUB_API_RETRIES:
                 raise
-            print(f"Warning: download attempt {attempt} failed for {destination.name}: {exc}")
+            log(f"Warning: download attempt {attempt} failed for {destination.name}: {exc}")
             time.sleep(attempt * 5)
 
 
@@ -115,7 +161,7 @@ def delete_asset(token: str, repo: str, asset: dict[str, Any]) -> None:
     owner_repo = urllib.parse.quote(repo, safe="/")
     asset_id = int(asset["id"])
     request_empty(token, "DELETE", f"{GITHUB_API}/repos/{owner_repo}/releases/assets/{asset_id}")
-    print(f"Deleted loose component asset: {asset['name']}")
+    log(f"Deleted loose component asset: {asset['name']}")
 
 
 def rate_limit_delay(exc: urllib.error.HTTPError, attempt: int) -> int | None:
@@ -143,7 +189,7 @@ def sleep_for_rate_limit(exc: urllib.error.HTTPError, detail: str, attempt: int)
     if not delay:
         return False
     until = dt.datetime.now(dt.UTC) + dt.timedelta(seconds=delay)
-    print(
+    log(
         f"GitHub rate limit while calling {exc.url}; waiting {delay}s "
         f"until {until.isoformat(timespec='seconds')} before retry."
     )
@@ -162,7 +208,7 @@ def upload_asset(
 ) -> None:
     existing = asset_map.get(name)
     if existing and not force:
-        print(f"Asset exists, skipping: {name}")
+        log(f"Asset exists, skipping: {name}")
         return
     if existing and force:
         delete_asset(token, repo, existing)
@@ -171,6 +217,8 @@ def upload_asset(
     owner_repo = urllib.parse.quote(repo, safe="/")
     query = urllib.parse.urlencode({"name": name})
     url = f"{GITHUB_UPLOADS}/repos/{owner_repo}/releases/{release_id}/assets?{query}"
+    size = path.stat().st_size
+    log(f"Uploading package repository asset: {name} ({format_size(size)})")
     data = path.read_bytes()
     for attempt in range(1, GITHUB_API_RETRIES + 1):
         request = urllib.request.Request(
@@ -189,12 +237,12 @@ def upload_asset(
             with urllib.request.urlopen(request, timeout=600) as response:
                 uploaded = json.loads(response.read().decode("utf-8"))
             asset_map[name] = uploaded
-            print(f"Uploaded package repository asset: {name}")
+            log(f"Uploaded package repository asset: {name}")
             return
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode("utf-8", errors="replace")
             if exc.code == 422 and "already_exists" in detail and not force:
-                print(f"Asset exists after upload race, skipping: {name}")
+                log(f"Asset exists after upload race, skipping: {name}")
                 return
             if sleep_for_rate_limit(exc, detail, attempt):
                 continue
@@ -250,7 +298,7 @@ def cached_release_asset_map(token: str, repo: str, release: dict[str, Any]) -> 
         return cached
     asset_map = list_release_assets(token, repo, int(release["id"]))
     release[cache_key] = asset_map
-    print(f"Loaded {len(asset_map)} release assets for {repo}/{release['tag_name']}.")
+    log(f"Loaded {len(asset_map)} release assets for {repo}/{release['tag_name']}.")
     return asset_map
 
 
@@ -394,6 +442,29 @@ def cleanup_large_assets(
             asset_map.pop(name, None)
 
 
+def source_asset_candidates(
+    asset_map: dict[str, dict[str, Any]],
+    preferred_names: list[str],
+) -> list[str]:
+    seen: set[str] = set()
+    existing: list[tuple[int, str]] = []
+    for order, name in enumerate(preferred_names):
+        if name in seen or name not in asset_map:
+            continue
+        seen.add(name)
+        existing.append((order, name))
+    return [
+        name
+        for order, name in sorted(
+            existing,
+            key=lambda item: (
+                asset_size(asset_map[item[1]]) if asset_size(asset_map[item[1]]) is not None else 2**63 - 1,
+                item[0],
+            ),
+        )
+    ]
+
+
 def backfill_deb_bundle_asset(
     args: argparse.Namespace,
     token: str,
@@ -404,7 +475,7 @@ def backfill_deb_bundle_asset(
 ) -> bool:
     info = deb_bundle_info(asset_name)
     if not info:
-        print(f"Skipping non-deb bundle asset: {asset_name}")
+        log(f"Skipping non-deb bundle asset: {asset_name}")
         return False
 
     asset_map = cached_release_asset_map(token, args.repo, release)
@@ -423,20 +494,28 @@ def backfill_deb_bundle_asset(
     ]
 
     if flat_index_name in asset_map and not args.force_upload:
-        print(f"Flat package index exists, skipping bundle: {flat_index_name}")
+        log(f"Flat package index exists, skipping bundle: {flat_index_name}")
         if args.cleanup_loose_components:
             cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
         if args.cleanup_large_assets:
             cleanup_large_assets(token, args.repo, asset_map, large_asset_names)
         return False
 
-    source_asset_names = []
-    if archive_name in asset_map:
-        source_asset_names.append(archive_name)
-    source_asset_names.append(asset_name)
     repo_fallback_asset = f"{artifact_prefix}-repo-{arch}.tar.gz"
-    if repo_fallback_asset in asset_map:
-        source_asset_names.append(repo_fallback_asset)
+    source_asset_names = source_asset_candidates(
+        asset_map,
+        [asset_name, repo_fallback_asset, archive_name],
+    )
+    if source_asset_names:
+        log(
+            "Source asset candidates by size: "
+            + ", ".join(
+                f"{name} ({format_size(asset_size(asset_map.get(name)))})" for name in source_asset_names
+            )
+        )
+    else:
+        log(f"No source assets available for {asset_name}, skipping.")
+        return False
 
     repo_part = safe_part(args.repo)
     work_dir = args.work_dir / repo_part / tag / artifact_prefix / arch
@@ -451,11 +530,14 @@ def backfill_deb_bundle_asset(
     for source_asset_name in source_asset_names:
         asset = asset_map.get(source_asset_name)
         if not asset:
-            print(f"Missing release asset, skipping source: {tag}/{source_asset_name}")
+            log(f"Missing release asset, skipping source: {tag}/{source_asset_name}")
             continue
         archive_source_path = work_dir / source_asset_name
         for attempt in range(1, 4):
-            print(f"Downloading {args.repo}/{tag}/{source_asset_name}")
+            log(
+                f"Downloading {args.repo}/{tag}/{source_asset_name} "
+                f"({format_size(asset_size(asset))})"
+            )
             download(token, str(asset["browser_download_url"]), archive_source_path)
             shutil.rmtree(extract_dir, ignore_errors=True)
             try:
@@ -466,12 +548,12 @@ def backfill_deb_bundle_asset(
                 last_extract_error = exc
                 if attempt == 3:
                     break
-                print(f"Warning: extract attempt {attempt} failed for {source_asset_name}: {exc}")
+                log(f"Warning: extract attempt {attempt} failed for {source_asset_name}: {exc}")
                 archive_source_path.unlink(missing_ok=True)
                 time.sleep(attempt * 5)
         if last_extract_error is None and extract_dir.exists():
             if source_asset_name != asset_name:
-                print(f"Using fallback source asset for {asset_name}: {source_asset_name}")
+                log(f"Using fallback source asset for {asset_name}: {source_asset_name}")
             break
 
     if last_extract_error is not None:
@@ -479,7 +561,7 @@ def backfill_deb_bundle_asset(
 
     debs = find_debs(extract_dir)
     if not debs:
-        print(f"No debs found in {asset_name}, skipping.")
+        log(f"No debs found in {asset_name}, skipping.")
         return False
 
     metadata = build_package_repo(
@@ -507,7 +589,7 @@ def backfill_release(args: argparse.Namespace, token: str, release: dict[str, An
     tag = release["tag_name"]
     asset_map = cached_release_asset_map(token, args.repo, release)
     assets = list(asset_map.values())
-    print(f"Backfilling {tag} with {len(assets)} existing assets.")
+    log(f"Backfilling {tag} with {len(assets)} existing assets.")
 
     for asset in assets:
         info = deb_bundle_info(str(asset["name"]))
@@ -533,12 +615,12 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
         repo = repo_slug_from_url(str(release_info.get("repository", "")))
         tag = str(release_info.get("tag", ""))
         if not repo or not tag:
-            print(f"Skipping migration entry without release: {entry.get('id')}")
+            log(f"Skipping migration entry without release: {entry.get('id')}")
             continue
 
         key = (repo, tag)
         if key not in release_cache:
-            print(f"Loading release {repo}/{tag}")
+            log(f"Loading release {repo}/{tag}")
             release_cache[key] = release_by_tag(token, repo, tag)
         release = release_cache[key]
 
@@ -562,7 +644,7 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
         finally:
             args.repo = original_repo
 
-    print(f"Migration plan backfill complete: processed {uploaded} package repositories.")
+    log(f"Migration plan backfill complete: processed {uploaded} package repositories.")
 
 
 def main() -> int:
