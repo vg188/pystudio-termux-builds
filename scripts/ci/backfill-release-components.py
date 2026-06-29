@@ -105,7 +105,7 @@ def download(token: str, url: str, destination: Path) -> None:
             partial.replace(destination)
             return
         except (urllib.error.URLError, EOFError, RuntimeError) as exc:
-            if attempt == 5:
+            if attempt == GITHUB_API_RETRIES:
                 raise
             print(f"Warning: download attempt {attempt} failed for {destination.name}: {exc}")
             time.sleep(attempt * 5)
@@ -172,7 +172,7 @@ def upload_asset(
     query = urllib.parse.urlencode({"name": name})
     url = f"{GITHUB_UPLOADS}/repos/{owner_repo}/releases/{release_id}/assets?{query}"
     data = path.read_bytes()
-    for attempt in range(1, 6):
+    for attempt in range(1, GITHUB_API_RETRIES + 1):
         request = urllib.request.Request(
             url,
             data=data,
@@ -221,6 +221,37 @@ def release_by_tag(token: str, repo: str, tag: str) -> dict[str, Any]:
     owner_repo = urllib.parse.quote(repo, safe="/")
     quoted_tag = urllib.parse.quote(tag, safe="")
     return request_json(token, "GET", f"{GITHUB_API}/repos/{owner_repo}/releases/tags/{quoted_tag}")
+
+
+def list_release_assets(token: str, repo: str, release_id: int) -> dict[str, dict[str, Any]]:
+    owner_repo = urllib.parse.quote(repo, safe="/")
+    assets: dict[str, dict[str, Any]] = {}
+    page = 1
+    while True:
+        batch = request_json(
+            token,
+            "GET",
+            f"{GITHUB_API}/repos/{owner_repo}/releases/{release_id}/assets?per_page=100&page={page}",
+        )
+        if not batch:
+            break
+        for asset in batch:
+            assets[str(asset["name"])] = asset
+        if len(batch) < 100:
+            break
+        page += 1
+    return assets
+
+
+def cached_release_asset_map(token: str, repo: str, release: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    cache_key = "_pystudio_asset_map"
+    cached = release.get(cache_key)
+    if isinstance(cached, dict):
+        return cached
+    asset_map = list_release_assets(token, repo, int(release["id"]))
+    release[cache_key] = asset_map
+    print(f"Loaded {len(asset_map)} release assets for {repo}/{release['tag_name']}.")
+    return asset_map
 
 
 def repo_slug_from_url(value: str) -> str:
@@ -376,7 +407,7 @@ def backfill_deb_bundle_asset(
         print(f"Skipping non-deb bundle asset: {asset_name}")
         return False
 
-    asset_map = {asset["name"]: asset for asset in release.get("assets", [])}
+    asset_map = cached_release_asset_map(token, args.repo, release)
     artifact_prefix, arch = info
     tag = str(release["tag_name"])
     version = version_from_release_tag(tag)
@@ -474,7 +505,8 @@ def backfill_deb_bundle_asset(
 
 def backfill_release(args: argparse.Namespace, token: str, release: dict[str, Any]) -> None:
     tag = release["tag_name"]
-    assets = release.get("assets", [])
+    asset_map = cached_release_asset_map(token, args.repo, release)
+    assets = list(asset_map.values())
     print(f"Backfilling {tag} with {len(assets)} existing assets.")
 
     for asset in assets:
