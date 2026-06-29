@@ -361,9 +361,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-crypto-network-r17"
       },
       "install": {
         "verifyCommands": [
@@ -409,9 +413,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-data-r17"
       },
       "install": {
         "verifyCommands": [
@@ -463,9 +471,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-image-r17"
       },
       "install": {
         "verifyCommands": [
@@ -515,9 +527,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-markup-r17"
       },
       "install": {
         "verifyCommands": [
@@ -564,9 +580,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-media-r17"
       },
       "install": {
         "verifyCommands": [
@@ -614,9 +634,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-scientific-r17"
       },
       "install": {
         "verifyCommands": [
@@ -652,9 +676,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-native-libs-visualize-r17"
       },
       "install": {
         "verifyCommands": [
@@ -710,9 +738,13 @@
       "source": {
         "repository": "https://github.com/vg188/pystudio-python-extensions"
       },
-      "release": {
+      "sourceRelease": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-r17"
+      },
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-pip-build-core-r17"
       },
       "install": {
         "verifyCommands": [

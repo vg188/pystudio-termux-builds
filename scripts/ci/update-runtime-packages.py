@@ -273,6 +273,13 @@ def release_number(tag: str, prefix: str) -> int:
     return int(match.group(1)) if match else -1
 
 
+def version_from_release_tag(tag: str) -> str:
+    match = re.search(r"(r\d+)$", tag)
+    if match:
+        return match.group(1)
+    return safe_id_part(tag)
+
+
 def releases_for_repo(repo: str, token: str) -> list[dict[str, Any]]:
     if repo in RELEASE_CACHE:
         return RELEASE_CACHE[repo]
@@ -295,7 +302,12 @@ def latest_release(repo: str, tag_prefix: str, token: str, explicit_tag: str = "
     owner, name = repo.split("/", 1)
     if explicit_tag:
         url = f"{GITHUB_API}/repos/{owner}/{name}/releases/tags/{urllib.parse.quote(explicit_tag, safe='')}"
-        return fetch_json(url, token)
+        try:
+            return fetch_json(url, token)
+        except RuntimeError as exc:
+            if "HTTP 404" in str(exc):
+                return None
+            raise
 
     releases = releases_for_repo(repo, token)
     candidates = [
@@ -383,6 +395,53 @@ def modelscope_base_url(release_repo: str, release_tag: str, asset_prefix: str, 
     return urllib.parse.urljoin(MODELSCOPE_RESOLVE_BASE, urllib.parse.quote(path, safe="/"))
 
 
+def github_release_base_url(release_repo: str, release_tag: str) -> str:
+    return f"https://github.com/{release_repo}/releases/download/{urllib.parse.quote(release_tag, safe='')}/"
+
+
+def pool_release_tag(source_tag: str, pool_arch: str) -> str:
+    version = version_from_release_tag(source_tag)
+    base = source_tag[: -len(version)].rstrip("-") if source_tag.endswith(version) else source_tag
+    return f"{base}-pool-{pool_arch}-{version}"
+
+
+def modelscope_pool_base_url(release_repo: str, pool_tag: str, pool_arch: str) -> str:
+    path = f"pool/{release_repo}/{pool_tag}/{pool_arch}/"
+    return urllib.parse.urljoin(MODELSCOPE_RESOLVE_BASE, urllib.parse.quote(path, safe="/"))
+
+
+def package_pool_entries(release_repo: str, source_tag: str, arch: str) -> list[dict[str, Any]]:
+    if not source_tag:
+        return []
+    entries: list[dict[str, Any]] = []
+    for pool_arch in unique_strings(["all", arch]):
+        tag = pool_release_tag(source_tag, pool_arch)
+        entries.append(
+            {
+                "id": f"github-release-pool-{pool_arch}",
+                "kind": "flat-release-pool",
+                "architecture": pool_arch,
+                "baseUrl": github_release_base_url(release_repo, tag),
+                "release": {
+                    "repository": f"https://github.com/{release_repo}",
+                    "tag": tag,
+                },
+                "priority": 1,
+            }
+        )
+        entries.append(
+            {
+                "id": f"modelscope-pool-{pool_arch}",
+                "kind": "flat-package-pool",
+                "architecture": pool_arch,
+                "baseUrl": modelscope_pool_base_url(release_repo, tag, pool_arch),
+                "priority": 10,
+                "region": "CN",
+            }
+        )
+    return entries
+
+
 def repository_from_flat_index(
     *,
     release_repo: str,
@@ -393,6 +452,7 @@ def repository_from_flat_index(
     metadata_asset: dict[str, Any] | None,
     profile: str,
     source_adapter: str,
+    package_pool_source_tag: str = "",
 ) -> dict[str, Any]:
     info = flat_index_asset_info(asset_prefix, arch, str(index_asset["name"]))
     if not info:
@@ -400,7 +460,7 @@ def repository_from_flat_index(
     version = info["version"]
     index_path = f"dists/pystudio/main/binary-{arch}/Packages.xz"
     base_url = modelscope_base_url(release_repo, release_tag, asset_prefix, arch)
-    release_base = f"https://github.com/{release_repo}/releases/download/{urllib.parse.quote(release_tag, safe='')}/"
+    release_base = github_release_base_url(release_repo, release_tag)
     repo_id = "repo:" + ":".join(
         [
             safe_id_part(profile),
@@ -449,6 +509,9 @@ def repository_from_flat_index(
     }
     if metadata_asset:
         repository["metadata"] = artifact_from_asset("apt-repo-metadata", metadata_asset)
+    pools = package_pool_entries(release_repo, package_pool_source_tag, arch)
+    if pools:
+        repository["packagePools"] = pools
     return repository
 
 
@@ -644,6 +707,7 @@ def attach_package_repositories(
     release: dict[str, Any],
     asset_prefix: str,
     source_adapter: str,
+    package_pool_source_tag: str = "",
 ) -> int:
     assets = release_asset_map(release)
     count = 0
@@ -667,6 +731,7 @@ def attach_package_repositories(
             metadata_asset=metadata_asset,
             profile=str(entry["profile"]),
             source_adapter=source_adapter,
+            package_pool_source_tag=package_pool_source_tag,
         )
         manifest.setdefault("repositories", {})[repository["id"]] = repository
         set_arch_repository_ref(entry, arch, repository["id"], int(index_asset.get("size", 0)))
@@ -748,6 +813,7 @@ def upsert_profile_from_release(
     asset_prefix: str,
     source_adapter: str,
     source_repository: str = "",
+    package_pool_source_tag: str = "",
 ) -> None:
     entry = base_entry(
         entry_id=profile_id,
@@ -771,6 +837,7 @@ def upsert_profile_from_release(
         release=release,
         asset_prefix=asset_prefix,
         source_adapter=source_adapter,
+        package_pool_source_tag=package_pool_source_tag,
     )
     if count == 0:
         print(f"Skipping {profile_id}: no flat package indexes found.")
@@ -847,8 +914,10 @@ def upsert_migration_plan_profiles(manifest: dict[str, Any], token: str, plan_pa
             continue
 
         release_meta = meta.get("release", {})
+        source_release_meta = meta.get("sourceRelease", release_meta)
         release_repo = repo_slug_from_url(str(release_meta.get("repository", "")))
         release_tag = str(release_meta.get("tag", ""))
+        source_release_tag = str(source_release_meta.get("tag", ""))
         if not release_repo or not release_tag:
             continue
 
@@ -876,6 +945,7 @@ def upsert_migration_plan_profiles(manifest: dict[str, Any], token: str, plan_pa
             asset_prefix=asset_prefix,
             source_adapter=source_adapter,
             source_repository=str(meta.get("source", {}).get("repository", f"https://github.com/{release_repo}")),
+            package_pool_source_tag=source_release_tag if source_release_meta else "",
         )
 
 
@@ -996,6 +1066,15 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
         for key in ("role", "fileName", "format", "downloadUrl", "size"):
             if key not in index:
                 raise RuntimeError(f"repository {repo_id} index missing key: {key}")
+        pools = repository.get("packagePools", [])
+        if pools and not isinstance(pools, list):
+            raise RuntimeError(f"repository {repo_id} packagePools must be a list")
+        for pool in pools:
+            for key in ("id", "kind", "architecture", "baseUrl", "priority"):
+                if key not in pool:
+                    raise RuntimeError(f"repository {repo_id} package pool missing key: {key}")
+            if pool["architecture"] not in [*ARCHITECTURES, "all"]:
+                raise RuntimeError(f"repository {repo_id} has unsupported package pool architecture")
 
 
 def parse_args() -> argparse.Namespace:

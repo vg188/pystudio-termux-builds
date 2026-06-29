@@ -79,6 +79,21 @@ def flat_release_mirror(repository: dict[str, Any]) -> dict[str, Any] | None:
     return None
 
 
+def package_pool_url(repository: dict[str, Any], fields: dict[str, str], fallback_mirror: dict[str, Any]) -> str:
+    filename = fields.get("Filename", "")
+    deb_name = Path(filename).name
+    deb_arch = fields.get("Architecture", str(repository.get("architecture", "")))
+    wanted = [deb_arch]
+    if deb_arch != "all":
+        wanted.append("all")
+    pools = sorted(repository.get("packagePools", []), key=lambda item: int(item.get("priority", 1000)))
+    for arch in wanted:
+        for pool in pools:
+            if pool.get("kind") == "flat-release-pool" and pool.get("architecture") == arch and pool.get("baseUrl"):
+                return urllib.parse.urljoin(str(pool["baseUrl"]), deb_name)
+    return urllib.parse.urljoin(str(fallback_mirror["baseUrl"]), filename)
+
+
 def parse_packages_index(data: bytes) -> dict[str, dict[str, str]]:
     text = lzma.decompress(data).decode("utf-8", errors="replace")
     packages: dict[str, dict[str, str]] = {}
@@ -188,7 +203,7 @@ def prefetch_repository(
         filename = fields.get("Filename", "")
         if not filename:
             continue
-        deb_url = urllib.parse.urljoin(str(mirror["baseUrl"]), filename)
+        deb_url = package_pool_url(repository, fields, mirror)
         deb_path = cache_dir / Path(filename).name
         download_file(deb_url, deb_path, fields.get("SHA256", ""))
         if fields.get("Size", "").isdigit() and deb_path.stat().st_size != int(fields["Size"]):

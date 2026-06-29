@@ -17,7 +17,7 @@ import urllib.parse
 import urllib.request
 from typing import Any
 
-from component_index import find_debs, safe_extract_tar
+from component_index import deb_control_fields, find_debs, safe_extract_tar
 from package_repo import build_package_repo
 
 
@@ -275,7 +275,6 @@ def upload_asset(
         headers_path.unlink(missing_ok=True)
         command = [
             "curl",
-            "--fail-with-body",
             "--show-error",
             "--location",
             "--progress-bar",
@@ -319,6 +318,8 @@ def upload_asset(
             if status == 422 and "already_exists" in detail and not force:
                 log(f"Asset exists after upload race, skipping: {name}")
                 return
+            if status == 422:
+                raise RuntimeError(f"upload rejected for {name}: HTTP 422: {detail}")
             if sleep_for_rate_limit_response(status, response_headers, detail, url, attempt):
                 continue
             if attempt == GITHUB_API_RETRIES:
@@ -351,6 +352,30 @@ def release_by_tag(token: str, repo: str, tag: str) -> dict[str, Any]:
     owner_repo = urllib.parse.quote(repo, safe="/")
     quoted_tag = urllib.parse.quote(tag, safe="")
     return request_json(token, "GET", f"{GITHUB_API}/repos/{owner_repo}/releases/tags/{quoted_tag}")
+
+
+def release_by_tag_optional(token: str, repo: str, tag: str) -> dict[str, Any] | None:
+    try:
+        return release_by_tag(token, repo, tag)
+    except RuntimeError as exc:
+        if "HTTP 404" in str(exc):
+            return None
+        raise
+
+
+def ensure_release_by_tag(token: str, repo: str, tag: str, title: str | None = None) -> dict[str, Any]:
+    release = release_by_tag_optional(token, repo, tag)
+    if release:
+        return release
+    owner_repo = urllib.parse.quote(repo, safe="/")
+    payload = {
+        "tag_name": tag,
+        "name": title or tag,
+        "draft": False,
+        "prerelease": False,
+    }
+    log(f"Creating release {repo}/{tag}")
+    return request_json(token, "POST", f"{GITHUB_API}/repos/{owner_repo}/releases", payload)
 
 
 def list_release_assets(token: str, repo: str, release_id: int) -> dict[str, dict[str, Any]]:
@@ -478,7 +503,7 @@ def create_flat_release_assets(repo_dir: Path, flat_dir: Path, repo_slug: str, a
     return sorted(path for path in flat_dir.iterdir() if path.is_file())
 
 
-def upload_flat_release_assets(
+def upload_index_release_assets(
     token: str,
     repo: str,
     release_id: int,
@@ -488,10 +513,43 @@ def upload_flat_release_assets(
 ) -> None:
     for path in sorted(flat_dir.iterdir()):
         if path.is_file():
+            if path.name.endswith(".deb"):
+                continue
             if path.name.endswith("-Packages.gz"):
                 log(f"Skipping gzip package index asset: {path.name}")
                 continue
             upload_asset(token, repo, release_id, asset_map, path, path.name, force)
+
+
+def pool_arch_for_deb(deb: Path, target_arch: str) -> str:
+    deb_arch = deb_control_fields(deb).get("Architecture", target_arch)
+    return "all" if deb_arch == "all" else target_arch
+
+
+def pool_release_tag(source_tag: str, pool_arch: str) -> str:
+    version = version_from_release_tag(source_tag)
+    base = source_tag[: -len(version)].rstrip("-") if source_tag.endswith(version) else source_tag
+    return f"{base}-pool-{pool_arch}-{version}"
+
+
+def upload_pool_release_assets(
+    token: str,
+    repo: str,
+    source_tag: str,
+    arch: str,
+    release_cache: dict[tuple[str, str], dict[str, Any]],
+    flat_dir: Path,
+    force: bool,
+) -> None:
+    for deb in sorted(flat_dir.glob("*.deb")):
+        pool_arch = pool_arch_for_deb(deb, arch)
+        tag = pool_release_tag(source_tag, pool_arch)
+        key = (repo, tag)
+        if key not in release_cache:
+            release_cache[key] = ensure_release_by_tag(token, repo, tag, f"PyStudio package pool {pool_arch} {source_tag}")
+        release = release_cache[key]
+        asset_map = cached_release_asset_map(token, repo, release)
+        upload_asset(token, repo, int(release["id"]), asset_map, deb, deb.name, force)
 
 
 def cleanup_loose_component_assets(
@@ -564,7 +622,11 @@ def source_asset_candidates(
 def backfill_deb_bundle_asset(
     args: argparse.Namespace,
     token: str,
-    release: dict[str, Any],
+    source_repo: str,
+    source_release: dict[str, Any],
+    target_repo: str,
+    target_release: dict[str, Any],
+    release_cache: dict[tuple[str, str], dict[str, Any]],
     asset_name: str,
     profile: str | None = None,
     source: str | None = None,
@@ -574,10 +636,12 @@ def backfill_deb_bundle_asset(
         log(f"Skipping non-deb bundle asset: {asset_name}")
         return False
 
-    asset_map = cached_release_asset_map(token, args.repo, release)
+    source_asset_map = cached_release_asset_map(token, source_repo, source_release)
+    target_asset_map = cached_release_asset_map(token, target_repo, target_release)
     artifact_prefix, arch = info
-    tag = str(release["tag_name"])
-    version = version_from_release_tag(tag)
+    source_tag = str(source_release["tag_name"])
+    target_tag = str(target_release["tag_name"])
+    version = version_from_release_tag(source_tag)
     repo_slug = f"{artifact_prefix}-apt-repo-v1-{arch}-{version}"
     archive_name = f"{repo_slug}.tar.gz"
     metadata_name = f"{repo_slug}.json"
@@ -589,33 +653,28 @@ def backfill_deb_bundle_asset(
         f"{artifact_prefix}-repo-{arch}.tar.gz",
     ]
 
-    if flat_index_name in asset_map and not args.force_upload:
-        log(f"Flat package index exists, skipping bundle: {flat_index_name}")
-        cleanup_gzip_index(token, args.repo, asset_map, repo_slug)
-        if args.cleanup_loose_components:
-            cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
-        if args.cleanup_large_assets:
-            cleanup_large_assets(token, args.repo, asset_map, large_asset_names)
-        return False
+    if flat_index_name in target_asset_map and not args.force_upload:
+        log(f"Flat package index exists; continuing to verify shared package pool: {flat_index_name}")
+        cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
 
     repo_fallback_asset = f"{artifact_prefix}-repo-{arch}.tar.gz"
     source_asset_names = source_asset_candidates(
-        asset_map,
+        source_asset_map,
         [asset_name, repo_fallback_asset, archive_name],
     )
     if source_asset_names:
         log(
             "Source asset candidates by size: "
             + ", ".join(
-                f"{name} ({format_size(asset_size(asset_map.get(name)))})" for name in source_asset_names
+                f"{name} ({format_size(asset_size(source_asset_map.get(name)))})" for name in source_asset_names
             )
         )
     else:
         log(f"No source assets available for {asset_name}, skipping.")
         return False
 
-    repo_part = safe_part(args.repo)
-    work_dir = args.work_dir / repo_part / tag / artifact_prefix / arch
+    repo_part = safe_part(source_repo)
+    work_dir = args.work_dir / repo_part / source_tag / artifact_prefix / arch
     extract_dir = work_dir / "extract"
     repo_dir = work_dir / repo_slug
     metadata_path = work_dir / metadata_name
@@ -625,14 +684,14 @@ def backfill_deb_bundle_asset(
 
     last_extract_error: Exception | None = None
     for source_asset_name in source_asset_names:
-        asset = asset_map.get(source_asset_name)
+        asset = source_asset_map.get(source_asset_name)
         if not asset:
-            log(f"Missing release asset, skipping source: {tag}/{source_asset_name}")
+            log(f"Missing release asset, skipping source: {source_tag}/{source_asset_name}")
             continue
         archive_source_path = work_dir / source_asset_name
         for attempt in range(1, 4):
             log(
-                f"Downloading {args.repo}/{tag}/{source_asset_name} "
+                f"Downloading {source_repo}/{source_tag}/{source_asset_name} "
                 f"({format_size(asset_size(asset))})"
             )
             download(token, str(asset["browser_download_url"]), archive_source_path)
@@ -673,13 +732,30 @@ def backfill_deb_bundle_asset(
     metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     create_flat_release_assets(repo_dir, flat_dir, repo_slug, arch)
 
-    upload_asset(token, args.repo, int(release["id"]), asset_map, metadata_path, metadata_name, args.force_upload)
-    upload_flat_release_assets(token, args.repo, int(release["id"]), asset_map, flat_dir, args.force_upload)
-    cleanup_gzip_index(token, args.repo, asset_map, repo_slug)
+    log(f"Uploading package index assets to {target_repo}/{target_tag}")
+    upload_asset(
+        token,
+        target_repo,
+        int(target_release["id"]),
+        target_asset_map,
+        metadata_path,
+        metadata_name,
+        args.force_upload,
+    )
+    upload_index_release_assets(
+        token,
+        target_repo,
+        int(target_release["id"]),
+        target_asset_map,
+        flat_dir,
+        args.force_upload,
+    )
+    upload_pool_release_assets(token, target_repo, source_tag, arch, release_cache, flat_dir, args.force_upload)
+    cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
     if args.cleanup_loose_components:
-        cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
+        cleanup_loose_component_assets(token, source_repo, source_asset_map, artifact_prefix, arch)
     if args.cleanup_large_assets:
-        cleanup_large_assets(token, args.repo, asset_map, large_asset_names)
+        cleanup_large_assets(token, source_repo, source_asset_map, large_asset_names)
     return True
 
 
@@ -688,12 +764,22 @@ def backfill_release(args: argparse.Namespace, token: str, release: dict[str, An
     asset_map = cached_release_asset_map(token, args.repo, release)
     assets = list(asset_map.values())
     log(f"Backfilling {tag} with {len(assets)} existing assets.")
+    release_cache: dict[tuple[str, str], dict[str, Any]] = {(args.repo, tag): release}
 
     for asset in assets:
         info = deb_bundle_info(str(asset["name"]))
         if not info:
             continue
-        backfill_deb_bundle_asset(args, token, release, str(asset["name"]))
+        backfill_deb_bundle_asset(
+            args,
+            token,
+            args.repo,
+            release,
+            args.repo,
+            release,
+            release_cache,
+            str(asset["name"]),
+        )
 
 
 def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
@@ -709,21 +795,32 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
         if selected_entry_ids and entry_id not in selected_entry_ids:
             continue
 
-        release_info = entry.get("release", {})
-        repo = repo_slug_from_url(str(release_info.get("repository", "")))
-        tag = str(release_info.get("tag", ""))
-        if not repo or not tag:
+        target_info = entry.get("release", {})
+        source_info = entry.get("sourceRelease", target_info)
+        source_repo = repo_slug_from_url(str(source_info.get("repository", "")))
+        source_tag = str(source_info.get("tag", ""))
+        target_repo = repo_slug_from_url(str(target_info.get("repository", "")))
+        target_tag = str(target_info.get("tag", ""))
+        if not source_repo or not source_tag or not target_repo or not target_tag:
             log(f"Skipping migration entry without release: {entry.get('id')}")
             continue
 
-        key = (repo, tag)
-        if key not in release_cache:
-            log(f"Loading release {repo}/{tag}")
-            release_cache[key] = release_by_tag(token, repo, tag)
-        release = release_cache[key]
+        source_key = (source_repo, source_tag)
+        if source_key not in release_cache:
+            log(f"Loading source release {source_repo}/{source_tag}")
+            release_cache[source_key] = release_by_tag(token, source_repo, source_tag)
+        source_release = release_cache[source_key]
 
-        original_repo = args.repo
-        args.repo = repo
+        target_key = (target_repo, target_tag)
+        if target_key not in release_cache:
+            release_cache[target_key] = ensure_release_by_tag(
+                token,
+                target_repo,
+                target_tag,
+                str(entry.get("title") or target_tag),
+            )
+        target_release = release_cache[target_key]
+
         try:
             for arch in ARCHES:
                 asset_name = entry.get("debianPackageAssets", {}).get(arch)
@@ -733,14 +830,18 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
                 if backfill_deb_bundle_asset(
                     args,
                     token,
-                    release,
+                    source_repo,
+                    source_release,
+                    target_repo,
+                    target_release,
+                    release_cache,
                     str(asset_name),
                     profile=str(entry.get("profile") or entry_id or ""),
                     source=source_from_artifact_prefix(artifact_prefix),
                 ):
                     uploaded += 1
         finally:
-            args.repo = original_repo
+            pass
 
     log(f"Migration plan backfill complete: processed {uploaded} package repositories.")
 

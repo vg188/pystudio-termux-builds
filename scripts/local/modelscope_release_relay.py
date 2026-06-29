@@ -166,18 +166,39 @@ def modelscope_repo_path_from_base_url(base_url: str, resolve_base: str) -> str:
     return path.strip("/")
 
 
-def parse_flat_index_filenames(index_path: Path) -> list[str]:
+def parse_flat_index_packages(index_path: Path) -> list[dict[str, str]]:
     text = lzma.decompress(index_path.read_bytes()).decode("utf-8", errors="replace")
-    filenames: list[str] = []
+    packages: list[dict[str, str]] = []
     seen: set[str] = set()
-    for line in text.splitlines():
-        if not line.startswith("Filename: "):
-            continue
-        name = Path(line.split(": ", 1)[1]).name
+    for stanza in [part.strip() for part in text.split("\n\n") if part.strip()]:
+        fields: dict[str, str] = {}
+        current = ""
+        for line in stanza.splitlines():
+            if line.startswith(" ") and current:
+                fields[current] += "\n" + line.strip()
+                continue
+            key, sep, value = line.partition(":")
+            if sep:
+                current = key
+                fields[key] = value.strip()
+        filename = fields.get("Filename", "")
+        name = Path(filename).name
         if name and name not in seen:
             seen.add(name)
-            filenames.append(name)
-    return filenames
+            packages.append({"filename": filename, "name": name, "architecture": fields.get("Architecture", "")})
+    return packages
+
+
+def package_pool_for_arch(pools: list[dict[str, Any]], arch: str, kind: str) -> dict[str, Any] | None:
+    wanted = [arch]
+    if arch != "all":
+        wanted.append("all")
+    sorted_pools = sorted(pools, key=lambda item: int(item.get("priority", 1000)))
+    for wanted_arch in wanted:
+        for pool in sorted_pools:
+            if pool.get("kind") == kind and pool.get("architecture") == wanted_arch and pool.get("baseUrl"):
+                return pool
+    return None
 
 
 def collect_flat_repositories(args: argparse.Namespace, manifest: dict[str, Any]) -> list[dict[str, Any]]:
@@ -202,6 +223,12 @@ def collect_flat_repositories(args: argparse.Namespace, manifest: dict[str, Any]
                 "indexUrl": index_url,
                 "indexName": Path(urllib.parse.urlparse(index_url).path).name,
                 "basePath": modelscope_repo_path_from_base_url(base_url, args.resolve_base),
+                "githubPackagePools": [
+                    pool for pool in repository.get("packagePools", []) if pool.get("kind") == "flat-release-pool"
+                ],
+                "modelscopePackagePools": [
+                    pool for pool in repository.get("packagePools", []) if pool.get("kind") == "flat-package-pool"
+                ],
             }
         )
     if args.max_repositories:
@@ -223,22 +250,35 @@ def upload_flat_repository(args: argparse.Namespace, token: str, repository: dic
     )
 
     uploaded = 0
-    files = [index_path]
-    for filename in parse_flat_index_filenames(index_path):
-        deb_path = repo_cache / filename
+    upload_file(args, token, index_path, f"{repository['basePath'].rstrip('/')}/{index_path.name}", args.force_upload)
+    uploaded += 1
+
+    github_pools = list(repository.get("githubPackagePools", []))
+    modelscope_pools = list(repository.get("modelscopePackagePools", []))
+    for package in parse_flat_index_packages(index_path):
+        filename = package["filename"]
+        deb_name = package["name"]
+        arch = package["architecture"] or "all"
+        github_pool = package_pool_for_arch(github_pools, arch, "flat-release-pool")
+        modelscope_pool = package_pool_for_arch(modelscope_pools, arch, "flat-package-pool")
+        if github_pool and modelscope_pool:
+            source_url = urllib.parse.urljoin(str(github_pool["baseUrl"]), deb_name)
+            target_base = modelscope_repo_path_from_base_url(str(modelscope_pool["baseUrl"]), args.resolve_base)
+            path_in_repo = f"{target_base.rstrip('/')}/{deb_name}"
+        else:
+            source_url = urllib.parse.urljoin(str(repository["githubBaseUrl"]), filename)
+            path_in_repo = f"{repository['basePath'].rstrip('/')}/{deb_name}"
+
+        deb_path = repo_cache / deb_name
         download_asset(
-            urllib.parse.urljoin(str(repository["githubBaseUrl"]), filename),
+            source_url,
             deb_path,
             github_token,
             args.download_retries,
             args.force_download,
             args.progress_interval,
         )
-        files.append(deb_path)
-
-    for local_file in files:
-        path_in_repo = f"{repository['basePath'].rstrip('/')}/{local_file.name}"
-        upload_file(args, token, local_file, path_in_repo, args.force_upload)
+        upload_file(args, token, deb_path, path_in_repo, args.force_upload)
         uploaded += 1
     return uploaded
 
