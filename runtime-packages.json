@@ -1489,6 +1489,98 @@
         "sha256": "9ca71664b5b9bc1ca25266fe943440484d467e217cc50fce4b78631fa36eb857"
       }
     },
+    "repo:pip-build-core:primary:aarch64:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core": {
+      "id": "repo:pip-build-core:primary:aarch64:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
+      "kind": "apt-repository",
+      "format": "apt-repo-v1",
+      "transport": "flat-release-assets",
+      "profile": "pip-build-core",
+      "sourceAdapter": "primary",
+      "architecture": "aarch64",
+      "distribution": "pystudio",
+      "component": "main",
+      "binaryPath": "dists/pystudio/main/binary-aarch64",
+      "indexPath": "dists/pystudio/main/binary-aarch64/Packages.xz",
+      "packageRoot": "pool/main",
+      "version": "r17",
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-python-extensions",
+        "tag": "pystudio-python-extensions-pip-build-core-r17"
+      },
+      "index": {
+        "role": "package-index",
+        "fileName": "pystudio-python-extensions-pip-build-core-apt-repo-v1-aarch64-r17-Packages.xz",
+        "format": "xz",
+        "downloadUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core-apt-repo-v1-aarch64-r17-Packages.xz",
+        "size": 13140,
+        "sha256": "1381e840f8e40877146e0fe8fe2fcd7dae5e7534c03fe20767876510282a880f"
+      },
+      "mirrors": [
+        {
+          "id": "github-release-flat",
+          "kind": "flat-release-repo",
+          "baseUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/",
+          "indexUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core-apt-repo-v1-aarch64-r17-Packages.xz",
+          "priority": 1
+        },
+        {
+          "id": "modelscope",
+          "kind": "flat-package-repo",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-python-extensions/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core/aarch64/",
+          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-python-extensions/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core/aarch64/pystudio-python-extensions-pip-build-core-apt-repo-v1-aarch64-r17-Packages.xz",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
+      "metadata": {
+        "role": "apt-repo-metadata",
+        "fileName": "pystudio-python-extensions-pip-build-core-apt-repo-v1-aarch64-r17.json",
+        "format": "json",
+        "downloadUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core-apt-repo-v1-aarch64-r17.json",
+        "size": 72643,
+        "sha256": "29838ca3fc1ee7ba19d5d7d3dda6282977b89c3665e7f0e20cff25f91d35cd26"
+      },
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-all-r17"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-extensions/pystudio-python-extensions-pool-all-r17/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-extensions/pystudio-python-extensions-pool-aarch64-r17/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ]
+    },
     "repo:pip-build-core:primary:arm:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core": {
       "id": "repo:pip-build-core:primary:arm:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
       "kind": "apt-repository",
@@ -1512,8 +1604,8 @@
         "fileName": "pystudio-python-extensions-pip-build-core-apt-repo-v1-arm-r17-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core-apt-repo-v1-arm-r17-Packages.xz",
-        "size": 13116,
-        "sha256": "f97e3bf70a962d38006714b5bb3b91cd7a579744d5357c583e5e194ae6775997"
+        "size": 13124,
+        "sha256": "fd947e2242ff5f1593d8699199b9ba051b96eba0f1eba0028d3a4eb93b9a85c0"
       },
       "mirrors": [
         {
@@ -1605,7 +1697,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core-apt-repo-v1-i686-r17-Packages.xz",
         "size": 13128,
-        "sha256": "99bfe019616500c6fb1bcddb85c7fa80964340ac83cd2babba475491c08cc2cf"
+        "sha256": "a7e3089235742a606bd5ba01366216e01803de01ce210f3cd22a7ca6b4bc9007"
       },
       "mirrors": [
         {
@@ -1696,8 +1788,8 @@
         "fileName": "pystudio-python-extensions-pip-build-core-apt-repo-v1-x86_64-r17-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pip-build-core-r17/pystudio-python-extensions-pip-build-core-apt-repo-v1-x86_64-r17-Packages.xz",
-        "size": 13136,
-        "sha256": "31c99deec1dadbb062ab98134c1d9b1e520c2945843d83fa41d46dc22b5ad50c"
+        "size": 13140,
+        "sha256": "6704f6da251c60db4bc9dfc1ac969cae5098694edae6976ea32bf0254f7e118b"
       },
       "mirrors": [
         {
@@ -2434,19 +2526,22 @@
         ]
       },
       "availableArchitectures": [
+        "aarch64",
         "arm",
         "i686",
         "x86_64"
       ],
       "repositoryRefs": {
+        "aarch64": "repo:pip-build-core:primary:aarch64:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
         "arm": "repo:pip-build-core:primary:arm:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
         "i686": "repo:pip-build-core:primary:i686:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
         "x86_64": "repo:pip-build-core:primary:x86_64:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core"
       },
       "indexSizeByArch": {
-        "arm": 13116,
+        "aarch64": 13140,
+        "arm": 13124,
         "i686": 13128,
-        "x86_64": 13136
+        "x86_64": 13140
       }
     }
   ]
