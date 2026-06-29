@@ -203,7 +203,8 @@ for package in "${package_array[@]}"; do
   prefetch_args+=(--requested-package "$package")
 done
 
-mkdir -p "$source_dir/output" "$docker_data_dir" "$reuse_cache_dir" "$(dirname "$missing_packages_file")"
+mkdir -p "$source_dir/output" "$docker_data_dir/data" "$reuse_cache_dir" "$(dirname "$missing_packages_file")"
+chmod 0777 "$docker_data_dir/data"
 python3 "$ROOT/scripts/ci/prefetch-package-reuse.py" \
   --arch "$arch" \
   --output-dir "$source_dir/output" \
