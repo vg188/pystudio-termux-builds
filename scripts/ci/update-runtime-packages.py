@@ -892,6 +892,21 @@ def existing_entry_ids(manifest: dict[str, Any]) -> set[str]:
     return {str(entry.get("id", "")) for entry in manifest.get("entries", [])}
 
 
+def remove_manifest_entry(manifest: dict[str, Any], entry_id: str) -> None:
+    entries = manifest.get("entries", [])
+    keep_entries = []
+    repository_ids: set[str] = set()
+    for entry in entries:
+        if entry.get("id") == entry_id:
+            repository_ids.update(str(value) for value in (entry.get("repositoryRefs") or {}).values())
+        else:
+            keep_entries.append(entry)
+    manifest["entries"] = keep_entries
+    repositories = manifest.get("repositories", {})
+    for repository_id in repository_ids:
+        repositories.pop(repository_id, None)
+
+
 def asset_prefix_from_debs_asset(asset_name: str, arch: str) -> str:
     suffix = f"-debs-{arch}.tar.gz"
     if not asset_name.endswith(suffix):
@@ -910,7 +925,7 @@ def upsert_migration_plan_profiles(manifest: dict[str, Any], token: str, plan_pa
     release_cache: dict[tuple[str, str], dict[str, Any] | None] = {}
     for meta in plan.get("entries", []):
         entry_id = str(meta.get("id", ""))
-        if not entry_id or entry_id in existing_entry_ids(manifest):
+        if not entry_id:
             continue
 
         release_meta = meta.get("release", {})
@@ -934,6 +949,9 @@ def upsert_migration_plan_profiles(manifest: dict[str, Any], token: str, plan_pa
         asset_prefix = asset_prefix_from_debs_asset(first_asset, first_arch) if first_asset and first_arch else ""
         if not asset_prefix:
             continue
+
+        if entry_id in existing_entry_ids(manifest):
+            remove_manifest_entry(manifest, entry_id)
 
         source_adapter = "secondary" if asset_prefix.endswith("-toolchain-secondary") else "primary"
         upsert_profile_from_release(

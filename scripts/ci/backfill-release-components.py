@@ -686,6 +686,21 @@ def cleanup_large_assets(
             asset_map.pop(name, None)
 
 
+def cleanup_flat_deb_assets(
+    token: str,
+    repo: str,
+    asset_map: dict[str, dict[str, Any]],
+    packages: list[dict[str, str]],
+) -> None:
+    names = sorted({package["name"] for package in packages if package.get("name", "").endswith(".deb")})
+    for name in names:
+        asset = asset_map.get(name)
+        if asset:
+            log(f"Removing duplicate flat package asset from index release: {name}")
+            delete_asset(token, repo, asset)
+            asset_map.pop(name, None)
+
+
 def cleanup_gzip_index(
     token: str,
     repo: str,
@@ -803,6 +818,7 @@ def backfill_existing_flat_assets(
         if path.exists():
             replace_release_asset(token, target_repo, int(target_release["id"]), target_asset_map, path, name)
     upload_pool_release_assets(token, target_repo, pool_source_tag, arch, release_cache, flat_dir, args.force_upload)
+    cleanup_flat_deb_assets(token, target_repo, target_asset_map, packages)
     cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
     return True
 
@@ -978,6 +994,7 @@ def backfill_deb_bundle_asset(
         args.force_upload,
     )
     upload_pool_release_assets(token, target_repo, source_tag, arch, release_cache, flat_dir, args.force_upload)
+    cleanup_flat_deb_assets(token, target_repo, target_asset_map, flat_index_packages(flat_dir / flat_index_name))
     cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
     if args.cleanup_loose_components:
         cleanup_loose_component_assets(token, source_repo, source_asset_map, artifact_prefix, arch)
