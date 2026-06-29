@@ -24,7 +24,7 @@ def main() -> int:
         name = path.name
         if not (
             name.endswith(".deb")
-            or "-apt-repo-v1-" in name
+            or name.endswith(".json")
             or name.endswith("-Packages")
             or name.endswith("-Packages.gz")
             or name.endswith("-Packages.xz")

@@ -113,10 +113,10 @@ source for one profile/source/architecture build.
   "indexPath": "dists/pystudio/main/binary-aarch64/Packages.xz",
   "packageRoot": "pool/main",
   "version": "r10",
-  "snapshot": {
-    "role": "apt-repo-snapshot",
-    "fileName": "pystudio-python-toolchain-apt-repo-v1-aarch64-r10.tar.gz",
-    "format": "tar.gz",
+  "index": {
+    "role": "package-index",
+    "fileName": "pystudio-python-toolchain-apt-repo-v1-aarch64-r10-Packages.xz",
+    "format": "xz",
     "downloadUrl": "https://github.com/...",
     "size": 123456
   },
@@ -130,17 +130,11 @@ source for one profile/source/architecture build.
     },
     {
       "id": "modelscope",
-      "kind": "full-repo",
+      "kind": "flat-package-repo",
       "baseUrl": "https://modelscope.cn/datasets/.../resolve/master/repo/...",
-      "indexUrl": "https://modelscope.cn/datasets/.../Packages.xz",
+      "indexUrl": "https://modelscope.cn/datasets/.../ARTIFACT-apt-repo-v1-aarch64-r10-Packages.xz",
       "priority": 10,
       "region": "CN"
-    },
-    {
-      "id": "github-snapshot",
-      "kind": "snapshot",
-      "downloadUrl": "https://github.com/...",
-      "priority": 50
     }
   ]
 }
@@ -149,10 +143,8 @@ source for one profile/source/architecture build.
 `github-release-flat` stores the `Packages.xz` index and each `.deb` as GitHub
 Release assets. The index rewrites `Filename` to the `.deb` asset name, so
 `baseUrl + Filename` downloads the package directly. ModelScope mirrors expose
-the repository as normal files. GitHub snapshots are compact release artifacts
-that the app can download and expand into a local package cache when direct
-package mirrors are unavailable. A snapshot tarball is a repository transport
-format, not the package manager's install unit.
+the same flat file layout. Toolchain tarballs are not part of the app-side
+package model.
 
 ## App Install Flow
 
@@ -162,12 +154,10 @@ format, not the package manager's install unit.
    extract it into the app prefix.
 4. For `kind = package-set`, read `repositoryRefs[abi]` and fetch the referenced
    repository index.
-5. Prefer `flat-release-repo` or `full-repo` mirrors by priority. Download
+5. Prefer `flat-release-repo` or `flat-package-repo` mirrors by priority. Download
    `Packages.xz` from `indexUrl`, then download `.deb` files using
    `baseUrl + Filename`.
-6. If no direct package mirror is reachable, download the GitHub `snapshot`,
-   extract it to a local cache, and read the same `Packages.xz` from disk.
-7. Resolve `Depends` and `Pre-Depends` from the package index, skip already
+6. Resolve `Depends` and `Pre-Depends` from the package index, skip already
    installed package/version pairs, verify `SHA256`, and install missing `.deb`
    files with `dpkg`.
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import gzip
-import hashlib
 import json
 import lzma
 import os
@@ -239,21 +238,6 @@ def source_from_artifact_prefix(artifact_prefix: str) -> str:
     return "primary"
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def write_archive(repo_dir: Path, archive_path: Path) -> None:
-    archive_path.unlink(missing_ok=True)
-    with tarfile.open(archive_path, "w:gz") as archive:
-        for path in sorted(repo_dir.rglob("*")):
-            archive.add(path, arcname=path.relative_to(repo_dir).as_posix())
-
-
 def copy_unique(source: Path, target: Path) -> None:
     if target.exists() and target.read_bytes() != source.read_bytes():
         raise RuntimeError(f"conflicting flat release asset name: {target.name}")
@@ -317,6 +301,19 @@ def cleanup_loose_component_assets(
         asset_map.pop(name, None)
 
 
+def cleanup_large_assets(
+    token: str,
+    repo: str,
+    asset_map: dict[str, dict[str, Any]],
+    names: list[str],
+) -> None:
+    for name in names:
+        asset = asset_map.get(name)
+        if asset:
+            delete_asset(token, repo, asset)
+            asset_map.pop(name, None)
+
+
 def backfill_deb_bundle_asset(
     args: argparse.Namespace,
     token: str,
@@ -336,14 +333,21 @@ def backfill_deb_bundle_asset(
     version = version_from_release_tag(tag)
     repo_slug = f"{artifact_prefix}-apt-repo-v1-{arch}-{version}"
     archive_name = f"{repo_slug}.tar.gz"
-    checksum_name = f"{archive_name}.sha256"
     metadata_name = f"{repo_slug}.json"
     flat_index_name = f"{repo_slug}-Packages.xz"
+    large_asset_names = [
+        asset_name,
+        archive_name,
+        f"{archive_name}.sha256",
+        f"{artifact_prefix}-repo-{arch}.tar.gz",
+    ]
 
-    if archive_name in asset_map and flat_index_name in asset_map and not args.force_upload:
-        print(f"Package repo snapshot and flat index exist, skipping bundle: {archive_name}")
+    if flat_index_name in asset_map and not args.force_upload:
+        print(f"Flat package index exists, skipping bundle: {flat_index_name}")
         if args.cleanup_loose_components:
             cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
+        if args.cleanup_large_assets:
+            cleanup_large_assets(token, args.repo, asset_map, large_asset_names)
         return False
 
     source_asset_names = []
@@ -359,8 +363,6 @@ def backfill_deb_bundle_asset(
     extract_dir = work_dir / "extract"
     repo_dir = work_dir / repo_slug
     metadata_path = work_dir / metadata_name
-    archive_path = work_dir / archive_name
-    checksum_path = work_dir / checksum_name
     flat_dir = work_dir / f"{repo_slug}-flat"
     shutil.rmtree(work_dir, ignore_errors=True)
     work_dir.mkdir(parents=True, exist_ok=True)
@@ -410,17 +412,14 @@ def backfill_deb_bundle_asset(
         version=version,
     )
     metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    write_archive(repo_dir, archive_path)
-    digest = sha256_file(archive_path)
-    checksum_path.write_text(f"{digest}  {archive_name}\n", encoding="utf-8")
     create_flat_release_assets(repo_dir, flat_dir, repo_slug, arch)
 
-    upload_asset(token, args.repo, int(release["id"]), asset_map, archive_path, archive_name, args.force_upload)
-    upload_asset(token, args.repo, int(release["id"]), asset_map, checksum_path, checksum_name, args.force_upload)
     upload_asset(token, args.repo, int(release["id"]), asset_map, metadata_path, metadata_name, args.force_upload)
     upload_flat_release_assets(token, args.repo, int(release["id"]), asset_map, flat_dir, args.force_upload)
     if args.cleanup_loose_components:
         cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
+    if args.cleanup_large_assets:
+        cleanup_large_assets(token, args.repo, asset_map, large_asset_names)
     return True
 
 
@@ -481,7 +480,7 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Backfill apt-style package repository snapshots into releases.")
+    parser = argparse.ArgumentParser(description="Backfill flat apt-style package assets into releases.")
     parser.add_argument("--repo", default="vg188/pystudio-termux-builds")
     parser.add_argument("--tag-prefix", default="")
     parser.add_argument("--tags", default="", help="Comma-separated release tags to process. Defaults to all matching.")
@@ -490,6 +489,8 @@ def main() -> int:
     parser.add_argument("--force-upload", action="store_true")
     parser.add_argument("--cleanup-loose-components", action="store_true", default=True)
     parser.add_argument("--no-cleanup-loose-components", action="store_false", dest="cleanup_loose_components")
+    parser.add_argument("--cleanup-large-assets", action="store_true", default=True)
+    parser.add_argument("--no-cleanup-large-assets", action="store_false", dest="cleanup_large_assets")
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
     parser.add_argument("--migration-plan", type=Path, default=None)
     args = parser.parse_args()

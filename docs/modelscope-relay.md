@@ -3,18 +3,13 @@
 `scripts/local/modelscope_release_relay.py` mirrors PyStudio package
 repositories to a public ModelScope dataset.
 
-GitHub Releases remain the authority and store compact
-`*-apt-repo-v1-ARCH-rN.tar.gz` snapshots. The relay downloads those snapshots,
-expands them, and uploads the resulting Termux-style directory tree:
+GitHub Releases remain the authority and store flat `Packages.xz` indexes plus
+`.deb` files. The relay downloads those files and uploads the same flat layout:
 
 ```text
 repo/<owner>/<repo>/<release-tag>/<artifact-prefix>/<arch>/
-  dists/pystudio/main/binary-ARCH/Packages.xz
-  dists/pystudio/main/binary-ARCH/Packages.gz
-  dists/pystudio/main/binary-ARCH/Packages
-  dists/pystudio/Release
-  pool/main/.../*.deb
-  repo-metadata.json
+  ARTIFACT-apt-repo-v1-ARCH-rN-Packages.xz
+  package_version_ARCH.deb
 ```
 
 Gitee is not a package mirror. It only stores the lightweight
@@ -89,9 +84,9 @@ The schema 5 manifest already contains ModelScope full-repo mirrors:
 ```json
 {
   "id": "modelscope",
-  "kind": "full-repo",
+  "kind": "flat-package-repo",
   "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/...",
-  "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/.../Packages.xz",
+  "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/.../ARTIFACT-apt-repo-v1-ARCH-rN-Packages.xz",
   "priority": 10,
   "region": "CN"
 }

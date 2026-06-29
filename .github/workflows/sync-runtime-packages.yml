@@ -8,7 +8,7 @@ on:
         required: false
         default: ""
       sync_modelscope:
-        description: "Expand apt repo snapshots and mirror them to ModelScope. Disabled by default."
+        description: "Mirror flat package indexes and .deb assets to ModelScope. Disabled by default."
         required: false
         type: boolean
         default: false

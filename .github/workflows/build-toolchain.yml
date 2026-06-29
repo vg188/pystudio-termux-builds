@@ -170,7 +170,7 @@ jobs:
           set -euo pipefail
           bash scripts/ci/build-toolchain.sh "${{ matrix.profile }}" "${{ matrix.source }}" "${{ matrix.arch }}" "$PACKAGE_OVERRIDE"
 
-      - name: Build package repository snapshot
+      - name: Build flat package repository assets
         shell: bash
         run: |
           set -euo pipefail
@@ -181,15 +181,12 @@ jobs:
             "pystudio-${{ matrix.profile }}-toolchain-${{ matrix.source }}" \
             "r${{ github.run_number }}"
 
-      - name: Upload package repository snapshot
+      - name: Upload flat package repository assets
         uses: actions/upload-artifact@v4
         with:
           name: pystudio-${{ matrix.profile }}-toolchain-${{ matrix.source }}-${{ matrix.arch }}-${{ github.run_number }}
           path: |
-            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*/
             dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*-flat/*
-            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz
-            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz.sha256
             dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.json
           if-no-files-found: error
 

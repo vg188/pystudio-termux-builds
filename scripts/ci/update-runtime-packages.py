@@ -310,21 +310,21 @@ def latest_release(repo: str, tag_prefix: str, token: str, explicit_tag: str = "
     return max(candidates, key=lambda release: release_number(release["tag_name"], tag_prefix))
 
 
-def snapshot_asset_name(asset_prefix: str, arch: str, version: str) -> str:
-    return f"{asset_prefix}-apt-repo-v1-{arch}-{version}.tar.gz"
-
-
-def snapshot_asset_info(asset_prefix: str, arch: str, name: str) -> dict[str, str] | None:
-    pattern = re.compile(rf"^{re.escape(asset_prefix)}-apt-repo-v(?P<formatVersion>\d+)-{re.escape(arch)}-(?P<version>.+)\.tar\.gz$")
+def flat_index_asset_info(asset_prefix: str, arch: str, name: str) -> dict[str, str] | None:
+    pattern = re.compile(rf"^{re.escape(asset_prefix)}-apt-repo-v(?P<formatVersion>\d+)-{re.escape(arch)}-(?P<version>.+)-Packages\.xz$")
     match = pattern.fullmatch(name)
     return match.groupdict() if match else None
 
 
-def release_has_snapshot(release: dict[str, Any], asset_prefix: str) -> bool:
-    return any("-apt-repo-v" in str(asset.get("name", "")) and str(asset.get("name", "")).startswith(asset_prefix) for asset in release.get("assets", []))
+def release_has_flat_index(release: dict[str, Any], asset_prefix: str) -> bool:
+    return any(
+        str(asset.get("name", "")).startswith(asset_prefix)
+        and str(asset.get("name", "")).endswith("-Packages.xz")
+        for asset in release.get("assets", [])
+    )
 
 
-def latest_release_with_snapshot(repo: str, tag_prefix: str, asset_prefix: str, token: str) -> dict[str, Any] | None:
+def latest_release_with_flat_index(repo: str, tag_prefix: str, asset_prefix: str, token: str) -> dict[str, Any] | None:
     releases = releases_for_repo(repo, token)
     candidates = []
     for release in releases:
@@ -332,7 +332,7 @@ def latest_release_with_snapshot(repo: str, tag_prefix: str, asset_prefix: str, 
             continue
         if not release.get("tag_name", "").startswith(tag_prefix):
             continue
-        if release_has_snapshot(release, asset_prefix):
+        if release_has_flat_index(release, asset_prefix):
             candidates.append(release)
     if not candidates:
         return None
@@ -383,25 +383,24 @@ def modelscope_base_url(release_repo: str, release_tag: str, asset_prefix: str, 
     return urllib.parse.urljoin(MODELSCOPE_RESOLVE_BASE, urllib.parse.quote(path, safe="/"))
 
 
-def repository_from_snapshot(
+def repository_from_flat_index(
     *,
     release_repo: str,
     release_tag: str,
     asset_prefix: str,
     arch: str,
-    asset: dict[str, Any],
-    checksum_asset: dict[str, Any] | None,
+    index_asset: dict[str, Any],
     metadata_asset: dict[str, Any] | None,
-    flat_index_asset: dict[str, Any] | None,
     profile: str,
     source_adapter: str,
 ) -> dict[str, Any]:
-    info = snapshot_asset_info(asset_prefix, arch, str(asset["name"]))
+    info = flat_index_asset_info(asset_prefix, arch, str(index_asset["name"]))
     if not info:
-        raise RuntimeError(f"invalid package repo snapshot name: {asset['name']}")
+        raise RuntimeError(f"invalid flat package index name: {index_asset['name']}")
     version = info["version"]
     index_path = f"dists/pystudio/main/binary-{arch}/Packages.xz"
     base_url = modelscope_base_url(release_repo, release_tag, asset_prefix, arch)
+    release_base = f"https://github.com/{release_repo}/releases/download/{urllib.parse.quote(release_tag, safe='')}/"
     repo_id = "repo:" + ":".join(
         [
             safe_id_part(profile),
@@ -415,6 +414,7 @@ def repository_from_snapshot(
         "id": repo_id,
         "kind": "apt-repository",
         "format": "apt-repo-v1",
+        "transport": "flat-release-assets",
         "profile": profile,
         "sourceAdapter": source_adapter,
         "architecture": arch,
@@ -428,40 +428,27 @@ def repository_from_snapshot(
             "repository": f"https://github.com/{release_repo}",
             "tag": release_tag,
         },
-        "snapshot": artifact_from_asset("apt-repo-snapshot", asset),
+        "index": artifact_from_asset("package-index", index_asset),
         "mirrors": [
-            {
-                "id": "modelscope",
-                "kind": "full-repo",
-                "baseUrl": base_url,
-                "indexUrl": urllib.parse.urljoin(base_url, index_path),
-                "priority": 10,
-                "region": "CN",
-            },
-            {
-                "id": "github-snapshot",
-                "kind": "snapshot",
-                "downloadUrl": str(asset["browser_download_url"]),
-                "priority": 50,
-            },
-        ],
-    }
-    if checksum_asset:
-        repository["checksum"] = artifact_from_asset("apt-repo-snapshot-sha256", checksum_asset)
-    if metadata_asset:
-        repository["metadata"] = artifact_from_asset("apt-repo-metadata", metadata_asset)
-    if flat_index_asset:
-        release_base = f"https://github.com/{release_repo}/releases/download/{urllib.parse.quote(release_tag, safe='')}/"
-        repository["mirrors"].insert(
-            0,
             {
                 "id": "github-release-flat",
                 "kind": "flat-release-repo",
                 "baseUrl": release_base,
-                "indexUrl": urllib.parse.urljoin(release_base, str(flat_index_asset["name"])),
+                "indexUrl": urllib.parse.urljoin(release_base, str(index_asset["name"])),
                 "priority": 1,
             },
-        )
+            {
+                "id": "modelscope",
+                "kind": "flat-package-repo",
+                "baseUrl": base_url,
+                "indexUrl": urllib.parse.urljoin(base_url, str(index_asset["name"])),
+                "priority": 10,
+                "region": "CN",
+            },
+        ],
+    }
+    if metadata_asset:
+        repository["metadata"] = artifact_from_asset("apt-repo-metadata", metadata_asset)
     return repository
 
 
@@ -615,12 +602,12 @@ def set_arch_artifacts(entry: dict[str, Any], arch: str, artifacts: list[dict[st
     entry.setdefault("sizeByArch", {})[arch] = sum(int(artifact.get("size", 0)) for artifact in artifacts)
 
 
-def set_arch_repository_ref(entry: dict[str, Any], arch: str, repository_id: str, snapshot_size: int) -> None:
+def set_arch_repository_ref(entry: dict[str, Any], arch: str, repository_id: str, index_size: int) -> None:
     if not repository_id:
         return
     entry["repositoryRefs"][arch] = repository_id
     entry["availableArchitectures"] = sorted(entry["repositoryRefs"], key=ARCHITECTURES.index)
-    entry.setdefault("sizeByArch", {})[arch] = snapshot_size
+    entry.setdefault("indexSizeByArch", {})[arch] = index_size
 
 
 def repository_refs_for_arch(entry: dict[str, Any], arch: str) -> list[str]:
@@ -643,8 +630,8 @@ def set_arch_repository_refs(
         return
     entry["repositoryRefs"][arch] = repository_ids
     entry["availableArchitectures"] = sorted(entry["repositoryRefs"], key=ARCHITECTURES.index)
-    entry.setdefault("sizeByArch", {})[arch] = sum(
-        int(manifest["repositories"].get(repository_id, {}).get("snapshot", {}).get("size", 0))
+    entry.setdefault("indexSizeByArch", {})[arch] = sum(
+        int(manifest["repositories"].get(repository_id, {}).get("index", {}).get("size", 0))
         for repository_id in repository_ids
     )
 
@@ -664,29 +651,25 @@ def attach_package_repositories(
         matches = [
             asset
             for asset in assets.values()
-            if snapshot_asset_info(asset_prefix, arch, str(asset.get("name", "")))
+            if flat_index_asset_info(asset_prefix, arch, str(asset.get("name", "")))
         ]
         if not matches:
             continue
-        asset = sorted(matches, key=lambda item: str(item["name"]))[-1]
-        base_name = str(asset["name"])
-        checksum_asset = assets.get(base_name + ".sha256")
-        metadata_asset = assets.get(base_name[:-7] + ".json") if base_name.endswith(".tar.gz") else None
-        flat_index_asset = assets.get(base_name[:-7] + "-Packages.xz") if base_name.endswith(".tar.gz") else None
-        repository = repository_from_snapshot(
+        index_asset = sorted(matches, key=lambda item: str(item["name"]))[-1]
+        base_name = str(index_asset["name"])
+        metadata_asset = assets.get(base_name[: -len("-Packages.xz")] + ".json")
+        repository = repository_from_flat_index(
             release_repo=release_repo,
             release_tag=str(release["tag_name"]),
             asset_prefix=asset_prefix,
             arch=arch,
-            asset=asset,
-            checksum_asset=checksum_asset,
+            index_asset=index_asset,
             metadata_asset=metadata_asset,
-            flat_index_asset=flat_index_asset,
             profile=str(entry["profile"]),
             source_adapter=source_adapter,
         )
         manifest.setdefault("repositories", {})[repository["id"]] = repository
-        set_arch_repository_ref(entry, arch, repository["id"], int(asset.get("size", 0)))
+        set_arch_repository_ref(entry, arch, repository["id"], int(index_asset.get("size", 0)))
         count += 1
     return count
 
@@ -790,7 +773,7 @@ def upsert_profile_from_release(
         source_adapter=source_adapter,
     )
     if count == 0:
-        print(f"Skipping {profile_id}: no apt repo snapshots found.")
+        print(f"Skipping {profile_id}: no flat package indexes found.")
         return
     if metadata.get("heavy"):
         entry["heavy"] = True
@@ -811,7 +794,7 @@ def upsert_latest_toolchain_profiles(manifest: dict[str, Any], token: str) -> No
     for profile_id, env in toolchain_profile_envs().items():
         selected: tuple[dict[str, str], dict[str, Any]] | None = None
         for config in release_configs_for_profile(profile_id):
-            release = latest_release_with_snapshot(
+            release = latest_release_with_flat_index(
                 config["release_repo"],
                 config["tag_prefix"],
                 config["asset_prefix"],
@@ -1002,17 +985,17 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
             "packageRoot",
             "version",
             "release",
-            "snapshot",
+            "index",
             "mirrors",
         ):
             if key not in repository:
                 raise RuntimeError(f"repository {repo_id} missing key: {key}")
         if repository["architecture"] not in ARCHITECTURES:
             raise RuntimeError(f"repository {repo_id} has unsupported architecture")
-        snapshot = repository["snapshot"]
+        index = repository["index"]
         for key in ("role", "fileName", "format", "downloadUrl", "size"):
-            if key not in snapshot:
-                raise RuntimeError(f"repository {repo_id} snapshot missing key: {key}")
+            if key not in index:
+                raise RuntimeError(f"repository {repo_id} index missing key: {key}")
 
 
 def parse_args() -> argparse.Namespace:

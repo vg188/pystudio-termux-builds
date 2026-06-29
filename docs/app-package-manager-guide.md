@@ -56,24 +56,20 @@ Use this resolver:
 1. Start with `entry.repositoryRefs[arch]`.
 2. Load the repository from `manifest.repositories[repoId]`.
 3. Prefer `repository.mirrors[]` with `kind = flat-release-repo` or
-   `kind = full-repo`, sorted by `priority`.
+   `kind = flat-package-repo`, sorted by `priority`.
 4. Download `Packages.xz` from `indexUrl`.
-5. If all direct package mirrors fail, download
-   `repository.snapshot.downloadUrl` and extract it to
-   `$PREFIX/var/cache/pystudio/repos/<repoId>/`.
-6. Parse stanzas in `Packages.xz`.
-7. Start with `entry.packages`, or with an explicit package name selected by the
+5. Parse stanzas in `Packages.xz`.
+6. Start with `entry.packages`, or with an explicit package name selected by the
    user from the parsed repository index.
-8. Resolve `Depends` and `Pre-Depends`; for alternatives, prefer the first
+7. Resolve `Depends` and `Pre-Depends`; for alternatives, prefer the first
    package available in the same index.
-9. Skip package/version/architecture tuples that are already installed.
-10. Download missing `.deb` files using `baseUrl + Filename`, or read them from
-    the extracted snapshot.
-11. Verify `SHA256` and `Size`.
-12. Install with `dpkg --force-depends -i <deb>` in dependency order.
-13. Run `dpkg --configure -a`.
-14. Run the entry's `install.verifyCommands`.
-15. Persist installed package state.
+8. Skip package/version/architecture tuples that are already installed.
+9. Download missing `.deb` files using `baseUrl + Filename`.
+10. Verify `SHA256` and `Size`.
+11. Install with `dpkg --force-depends -i <deb>` in dependency order.
+12. Run `dpkg --configure -a`.
+13. Run the entry's `install.verifyCommands`.
+14. Persist installed package state.
 
 ## Download Sources
 
@@ -81,8 +77,7 @@ Recommended behavior:
 
 - Try Gitee for the manifest.
 - Try GitHub flat Release package assets first when reachable.
-- Try ModelScope full-file mirrors for packages in China.
-- Fall back to GitHub snapshots when direct package mirrors fail.
+- Try ModelScope flat package mirrors for packages in China.
 - Resume partial downloads.
 - Show speed and progress.
 - Verify SHA256 before install.

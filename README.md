@@ -109,10 +109,9 @@ Tree-sitter and Node.js native build core are opt-in child-repository builds:
 `entries[]` catalog for bootstrap archives and apt-style package repositories.
 New GitHub releases publish direct package assets plus indexes: each `.deb`
 keeps its Debian package name/version/architecture file name, and each
-architecture has a `*-Packages.xz` index. Compact `*-apt-repo-v1-ARCH-rN.tar.gz`
-snapshots remain as backup and CI reuse inputs; they are not the app-side
-install unit. The app should resolve package names and dependencies from the
-index just like Termux `pkg`. See `docs/runtime-manifest-schema.md` for the
+architecture has a `*-Packages.xz` index. Toolchain tarballs are not published
+as install units. The app should resolve package names and dependencies from
+the index just like Termux `pkg`. See `docs/runtime-manifest-schema.md` for the
 current schema. See `docs/component-package-architecture.md` for the package
 repository build and resolver design.
 See `docs/app-package-manager-guide.md` for app-side package manager
@@ -120,8 +119,7 @@ implementation guidance.
 The legacy schema-2 package sets that need migration are listed in
 `migration/runtime-packages-v2-components.json`; **Backfill PyStudio Flat
 Package Repositories** uses this plan to convert previous `*-debs-ARCH.tar.gz`
-assets into direct `.deb` Release assets, `Packages.xz` indexes, and apt
-repository snapshots for CI reuse.
+assets into direct `.deb` Release assets and `Packages.xz` indexes.
 
 Those repositories are intentionally thin and call the reusable workflow in
 this repository. The profile definitions still live in `profiles/toolchains/`.

@@ -92,11 +92,13 @@ jobs:
               assert repository["format"] == "apt-repo-v1"
               assert repository["architecture"] in manifest["architectures"]
               assert repository["indexPath"].endswith("/Packages.xz")
-              for key in ("profile", "distribution", "component", "packageRoot", "version", "release", "snapshot", "mirrors"):
+              for key in ("profile", "distribution", "component", "packageRoot", "version", "release", "index", "mirrors"):
                   assert key in repository, (repo_id, key)
-              snapshot = repository["snapshot"]
+              index = repository["index"]
               for key in ("role", "fileName", "format", "downloadUrl", "size"):
-                  assert key in snapshot, (repo_id, key)
+                  assert key in index, (repo_id, key)
+              assert any(mirror["kind"] == "flat-release-repo" for mirror in repository["mirrors"])
+              assert all(mirror["kind"] != "snapshot" for mirror in repository["mirrors"])
           PY
 
       - name: Validate legacy migration plan

@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
-"""Prefetch PyStudio package repository snapshots for GitHub CI reuse."""
+"""Prefetch PyStudio flat package assets for GitHub CI reuse."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import lzma
 import os
 from pathlib import Path
 import shutil
 import tarfile
 import tempfile
+import urllib.parse
 import urllib.request
 from typing import Any
 
-from component_index import deb_control_fields, decompress_member, read_ar_members, safe_extract_tar
+from component_index import deb_control_fields, decompress_member, dependency_names, read_ar_members
 
 
 DEFAULT_MANIFEST_URL = "https://raw.githubusercontent.com/vg188/pystudio-termux-builds/main/runtime-packages.json"
@@ -36,7 +38,7 @@ def sha256_file(path: Path) -> str:
 def download_file(url: str, destination: Path, expected_sha256: str = "") -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists() and (not expected_sha256 or sha256_file(destination) == expected_sha256):
-        print(f"Using cached snapshot: {destination.name}")
+        print(f"Using cached package asset: {destination.name}")
         return
 
     tmp = destination.with_suffix(destination.suffix + ".part")
@@ -69,15 +71,56 @@ def repository_refs(entry: dict[str, Any], arch: str) -> list[str]:
     return []
 
 
-def github_snapshot_url(repository: dict[str, Any]) -> str:
-    snapshot = repository.get("snapshot", {})
-    url = str(snapshot.get("downloadUrl", ""))
-    if "github.com/" in url:
-        return url
-    for mirror in repository.get("mirrors", []):
-        if mirror.get("id") == "github-snapshot":
-            return str(mirror.get("downloadUrl", ""))
-    return url
+def flat_release_mirror(repository: dict[str, Any]) -> dict[str, Any] | None:
+    mirrors = sorted(repository.get("mirrors", []), key=lambda item: int(item.get("priority", 1000)))
+    for mirror in mirrors:
+        if mirror.get("kind") == "flat-release-repo" and mirror.get("baseUrl") and mirror.get("indexUrl"):
+            return mirror
+    return None
+
+
+def parse_packages_index(data: bytes) -> dict[str, dict[str, str]]:
+    text = lzma.decompress(data).decode("utf-8", errors="replace")
+    packages: dict[str, dict[str, str]] = {}
+    for stanza in re_split_stanzas(text):
+        fields: dict[str, str] = {}
+        current = ""
+        for line in stanza.splitlines():
+            if not line:
+                continue
+            if line[0].isspace() and current:
+                fields[current] += "\n" + line.strip()
+                continue
+            key, sep, value = line.partition(":")
+            if sep:
+                current = key
+                fields[key] = value.strip()
+        package = fields.get("Package", "")
+        if package:
+            packages[package] = fields
+    return packages
+
+
+def re_split_stanzas(text: str) -> list[str]:
+    return [part.strip() for part in text.split("\n\n") if part.strip()]
+
+
+def resolve_packages(index: dict[str, dict[str, str]], requested: list[str]) -> list[str]:
+    resolved: list[str] = []
+    seen: set[str] = set()
+
+    def visit(package: str) -> None:
+        if package in seen or package not in index:
+            return
+        seen.add(package)
+        fields = index[package]
+        for dependency in dependency_names(",".join([fields.get("Pre-Depends", ""), fields.get("Depends", "")])):
+            visit(dependency)
+        resolved.append(package)
+
+    for package in requested:
+        visit(package)
+    return resolved
 
 
 def data_member_name(path: Path) -> str:
@@ -115,31 +158,43 @@ def extract_deb_data_to_docker_data(deb: Path, docker_data_dir: Path) -> None:
 def prefetch_repository(
     *,
     repository: dict[str, Any],
+    requested_packages: list[str],
     output_dir: Path,
     docker_data_dir: Path,
     cache_dir: Path,
 ) -> set[str]:
-    snapshot = repository.get("snapshot", {})
-    url = github_snapshot_url(repository)
-    if not url:
-        raise RuntimeError(f"repository {repository.get('id')} has no GitHub snapshot URL")
-    file_name = str(snapshot.get("fileName") or Path(url).name)
-    archive_path = cache_dir / file_name
-    expected_sha256 = str(snapshot.get("sha256", ""))
-    print(f"Prefetching {repository.get('id')} from GitHub Releases")
-    download_file(url, archive_path, expected_sha256)
+    mirror = flat_release_mirror(repository)
+    if not mirror:
+        print(f"Repository has no flat GitHub Release mirror, skipping: {repository.get('id')}")
+        return set()
 
-    repo_dir = cache_dir / file_name.removesuffix(".tar.gz")
-    if not (repo_dir / "pool" / "main").exists():
-        shutil.rmtree(repo_dir, ignore_errors=True)
-        safe_extract_tar(archive_path, repo_dir)
+    index_name = Path(urllib.parse.urlparse(str(mirror["indexUrl"])).path).name
+    index_path = cache_dir / index_name
+    print(f"Prefetching index for {repository.get('id')} from GitHub Releases")
+    download_file(str(mirror["indexUrl"]), index_path, str(repository.get("index", {}).get("sha256", "")))
+    index = parse_packages_index(index_path.read_bytes())
+    package_order = resolve_packages(index, requested_packages)
+    if not package_order:
+        print(f"No requested packages found in {repository.get('id')}")
+        return set()
 
     marker_dir = docker_data_dir / "data" / ".built-packages"
     marker_dir.mkdir(parents=True, exist_ok=True)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     reused: set[str] = set()
-    for deb in sorted((repo_dir / "pool" / "main").rglob("*.deb")):
+    for package in package_order:
+        fields = index[package]
+        filename = fields.get("Filename", "")
+        if not filename:
+            continue
+        deb_url = urllib.parse.urljoin(str(mirror["baseUrl"]), filename)
+        deb_path = cache_dir / Path(filename).name
+        download_file(deb_url, deb_path, fields.get("SHA256", ""))
+        if fields.get("Size", "").isdigit() and deb_path.stat().st_size != int(fields["Size"]):
+            raise RuntimeError(f"size mismatch for {deb_path.name}")
+
+        deb = deb_path
         fields = deb_control_fields(deb)
         package = fields.get("Package", "")
         version = fields.get("Version", "")
@@ -192,6 +247,7 @@ def main() -> int:
                 reused.update(
                     prefetch_repository(
                         repository=repository,
+                        requested_packages=requested,
                         output_dir=args.output_dir,
                         docker_data_dir=args.docker_data_dir,
                         cache_dir=args.cache_dir,

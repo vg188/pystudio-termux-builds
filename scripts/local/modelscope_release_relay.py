@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Mirror PyStudio apt-style package repositories to ModelScope.
+"""Mirror PyStudio flat package repositories to ModelScope.
 
-The GitHub release remains the authority and stores compact repository
-snapshots. This relay downloads those snapshots, expands them into a
-Termux-style `dists/` + `pool/` tree, uploads that tree to ModelScope, and then
-uploads the same schema-5 runtime manifest for lightweight discovery.
+GitHub Releases remain the authority and store `Packages.xz` plus `.deb` files.
+This relay downloads those flat assets, uploads them to ModelScope with the same
+filenames, and then uploads the schema-5 runtime manifest for lightweight
+discovery.
 """
 
 from __future__ import annotations
@@ -12,10 +12,10 @@ from __future__ import annotations
 import argparse
 import getpass
 import json
+import lzma
 import os
 import subprocess
 import sys
-import tarfile
 import time
 import urllib.error
 import urllib.parse
@@ -159,17 +159,6 @@ def upload_file(args: argparse.Namespace, token: str, local_file: Path, path_in_
     )
 
 
-def safe_extract_tar(archive_path: Path, destination: Path) -> None:
-    destination.mkdir(parents=True, exist_ok=True)
-    root = destination.resolve()
-    with tarfile.open(archive_path, mode="r:*") as archive:
-        for member in archive.getmembers():
-            target = (destination / member.name).resolve()
-            if os.path.commonpath([root, target]) != str(root):
-                raise RuntimeError(f"unsafe tar member path: {member.name}")
-        archive.extractall(destination)
-
-
 def modelscope_repo_path_from_base_url(base_url: str, resolve_base: str) -> str:
     if not base_url.startswith(resolve_base):
         raise RuntimeError(f"ModelScope baseUrl is not under expected resolve base: {base_url}")
@@ -177,59 +166,78 @@ def modelscope_repo_path_from_base_url(base_url: str, resolve_base: str) -> str:
     return path.strip("/")
 
 
-def collect_repository_snapshots(args: argparse.Namespace, manifest: dict[str, Any]) -> list[dict[str, Any]]:
-    snapshots: list[dict[str, Any]] = []
+def parse_flat_index_filenames(index_path: Path) -> list[str]:
+    text = lzma.decompress(index_path.read_bytes()).decode("utf-8", errors="replace")
+    filenames: list[str] = []
+    seen: set[str] = set()
+    for line in text.splitlines():
+        if not line.startswith("Filename: "):
+            continue
+        name = Path(line.split(": ", 1)[1]).name
+        if name and name not in seen:
+            seen.add(name)
+            filenames.append(name)
+    return filenames
+
+
+def collect_flat_repositories(args: argparse.Namespace, manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    repositories: list[dict[str, Any]] = []
     for repository in manifest.get("repositories", {}).values():
-        snapshot = repository.get("snapshot", {})
-        download_url = str(snapshot.get("downloadUrl", ""))
-        if not download_url:
-            continue
-        if args.include and args.include not in repository.get("id", "") and args.include not in download_url:
-            continue
+        github_mirror: dict[str, Any] | None = None
         base_url = ""
         for mirror in repository.get("mirrors", []):
-            if mirror.get("id") == "modelscope" and mirror.get("kind") == "full-repo":
+            if mirror.get("id") == "github-release-flat" and mirror.get("kind") == "flat-release-repo":
+                github_mirror = mirror
+            if mirror.get("id") == "modelscope" and mirror.get("kind") == "flat-package-repo":
                 base_url = str(mirror.get("baseUrl", ""))
-                break
-        if not base_url:
+        if not github_mirror or not base_url:
             continue
-        snapshots.append(
+        index_url = str(github_mirror.get("indexUrl", ""))
+        if args.include and args.include not in repository.get("id", "") and args.include not in index_url:
+            continue
+        repositories.append(
             {
                 "repositoryId": repository["id"],
-                "downloadUrl": download_url,
-                "fileName": snapshot.get("fileName") or Path(urllib.parse.urlparse(download_url).path).name,
+                "githubBaseUrl": str(github_mirror["baseUrl"]),
+                "indexUrl": index_url,
+                "indexName": Path(urllib.parse.urlparse(index_url).path).name,
                 "basePath": modelscope_repo_path_from_base_url(base_url, args.resolve_base),
             }
         )
     if args.max_repositories:
-        snapshots = snapshots[: args.max_repositories]
-    return snapshots
+        repositories = repositories[: args.max_repositories]
+    return repositories
 
 
-def upload_snapshot_contents(args: argparse.Namespace, token: str, snapshot: dict[str, Any], github_token: str) -> int:
+def upload_flat_repository(args: argparse.Namespace, token: str, repository: dict[str, Any], github_token: str) -> int:
     cache_dir = Path(args.cache_dir)
-    archive_path = cache_dir / "snapshots" / safe_part(str(snapshot["repositoryId"])) / str(snapshot["fileName"])
-    extract_dir = cache_dir / "extracted" / safe_part(str(snapshot["repositoryId"]))
-
+    repo_cache = cache_dir / "flat" / safe_part(str(repository["repositoryId"]))
+    index_path = repo_cache / str(repository["indexName"])
     download_asset(
-        str(snapshot["downloadUrl"]),
-        archive_path,
+        str(repository["indexUrl"]),
+        index_path,
         github_token,
         args.download_retries,
         args.force_download,
         args.progress_interval,
     )
-    if args.force_extract and extract_dir.exists():
-        import shutil
-
-        shutil.rmtree(extract_dir)
-    if not extract_dir.exists():
-        safe_extract_tar(archive_path, extract_dir)
 
     uploaded = 0
-    for local_file in sorted(path for path in extract_dir.rglob("*") if path.is_file()):
-        rel = local_file.relative_to(extract_dir).as_posix()
-        path_in_repo = f"{snapshot['basePath'].rstrip('/')}/{rel}"
+    files = [index_path]
+    for filename in parse_flat_index_filenames(index_path):
+        deb_path = repo_cache / filename
+        download_asset(
+            urllib.parse.urljoin(str(repository["githubBaseUrl"]), filename),
+            deb_path,
+            github_token,
+            args.download_retries,
+            args.force_download,
+            args.progress_interval,
+        )
+        files.append(deb_path)
+
+    for local_file in files:
+        path_in_repo = f"{repository['basePath'].rstrip('/')}/{local_file.name}"
         upload_file(args, token, local_file, path_in_repo, args.force_upload)
         uploaded += 1
     return uploaded
@@ -243,12 +251,12 @@ def run(args: argparse.Namespace) -> None:
 
     manifest_path = Path(args.manifest)
     manifest = read_manifest(manifest_path)
-    snapshots = collect_repository_snapshots(args, manifest)
+    repositories = collect_flat_repositories(args, manifest)
 
     if args.dry_run:
-        print(f"Dry run: {len(snapshots)} package repositories would be mirrored to {args.repo_id}.")
-        for snapshot in snapshots:
-            print(f"{snapshot['downloadUrl']} -> {snapshot['basePath']}/")
+        print(f"Dry run: {len(repositories)} package repositories would be mirrored to {args.repo_id}.")
+        for repository in repositories:
+            print(f"{repository['indexUrl']} -> {repository['basePath']}/")
         print(f"{manifest_path} -> {args.output_manifest_name}")
         return
 
@@ -256,8 +264,8 @@ def run(args: argparse.Namespace) -> None:
         create_or_reuse_dataset(args, token)
 
     total_files = 0
-    for snapshot in snapshots:
-        total_files += upload_snapshot_contents(args, token, snapshot, github_token)
+    for repository in repositories:
+        total_files += upload_flat_repository(args, token, repository, github_token)
 
     upload_file(args, token, manifest_path, args.output_manifest_name, force=True)
     print(f"Uploaded {total_files} package repository files to ModelScope.")
@@ -277,7 +285,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--include", default="", help="Optional repository id or URL substring filter.")
     parser.add_argument("--max-repositories", type=int, default=0, help="Limit repositories for a smoke test.")
     parser.add_argument("--force-download", action="store_true")
-    parser.add_argument("--force-extract", action="store_true")
     parser.add_argument("--force-upload", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--create-repo", action="store_true", default=True)
