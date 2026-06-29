@@ -222,8 +222,8 @@ if [[ "${#build_package_array[@]}" -gt 0 ]]; then
       -I \
       -C \
       -a "$arch" \
-      -o "$source_dir/output" \
-      "${build_package_array[@]}"
+      "${build_package_array[@]}" \
+      -o "$source_dir/output"
   popd
 else
   echo "All requested packages were reused from existing PyStudio package repositories."
