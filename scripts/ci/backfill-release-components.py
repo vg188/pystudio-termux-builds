@@ -50,6 +50,10 @@ def asset_size(asset: dict[str, Any] | None) -> int | None:
     return int(value) if isinstance(value, int) else None
 
 
+def release_asset_name(file_name: str) -> str:
+    return Path(file_name).name.replace(":", ".")
+
+
 def headers(token: str, extra: dict[str, str] | None = None) -> dict[str, str]:
     result = {
         "Accept": "application/vnd.github+json",
@@ -150,6 +154,13 @@ def download(token: str, url: str, destination: Path) -> None:
                 )
             partial.replace(destination)
             return
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                raise FileNotFoundError(f"release asset not found: {destination.name}") from exc
+            if attempt == GITHUB_API_RETRIES:
+                raise
+            log(f"Warning: download attempt {attempt} failed for {destination.name}: HTTP {exc.code}: {exc.reason}")
+            time.sleep(attempt * 5)
         except (urllib.error.URLError, EOFError, RuntimeError) as exc:
             if attempt == GITHUB_API_RETRIES:
                 raise
@@ -420,6 +431,17 @@ def safe_part(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.+-]+", "-", value).strip(".-") or "asset"
 
 
+def unique_strings(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        value = str(value).strip()
+        if value and value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+
 def selected_releases(args: argparse.Namespace, token: str) -> list[dict[str, Any]]:
     releases = release_pages(token, args.repo)
     wanted_tags = {tag.strip() for tag in args.tags.split(",") if tag.strip()}
@@ -484,7 +506,7 @@ def write_flat_packages_index(packages_path: Path, output_path: Path) -> None:
     lines: list[str] = []
     for line in packages_path.read_text(encoding="utf-8").splitlines():
         if line.startswith("Filename: "):
-            line = "Filename: " + Path(line.split(": ", 1)[1]).name
+            line = "Filename: " + release_asset_name(line.split(": ", 1)[1])
         lines.append(line)
     data = ("\n".join(lines) + "\n").encode("utf-8")
     output_path.write_bytes(data)
@@ -496,7 +518,7 @@ def create_flat_release_assets(repo_dir: Path, flat_dir: Path, repo_slug: str, a
     flat_dir.mkdir(parents=True, exist_ok=True)
 
     for deb in sorted((repo_dir / "pool" / "main").rglob("*.deb")):
-        copy_unique(deb, flat_dir / deb.name)
+        copy_unique(deb, flat_dir / release_asset_name(deb.name))
 
     packages = repo_dir / "dists" / "pystudio" / "main" / f"binary-{arch}" / "Packages"
     write_flat_packages_index(packages, flat_dir / f"{repo_slug}-Packages")
@@ -559,18 +581,60 @@ def upload_pool_release_assets(
         upload_asset(token, repo, int(release["id"]), asset_map, deb, deb.name, force)
 
 
-def flat_index_deb_names(index_path: Path) -> list[str]:
+def replace_release_asset(
+    token: str,
+    repo: str,
+    release_id: int,
+    asset_map: dict[str, dict[str, Any]],
+    path: Path,
+    name: str,
+) -> None:
+    existing = asset_map.get(name)
+    if existing:
+        delete_asset(token, repo, existing)
+        asset_map.pop(name, None)
+    upload_asset(token, repo, release_id, asset_map, path, name, False)
+
+
+def flat_index_packages(index_path: Path) -> list[dict[str, str]]:
     text = lzma.decompress(index_path.read_bytes()).decode("utf-8", errors="replace")
-    names: list[str] = []
+    packages: list[dict[str, str]] = []
     seen: set[str] = set()
-    for line in text.splitlines():
-        if not line.startswith("Filename: "):
-            continue
-        name = Path(line.split(": ", 1)[1]).name
+    for stanza in [part.strip() for part in text.split("\n\n") if part.strip()]:
+        fields: dict[str, str] = {}
+        current = ""
+        for line in stanza.splitlines():
+            if line.startswith(" ") and current:
+                fields[current] += "\n" + line.strip()
+                continue
+            key, sep, value = line.partition(":")
+            if sep:
+                current = key
+                fields[key] = value.strip()
+        source_name = Path(fields.get("Filename", "")).name
+        name = release_asset_name(source_name)
         if name and name.endswith(".deb") and name not in seen:
             seen.add(name)
-            names.append(name)
-    return names
+            packages.append(
+                {
+                    "name": name,
+                    "sourceName": source_name,
+                    "architecture": fields.get("Architecture", ""),
+                }
+            )
+    return packages
+
+
+def normalize_existing_flat_index(index_path: Path, packages_path: Path) -> None:
+    text = lzma.decompress(index_path.read_bytes()).decode("utf-8", errors="replace")
+    lines: list[str] = []
+    for line in text.splitlines():
+        if line.startswith("Filename: "):
+            line = "Filename: " + release_asset_name(line.split(": ", 1)[1])
+        lines.append(line)
+    data = ("\n".join(lines) + "\n").encode("utf-8")
+    packages_path.write_bytes(data)
+    index_path.write_bytes(lzma.compress(data, preset=9))
 
 
 def download_release_asset(
@@ -689,27 +753,53 @@ def backfill_existing_flat_assets(
                 return False
 
     index_path = flat_dir / flat_index_name
-    for deb_name in flat_index_deb_names(index_path):
-        download_release_asset(token, source_repo, source_tag, source_asset_map, deb_name, flat_dir / deb_name)
+    packages = flat_index_packages(index_path)
+    normalize_existing_flat_index(index_path, flat_dir / f"{repo_slug}-Packages")
+
+    missing: list[str] = []
+    for package in packages:
+        deb_name = package["name"]
+        pool_arch = "all" if package.get("architecture") == "all" else arch
+        pool_tag = pool_release_tag(source_tag, pool_arch)
+        pool_key = (target_repo, pool_tag)
+        if pool_key not in release_cache:
+            release_cache[pool_key] = ensure_release_by_tag(
+                token,
+                target_repo,
+                pool_tag,
+                f"PyStudio package pool {pool_arch} {source_tag}",
+            )
+        pool_asset_map = cached_release_asset_map(token, target_repo, release_cache[pool_key])
+        if deb_name in pool_asset_map and not args.force_upload:
+            log(f"Pool asset exists, skipping download: {pool_tag}/{deb_name}")
+            continue
+
+        candidates = unique_strings([package.get("sourceName", ""), deb_name])
+        if not any(
+            download_release_asset(token, source_repo, source_tag, source_asset_map, candidate, flat_dir / deb_name)
+            for candidate in candidates
+        ):
+            missing.append(deb_name)
+    if missing:
+        raise RuntimeError(
+            "missing source flat deb assets for "
+            f"{source_repo}/{source_tag}: {', '.join(missing[:10])}"
+            + (" ..." if len(missing) > 10 else "")
+        )
 
     if (flat_dir / metadata_name).exists():
-        upload_asset(
+        replace_release_asset(
             token,
             target_repo,
             int(target_release["id"]),
             target_asset_map,
             flat_dir / metadata_name,
             metadata_name,
-            args.force_upload,
         )
-    upload_index_release_assets(
-        token,
-        target_repo,
-        int(target_release["id"]),
-        target_asset_map,
-        flat_dir,
-        args.force_upload,
-    )
+    for name in (f"{repo_slug}-Packages", flat_index_name):
+        path = flat_dir / name
+        if path.exists():
+            replace_release_asset(token, target_repo, int(target_release["id"]), target_asset_map, path, name)
     upload_pool_release_assets(token, target_repo, source_tag, arch, release_cache, flat_dir, args.force_upload)
     cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
     return True
@@ -791,6 +881,23 @@ def backfill_deb_bundle_asset(
         ):
             if args.cleanup_loose_components:
                 cleanup_loose_component_assets(token, source_repo, source_asset_map, artifact_prefix, arch)
+            return True
+        if flat_index_name in target_asset_map and backfill_existing_flat_assets(
+            args,
+            token,
+            source_repo=target_repo,
+            source_tag=target_tag,
+            source_asset_map=target_asset_map,
+            target_repo=target_repo,
+            target_release=target_release,
+            target_asset_map=target_asset_map,
+            release_cache=release_cache,
+            repo_slug=repo_slug,
+            metadata_name=metadata_name,
+            flat_index_name=flat_index_name,
+            arch=arch,
+            work_dir=work_dir,
+        ):
             return True
         log(f"No source assets available for {asset_name}, skipping.")
         return False
