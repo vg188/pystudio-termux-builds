@@ -21,15 +21,8 @@ PACKAGE_METADATA_KEYS = [
     "package",
     "version",
     "architecture",
-    "sourceFileName",
-    "installedSize",
     "size",
     "sha256",
-    "depends",
-    "preDepends",
-    "provides",
-    "conflicts",
-    "replaces",
 ]
 
 
@@ -111,37 +104,35 @@ def mirror_locations(
 ) -> list[dict[str, Any]]:
     package_arch = package.get("Architecture") or repository.get("architecture", "")
     pool_arch = "all" if package_arch == "all" else str(repository.get("architecture", ""))
-    pools = [pool for pool in repository.get("packagePools", []) if pool.get("architecture") == pool_arch]
+    pools = [
+        pool
+        for pool in repository.get("packagePools", [])
+        if pool.get("kind") == "flat-release-pool" and pool.get("architecture") == pool_arch
+    ]
     if pools:
         return [
             {
                 "source": "package-pool",
-                "mirrorId": pool.get("id", ""),
-                "kind": pool.get("kind", ""),
                 "architecture": pool_arch,
                 "url": join_url(str(pool.get("baseUrl", "")), file_name),
                 "release": pool.get("release", {}),
-                "priority": pool.get("priority"),
-                "region": pool.get("region", ""),
             }
             for pool in pools
         ]
 
     locations: list[dict[str, Any]] = []
     for mirror in repository.get("mirrors", []):
+        if mirror.get("kind") != "flat-release-repo":
+            continue
         base_url = str(mirror.get("baseUrl", ""))
         if not base_url:
             continue
         locations.append(
             {
                 "source": "index-release",
-                "mirrorId": mirror.get("id", ""),
-                "kind": mirror.get("kind", ""),
                 "architecture": repository.get("architecture", ""),
                 "url": join_url(base_url, file_name),
                 "release": repository.get("release", {}),
-                "priority": mirror.get("priority"),
-                "region": mirror.get("region", ""),
             }
         )
     return locations
@@ -162,15 +153,8 @@ def base_package_record(file_name: str, package: dict[str, str]) -> dict[str, An
         "package": package.get("Package", ""),
         "version": package.get("Version", ""),
         "architecture": package.get("Architecture", ""),
-        "sourceFileName": Path(package.get("Filename", "")).name,
-        "installedSize": package.get("Installed-Size", ""),
         "size": package.get("Size", ""),
         "sha256": package.get("SHA256", ""),
-        "depends": package.get("Depends", ""),
-        "preDepends": package.get("Pre-Depends", ""),
-        "provides": package.get("Provides", ""),
-        "conflicts": package.get("Conflicts", ""),
-        "replaces": package.get("Replaces", ""),
         "locations": [],
         "usedBy": [],
     }
@@ -221,10 +205,9 @@ def merge_package_use(
     file_name = str(record["fileName"])
     package_records.setdefault(file_name, package_record_from_existing(record))
     package_arch = str(package_records[file_name].get("architecture", ""))
-    source_name = str(package_records[file_name].get("sourceFileName", file_name))
     package_fields = {
         "Architecture": package_arch,
-        "Filename": source_name,
+        "Filename": file_name,
     }
     for location in mirror_locations(repository, package_fields, file_name):
         append_location_unique(package_records[file_name]["locations"], location)
@@ -352,7 +335,7 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             "sourceManifest": source_manifest,
             "summary": {
                 "uniquePackageFiles": len(package_records),
-                "downloadLocations": sum(len(record["locations"]) for record in package_records.values()),
+                "githubLocations": sum(len(record["locations"]) for record in package_records.values()),
             },
             "packages": asset_packages,
         },
