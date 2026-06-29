@@ -728,6 +728,7 @@ def backfill_existing_flat_assets(
     *,
     source_repo: str,
     source_tag: str,
+    pool_source_tag: str | None = None,
     source_asset_map: dict[str, dict[str, Any]],
     target_repo: str,
     target_release: dict[str, Any],
@@ -742,6 +743,7 @@ def backfill_existing_flat_assets(
     if flat_index_name not in source_asset_map:
         return False
 
+    pool_source_tag = pool_source_tag or source_tag
     flat_dir = work_dir / f"{repo_slug}-existing-flat"
     shutil.rmtree(flat_dir, ignore_errors=True)
     flat_dir.mkdir(parents=True, exist_ok=True)
@@ -760,14 +762,14 @@ def backfill_existing_flat_assets(
     for package in packages:
         deb_name = package["name"]
         pool_arch = "all" if package.get("architecture") == "all" else arch
-        pool_tag = pool_release_tag(source_tag, pool_arch)
+        pool_tag = pool_release_tag(pool_source_tag, pool_arch)
         pool_key = (target_repo, pool_tag)
         if pool_key not in release_cache:
             release_cache[pool_key] = ensure_release_by_tag(
                 token,
                 target_repo,
                 pool_tag,
-                f"PyStudio package pool {pool_arch} {source_tag}",
+                f"PyStudio package pool {pool_arch} {pool_source_tag}",
             )
         pool_asset_map = cached_release_asset_map(token, target_repo, release_cache[pool_key])
         if deb_name in pool_asset_map and not args.force_upload:
@@ -800,7 +802,7 @@ def backfill_existing_flat_assets(
         path = flat_dir / name
         if path.exists():
             replace_release_asset(token, target_repo, int(target_release["id"]), target_asset_map, path, name)
-    upload_pool_release_assets(token, target_repo, source_tag, arch, release_cache, flat_dir, args.force_upload)
+    upload_pool_release_assets(token, target_repo, pool_source_tag, arch, release_cache, flat_dir, args.force_upload)
     cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
     return True
 
@@ -868,6 +870,7 @@ def backfill_deb_bundle_asset(
             token,
             source_repo=source_repo,
             source_tag=source_tag,
+            pool_source_tag=source_tag,
             source_asset_map=source_asset_map,
             target_repo=target_repo,
             target_release=target_release,
@@ -887,6 +890,7 @@ def backfill_deb_bundle_asset(
             token,
             source_repo=target_repo,
             source_tag=target_tag,
+            pool_source_tag=source_tag,
             source_asset_map=target_asset_map,
             target_repo=target_repo,
             target_release=target_release,
