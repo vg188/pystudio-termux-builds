@@ -238,7 +238,7 @@ def merge_package_use(
         append_unique(entry_records[entry_id]["packageFiles"], file_name)
 
 
-def build_index(manifest: dict[str, Any], token: str, existing_index: dict[str, Any] | None = None) -> dict[str, Any]:
+def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str, Any] | None = None) -> dict[str, Any]:
     repositories = manifest.get("repositories", {})
     repo_to_entry = entry_repository_map(manifest)
     entries_by_id = {str(entry.get("id", "")): entry for entry in manifest.get("entries", [])}
@@ -328,46 +328,103 @@ def build_index(manifest: dict[str, Any], token: str, existing_index: dict[str, 
     for entry in entry_records.values():
         entry["packageFiles"] = sorted(entry["packageFiles"])
 
+    generated_at = now_iso()
+    source_manifest = {
+        "file": "runtime-packages.json",
+        "schemaVersion": manifest.get("schemaVersion"),
+        "generatedAt": manifest.get("generatedAt", ""),
+    }
+    asset_packages: dict[str, dict[str, Any]] = {}
+    for file_name, record in sorted(package_records.items()):
+        asset_packages[file_name] = {
+            key: record.get(key, "")
+            for key in PACKAGE_METADATA_KEYS
+        }
+        asset_packages[file_name]["locations"] = record.get("locations", [])
+
     return {
         "schemaVersion": 1,
-        "generatedAt": now_iso(),
-        "sourceManifest": {
-            "file": "runtime-packages.json",
-            "schemaVersion": manifest.get("schemaVersion"),
-            "generatedAt": manifest.get("generatedAt", ""),
+        "generatedAt": generated_at,
+        "sourceManifest": source_manifest,
+        "assets": {
+            "schemaVersion": 1,
+            "generatedAt": generated_at,
+            "sourceManifest": source_manifest,
+            "summary": {
+                "uniquePackageFiles": len(package_records),
+                "downloadLocations": sum(len(record["locations"]) for record in package_records.values()),
+            },
+            "packages": asset_packages,
         },
-        "summary": {
-            "entries": len(entry_records),
-            "repositories": len(repository_records),
-            "uniquePackageFiles": len(package_records),
-            "packageFileUses": sum(len(record["usedBy"]) for record in package_records.values()),
-            "reusedRepositoryIndexes": reused_repositories,
-            "downloadedRepositoryIndexes": downloaded_repositories,
+        "indexes": {
+            "schemaVersion": 1,
+            "generatedAt": generated_at,
+            "sourceManifest": source_manifest,
+            "summary": {
+                "entries": len(entry_records),
+                "repositories": len(repository_records),
+                "uniquePackageFiles": len(package_records),
+                "packageFileUses": sum(len(record["usedBy"]) for record in package_records.values()),
+                "reusedRepositoryIndexes": reused_repositories,
+                "downloadedRepositoryIndexes": downloaded_repositories,
+            },
+            "entries": dict(sorted(entry_records.items())),
+            "repositories": dict(sorted(repository_records.items())),
         },
-        "entries": dict(sorted(entry_records.items())),
-        "repositories": dict(sorted(repository_records.items())),
-        "packages": dict(sorted(package_records.items())),
     }
+
+
+def load_existing_indexes(
+    assets_output: Path,
+    indexes_output: Path,
+    legacy_output: Path,
+    *,
+    no_reuse: bool,
+) -> dict[str, Any] | None:
+    if no_reuse:
+        return None
+    if assets_output.exists() and indexes_output.exists():
+        assets = json.loads(assets_output.read_text(encoding="utf-8"))
+        indexes = json.loads(indexes_output.read_text(encoding="utf-8"))
+        return {
+            "packages": assets.get("packages", {}),
+            "repositories": indexes.get("repositories", {}),
+        }
+    if legacy_output.exists():
+        legacy = json.loads(legacy_output.read_text(encoding="utf-8"))
+        return {
+            "packages": legacy.get("packages", {}),
+            "repositories": legacy.get("repositories", {}),
+        }
+    return None
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build a maintainer index for PyStudio package asset URLs.")
     parser.add_argument("--manifest", type=Path, default=Path("runtime-packages.json"))
-    parser.add_argument("--output", type=Path, default=Path("package-assets-index.json"))
+    parser.add_argument("--assets-output", type=Path, default=Path("package-assets.json"))
+    parser.add_argument("--indexes-output", type=Path, default=Path("package-indexes.json"))
+    parser.add_argument("--legacy-output", type=Path, default=Path("package-assets-index.json"))
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
-    parser.add_argument("--no-reuse", action="store_true", help="Ignore an existing output file and rebuild every index.")
+    parser.add_argument("--no-reuse", action="store_true", help="Ignore existing index files and rebuild every index.")
     args = parser.parse_args()
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
-    existing_index = None
-    if args.output.exists() and not args.no_reuse:
-        existing_index = json.loads(args.output.read_text(encoding="utf-8"))
-    index = build_index(manifest, args.github_token, existing_index)
-    args.output.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    existing_index = load_existing_indexes(
+        args.assets_output,
+        args.indexes_output,
+        args.legacy_output,
+        no_reuse=args.no_reuse,
+    )
+    indexes = build_indexes(manifest, args.github_token, existing_index)
+    args.assets_output.write_text(json.dumps(indexes["assets"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.indexes_output.write_text(json.dumps(indexes["indexes"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
         "Wrote "
-        f"{args.output} with {index['summary']['uniquePackageFiles']} unique package files "
-        f"across {index['summary']['repositories']} repositories."
+        f"{args.assets_output} with {indexes['assets']['summary']['uniquePackageFiles']} unique package files "
+        f"and {args.indexes_output} with {indexes['indexes']['summary']['repositories']} repositories "
+        f"({indexes['indexes']['summary']['reusedRepositoryIndexes']} reused, "
+        f"{indexes['indexes']['summary']['downloadedRepositoryIndexes']} downloaded)."
     )
     return 0
 
