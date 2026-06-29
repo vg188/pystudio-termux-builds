@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T13:55:09Z",
+  "generatedAt": "2026-06-29T14:26:12Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -11,8 +11,8 @@
     "repositories": 60,
     "uniquePackageFiles": 1265,
     "packageFileUses": 5014,
-    "reusedRepositoryIndexes": 60,
-    "downloadedRepositoryIndexes": 0
+    "reusedRepositoryIndexes": 36,
+    "downloadedRepositoryIndexes": 24
   },
   "entries": {
     "bootstrap-base": {
@@ -5102,8 +5102,8 @@
         "fileName": "pystudio-cpp-toolchain-apt-repo-v1-aarch64-r6-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-apt-repo-v1-aarch64-r6-Packages.xz",
-        "size": 14004,
-        "sha256": "a3224e1cbd0877c1197e84a4d3e8817c3b2a0de0c27fa8bb8daed41872334b99"
+        "size": 14008,
+        "sha256": "971aa786321ae3b65e4aa8af8b614def3eb8352c424635da3da3b127a0a8d5fb"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -5113,7 +5113,46 @@
         "size": 76935,
         "sha256": "6b08b49ec2d9384bc2849e097306da46c7f8a44b72b9795bd1637efe9889445b"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-all-r6/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-aarch64-r6/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 129,
       "packageFiles": [
         "brotli_1.2.0_aarch64.deb",
@@ -5261,8 +5300,8 @@
         "fileName": "pystudio-cpp-toolchain-apt-repo-v1-arm-r6-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-apt-repo-v1-arm-r6-Packages.xz",
-        "size": 13980,
-        "sha256": "6568b17a95b2e90b70afca465f59ae64c44cff0bfc3daa3a55330d1447aa5716"
+        "size": 13976,
+        "sha256": "3d442401959b2a8ac913e64414408c9185ffa7aabaf487822a338673514037be"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -5272,7 +5311,46 @@
         "size": 74949,
         "sha256": "c521e4999074577d4e38974c611db705d36f99f179c2face1c0e9ffda58a62f8"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-all-r6/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-arm-r6/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 129,
       "packageFiles": [
         "brotli_1.2.0_arm.deb",
@@ -5420,8 +5498,8 @@
         "fileName": "pystudio-cpp-toolchain-apt-repo-v1-i686-r6-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-apt-repo-v1-i686-r6-Packages.xz",
-        "size": 13984,
-        "sha256": "224dbaa1eaf07f421c73247be20fc6da3552e1030b490970d23d92ba5d727c6a"
+        "size": 13988,
+        "sha256": "34627c6f650a7de0093810b8dbf12474bfbd755a0eb38cd9a08064b32260c510"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -5431,7 +5509,46 @@
         "size": 75407,
         "sha256": "bc7558023e29ddf00e9df3f8e5753fe74395eb0a221759e4771992891ecc43b6"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-all-r6/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-i686-r6/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 129,
       "packageFiles": [
         "brotli_1.2.0_i686.deb",
@@ -5579,8 +5696,8 @@
         "fileName": "pystudio-cpp-toolchain-apt-repo-v1-x86_64-r6-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-r6/pystudio-cpp-toolchain-apt-repo-v1-x86_64-r6-Packages.xz",
-        "size": 13996,
-        "sha256": "6e270fd5da9d8950ff0caa88bfbe092f2e7a984b03fb2c62b4db6e785e9cc691"
+        "size": 14004,
+        "sha256": "9dc99756b16ed3f876dbc662e6fa7a3008ad1cfb6e4be2cf6515108ff2b79322"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -5590,7 +5707,46 @@
         "size": 76437,
         "sha256": "32dcaf55be672583b012d592fc1bcfa38a79072606b369e6e51bdffee3beb3ea"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-all-r6/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-cpp-toolchain/pystudio-cpp-toolchain-pool-x86_64-r6/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 129,
       "packageFiles": [
         "brotli_1.2.0_x86_64.deb",
@@ -5738,8 +5894,8 @@
         "fileName": "pystudio-debug-tools-toolchain-primary-apt-repo-v1-aarch64-r14-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-apt-repo-v1-aarch64-r14-Packages.xz",
-        "size": 11268,
-        "sha256": "998f787d4c9169848ab4017e520f74edf57375080d09cd407b904f0853be27a4"
+        "size": 11264,
+        "sha256": "2a32c92d313445697b0322ab9b4d7ebcc383a1e6cba2fd37e7cb1556e8b44328"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -5749,7 +5905,46 @@
         "size": 60370,
         "sha256": "63ec6a6f2e5def96b3ac3d90605bc1c6f80cb1a93b81810646ae3a6a6c229480"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r14/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-aarch64-r14/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 100,
       "packageFiles": [
         "brotli_1.2.0_aarch64.deb",
@@ -5869,7 +6064,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-apt-repo-v1-arm-r14-Packages.xz",
         "size": 11236,
-        "sha256": "65a3193c53885de82020c6e20c2b3e60bf13add3260e6fca75c27c79564226da"
+        "sha256": "d19ec6dfd122d010dfc48412bc547899fc8bde001b848b5d0992133f618d7f74"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -5879,7 +6074,46 @@
         "size": 58861,
         "sha256": "af4283189bfa90505ed1b196e30f898c12bdc50ae85b1b941c8e02c9fd96c25e"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r14/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-arm-r14/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 100,
       "packageFiles": [
         "brotli_1.2.0_arm.deb",
@@ -5998,8 +6232,8 @@
         "fileName": "pystudio-debug-tools-toolchain-primary-apt-repo-v1-i686-r14-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-apt-repo-v1-i686-r14-Packages.xz",
-        "size": 11240,
-        "sha256": "ea834a5803b7a1ed5578258dca4660354a804041925a9197afaf329a38a9aef4"
+        "size": 11244,
+        "sha256": "af053fb7d056bb4adeedcca4a482cfd4a07c909c08e16a6cf6fa97c2acd79956"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -6009,7 +6243,46 @@
         "size": 59197,
         "sha256": "e57f74d32c6169810a08e7f59a74ffddffe5a41e85eb60e43e641196e1f18baf"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r14/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-i686-r14/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 100,
       "packageFiles": [
         "brotli_1.2.0_i686.deb",
@@ -6128,8 +6401,8 @@
         "fileName": "pystudio-debug-tools-toolchain-primary-apt-repo-v1-x86_64-r14-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r14/pystudio-debug-tools-toolchain-primary-apt-repo-v1-x86_64-r14-Packages.xz",
-        "size": 11260,
-        "sha256": "8f5cacdae2beee7743188bd98c859671730ebc7a0245429f3d95f962d65da12a"
+        "size": 11264,
+        "sha256": "689ecebda40cff3509b4a7f321ae9e737cca387a9d1ebf89c7295ce4191f9373"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -6139,7 +6412,46 @@
         "size": 59990,
         "sha256": "ef693890b081e1453e730f7d490fddbf50b1fa99a55a084146a85fa0b95bf06a"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r14/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-x86_64-r14/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 100,
       "packageFiles": [
         "brotli_1.2.0_x86_64.deb",
@@ -6259,7 +6571,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-apt-repo-v1-aarch64-r16-Packages.xz",
         "size": 12896,
-        "sha256": "60e8a19852e322bd153afaebe0c8d0f883db439c97fb9dda2d1b6f449233b559"
+        "sha256": "f8968a3b708b53b3a7246ac908c5b8e7d3dd97e7078a4d742b0a9d80928ae5ad"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -6269,7 +6581,46 @@
         "size": 71673,
         "sha256": "95e623f156ce716552e6d73a8676db8d04941d0adb7f4064b07fabf8494d71e5"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r16/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-aarch64-r16/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 125,
       "packageFiles": [
         "apr-static_1.7.6-2_aarch64.deb",
@@ -6413,8 +6764,8 @@
         "fileName": "pystudio-git-toolchain-primary-apt-repo-v1-arm-r16-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-apt-repo-v1-arm-r16-Packages.xz",
-        "size": 12872,
-        "sha256": "c2d43fd9997be07b7e0a614b4bf27f24247de7388110477878fa3407d25ebc0c"
+        "size": 12864,
+        "sha256": "f60198fdcc9c6e400a120a122c35af32d50b5c9c226f6c359a6f8fd37946a064"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -6424,7 +6775,46 @@
         "size": 69767,
         "sha256": "ffe9f80502ca3076e7cdbbd4c39fcd4cf1ca7fd41de543996237355615824fd9"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r16/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-arm-r16/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 125,
       "packageFiles": [
         "apr-static_1.7.6-2_arm.deb",
@@ -6568,8 +6958,8 @@
         "fileName": "pystudio-git-toolchain-primary-apt-repo-v1-i686-r16-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-apt-repo-v1-i686-r16-Packages.xz",
-        "size": 12876,
-        "sha256": "42acfee772adc4cf108dd5e2e12a1b25648c6652202623a2f1598ecb90a580ca"
+        "size": 12872,
+        "sha256": "6a8c0a0312191222ea7899cdf04ce0147dfce013753007fa3eecfb41f65c36f5"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -6579,7 +6969,46 @@
         "size": 70265,
         "sha256": "695f25bf32048b737757d929961ddeb93f6c9088f9ff6540cfb9d5a156654e7e"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r16/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-i686-r16/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 125,
       "packageFiles": [
         "apr-static_1.7.6-2_i686.deb",
@@ -6723,8 +7152,8 @@
         "fileName": "pystudio-git-toolchain-primary-apt-repo-v1-x86_64-r16-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r16/pystudio-git-toolchain-primary-apt-repo-v1-x86_64-r16-Packages.xz",
-        "size": 12876,
-        "sha256": "fcc59b90655bcabca5b74220eeab46840b51cca727c547ed22a29f6cbd40e8ed"
+        "size": 12884,
+        "sha256": "40754bc28fb578737c20c4481a2bccc7488480d95138287b1aa6ec0b7b72f553"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -6734,7 +7163,46 @@
         "size": 71235,
         "sha256": "4013e4baa719780f5de53319613c2598edc8971d13a992920c4b8377f82d43db"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r16/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-x86_64-r16/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 125,
       "packageFiles": [
         "apr-static_1.7.6-2_x86_64.deb",
@@ -11085,7 +11553,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-aarch64-r7-Packages.xz",
         "size": 3716,
-        "sha256": "c06fc35e062bc0192fb077f48fc1ea134d6245b6469db93a4f367054da4db99c"
+        "sha256": "44002706d71947cadba7be789fb960f5d1db9221149ada7b659c6b0b9b227398"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -11095,7 +11563,46 @@
         "size": 16818,
         "sha256": "e8eab51bc09c9685b5021a237d65d43c281b91b6f4a9651ceef7eeb915b35c03"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-all-r7/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-aarch64-r7/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 29,
       "packageFiles": [
         "c-ares_1.34.6_aarch64.deb",
@@ -11144,7 +11651,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-arm-r7-Packages.xz",
         "size": 3708,
-        "sha256": "4c0a715666634e2c770b6fc97e749dd47be91e9e337135df5b56430847561389"
+        "sha256": "cc1c3067767789a659454ede2d3e20bc1d0d95f7ac9fa00b25483e55a9c2b9d8"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -11154,7 +11661,46 @@
         "size": 16378,
         "sha256": "318367e90045ec95e09bc2c9324d590f6a5283269f99c440157b048d740f6c5c"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-all-r7/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-arm-r7/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 29,
       "packageFiles": [
         "c-ares_1.34.6_arm.deb",
@@ -11203,7 +11749,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-i686-r7-Packages.xz",
         "size": 3708,
-        "sha256": "67d2e352eb7315132fabcae12b853cd3ec98d1bf2cc3ba0f4a84ee0d31a1ddcd"
+        "sha256": "ea509ab239c12fa54e933c4d46437ebdfd143badfc16ee9565c2b0f0f001dd72"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -11213,7 +11759,46 @@
         "size": 16489,
         "sha256": "143ea65b50c383b19c35a4c093f5d007b91ee272f252d619cbc555c580dfed07"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-all-r7/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-i686-r7/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 29,
       "packageFiles": [
         "c-ares_1.34.6_i686.deb",
@@ -11262,7 +11847,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-x86_64-r7-Packages.xz",
         "size": 3712,
-        "sha256": "79dc060da71d347658a133b83d95b1c8734eb854c2d4c37f7163a66c87fbc7f3"
+        "sha256": "b8a11794ac26b8323ae03f0344f5ea34a9490143fcee88d27a189ad09936a788"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -11272,7 +11857,46 @@
         "size": 16709,
         "sha256": "35aeb5c67918ef9ea641b655f367b259c1b411bb7c851af254582964c388f5bc"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-all-r7/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-nodejs-toolchain/pystudio-nodejs-toolchain-pool-x86_64-r7/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 29,
       "packageFiles": [
         "c-ares_1.34.6_x86_64.deb",
@@ -12116,8 +12740,8 @@
         "fileName": "pystudio-python-lsp-toolchain-primary-apt-repo-v1-aarch64-r18-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-apt-repo-v1-aarch64-r18-Packages.xz",
-        "size": 8424,
-        "sha256": "a074e767e62b00d0af8ad6673dc7c175a8ed31e00bfcb90d525beee4afdb9b2f"
+        "size": 8432,
+        "sha256": "88d4f74e632e092ae250878bf60c020c52c4556a16cb87e82e7c1a0ff34e5098"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12127,7 +12751,46 @@
         "size": 44607,
         "sha256": "42fb72321d10f7fce0621bb21986ff5988f861117cfaf36d613de974b56d1790"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r18/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-aarch64-r18/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 80,
       "packageFiles": [
         "brotli_1.2.0_aarch64.deb",
@@ -12227,7 +12890,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-apt-repo-v1-arm-r18-Packages.xz",
         "size": 8400,
-        "sha256": "fbc4e7dd287c01c88dbf1ba8dbed1ba1683878ab8fa4216c17e2d2440d9320c5"
+        "sha256": "e749d1451fd73d3aeb666e436c71f94333fde8b79200e36829c0bbd043b3d47a"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12237,7 +12900,46 @@
         "size": 43446,
         "sha256": "10e2d3ac4b2207b0c17e4376cc9c3f5679c20fb0669107bf87cf31176878e4b7"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r18/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-arm-r18/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 80,
       "packageFiles": [
         "brotli_1.2.0_arm.deb",
@@ -12337,7 +13039,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-apt-repo-v1-i686-r18-Packages.xz",
         "size": 8408,
-        "sha256": "89266e2fd471a5177f4f3f60a9433f4c9dcb191baffcfdbf20cb6c028076ea23"
+        "sha256": "bdd4d2a3e944c172e93fd76d977755a6e76da61c3a96e04953508adce372237f"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12347,7 +13049,46 @@
         "size": 43738,
         "sha256": "13793adce3ce347f0626ae1291ffd25360e48cff5fc647918d027f23036675e6"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r18/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-i686-r18/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 80,
       "packageFiles": [
         "brotli_1.2.0_i686.deb",
@@ -12446,8 +13187,8 @@
         "fileName": "pystudio-python-lsp-toolchain-primary-apt-repo-v1-x86_64-r18-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r18/pystudio-python-lsp-toolchain-primary-apt-repo-v1-x86_64-r18-Packages.xz",
-        "size": 8420,
-        "sha256": "7c1d9666e8b5cadf921852b575632fb70e6f60be92a103b2e33361d36fc6dec7"
+        "size": 8424,
+        "sha256": "449fb0726b84fa5e6a79946f63b43c25a91d0176d357b38ba49891d0724f17f9"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12457,7 +13198,46 @@
         "size": 44319,
         "sha256": "a1ca03bf6dc37819b2c60ec404dec00f79e06227c50a76e30c854b22b3b9e441"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-all-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-all-r18/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-termux-builds/pystudio-toolchains-pool-x86_64-r18/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 80,
       "packageFiles": [
         "brotli_1.2.0_x86_64.deb",
@@ -12556,8 +13336,8 @@
         "fileName": "pystudio-python-toolchain-apt-repo-v1-aarch64-r10-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-apt-repo-v1-aarch64-r10-Packages.xz",
-        "size": 7176,
-        "sha256": "6d0219461b531c636ef7db86877df7fd333d5a93a3219f02bc595a1079bec8a8"
+        "size": 7172,
+        "sha256": "f36d1afd735359b620d9b88bcc7ed30823bd8233b95652b7459a810f9570fe14"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12567,7 +13347,46 @@
         "size": 38443,
         "sha256": "f26b0d5f02b892bf4ca8fe5c707835f32efb5cb8211cba09774fba5b323d2101"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-all-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-all-r10/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-aarch64-r10/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 69,
       "packageFiles": [
         "brotli_1.2.0_aarch64.deb",
@@ -12656,7 +13475,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-apt-repo-v1-arm-r10-Packages.xz",
         "size": 7180,
-        "sha256": "b9e6535183296ee4196220f94567dbc7e201e614287f8834a4431adca02d03e2"
+        "sha256": "ddec16a632a3eaeae84567b9b91a8efe213dcf4a5be734d6324847510f3c4b3c"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12666,7 +13485,46 @@
         "size": 37447,
         "sha256": "fa1c5631de9e33ecb7310df2beae29481e8f656215bdb67ebf97960493fd4031"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-all-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-all-r10/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-arm-r10/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 69,
       "packageFiles": [
         "brotli_1.2.0_arm.deb",
@@ -12755,7 +13613,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-apt-repo-v1-i686-r10-Packages.xz",
         "size": 7172,
-        "sha256": "993d67fccd0f8c5f7e51758812f5f571a1eb7cc22066c5b5700cdad7d98744cd"
+        "sha256": "dacaf963ae1163d52d99de5fb01a1df79d289dd7f71309e67f83ade49badf842"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12765,7 +13623,46 @@
         "size": 37696,
         "sha256": "91ebe9023574ab2f0d9f1b14dd2d625b0e441487663eb64d993c1958230f7c19"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-all-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-all-r10/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-i686-r10/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 69,
       "packageFiles": [
         "brotli_1.2.0_i686.deb",
@@ -12854,7 +13751,7 @@
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-r10/pystudio-python-toolchain-apt-repo-v1-x86_64-r10-Packages.xz",
         "size": 7176,
-        "sha256": "46b8096822ca5c52a102aa3b92888c0abd703f52f2e9a1431afb5fadde3ebe20"
+        "sha256": "cb69eae2638a469399144aaf28c4f57b9f24dfb6838777c492cab93f8982ccf4"
       },
       "metadata": {
         "role": "apt-repo-metadata",
@@ -12864,7 +13761,46 @@
         "size": 38194,
         "sha256": "8c57fd6d71615da53085ee2b260d81cba978e0d814b3e1b1f499ca1750b99552"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-all-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-all-r10/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-python-toolchain/pystudio-python-toolchain-pool-x86_64-r10/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 69,
       "packageFiles": [
         "brotli_1.2.0_x86_64.deb",
@@ -12963,7 +13899,46 @@
         "size": 12100,
         "sha256": "c2243700522255a9e62947a544b670fa6441f41d2f82808655e92bec7fb777bd"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-all-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-all-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-all-r4/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-aarch64",
+          "kind": "flat-release-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-aarch64-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-aarch64-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-aarch64",
+          "kind": "flat-package-pool",
+          "architecture": "aarch64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-aarch64-r4/aarch64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 23,
       "packageFiles": [
         "tree-sitter-bash_0.25.1-1_aarch64.deb",
@@ -13016,7 +13991,46 @@
         "size": 11732,
         "sha256": "27f5d93cc9329a3a322430849c74ddfa0ecca9ef022acf3feea71b25b625b1a1"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-all-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-all-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-all-r4/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-arm",
+          "kind": "flat-release-pool",
+          "architecture": "arm",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-arm-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-arm-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-arm",
+          "kind": "flat-package-pool",
+          "architecture": "arm",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-arm-r4/arm/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 23,
       "packageFiles": [
         "tree-sitter-bash_0.25.1-1_arm.deb",
@@ -13069,7 +14083,46 @@
         "size": 11824,
         "sha256": "2079fdf6c4fcfb8606dc5281870f601bf49efd3ac708a51c40e58e1ce733e3e2"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-all-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-all-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-all-r4/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-i686",
+          "kind": "flat-release-pool",
+          "architecture": "i686",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-i686-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-i686-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-i686",
+          "kind": "flat-package-pool",
+          "architecture": "i686",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-i686-r4/i686/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 23,
       "packageFiles": [
         "tree-sitter-bash_0.25.1-1_i686.deb",
@@ -13122,7 +14175,46 @@
         "size": 12008,
         "sha256": "9ca71664b5b9bc1ca25266fe943440484d467e217cc50fce4b78631fa36eb857"
       },
-      "packagePools": [],
+      "packagePools": [
+        {
+          "id": "github-release-pool-all",
+          "kind": "flat-release-pool",
+          "architecture": "all",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-all-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-all-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-all",
+          "kind": "flat-package-pool",
+          "architecture": "all",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-all-r4/all/",
+          "priority": 10,
+          "region": "CN"
+        },
+        {
+          "id": "github-release-pool-x86_64",
+          "kind": "flat-release-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-x86_64-r4/",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-x86_64-r4"
+          },
+          "priority": 1
+        },
+        {
+          "id": "modelscope-pool-x86_64",
+          "kind": "flat-package-pool",
+          "architecture": "x86_64",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/pool/vg188/pystudio-tree-sitter-toolchain/pystudio-tree-sitter-toolchain-pool-x86_64-r4/x86_64/",
+          "priority": 10,
+          "region": "CN"
+        }
+      ],
       "packageCount": 23,
       "packageFiles": [
         "tree-sitter-bash_0.25.1-1_x86_64.deb",
