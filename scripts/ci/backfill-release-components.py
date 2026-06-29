@@ -521,9 +521,14 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
     if int(plan.get("schemaVersion", 0)) != 1:
         raise SystemExit(f"unsupported migration plan schema: {plan.get('schemaVersion')}")
 
+    selected_entry_ids = {entry_id.strip() for entry_id in args.entry_id if entry_id.strip()}
     release_cache: dict[tuple[str, str], dict[str, Any]] = {}
     uploaded = 0
     for entry in plan.get("entries", []):
+        entry_id = str(entry.get("id", ""))
+        if selected_entry_ids and entry_id not in selected_entry_ids:
+            continue
+
         release_info = entry.get("release", {})
         repo = repo_slug_from_url(str(release_info.get("repository", "")))
         tag = str(release_info.get("tag", ""))
@@ -550,7 +555,7 @@ def backfill_migration_plan(args: argparse.Namespace, token: str) -> None:
                     token,
                     release,
                     str(asset_name),
-                    profile=str(entry.get("profile") or entry.get("id") or ""),
+                    profile=str(entry.get("profile") or entry_id or ""),
                     source=source_from_artifact_prefix(artifact_prefix),
                 ):
                     uploaded += 1
@@ -574,6 +579,7 @@ def main() -> int:
     parser.add_argument("--no-cleanup-large-assets", action="store_false", dest="cleanup_large_assets")
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
     parser.add_argument("--migration-plan", type=Path, default=None)
+    parser.add_argument("--entry-id", action="append", default=[], help="Migration plan entry id to process.")
     args = parser.parse_args()
 
     if not args.github_token:

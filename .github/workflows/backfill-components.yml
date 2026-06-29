@@ -15,6 +15,10 @@ on:
         description: "Migration plan file generated from the legacy runtime manifest. Empty disables plan mode."
         required: false
         default: "migration/runtime-packages-v2-components.json"
+      entry_ids:
+        description: "Optional comma-separated migration entry IDs to process."
+        required: false
+        default: ""
       max_releases:
         description: "Maximum matching releases per repository when tags is empty. 0 means all."
         required: false
@@ -63,6 +67,12 @@ jobs:
           set -euo pipefail
           if [[ -n "$INPUT_MIGRATION_PLAN" && -f "$INPUT_MIGRATION_PLAN" ]]; then
             args=(--migration-plan "$INPUT_MIGRATION_PLAN")
+            IFS=',' read -r -a entry_ids <<< "${{ github.event.inputs.entry_ids || '' }}"
+            for entry_id in "${entry_ids[@]}"; do
+              entry_id="$(xargs <<< "$entry_id")"
+              [[ -n "$entry_id" ]] || continue
+              args+=(--entry-id "$entry_id")
+            done
             if [[ "$INPUT_FORCE_UPLOAD" == "true" ]]; then
               args+=(--force-upload)
             fi
