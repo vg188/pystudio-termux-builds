@@ -532,6 +532,13 @@ def pool_release_tag(source_tag: str, pool_arch: str) -> str:
     return f"{base}-pool-{pool_arch}-{version}"
 
 
+def github_release_asset_url(repo: str, tag: str, name: str) -> str:
+    return (
+        f"https://github.com/{repo}/releases/download/"
+        f"{urllib.parse.quote(tag, safe='')}/{urllib.parse.quote(name, safe='')}"
+    )
+
+
 def upload_pool_release_assets(
     token: str,
     repo: str,
@@ -550,6 +557,38 @@ def upload_pool_release_assets(
         release = release_cache[key]
         asset_map = cached_release_asset_map(token, repo, release)
         upload_asset(token, repo, int(release["id"]), asset_map, deb, deb.name, force)
+
+
+def flat_index_deb_names(index_path: Path) -> list[str]:
+    text = lzma.decompress(index_path.read_bytes()).decode("utf-8", errors="replace")
+    names: list[str] = []
+    seen: set[str] = set()
+    for line in text.splitlines():
+        if not line.startswith("Filename: "):
+            continue
+        name = Path(line.split(": ", 1)[1]).name
+        if name and name.endswith(".deb") and name not in seen:
+            seen.add(name)
+            names.append(name)
+    return names
+
+
+def download_release_asset(
+    token: str,
+    repo: str,
+    tag: str,
+    asset_map: dict[str, dict[str, Any]],
+    name: str,
+    destination: Path,
+) -> bool:
+    asset = asset_map.get(name)
+    url = str(asset["browser_download_url"]) if asset else github_release_asset_url(repo, tag, name)
+    try:
+        download(token, url, destination)
+        return True
+    except Exception as exc:
+        log(f"Warning: could not download release asset {repo}/{tag}/{name}: {exc}")
+        return False
 
 
 def cleanup_loose_component_assets(
@@ -619,6 +658,63 @@ def source_asset_candidates(
     ]
 
 
+def backfill_existing_flat_assets(
+    args: argparse.Namespace,
+    token: str,
+    *,
+    source_repo: str,
+    source_tag: str,
+    source_asset_map: dict[str, dict[str, Any]],
+    target_repo: str,
+    target_release: dict[str, Any],
+    target_asset_map: dict[str, dict[str, Any]],
+    release_cache: dict[tuple[str, str], dict[str, Any]],
+    repo_slug: str,
+    metadata_name: str,
+    flat_index_name: str,
+    arch: str,
+    work_dir: Path,
+) -> bool:
+    if flat_index_name not in source_asset_map:
+        return False
+
+    flat_dir = work_dir / f"{repo_slug}-existing-flat"
+    shutil.rmtree(flat_dir, ignore_errors=True)
+    flat_dir.mkdir(parents=True, exist_ok=True)
+
+    log(f"Using existing flat assets from {source_repo}/{source_tag}: {flat_index_name}")
+    for name in (metadata_name, f"{repo_slug}-Packages", flat_index_name):
+        if not download_release_asset(token, source_repo, source_tag, source_asset_map, name, flat_dir / name):
+            if name == flat_index_name:
+                return False
+
+    index_path = flat_dir / flat_index_name
+    for deb_name in flat_index_deb_names(index_path):
+        download_release_asset(token, source_repo, source_tag, source_asset_map, deb_name, flat_dir / deb_name)
+
+    if (flat_dir / metadata_name).exists():
+        upload_asset(
+            token,
+            target_repo,
+            int(target_release["id"]),
+            target_asset_map,
+            flat_dir / metadata_name,
+            metadata_name,
+            args.force_upload,
+        )
+    upload_index_release_assets(
+        token,
+        target_repo,
+        int(target_release["id"]),
+        target_asset_map,
+        flat_dir,
+        args.force_upload,
+    )
+    upload_pool_release_assets(token, target_repo, source_tag, arch, release_cache, flat_dir, args.force_upload)
+    cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
+    return True
+
+
 def backfill_deb_bundle_asset(
     args: argparse.Namespace,
     token: str,
@@ -657,6 +753,13 @@ def backfill_deb_bundle_asset(
         log(f"Flat package index exists; continuing to verify shared package pool: {flat_index_name}")
         cleanup_gzip_index(token, target_repo, target_asset_map, repo_slug)
 
+    repo_part = safe_part(source_repo)
+    work_dir = args.work_dir / repo_part / source_tag / artifact_prefix / arch
+    extract_dir = work_dir / "extract"
+    repo_dir = work_dir / repo_slug
+    metadata_path = work_dir / metadata_name
+    flat_dir = work_dir / f"{repo_slug}-flat"
+
     repo_fallback_asset = f"{artifact_prefix}-repo-{arch}.tar.gz"
     source_asset_names = source_asset_candidates(
         source_asset_map,
@@ -670,15 +773,28 @@ def backfill_deb_bundle_asset(
             )
         )
     else:
+        if backfill_existing_flat_assets(
+            args,
+            token,
+            source_repo=source_repo,
+            source_tag=source_tag,
+            source_asset_map=source_asset_map,
+            target_repo=target_repo,
+            target_release=target_release,
+            target_asset_map=target_asset_map,
+            release_cache=release_cache,
+            repo_slug=repo_slug,
+            metadata_name=metadata_name,
+            flat_index_name=flat_index_name,
+            arch=arch,
+            work_dir=work_dir,
+        ):
+            if args.cleanup_loose_components:
+                cleanup_loose_component_assets(token, source_repo, source_asset_map, artifact_prefix, arch)
+            return True
         log(f"No source assets available for {asset_name}, skipping.")
         return False
 
-    repo_part = safe_part(source_repo)
-    work_dir = args.work_dir / repo_part / source_tag / artifact_prefix / arch
-    extract_dir = work_dir / "extract"
-    repo_dir = work_dir / repo_slug
-    metadata_path = work_dir / metadata_name
-    flat_dir = work_dir / f"{repo_slug}-flat"
     shutil.rmtree(work_dir, ignore_errors=True)
     work_dir.mkdir(parents=True, exist_ok=True)
 
