@@ -1,6 +1,6 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-06-28",
+  "generatedAt": "2026-06-29",
   "packageName": "com.vchangxiao.pystudio",
   "architectures": [
     "aarch64",
@@ -14,7 +14,7 @@
     "component": "main",
     "entryKey": "entries",
     "repositoryKey": "repositories",
-    "resolver": "select a package-set entry for the device architecture, fetch the referenced Packages.xz index, resolve Depends/Pre-Depends recursively, then download missing .deb files from pool/main",
+    "resolver": "select a package-set entry for the device architecture, fetch one or more referenced Packages.xz indexes, resolve Depends/Pre-Depends recursively, then download missing .deb files from the selected flat/full repository mirror",
     "bootstrapMode": "extract a bootstrap rootfs before installing package-set entries"
   },
   "manifestMirrors": [

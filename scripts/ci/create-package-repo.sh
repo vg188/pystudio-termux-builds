@@ -24,12 +24,13 @@ repo_slug="$artifact_slug-apt-repo-v1-$arch-$repo_version"
 repo_dir="$stage_dir/$repo_slug"
 metadata_path="$stage_dir/$repo_slug.json"
 archive_path="$stage_dir/$repo_slug.tar.gz"
+flat_dir="$stage_dir/$repo_slug-flat"
 
 if ! find "$output_dir" -type f -name "*.deb" | grep -q .; then
   die "no deb files were produced in $output_dir"
 fi
 
-rm -rf "$repo_dir" "$metadata_path" "$archive_path"
+rm -rf "$repo_dir" "$metadata_path" "$archive_path" "$flat_dir"
 
 python3 "$ROOT/scripts/ci/create-package-repo.py" \
   --output-dir "$output_dir" \
@@ -40,6 +41,12 @@ python3 "$ROOT/scripts/ci/create-package-repo.py" \
   --source "$source_kind" \
   --arch "$arch" \
   --version "$repo_version"
+
+python3 "$ROOT/scripts/ci/create-flat-release-repo.py" \
+  --repo-dir "$repo_dir" \
+  --flat-dir "$flat_dir" \
+  --repo-slug "$repo_slug" \
+  --arch "$arch"
 
 tar -C "$repo_dir" -czf "$archive_path" .
 python3 - <<PY
@@ -54,3 +61,4 @@ PY
 printf '%s\n' "$archive_path"
 printf '%s\n' "$archive_path.sha256"
 printf '%s\n' "$metadata_path"
+printf '%s\n' "$flat_dir"

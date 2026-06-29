@@ -31,6 +31,9 @@ Runtime toolchains are configured in `profiles/toolchains/`:
 | `cpp-lsp` | clangd plus Bear/compiledb compilation database tools | `primary` |
 | `debug-tools` | debugpy plus LLDB/lldb-server | `primary` |
 | `git` | Git with SSH support | `primary` |
+| `proot` | `proot libandroid-shmem libtalloc` | `primary` |
+| `proot-distro` | `proot-distro` while reusing the existing `proot` repo | `primary` |
+| `proot-full` | proot/proot-distro plus Python, Git, and native build tools with CI reuse | `primary` |
 | `nodejs` | `nodejs npm` | `primary` |
 | `cpp` | `libllvm ndk-sysroot make cmake ninja pkg-config` | `primary` |
 
@@ -67,8 +70,8 @@ Use **Actions -> Build PyStudio Toolchain Matrix** to build installable runtime
 packages. Select:
 
 - `profile`: `python`, one of the split `python-*` profiles, `all-python`,
-  `python-lsp`, `cpp-lsp`, `debug-tools`, `git`, `all-dev-tools`, `nodejs`,
-  `cpp`, or `all`
+  `python-lsp`, `cpp-lsp`, `debug-tools`, `git`, `all-dev-tools`, `proot`,
+  `proot-distro`, `proot-full`, `nodejs`, `cpp`, or `all`
 - `source`: `primary`, `secondary`, or `tur`
 - `architectures`: `aarch64`, `arm`, `i686`, `x86_64`, or a comma-separated list
 
@@ -103,21 +106,22 @@ Tree-sitter and Node.js native build core are opt-in child-repository builds:
 - `vg188/pystudio-node-build-core-toolchain`
 
 `runtime-packages.json` is the app-facing download index. It uses a unified
-`entries[]` catalog for bootstrap archives and optional bundles. Optional
-bundles reference independent `.deb` components through `componentRefs`, while
-the global `components` and `componentPackages` maps provide download URLs,
-commands, checksums, and dependency resolution data. The app download window
-should index `title`, `description`, `packages`, and `commands` so searches
-such as `pip`, `openssl`, `xz`, `cmake`, or `xmllint` can find the right
-optional bundle. See `docs/runtime-manifest-schema.md` for the current schema.
-See `docs/component-package-architecture.md` for the component build and app
-resolver design.
+`entries[]` catalog for bootstrap archives and apt-style package repositories.
+New GitHub releases publish direct package assets plus indexes: each `.deb`
+keeps its Debian package name/version/architecture file name, and each
+architecture has a `*-Packages.xz` index. Compact `*-apt-repo-v1-ARCH-rN.tar.gz`
+snapshots remain as backup and CI reuse inputs; they are not the app-side
+install unit. The app should resolve package names and dependencies from the
+index just like Termux `pkg`. See `docs/runtime-manifest-schema.md` for the
+current schema. See `docs/component-package-architecture.md` for the package
+repository build and resolver design.
 See `docs/app-package-manager-guide.md` for app-side package manager
 implementation guidance.
 The legacy schema-2 package sets that need migration are listed in
-`migration/runtime-packages-v2-components.json`; the backfill workflow uses this
-plan to split previous `*-debs-ARCH.tar.gz` assets into component `.deb`
-release assets.
+`migration/runtime-packages-v2-components.json`; **Backfill PyStudio Flat
+Package Repositories** uses this plan to convert previous `*-debs-ARCH.tar.gz`
+assets into direct `.deb` Release assets, `Packages.xz` indexes, and apt
+repository snapshots for CI reuse.
 
 Those repositories are intentionally thin and call the reusable workflow in
 this repository. The profile definitions still live in `profiles/toolchains/`.

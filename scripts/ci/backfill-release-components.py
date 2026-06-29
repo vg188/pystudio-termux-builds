@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import json
+import lzma
 import os
 from pathlib import Path
 import re
@@ -252,6 +254,51 @@ def write_archive(repo_dir: Path, archive_path: Path) -> None:
             archive.add(path, arcname=path.relative_to(repo_dir).as_posix())
 
 
+def copy_unique(source: Path, target: Path) -> None:
+    if target.exists() and target.read_bytes() != source.read_bytes():
+        raise RuntimeError(f"conflicting flat release asset name: {target.name}")
+    if not target.exists():
+        shutil.copy2(source, target)
+
+
+def write_flat_packages_index(packages_path: Path, output_path: Path) -> None:
+    lines: list[str] = []
+    for line in packages_path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("Filename: "):
+            line = "Filename: " + Path(line.split(": ", 1)[1]).name
+        lines.append(line)
+    data = ("\n".join(lines) + "\n").encode("utf-8")
+    output_path.write_bytes(data)
+    with gzip.open(output_path.with_suffix(output_path.suffix + ".gz"), "wb", compresslevel=9) as handle:
+        handle.write(data)
+    output_path.with_suffix(output_path.suffix + ".xz").write_bytes(lzma.compress(data, preset=9))
+
+
+def create_flat_release_assets(repo_dir: Path, flat_dir: Path, repo_slug: str, arch: str) -> list[Path]:
+    shutil.rmtree(flat_dir, ignore_errors=True)
+    flat_dir.mkdir(parents=True, exist_ok=True)
+
+    for deb in sorted((repo_dir / "pool" / "main").rglob("*.deb")):
+        copy_unique(deb, flat_dir / deb.name)
+
+    packages = repo_dir / "dists" / "pystudio" / "main" / f"binary-{arch}" / "Packages"
+    write_flat_packages_index(packages, flat_dir / f"{repo_slug}-Packages")
+    return sorted(path for path in flat_dir.iterdir() if path.is_file())
+
+
+def upload_flat_release_assets(
+    token: str,
+    repo: str,
+    release_id: int,
+    asset_map: dict[str, dict[str, Any]],
+    flat_dir: Path,
+    force: bool,
+) -> None:
+    for path in sorted(flat_dir.iterdir()):
+        if path.is_file():
+            upload_asset(token, repo, release_id, asset_map, path, path.name, force)
+
+
 def cleanup_loose_component_assets(
     token: str,
     repo: str,
@@ -291,14 +338,18 @@ def backfill_deb_bundle_asset(
     archive_name = f"{repo_slug}.tar.gz"
     checksum_name = f"{archive_name}.sha256"
     metadata_name = f"{repo_slug}.json"
+    flat_index_name = f"{repo_slug}-Packages.xz"
 
-    if archive_name in asset_map and not args.force_upload:
-        print(f"Package repo snapshot exists, skipping bundle: {archive_name}")
+    if archive_name in asset_map and flat_index_name in asset_map and not args.force_upload:
+        print(f"Package repo snapshot and flat index exist, skipping bundle: {archive_name}")
         if args.cleanup_loose_components:
             cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
         return False
 
-    source_asset_names = [asset_name]
+    source_asset_names = []
+    if archive_name in asset_map:
+        source_asset_names.append(archive_name)
+    source_asset_names.append(asset_name)
     repo_fallback_asset = f"{artifact_prefix}-repo-{arch}.tar.gz"
     if repo_fallback_asset in asset_map:
         source_asset_names.append(repo_fallback_asset)
@@ -310,6 +361,7 @@ def backfill_deb_bundle_asset(
     metadata_path = work_dir / metadata_name
     archive_path = work_dir / archive_name
     checksum_path = work_dir / checksum_name
+    flat_dir = work_dir / f"{repo_slug}-flat"
     shutil.rmtree(work_dir, ignore_errors=True)
     work_dir.mkdir(parents=True, exist_ok=True)
 
@@ -361,10 +413,12 @@ def backfill_deb_bundle_asset(
     write_archive(repo_dir, archive_path)
     digest = sha256_file(archive_path)
     checksum_path.write_text(f"{digest}  {archive_name}\n", encoding="utf-8")
+    create_flat_release_assets(repo_dir, flat_dir, repo_slug, arch)
 
     upload_asset(token, args.repo, int(release["id"]), asset_map, archive_path, archive_name, args.force_upload)
     upload_asset(token, args.repo, int(release["id"]), asset_map, checksum_path, checksum_name, args.force_upload)
     upload_asset(token, args.repo, int(release["id"]), asset_map, metadata_path, metadata_name, args.force_upload)
+    upload_flat_release_assets(token, args.repo, int(release["id"]), asset_map, flat_dir, args.force_upload)
     if args.cleanup_loose_components:
         cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
     return True

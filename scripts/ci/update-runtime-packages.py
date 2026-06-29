@@ -125,6 +125,42 @@ PROFILE_OVERRIDES: dict[str, dict[str, Any]] = {
         "commands": ["proot", "termux-chroot"],
         "verifyCommands": ["proot --version", "termux-chroot -h"],
     },
+    "proot-distro": {
+        "group": "runtime",
+        "title": "PRoot Distro",
+        "description": "Termux proot-distro manager and its runtime helpers for installing Linux distributions.",
+        "commands": ["proot-distro"],
+        "verifyCommands": ["proot-distro --help"],
+    },
+    "proot-full": {
+        "group": "runtime",
+        "title": "Full PRoot Runtime",
+        "description": "PRoot, proot-distro, Python/Pip, Git/SSH, and native build tools as a split apt repository.",
+        "commands": [
+            "proot",
+            "termux-chroot",
+            "proot-distro",
+            "python",
+            "python3",
+            "pip",
+            "pip3",
+            "git",
+            "ssh",
+            "clang",
+            "clang++",
+            "make",
+            "cmake",
+            "ninja",
+            "pkg-config",
+        ],
+        "verifyCommands": [
+            "proot --version",
+            "proot-distro --help",
+            "python3 --version",
+            "git --version",
+            "clang --version",
+        ],
+    },
     "node-build-core": {
         "group": "npm-toolchain",
         "title": "Node.js Native Build Core",
@@ -356,6 +392,7 @@ def repository_from_snapshot(
     asset: dict[str, Any],
     checksum_asset: dict[str, Any] | None,
     metadata_asset: dict[str, Any] | None,
+    flat_index_asset: dict[str, Any] | None,
     profile: str,
     source_adapter: str,
 ) -> dict[str, Any]:
@@ -413,6 +450,18 @@ def repository_from_snapshot(
         repository["checksum"] = artifact_from_asset("apt-repo-snapshot-sha256", checksum_asset)
     if metadata_asset:
         repository["metadata"] = artifact_from_asset("apt-repo-metadata", metadata_asset)
+    if flat_index_asset:
+        release_base = f"https://github.com/{release_repo}/releases/download/{urllib.parse.quote(release_tag, safe='')}/"
+        repository["mirrors"].insert(
+            0,
+            {
+                "id": "github-release-flat",
+                "kind": "flat-release-repo",
+                "baseUrl": release_base,
+                "indexUrl": urllib.parse.urljoin(release_base, str(flat_index_asset["name"])),
+                "priority": 1,
+            },
+        )
     return repository
 
 
@@ -574,6 +623,32 @@ def set_arch_repository_ref(entry: dict[str, Any], arch: str, repository_id: str
     entry.setdefault("sizeByArch", {})[arch] = snapshot_size
 
 
+def repository_refs_for_arch(entry: dict[str, Any], arch: str) -> list[str]:
+    refs = entry.get("repositoryRefs", {}).get(arch)
+    if isinstance(refs, str):
+        return [refs]
+    if isinstance(refs, list):
+        return unique_strings([str(ref) for ref in refs])
+    return []
+
+
+def set_arch_repository_refs(
+    manifest: dict[str, Any],
+    entry: dict[str, Any],
+    arch: str,
+    repository_ids: list[str],
+) -> None:
+    repository_ids = unique_strings(repository_ids)
+    if not repository_ids:
+        return
+    entry["repositoryRefs"][arch] = repository_ids
+    entry["availableArchitectures"] = sorted(entry["repositoryRefs"], key=ARCHITECTURES.index)
+    entry.setdefault("sizeByArch", {})[arch] = sum(
+        int(manifest["repositories"].get(repository_id, {}).get("snapshot", {}).get("size", 0))
+        for repository_id in repository_ids
+    )
+
+
 def attach_package_repositories(
     manifest: dict[str, Any],
     entry: dict[str, Any],
@@ -597,6 +672,7 @@ def attach_package_repositories(
         base_name = str(asset["name"])
         checksum_asset = assets.get(base_name + ".sha256")
         metadata_asset = assets.get(base_name[:-7] + ".json") if base_name.endswith(".tar.gz") else None
+        flat_index_asset = assets.get(base_name[:-7] + "-Packages.xz") if base_name.endswith(".tar.gz") else None
         repository = repository_from_snapshot(
             release_repo=release_repo,
             release_tag=str(release["tag_name"]),
@@ -605,6 +681,7 @@ def attach_package_repositories(
             asset=asset,
             checksum_asset=checksum_asset,
             metadata_asset=metadata_asset,
+            flat_index_asset=flat_index_asset,
             profile=str(entry["profile"]),
             source_adapter=source_adapter,
         )
@@ -825,13 +902,15 @@ def entry_order_key(entry_id: str) -> tuple[int, int, str]:
         "python": 0,
         "nodejs": 1,
         "proot": 2,
-        "cpp": 3,
-        "tree-sitter": 4,
-        "node-build-core": 5,
-        "python-lsp": 6,
-        "cpp-lsp": 7,
-        "debug-tools": 8,
-        "git": 9,
+        "proot-distro": 3,
+        "proot-full": 4,
+        "cpp": 5,
+        "tree-sitter": 6,
+        "node-build-core": 7,
+        "python-lsp": 8,
+        "cpp-lsp": 9,
+        "debug-tools": 10,
+        "git": 11,
     }
     if entry_id in bootstrap_order:
         return (0, bootstrap_order[entry_id], entry_id)
@@ -894,14 +973,18 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
                 raise RuntimeError(f"package set {entry_id} missing repositoryRefs")
             if sorted(refs, key=ARCHITECTURES.index) != entry["availableArchitectures"]:
                 raise RuntimeError(f"package set {entry_id} has inconsistent architecture lists")
-            for arch, repo_id in refs.items():
+            for arch in refs:
                 if arch not in ARCHITECTURES:
                     raise RuntimeError(f"package set {entry_id} has unsupported architecture: {arch}")
-                repository = manifest["repositories"].get(repo_id)
-                if not repository:
-                    raise RuntimeError(f"package set {entry_id}/{arch} references missing repository {repo_id}")
-                if repository.get("architecture") != arch:
-                    raise RuntimeError(f"package set {entry_id}/{arch} references repository for wrong arch")
+                arch_refs = repository_refs_for_arch(entry, arch)
+                if not arch_refs:
+                    raise RuntimeError(f"package set {entry_id}/{arch} has no repository refs")
+                for repo_id in arch_refs:
+                    repository = manifest["repositories"].get(repo_id)
+                    if not repository:
+                        raise RuntimeError(f"package set {entry_id}/{arch} references missing repository {repo_id}")
+                    if repository.get("architecture") != arch:
+                        raise RuntimeError(f"package set {entry_id}/{arch} references repository for wrong arch")
         else:
             raise RuntimeError(f"manifest entry {entry_id} has unsupported kind: {kind}")
 
@@ -959,9 +1042,9 @@ def main() -> int:
             "entryKey": "entries",
             "repositoryKey": "repositories",
             "resolver": (
-                "select a package-set entry for the device architecture, fetch the referenced "
-                "Packages.xz index, resolve Depends/Pre-Depends recursively, then download "
-                "missing .deb files from pool/main"
+                "select a package-set entry for the device architecture, fetch one or more "
+                "referenced Packages.xz indexes, resolve Depends/Pre-Depends recursively, then "
+                "download missing .deb files from the selected flat/full repository mirror"
             ),
             "bootstrapMode": "extract a bootstrap rootfs before installing package-set entries",
         },

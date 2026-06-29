@@ -192,6 +192,8 @@ jobs:
         with:
           name: ${{ needs.resolve-inputs.outputs.artifact_prefix }}-${{ matrix.arch }}-${{ github.run_number }}
           path: |
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*/
+            orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*-flat/*
             orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz
             orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz.sha256
             orchestrator/dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.json
@@ -210,11 +212,26 @@ jobs:
         with:
           path: artifacts
 
+      - name: Checkout orchestrator
+        uses: actions/checkout@v4
+        with:
+          repository: vg188/pystudio-termux-builds
+          ref: ${{ inputs.orchestrator_ref }}
+          path: orchestrator
+
       - name: List release files
         shell: bash
         run: |
           set -euo pipefail
           find artifacts -type f -print | sort
+
+      - name: Prepare deduplicated release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 orchestrator/scripts/ci/prepare-release-assets.py \
+            --artifacts-dir artifacts \
+            --output-dir release-assets
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -222,9 +239,7 @@ jobs:
           tag_name: ${{ needs.resolve-inputs.outputs.release_tag_prefix }}-r${{ github.run_number }}
           name: ${{ needs.resolve-inputs.outputs.release_name }} r${{ github.run_number }}
           files: |
-            artifacts/**/*-apt-repo-v1-*.tar.gz
-            artifacts/**/*-apt-repo-v1-*.tar.gz.sha256
-            artifacts/**/*-apt-repo-v1-*.json
+            release-assets/*
 
       - name: Trigger runtime package manifest sync
         shell: bash

@@ -25,6 +25,8 @@ on:
           - git
           - all-dev-tools
           - proot
+          - proot-distro
+          - proot-full
           - nodejs
           - cpp
           - all
@@ -95,7 +97,7 @@ jobs:
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
 
           if [[ "$profile" == "all" ]]; then
-            profiles="python nodejs proot cpp"
+            profiles="python nodejs proot proot-distro cpp"
           elif [[ "$profile" == "all-python" ]]; then
             profiles="$python_profiles"
           elif [[ "$profile" == "all-dev-tools" ]]; then
@@ -184,6 +186,8 @@ jobs:
         with:
           name: pystudio-${{ matrix.profile }}-toolchain-${{ matrix.source }}-${{ matrix.arch }}-${{ github.run_number }}
           path: |
+            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*/
+            dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*-flat/*
             dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz
             dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.tar.gz.sha256
             dist/toolchains/${{ matrix.profile }}/${{ matrix.source }}/${{ matrix.arch }}/*-apt-repo-v1-*.json
@@ -208,15 +212,21 @@ jobs:
           set -euo pipefail
           find artifacts -type f -print | sort
 
+      - name: Prepare deduplicated release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/ci/prepare-release-assets.py \
+            --artifacts-dir artifacts \
+            --output-dir release-assets
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: pystudio-toolchains-r${{ github.run_number }}
           name: PyStudio toolchains r${{ github.run_number }}
           files: |
-            artifacts/**/*-apt-repo-v1-*.tar.gz
-            artifacts/**/*-apt-repo-v1-*.tar.gz.sha256
-            artifacts/**/*-apt-repo-v1-*.json
+            release-assets/*
 
       - name: Trigger runtime package manifest sync
         shell: bash

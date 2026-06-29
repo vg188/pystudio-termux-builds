@@ -28,11 +28,15 @@ fi
 packages="$(printf '%s' "${package_override:-$DEFAULT_PACKAGES}" | normalize_list)"
 [[ -n "$packages" ]] || die "no packages requested"
 mapfile -t package_array < <(tr ' ' '\n' <<< "$packages" | sed '/^$/d')
+reuse_sets="$(printf '%s' "${REUSE_PACKAGE_SETS:-}" | normalize_list)"
 
 work_dir="$ROOT/work/toolchains/$profile/$source_kind/$arch"
 source_dir="$work_dir/source"
 stage_dir="$ROOT/dist/toolchains/$profile/$source_kind/$arch"
 fallback_root="$work_dir/fallback-sources"
+docker_data_dir="$work_dir/docker-data"
+reuse_cache_dir="$work_dir/reuse-cache"
+missing_packages_file="$work_dir/reuse/missing-packages.txt"
 
 rm -rf "$work_dir" "$stage_dir"
 mkdir -p "$work_dir" "$stage_dir"
@@ -42,6 +46,7 @@ echo "Source: $SOURCE_NAME ($source_kind) -> $source_repo"
 echo "Patch set: ${SOURCE_PATCH_SET:-none}"
 echo "Architecture: $arch"
 echo "Packages: ${package_array[*]}"
+echo "Build-time reuse package sets: ${reuse_sets:-none}"
 echo "Android package: ${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
 
 git clone --depth 1 "$source_repo" "$source_dir"
@@ -190,14 +195,39 @@ for package in "${package_array[@]}"; do
   copy_explicit_package_from_fallbacks "$package"
 done
 
-pushd "$source_dir"
-rm -rf output
-mkdir -p output
-bash ./scripts/run-docker.sh -d ./build-package.sh \
-  -C \
-  -a "$arch" \
-  "${package_array[@]}"
-popd
+prefetch_args=()
+for reuse_set in $reuse_sets; do
+  prefetch_args+=(--package-set "$reuse_set")
+done
+for package in "${package_array[@]}"; do
+  prefetch_args+=(--requested-package "$package")
+done
+
+mkdir -p "$source_dir/output" "$docker_data_dir" "$reuse_cache_dir" "$(dirname "$missing_packages_file")"
+python3 "$ROOT/scripts/ci/prefetch-package-reuse.py" \
+  --arch "$arch" \
+  --output-dir "$source_dir/output" \
+  --docker-data-dir "$docker_data_dir" \
+  --cache-dir "$reuse_cache_dir" \
+  --missing-packages-file "$missing_packages_file" \
+  "${prefetch_args[@]}"
+
+mapfile -t build_package_array < <(sed '/^$/d' "$missing_packages_file")
+
+if [[ "${#build_package_array[@]}" -gt 0 ]]; then
+  pushd "$source_dir"
+  mkdir -p output
+  TERMUX_DOCKER_RUN_EXTRA_ARGS="--volume $docker_data_dir/data:/data ${TERMUX_DOCKER_RUN_EXTRA_ARGS:-}" \
+    bash ./scripts/run-docker.sh -d ./build-package.sh \
+      -I \
+      -C \
+      -a "$arch" \
+      -o "$source_dir/output" \
+      "${build_package_array[@]}"
+  popd
+else
+  echo "All requested packages were reused from existing PyStudio package repositories."
+fi
 
 python3 "$ROOT/scripts/ci/check-deb-prefix.py" \
   "$source_dir/output" \

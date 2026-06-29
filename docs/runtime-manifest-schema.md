@@ -36,7 +36,9 @@ Top-level fields:
 ## Entries
 
 `entries[]` is the unified app catalog. Every entry has the same display/search
-fields: `title`, `description`, `packages`, and `commands`.
+fields: `title`, `description`, `packages`, and `commands`. A `package-set`
+entry is a curated install/search shortcut, not an opaque bundle. The real
+installation units are package stanzas in the referenced `Packages.xz` indexes.
 
 Bootstrap entry:
 
@@ -120,6 +122,13 @@ source for one profile/source/architecture build.
   },
   "mirrors": [
     {
+      "id": "github-release-flat",
+      "kind": "flat-release-repo",
+      "baseUrl": "https://github.com/.../releases/download/...",
+      "indexUrl": "https://github.com/.../ARTIFACT-apt-repo-v1-aarch64-r10-Packages.xz",
+      "priority": 1
+    },
+    {
       "id": "modelscope",
       "kind": "full-repo",
       "baseUrl": "https://modelscope.cn/datasets/.../resolve/master/repo/...",
@@ -137,9 +146,13 @@ source for one profile/source/architecture build.
 }
 ```
 
-ModelScope mirrors expose the repository as normal files. GitHub snapshots are
-compact release artifacts that the app can download and expand into a local
-package cache when a full-file mirror is unavailable.
+`github-release-flat` stores the `Packages.xz` index and each `.deb` as GitHub
+Release assets. The index rewrites `Filename` to the `.deb` asset name, so
+`baseUrl + Filename` downloads the package directly. ModelScope mirrors expose
+the repository as normal files. GitHub snapshots are compact release artifacts
+that the app can download and expand into a local package cache when direct
+package mirrors are unavailable. A snapshot tarball is a repository transport
+format, not the package manager's install unit.
 
 ## App Install Flow
 
@@ -149,10 +162,11 @@ package cache when a full-file mirror is unavailable.
    extract it into the app prefix.
 4. For `kind = package-set`, read `repositoryRefs[abi]` and fetch the referenced
    repository index.
-5. Prefer a `full-repo` mirror by priority. Download `Packages.xz` from
-   `indexUrl`, then download `.deb` files using `baseUrl + Filename`.
-6. If no full-file mirror is reachable, download the GitHub `snapshot`, extract
-   it to a local cache, and read the same `Packages.xz` from disk.
+5. Prefer `flat-release-repo` or `full-repo` mirrors by priority. Download
+   `Packages.xz` from `indexUrl`, then download `.deb` files using
+   `baseUrl + Filename`.
+6. If no direct package mirror is reachable, download the GitHub `snapshot`,
+   extract it to a local cache, and read the same `Packages.xz` from disk.
 7. Resolve `Depends` and `Pre-Depends` from the package index, skip already
    installed package/version pairs, verify `SHA256`, and install missing `.deb`
    files with `dpkg`.
