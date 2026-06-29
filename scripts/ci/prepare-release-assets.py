@@ -26,7 +26,6 @@ def main() -> int:
             name.endswith(".deb")
             or name.endswith(".json")
             or name.endswith("-Packages")
-            or name.endswith("-Packages.gz")
             or name.endswith("-Packages.xz")
         ):
             continue

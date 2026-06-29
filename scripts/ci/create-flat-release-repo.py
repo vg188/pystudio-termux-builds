@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import gzip
 import lzma
 from pathlib import Path
 import shutil
@@ -18,8 +17,6 @@ def rewrite_packages_index(packages_path: Path, output_path: Path) -> None:
         lines.append(line)
     data = ("\n".join(lines) + "\n").encode("utf-8")
     output_path.write_bytes(data)
-    with gzip.open(output_path.with_suffix(output_path.suffix + ".gz"), "wb", compresslevel=9) as handle:
-        handle.write(data)
     output_path.with_suffix(output_path.suffix + ".xz").write_bytes(lzma.compress(data, preset=9))
 
 

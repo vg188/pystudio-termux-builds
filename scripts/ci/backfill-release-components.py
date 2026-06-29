@@ -3,13 +3,13 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
-import gzip
 import json
 import lzma
 import os
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import tarfile
 import time
 import urllib.error
@@ -197,6 +197,55 @@ def sleep_for_rate_limit(exc: urllib.error.HTTPError, detail: str, attempt: int)
     return True
 
 
+def parse_response_headers(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    raw = path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n")
+    blocks = [block for block in raw.split("\n\n") if block.strip()]
+    if not blocks:
+        return {}
+    headers: dict[str, str] = {}
+    for line in blocks[-1].splitlines()[1:]:
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        headers[key.strip().lower()] = value.strip()
+    return headers
+
+
+def sleep_for_rate_limit_response(
+    status: int,
+    response_headers: dict[str, str],
+    detail: str,
+    url: str,
+    attempt: int,
+) -> bool:
+    lowered = detail.lower()
+    if status not in (403, 429):
+        return False
+    if "rate limit" not in lowered and "secondary rate" not in lowered and "abuse" not in lowered:
+        return False
+
+    retry_after = response_headers.get("retry-after")
+    if retry_after and retry_after.isdigit():
+        delay = min(MAX_RATE_LIMIT_SLEEP_SECONDS, max(1, int(retry_after) + 5))
+    else:
+        reset = response_headers.get("x-ratelimit-reset")
+        if reset and reset.isdigit():
+            now = int(time.time())
+            delay = min(MAX_RATE_LIMIT_SLEEP_SECONDS, max(1, int(reset) - now + 10))
+        else:
+            delay = min(MAX_RATE_LIMIT_SLEEP_SECONDS, max(60, attempt * 120))
+
+    until = dt.datetime.now(dt.UTC) + dt.timedelta(seconds=delay)
+    log(
+        f"GitHub rate limit while uploading {url}; waiting {delay}s "
+        f"until {until.isoformat(timespec='seconds')} before retry."
+    )
+    time.sleep(delay)
+    return True
+
+
 def upload_asset(
     token: str,
     repo: str,
@@ -218,39 +267,72 @@ def upload_asset(
     query = urllib.parse.urlencode({"name": name})
     url = f"{GITHUB_UPLOADS}/repos/{owner_repo}/releases/{release_id}/assets?{query}"
     size = path.stat().st_size
-    log(f"Uploading package repository asset: {name} ({format_size(size)})")
-    data = path.read_bytes()
+    log(f"Uploading package repository asset with curl progress: {name} ({format_size(size)})")
+    response_path = path.parent / f".{path.name}.upload-response.json"
+    headers_path = path.parent / f".{path.name}.upload-headers.txt"
     for attempt in range(1, GITHUB_API_RETRIES + 1):
-        request = urllib.request.Request(
+        response_path.unlink(missing_ok=True)
+        headers_path.unlink(missing_ok=True)
+        command = [
+            "curl",
+            "--fail-with-body",
+            "--show-error",
+            "--location",
+            "--progress-bar",
+            "--connect-timeout",
+            "30",
+            "--speed-time",
+            "120",
+            "--speed-limit",
+            "1024",
+            "--request",
+            "POST",
+            "--header",
+            "Accept: application/vnd.github+json",
+            "--header",
+            f"Authorization: Bearer {token}",
+            "--header",
+            "X-GitHub-Api-Version: 2022-11-28",
+            "--header",
+            "Content-Type: application/octet-stream",
+            "--data-binary",
+            f"@{path}",
+            "--dump-header",
+            str(headers_path),
+            "--output",
+            str(response_path),
+            "--write-out",
+            "%{http_code}",
             url,
-            data=data,
-            method="POST",
-            headers=headers(
-                token,
-                {
-                    "Accept": "application/vnd.github+json",
-                    "Content-Type": "application/octet-stream",
-                },
-            ),
-        )
+        ]
         try:
-            with urllib.request.urlopen(request, timeout=600) as response:
-                uploaded = json.loads(response.read().decode("utf-8"))
-            asset_map[name] = uploaded
-            log(f"Uploaded package repository asset: {name}")
-            return
-        except urllib.error.HTTPError as exc:
-            detail = exc.read().decode("utf-8", errors="replace")
-            if exc.code == 422 and "already_exists" in detail and not force:
+            result = subprocess.run(command, stdout=subprocess.PIPE, text=True, check=False)
+            status_text = result.stdout.strip()
+            status = int(status_text[-3:]) if status_text[-3:].isdigit() else 0
+            detail = response_path.read_text(encoding="utf-8", errors="replace") if response_path.exists() else ""
+            response_headers = parse_response_headers(headers_path)
+            if result.returncode == 0 and 200 <= status < 300:
+                uploaded = json.loads(detail)
+                asset_map[name] = uploaded
+                log(f"Uploaded package repository asset: {name}")
+                return
+            if status == 422 and "already_exists" in detail and not force:
                 log(f"Asset exists after upload race, skipping: {name}")
                 return
-            if sleep_for_rate_limit(exc, detail, attempt):
+            if sleep_for_rate_limit_response(status, response_headers, detail, url, attempt):
                 continue
             if attempt == GITHUB_API_RETRIES:
-                raise RuntimeError(f"upload failed for {name}: HTTP {exc.code}: {detail}") from exc
-        except urllib.error.URLError:
+                raise RuntimeError(
+                    f"upload failed for {name}: curl exit {result.returncode}, HTTP {status}: {detail}"
+                )
+            log(
+                f"Warning: upload attempt {attempt} failed for {name}: "
+                f"curl exit {result.returncode}, HTTP {status}"
+            )
+        except OSError as exc:
             if attempt == GITHUB_API_RETRIES:
                 raise
+            log(f"Warning: upload attempt {attempt} failed for {name}: {exc}")
         time.sleep(attempt * 5)
 
 
@@ -381,8 +463,6 @@ def write_flat_packages_index(packages_path: Path, output_path: Path) -> None:
         lines.append(line)
     data = ("\n".join(lines) + "\n").encode("utf-8")
     output_path.write_bytes(data)
-    with gzip.open(output_path.with_suffix(output_path.suffix + ".gz"), "wb", compresslevel=9) as handle:
-        handle.write(data)
     output_path.with_suffix(output_path.suffix + ".xz").write_bytes(lzma.compress(data, preset=9))
 
 
@@ -408,6 +488,9 @@ def upload_flat_release_assets(
 ) -> None:
     for path in sorted(flat_dir.iterdir()):
         if path.is_file():
+            if path.name.endswith("-Packages.gz"):
+                log(f"Skipping gzip package index asset: {path.name}")
+                continue
             upload_asset(token, repo, release_id, asset_map, path, path.name, force)
 
 
@@ -440,6 +523,19 @@ def cleanup_large_assets(
         if asset:
             delete_asset(token, repo, asset)
             asset_map.pop(name, None)
+
+
+def cleanup_gzip_index(
+    token: str,
+    repo: str,
+    asset_map: dict[str, dict[str, Any]],
+    repo_slug: str,
+) -> None:
+    name = f"{repo_slug}-Packages.gz"
+    asset = asset_map.get(name)
+    if asset:
+        delete_asset(token, repo, asset)
+        asset_map.pop(name, None)
 
 
 def source_asset_candidates(
@@ -495,6 +591,7 @@ def backfill_deb_bundle_asset(
 
     if flat_index_name in asset_map and not args.force_upload:
         log(f"Flat package index exists, skipping bundle: {flat_index_name}")
+        cleanup_gzip_index(token, args.repo, asset_map, repo_slug)
         if args.cleanup_loose_components:
             cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
         if args.cleanup_large_assets:
@@ -578,6 +675,7 @@ def backfill_deb_bundle_asset(
 
     upload_asset(token, args.repo, int(release["id"]), asset_map, metadata_path, metadata_name, args.force_upload)
     upload_flat_release_assets(token, args.repo, int(release["id"]), asset_map, flat_dir, args.force_upload)
+    cleanup_gzip_index(token, args.repo, asset_map, repo_slug)
     if args.cleanup_loose_components:
         cleanup_loose_component_assets(token, args.repo, asset_map, artifact_prefix, arch)
     if args.cleanup_large_assets:
