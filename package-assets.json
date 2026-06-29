@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T15:39:58Z",
+  "generatedAt": "2026-06-29T16:52:24Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
     "generatedAt": "2026-06-29"
   },
   "summary": {
-    "uniquePackageFiles": 1265,
-    "githubLocations": 2936
+    "uniquePackageFiles": 1285,
+    "githubLocations": 2956
   },
   "packages": {
     "abseil-cpp_20250814.1_aarch64.deb": {
@@ -8331,6 +8331,158 @@
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
             "tag": "pystudio-python-toolchain-pool-x86_64-r10"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem-static_0.7_aarch64.deb": {
+      "fileName": "libandroid-shmem-static_0.7_aarch64.deb",
+      "package": "libandroid-shmem-static",
+      "version": "0.7",
+      "architecture": "aarch64",
+      "size": "6072",
+      "sha256": "26ae6a16be79c378b4b712f8a83b7d1204cf8615a5006db6b255fed9a647ac03",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem-static_0.7_aarch64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem-static_0.7_arm.deb": {
+      "fileName": "libandroid-shmem-static_0.7_arm.deb",
+      "package": "libandroid-shmem-static",
+      "version": "0.7",
+      "architecture": "arm",
+      "size": "5696",
+      "sha256": "f74540aaf661c4a4ab6de892f56124b7567bbb1e2e9cf146624711c4939a5ef8",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem-static_0.7_arm.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem-static_0.7_i686.deb": {
+      "fileName": "libandroid-shmem-static_0.7_i686.deb",
+      "package": "libandroid-shmem-static",
+      "version": "0.7",
+      "architecture": "i686",
+      "size": "5784",
+      "sha256": "8e4de448697a51753a942dbf673ef1651ae74b0289ed6df7a5182195ded68357",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem-static_0.7_i686.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem-static_0.7_x86_64.deb": {
+      "fileName": "libandroid-shmem-static_0.7_x86_64.deb",
+      "package": "libandroid-shmem-static",
+      "version": "0.7",
+      "architecture": "x86_64",
+      "size": "5900",
+      "sha256": "9a831cf39c7fdbe218ef911c9fe8c56d4a68c2121bddcb2d50861b02c7736109",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem-static_0.7_x86_64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem_0.7_aarch64.deb": {
+      "fileName": "libandroid-shmem_0.7_aarch64.deb",
+      "package": "libandroid-shmem",
+      "version": "0.7",
+      "architecture": "aarch64",
+      "size": "7224",
+      "sha256": "ba53c007c55447c5fd238c5af6ce19c51b43a5696d28a436ed73b7ac5b3afbad",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem_0.7_aarch64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem_0.7_arm.deb": {
+      "fileName": "libandroid-shmem_0.7_arm.deb",
+      "package": "libandroid-shmem",
+      "version": "0.7",
+      "architecture": "arm",
+      "size": "6952",
+      "sha256": "a4a10830a28218a0a0576aa3f78bdbfffbbf04ed06a203a26e07fff5dc14828e",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem_0.7_arm.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem_0.7_i686.deb": {
+      "fileName": "libandroid-shmem_0.7_i686.deb",
+      "package": "libandroid-shmem",
+      "version": "0.7",
+      "architecture": "i686",
+      "size": "7200",
+      "sha256": "b2054989c88c36a25b2438f63b09b4efe0061021dc7a3be5722083fc4f6a9d18",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem_0.7_i686.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libandroid-shmem_0.7_x86_64.deb": {
+      "fileName": "libandroid-shmem_0.7_x86_64.deb",
+      "package": "libandroid-shmem",
+      "version": "0.7",
+      "architecture": "x86_64",
+      "size": "7412",
+      "sha256": "e2ba90648698fc6dccaae2209d8752c2308854a291812c6bfaeae8173197196b",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libandroid-shmem_0.7_x86_64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
           }
         }
       ]
@@ -20255,6 +20407,158 @@
         }
       ]
     },
+    "libtalloc-static_2.4.3_aarch64.deb": {
+      "fileName": "libtalloc-static_2.4.3_aarch64.deb",
+      "package": "libtalloc-static",
+      "version": "2.4.3",
+      "architecture": "aarch64",
+      "size": "11372",
+      "sha256": "8315d496650661b57294eba02e42386abce2da2b5c0cad894ce7a0ad73b38050",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc-static_2.4.3_aarch64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc-static_2.4.3_arm.deb": {
+      "fileName": "libtalloc-static_2.4.3_arm.deb",
+      "package": "libtalloc-static",
+      "version": "2.4.3",
+      "architecture": "arm",
+      "size": "9984",
+      "sha256": "b4d70a0ec79b0665b3102a1272158193047cdbbc458d9940b74bf3185072657e",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc-static_2.4.3_arm.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc-static_2.4.3_i686.deb": {
+      "fileName": "libtalloc-static_2.4.3_i686.deb",
+      "package": "libtalloc-static",
+      "version": "2.4.3",
+      "architecture": "i686",
+      "size": "11032",
+      "sha256": "18891cb9f40f2c82cbf2ddcded05210defdfe1fa078da2c7111a6ea654eb0e66",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc-static_2.4.3_i686.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc-static_2.4.3_x86_64.deb": {
+      "fileName": "libtalloc-static_2.4.3_x86_64.deb",
+      "package": "libtalloc-static",
+      "version": "2.4.3",
+      "architecture": "x86_64",
+      "size": "11140",
+      "sha256": "1badd42edf2d197e4daf355c55dada101788199817b76fd6f1bde858ab5523c1",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc-static_2.4.3_x86_64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc_2.4.3_aarch64.deb": {
+      "fileName": "libtalloc_2.4.3_aarch64.deb",
+      "package": "libtalloc",
+      "version": "2.4.3",
+      "architecture": "aarch64",
+      "size": "33108",
+      "sha256": "ac48e1de7bd974b98e0c367d1b4165af3c393f221a24173330181d7ee7886fc9",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc_2.4.3_aarch64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc_2.4.3_arm.deb": {
+      "fileName": "libtalloc_2.4.3_arm.deb",
+      "package": "libtalloc",
+      "version": "2.4.3",
+      "architecture": "arm",
+      "size": "31348",
+      "sha256": "d2754176c8a4fd84b906f434013b177b94122b7ce4d4f74ed6f5303c99b27603",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc_2.4.3_arm.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc_2.4.3_i686.deb": {
+      "fileName": "libtalloc_2.4.3_i686.deb",
+      "package": "libtalloc",
+      "version": "2.4.3",
+      "architecture": "i686",
+      "size": "33368",
+      "sha256": "8bb7af3f9eda1cc6f0d6e41f41eb8c4803c54c8e0500104dae07d0eb570a723f",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc_2.4.3_i686.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "libtalloc_2.4.3_x86_64.deb": {
+      "fileName": "libtalloc_2.4.3_x86_64.deb",
+      "package": "libtalloc",
+      "version": "2.4.3",
+      "architecture": "x86_64",
+      "size": "33548",
+      "sha256": "e46e94418c63e96662511e701b4fd25f4abd4ca50e4db55b8b6da622def74972",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/libtalloc_2.4.3_x86_64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
     "libtiff-static_4.7.1_aarch64.deb": {
       "fileName": "libtiff-static_4.7.1_aarch64.deb",
       "package": "libtiff-static",
@@ -30746,6 +31050,82 @@
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
             "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        }
+      ]
+    },
+    "proot_5.1.107.81_aarch64.deb": {
+      "fileName": "proot_5.1.107.81_aarch64.deb",
+      "package": "proot",
+      "version": "5.1.107.81",
+      "architecture": "aarch64",
+      "size": "94048",
+      "sha256": "16a089eef584f4da4b17240b9ffa9e6361b55458ba41c56ad920cc31f864b729",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/proot_5.1.107.81_aarch64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "proot_5.1.107.81_arm.deb": {
+      "fileName": "proot_5.1.107.81_arm.deb",
+      "package": "proot",
+      "version": "5.1.107.81",
+      "architecture": "arm",
+      "size": "87332",
+      "sha256": "9f6127217d53f2c7f74f57f3a8cc438875825770276d4ad062216c258926dcf9",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/proot_5.1.107.81_arm.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "proot_5.1.107.81_i686.deb": {
+      "fileName": "proot_5.1.107.81_i686.deb",
+      "package": "proot",
+      "version": "5.1.107.81",
+      "architecture": "i686",
+      "size": "98900",
+      "sha256": "3b1d47050478822184d90503832e453e97779f4dcb3aabd348d1341afc92556e",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/proot_5.1.107.81_i686.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
+          }
+        }
+      ]
+    },
+    "proot_5.1.107.81_x86_64.deb": {
+      "fileName": "proot_5.1.107.81_x86_64.deb",
+      "package": "proot",
+      "version": "5.1.107.81",
+      "architecture": "x86_64",
+      "size": "103304",
+      "sha256": "719dd16cf838e645377768592c5dca7aef1018b999bb55dfa6546a41f127d073",
+      "locations": [
+        {
+          "source": "index-release",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/proot_5.1.107.81_x86_64.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-r28"
           }
         }
       ]

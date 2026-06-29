@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T15:39:58Z",
+  "generatedAt": "2026-06-29T16:52:24Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
     "generatedAt": "2026-06-29"
   },
   "summary": {
-    "entries": 17,
-    "repositories": 60,
-    "uniquePackageFiles": 1265,
-    "packageFileUses": 5014,
+    "entries": 18,
+    "repositories": 64,
+    "uniquePackageFiles": 1285,
+    "packageFileUses": 5034,
     "reusedRepositoryIndexes": 60,
-    "downloadedRepositoryIndexes": 0
+    "downloadedRepositoryIndexes": 4
   },
   "entries": {
     "bootstrap-base": {
@@ -4390,6 +4390,50 @@
         "zlib_1.3.2_arm.deb",
         "zlib_1.3.2_i686.deb",
         "zlib_1.3.2_x86_64.deb"
+      ]
+    },
+    "proot": {
+      "id": "proot",
+      "kind": "package-set",
+      "group": "runtime",
+      "title": "PRoot Runtime",
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r28"
+      },
+      "availableArchitectures": [
+        "aarch64",
+        "arm",
+        "i686",
+        "x86_64"
+      ],
+      "repositoryRefs": {
+        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+        "arm": "repo:proot:primary:arm:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+        "i686": "repo:proot:primary:i686:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary"
+      },
+      "packageFiles": [
+        "libandroid-shmem-static_0.7_aarch64.deb",
+        "libandroid-shmem-static_0.7_arm.deb",
+        "libandroid-shmem-static_0.7_i686.deb",
+        "libandroid-shmem-static_0.7_x86_64.deb",
+        "libandroid-shmem_0.7_aarch64.deb",
+        "libandroid-shmem_0.7_arm.deb",
+        "libandroid-shmem_0.7_i686.deb",
+        "libandroid-shmem_0.7_x86_64.deb",
+        "libtalloc-static_2.4.3_aarch64.deb",
+        "libtalloc-static_2.4.3_arm.deb",
+        "libtalloc-static_2.4.3_i686.deb",
+        "libtalloc-static_2.4.3_x86_64.deb",
+        "libtalloc_2.4.3_aarch64.deb",
+        "libtalloc_2.4.3_arm.deb",
+        "libtalloc_2.4.3_i686.deb",
+        "libtalloc_2.4.3_x86_64.deb",
+        "proot_5.1.107.81_aarch64.deb",
+        "proot_5.1.107.81_arm.deb",
+        "proot_5.1.107.81_i686.deb",
+        "proot_5.1.107.81_x86_64.deb"
       ]
     },
     "python": {
@@ -12724,6 +12768,146 @@
         "xz-utils_5.8.3_x86_64.deb",
         "zlib-static_1.3.2_x86_64.deb",
         "zlib_1.3.2_x86_64.deb"
+      ]
+    },
+    "repo:proot:primary:aarch64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:aarch64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+      "entryId": "proot",
+      "profile": "proot",
+      "architecture": "aarch64",
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r28"
+      },
+      "index": {
+        "role": "package-index",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28-Packages.xz",
+        "format": "xz",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28-Packages.xz",
+        "size": 896,
+        "sha256": "e16bb979cdda388d395834923ae1599906ce36cbe1157dbd23495f596f46df84"
+      },
+      "metadata": {
+        "role": "apt-repo-metadata",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28.json",
+        "format": "json",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28.json",
+        "size": 3064,
+        "sha256": "550be7742eb27079919fcf6a7731d592f5b53c0aa58bc5bf893a1e977515ee0d"
+      },
+      "packagePools": [],
+      "packageCount": 5,
+      "packageFiles": [
+        "libandroid-shmem-static_0.7_aarch64.deb",
+        "libandroid-shmem_0.7_aarch64.deb",
+        "libtalloc-static_2.4.3_aarch64.deb",
+        "libtalloc_2.4.3_aarch64.deb",
+        "proot_5.1.107.81_aarch64.deb"
+      ]
+    },
+    "repo:proot:primary:arm:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:arm:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+      "entryId": "proot",
+      "profile": "proot",
+      "architecture": "arm",
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r28"
+      },
+      "index": {
+        "role": "package-index",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28-Packages.xz",
+        "format": "xz",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28-Packages.xz",
+        "size": 892,
+        "sha256": "4999f418635d25829c80f8dd53cffc20b051bcc1c592cc5f84ccf726f0bb99ef"
+      },
+      "metadata": {
+        "role": "apt-repo-metadata",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28.json",
+        "format": "json",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28.json",
+        "size": 2971,
+        "sha256": "618ff4e27486e3ed38d9c720a3ff0c1e880c36e8f0e1b0e5bc72c798dd950b99"
+      },
+      "packagePools": [],
+      "packageCount": 5,
+      "packageFiles": [
+        "libandroid-shmem-static_0.7_arm.deb",
+        "libandroid-shmem_0.7_arm.deb",
+        "libtalloc-static_2.4.3_arm.deb",
+        "libtalloc_2.4.3_arm.deb",
+        "proot_5.1.107.81_arm.deb"
+      ]
+    },
+    "repo:proot:primary:i686:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:i686:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+      "entryId": "proot",
+      "profile": "proot",
+      "architecture": "i686",
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r28"
+      },
+      "index": {
+        "role": "package-index",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28-Packages.xz",
+        "format": "xz",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28-Packages.xz",
+        "size": 892,
+        "sha256": "21c9afa0f47eb3b98f21e28d38345f422be832955c5038ee479b27cf2076c367"
+      },
+      "metadata": {
+        "role": "apt-repo-metadata",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28.json",
+        "format": "json",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28.json",
+        "size": 2995,
+        "sha256": "2a0c5999a79e6ef55e7da0b5e706abb29b0135b0eccbdd16a338e8a1939bc140"
+      },
+      "packagePools": [],
+      "packageCount": 5,
+      "packageFiles": [
+        "libandroid-shmem-static_0.7_i686.deb",
+        "libandroid-shmem_0.7_i686.deb",
+        "libtalloc-static_2.4.3_i686.deb",
+        "libtalloc_2.4.3_i686.deb",
+        "proot_5.1.107.81_i686.deb"
+      ]
+    },
+    "repo:proot:primary:x86_64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:x86_64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+      "entryId": "proot",
+      "profile": "proot",
+      "architecture": "x86_64",
+      "release": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-r28"
+      },
+      "index": {
+        "role": "package-index",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28-Packages.xz",
+        "format": "xz",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28-Packages.xz",
+        "size": 896,
+        "sha256": "d7db6e37f832a2aa7bbe968d9f11bf1bf5b4f53a245629c47d8474d5548f58c8"
+      },
+      "metadata": {
+        "role": "apt-repo-metadata",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28.json",
+        "format": "json",
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28.json",
+        "size": 3042,
+        "sha256": "5acd736760a6af371a655bbbeb7839714f1c2a51d519ff5404df17009cadee2c"
+      },
+      "packagePools": [],
+      "packageCount": 5,
+      "packageFiles": [
+        "libandroid-shmem-static_0.7_x86_64.deb",
+        "libandroid-shmem_0.7_x86_64.deb",
+        "libtalloc-static_2.4.3_x86_64.deb",
+        "libtalloc_2.4.3_x86_64.deb",
+        "proot_5.1.107.81_x86_64.deb"
       ]
     },
     "repo:python-lsp:primary:aarch64:pystudio-toolchains-r18:pystudio-python-lsp-toolchain-primary": {
