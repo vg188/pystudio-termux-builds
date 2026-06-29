@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import gzip
 import json
 import lzma
@@ -23,6 +24,8 @@ from package_repo import build_package_repo
 GITHUB_API = "https://api.github.com"
 GITHUB_UPLOADS = "https://uploads.github.com"
 ARCHES = ("aarch64", "arm", "i686", "x86_64")
+MAX_RATE_LIMIT_SLEEP_SECONDS = 3900
+GITHUB_API_RETRIES = 20
 
 
 def headers(token: str, extra: dict[str, str] | None = None) -> dict[str, str]:
@@ -42,26 +45,36 @@ def request_json(token: str, method: str, url: str, payload: dict[str, Any] | No
     if payload is not None:
         data = json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(url, data=data, method=method, headers=headers(token))
-    for attempt in range(1, 6):
+    for attempt in range(1, GITHUB_API_RETRIES + 1):
         try:
             with urllib.request.urlopen(request, timeout=120) as response:
                 body = response.read().decode("utf-8")
                 return json.loads(body) if body else {}
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            if sleep_for_rate_limit(exc, detail, attempt):
+                continue
+            raise RuntimeError(f"{method} {url} failed: HTTP {exc.code}: {detail}") from exc
         except urllib.error.URLError:
-            if attempt == 5:
+            if attempt == GITHUB_API_RETRIES:
                 raise
             time.sleep(attempt * 3)
 
 
 def request_empty(token: str, method: str, url: str) -> None:
     request = urllib.request.Request(url, method=method, headers=headers(token))
-    for attempt in range(1, 6):
+    for attempt in range(1, GITHUB_API_RETRIES + 1):
         try:
             with urllib.request.urlopen(request, timeout=120) as response:
                 response.read()
             return
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            if sleep_for_rate_limit(exc, detail, attempt):
+                continue
+            raise RuntimeError(f"{method} {url} failed: HTTP {exc.code}: {detail}") from exc
         except urllib.error.URLError:
-            if attempt == 5:
+            if attempt == GITHUB_API_RETRIES:
                 raise
             time.sleep(attempt * 3)
 
@@ -70,7 +83,7 @@ def download(token: str, url: str, destination: Path) -> None:
     request = urllib.request.Request(url, headers=headers(token, {"Accept": "application/octet-stream"}))
     destination.parent.mkdir(parents=True, exist_ok=True)
     partial = destination.with_suffix(destination.suffix + ".part")
-    for attempt in range(1, 6):
+    for attempt in range(1, GITHUB_API_RETRIES + 1):
         try:
             if partial.exists():
                 partial.unlink()
@@ -105,6 +118,39 @@ def delete_asset(token: str, repo: str, asset: dict[str, Any]) -> None:
     print(f"Deleted loose component asset: {asset['name']}")
 
 
+def rate_limit_delay(exc: urllib.error.HTTPError, attempt: int) -> int | None:
+    retry_after = exc.headers.get("Retry-After")
+    if retry_after and retry_after.isdigit():
+        return min(MAX_RATE_LIMIT_SLEEP_SECONDS, max(1, int(retry_after) + 5))
+
+    reset = exc.headers.get("X-RateLimit-Reset")
+    if reset and reset.isdigit():
+        now = int(time.time())
+        return min(MAX_RATE_LIMIT_SLEEP_SECONDS, max(1, int(reset) - now + 10))
+
+    if exc.code in (403, 429):
+        return min(MAX_RATE_LIMIT_SLEEP_SECONDS, max(60, attempt * 120))
+    return None
+
+
+def sleep_for_rate_limit(exc: urllib.error.HTTPError, detail: str, attempt: int) -> bool:
+    lowered = detail.lower()
+    if exc.code not in (403, 429):
+        return False
+    if "rate limit" not in lowered and "secondary rate" not in lowered and "abuse" not in lowered:
+        return False
+    delay = rate_limit_delay(exc, attempt)
+    if not delay:
+        return False
+    until = dt.datetime.now(dt.UTC) + dt.timedelta(seconds=delay)
+    print(
+        f"GitHub rate limit while calling {exc.url}; waiting {delay}s "
+        f"until {until.isoformat(timespec='seconds')} before retry."
+    )
+    time.sleep(delay)
+    return True
+
+
 def upload_asset(
     token: str,
     repo: str,
@@ -125,19 +171,20 @@ def upload_asset(
     owner_repo = urllib.parse.quote(repo, safe="/")
     query = urllib.parse.urlencode({"name": name})
     url = f"{GITHUB_UPLOADS}/repos/{owner_repo}/releases/{release_id}/assets?{query}"
-    request = urllib.request.Request(
-        url,
-        data=path.read_bytes(),
-        method="POST",
-        headers=headers(
-            token,
-            {
-                "Accept": "application/vnd.github+json",
-                "Content-Type": "application/octet-stream",
-            },
-        ),
-    )
+    data = path.read_bytes()
     for attempt in range(1, 6):
+        request = urllib.request.Request(
+            url,
+            data=data,
+            method="POST",
+            headers=headers(
+                token,
+                {
+                    "Accept": "application/vnd.github+json",
+                    "Content-Type": "application/octet-stream",
+                },
+            ),
+        )
         try:
             with urllib.request.urlopen(request, timeout=600) as response:
                 uploaded = json.loads(response.read().decode("utf-8"))
@@ -149,10 +196,12 @@ def upload_asset(
             if exc.code == 422 and "already_exists" in detail and not force:
                 print(f"Asset exists after upload race, skipping: {name}")
                 return
-            if attempt == 5:
+            if sleep_for_rate_limit(exc, detail, attempt):
+                continue
+            if attempt == GITHUB_API_RETRIES:
                 raise RuntimeError(f"upload failed for {name}: HTTP {exc.code}: {detail}") from exc
         except urllib.error.URLError:
-            if attempt == 5:
+            if attempt == GITHUB_API_RETRIES:
                 raise
         time.sleep(attempt * 5)
 
