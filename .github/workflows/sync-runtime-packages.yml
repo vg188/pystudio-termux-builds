@@ -125,10 +125,31 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -n "$GITEE_TOKEN"
+          if [[ -z "$GITEE_TOKEN" ]]; then
+            echo "::warning::GITEE_TOKEN is not configured; skipping Gitee manifest mirror."
+            exit 0
+          fi
+
+          retry_gitee() {
+            local label="$1"
+            shift
+            local attempt delay
+            for attempt in 1 2 3 4; do
+              if "$@"; then
+                return 0
+              fi
+              delay=$((attempt * 20))
+              echo "::warning::Gitee ${label} failed on attempt ${attempt}; retrying in ${delay}s."
+              sleep "$delay"
+            done
+            echo "::warning::Gitee ${label} failed after retries; GitHub runtime-packages.json remains the source of truth."
+            return 1
+          }
 
           rm -rf gitee-repo
-          git clone "https://${GITEE_OWNER}:${GITEE_TOKEN}@gitee.com/${GITEE_OWNER}/${GITEE_REPO}.git" gitee-repo
+          if ! retry_gitee "clone" git clone "https://${GITEE_OWNER}:${GITEE_TOKEN}@gitee.com/${GITEE_OWNER}/${GITEE_REPO}.git" gitee-repo; then
+            exit 0
+          fi
           cd gitee-repo
 
           if git rev-parse --verify "origin/${GITEE_BRANCH}" >/dev/null 2>&1; then
@@ -143,5 +164,7 @@ jobs:
             echo "No Gitee manifest changes to commit."
           else
             git commit -m "chore: update runtime package manifest"
-            git push origin "HEAD:${GITEE_BRANCH}"
+            if ! retry_gitee "push" git push origin "HEAD:${GITEE_BRANCH}"; then
+              exit 0
+            fi
           fi
