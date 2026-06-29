@@ -697,8 +697,14 @@ def cleanup_flat_deb_assets(
         asset = asset_map.get(name)
         if asset:
             log(f"Removing duplicate flat package asset from index release: {name}")
-            delete_asset(token, repo, asset)
-            asset_map.pop(name, None)
+            try:
+                delete_asset(token, repo, asset)
+                asset_map.pop(name, None)
+            except RuntimeError as exc:
+                log(f"Warning: could not remove duplicate flat package asset {repo}/{name}: {exc}")
+                if "HTTP 401" in str(exc) or "Bad credentials" in str(exc):
+                    log("Warning: stopping duplicate cleanup for this release because GitHub rejected the token.")
+                    break
 
 
 def cleanup_gzip_index(

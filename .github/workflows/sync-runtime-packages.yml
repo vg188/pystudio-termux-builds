@@ -84,6 +84,10 @@ jobs:
           fi
           python3 scripts/ci/update-runtime-packages.py "${args[@]}"
           python3 -m json.tool runtime-packages.json >/dev/null
+          python3 scripts/ci/update-package-assets-index.py \
+            --manifest runtime-packages.json \
+            --output package-assets-index.json
+          python3 -m json.tool package-assets-index.json >/dev/null
 
       - name: Install ModelScope CLI
         if: ${{ env.SYNC_MODELSCOPE == 'true' }}
@@ -111,7 +115,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add runtime-packages.json
+          git add runtime-packages.json package-assets-index.json
           if git diff --cached --quiet; then
             echo "No GitHub manifest changes to commit."
           else
@@ -159,7 +163,8 @@ jobs:
           fi
 
           cp ../runtime-packages.json runtime-packages.json
-          git add runtime-packages.json
+          cp ../package-assets-index.json package-assets-index.json
+          git add runtime-packages.json package-assets-index.json
           if git diff --cached --quiet; then
             echo "No Gitee manifest changes to commit."
           else
