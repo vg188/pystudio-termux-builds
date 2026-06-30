@@ -329,9 +329,13 @@ mapfile -t build_package_array < <(sed '/^$/d' "$missing_packages_file")
 if [[ "${#build_package_array[@]}" -gt 0 ]]; then
   pushd "$source_dir"
   mkdir -p output
+  build_dependency_flag="-I"
+  if [[ "${FORCE_BUILD_DEPENDENCIES:-false}" == "true" ]]; then
+    build_dependency_flag="-F"
+  fi
   TERMUX_DOCKER_RUN_EXTRA_ARGS="--volume $docker_data_dir/data:/data ${TERMUX_DOCKER_RUN_EXTRA_ARGS:-}" \
     bash ./scripts/run-docker.sh -d ./build-package.sh \
-      -I \
+      "$build_dependency_flag" \
       -C \
       -a "$arch" \
       "${build_package_array[@]}" \
