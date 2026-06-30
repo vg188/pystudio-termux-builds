@@ -63,6 +63,10 @@ dump_failure_context() {
         find "$HOME/.termux-build" -type f \( -name "config.log" -o -name "*.log" \) | sort | tail -n 20 |
           while IFS= read -r log_file; do
             printf "\n==> %s\n" "$log_file"
+            if [ "$(basename "$log_file")" = "config.log" ]; then
+              grep -in -C 8 -E "C compiler|cannot create|conftest|ld\\.lld|clang|gcc|error:|fatal:|No such file|cannot find" "$log_file" | tail -n 220 || true
+              printf "\n==> %s tail\n" "$log_file"
+            fi
             tail -n 160 "$log_file"
           done
       else
