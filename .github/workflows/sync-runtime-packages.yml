@@ -13,7 +13,7 @@ on:
         type: boolean
         default: false
       update_gitee:
-        description: "Push the lightweight runtime-packages.json manifest to Gitee."
+        description: "Push lightweight CN mirror indexes to Gitee."
         required: false
         type: boolean
         default: true
@@ -48,7 +48,7 @@ jobs:
       SOURCE_REPOSITORY: ${{ github.event.client_payload.source_repository || '' }}
       PAYLOAD_RELEASE_TAG: ${{ github.event.client_payload.release_tag || '' }}
       INPUT_EXTENSION_TAG: ${{ github.event.inputs.extension_tag || '' }}
-      SYNC_MODELSCOPE: ${{ github.event.client_payload.sync_modelscope || github.event.inputs.sync_modelscope || 'false' }}
+      SYNC_MODELSCOPE: ${{ github.event.client_payload.sync_modelscope || github.event.inputs.sync_modelscope || (github.event_name == 'repository_dispatch' && 'true') || 'false' }}
       UPDATE_GITEE: ${{ github.event.client_payload.update_gitee || github.event.inputs.update_gitee || 'true' }}
       GITEE_OWNER: ${{ github.event.inputs.gitee_owner || 'yourba' }}
       GITEE_REPO: ${{ github.event.inputs.gitee_repo || 'pystudio-termux-builds' }}
@@ -109,11 +109,16 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$MODELSCOPE_TOKEN"
-          python3 scripts/local/modelscope_release_relay.py \
+          modelscope_args=(
             --manifest runtime-packages.json \
             --modelscope-token "$MODELSCOPE_TOKEN" \
             --github-token "$GITHUB_TOKEN" \
             --progress-interval 2
+          )
+          if [[ -n "$PAYLOAD_RELEASE_TAG" ]]; then
+            modelscope_args+=(--include "$PAYLOAD_RELEASE_TAG")
+          fi
+          python3 scripts/local/modelscope_release_relay.py "${modelscope_args[@]}"
 
       - name: Commit GitHub manifest
         shell: bash
@@ -137,44 +142,19 @@ jobs:
             echo "::warning::GITEE_TOKEN is not configured; skipping Gitee manifest mirror."
             exit 0
           fi
-
-          retry_gitee() {
-            local label="$1"
-            shift
-            local attempt delay
-            for attempt in 1 2 3 4; do
-              if "$@"; then
-                return 0
-              fi
-              delay=$((attempt * 20))
-              echo "::warning::Gitee ${label} failed on attempt ${attempt}; retrying in ${delay}s."
-              sleep "$delay"
-            done
-            echo "::warning::Gitee ${label} failed after retries; GitHub runtime-packages.json remains the source of truth."
-            return 1
-          }
-
-          rm -rf gitee-repo
-          if ! retry_gitee "clone" git clone "https://${GITEE_OWNER}:${GITEE_TOKEN}@gitee.com/${GITEE_OWNER}/${GITEE_REPO}.git" gitee-repo; then
-            exit 0
-          fi
-          cd gitee-repo
-
-          if git rev-parse --verify "origin/${GITEE_BRANCH}" >/dev/null 2>&1; then
-            git checkout -B "$GITEE_BRANCH" "origin/${GITEE_BRANCH}"
-          else
-            git checkout -B "$GITEE_BRANCH"
-          fi
-
-          cp ../runtime-packages.json runtime-packages.json
-          cp ../package-assets.json package-assets.json
-          cp ../package-indexes.json package-indexes.json
-          git add runtime-packages.json package-assets.json package-indexes.json
-          if git diff --cached --quiet; then
-            echo "No Gitee manifest changes to commit."
-          else
-            git commit -m "chore: update runtime package manifest"
-            if ! retry_gitee "push" git push origin "HEAD:${GITEE_BRANCH}"; then
-              exit 0
-            fi
-          fi
+          python3 scripts/ci/prepare-gitee-mirror.py \
+            --runtime-manifest runtime-packages.json \
+            --package-assets package-assets.json \
+            --package-indexes package-indexes.json \
+            --output-dir dist/gitee-mirror \
+            --modelscope-synced "$SYNC_MODELSCOPE"
+          python3 scripts/ci/push-gitee-files.py \
+            --owner "$GITEE_OWNER" \
+            --repo "$GITEE_REPO" \
+            --branch "$GITEE_BRANCH" \
+            --token "$GITEE_TOKEN" \
+            --message "chore: update CN runtime package mirror index" \
+            --file dist/gitee-mirror/runtime-packages.json=runtime-packages.json \
+            --file dist/gitee-mirror/package-assets.json=package-assets.json \
+            --file dist/gitee-mirror/package-indexes.json=package-indexes.json \
+            --file dist/gitee-mirror/mirror-status.json=mirror-status.json

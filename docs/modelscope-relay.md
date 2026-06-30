@@ -3,12 +3,14 @@
 `scripts/local/modelscope_release_relay.py` mirrors PyStudio package
 repositories to a public ModelScope dataset.
 
-GitHub Releases remain the authority and store flat `Packages.xz` indexes plus
-`.deb` files. The relay downloads those files and uploads the same flat layout:
+GitHub Releases remain the authority. The main release stores flat
+`Packages.xz` indexes and metadata; package pool releases store `.deb` files.
+The relay downloads both and uploads the matching ModelScope layout:
 
 ```text
 repo/<owner>/<repo>/<release-tag>/<artifact-prefix>/<arch>/
   ARTIFACT-apt-repo-v1-ARCH-rN-Packages.xz
+pool/<owner>/<repo>/<pool-release-tag>/<all-or-arch>/
   package_version_ARCH.deb
 ```
 
@@ -92,5 +94,6 @@ The schema 5 manifest already contains ModelScope full-repo mirrors:
 }
 ```
 
-The app downloads `Packages.xz` from `indexUrl`, then resolves `.deb` files by
-joining `baseUrl` with each package stanza's `Filename` field.
+The app downloads `Packages.xz` from `indexUrl`, then resolves `.deb` files from
+the matching `packagePools[]` mirror. Joining `baseUrl` with `Filename` is only a
+fallback for legacy flat releases.

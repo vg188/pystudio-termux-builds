@@ -46,21 +46,21 @@ The file name carries the important maintenance coordinates:
 
 ## Mirrors
 
-GitHub Releases are the authority. New builds publish normal package files as
-flat release assets: each `.deb` keeps its Debian file name such as
-`python_3.12.x_aarch64.deb`, and each architecture gets a matching
-`ARTIFACT-apt-repo-v1-ARCH-rN-Packages.xz` index. Toolchain tarballs are not
-published as install units.
+GitHub Releases are the authority. New builds publish the package indexes in
+the main release and publish `.deb` files in package pool releases. Each `.deb`
+keeps its Debian file name such as `python_3.12.x_aarch64.deb`; each
+architecture gets a matching `ARTIFACT-apt-repo-v1-ARCH-rN-Packages.xz` index.
+Toolchain tarballs are not published as install units.
 
 ModelScope is an optional flat-file mirror: CI or a local relay can copy the
-same `Packages.xz` and `.deb` assets from GitHub Releases. Gitee is
-manifest-only and should not host large `.deb` files because of attachment and
-quota limits.
+same index and package pool assets from GitHub Releases. Gitee is manifest-only
+and should not host large `.deb` files because of attachment and quota limits.
 
 The app should prefer mirrors by priority:
 
-1. `github-release-flat` release assets for direct `.deb` downloads;
-2. `modelscope` flat package mirrors when available.
+1. `packagePools[]` on the selected GitHub or ModelScope mirror;
+2. `github-release-flat` or `modelscope` `baseUrl + Filename` only as a
+   fallback.
 
 ## Build-Time Reuse
 
@@ -92,7 +92,8 @@ Recommended resolver:
 5. Recursively resolve `Depends` and `Pre-Depends`.
 6. Skip packages where the same package/version/architecture is already
    installed.
-7. Download missing `.deb` files from `Filename`, verify `SHA256`, and install.
+7. Download missing `.deb` files from the matching package pool, verify
+   `SHA256`, and install.
 8. Run the entry's `verifyCommands`.
 
 This achieves the same reuse goal as component-level manifests, but the package
@@ -101,6 +102,6 @@ metadata is now standard and easier to maintain.
 ## Backfill
 
 Existing `*-debs-ARCH.tar.gz` release assets are migration inputs. The
-`Backfill PyStudio Flat Package Repositories` workflow converts them into
-flat `.deb` Release assets and `Packages.xz` indexes. It also deletes old loose
+`Backfill PyStudio Flat Package Repositories` workflow converts them into pool
+release `.deb` assets and `Packages.xz` indexes. It also deletes old loose
 `*-component-*.deb` assets left by the earlier component experiment.

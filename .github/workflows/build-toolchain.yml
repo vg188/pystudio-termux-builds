@@ -218,7 +218,8 @@ jobs:
           set -euo pipefail
           python3 scripts/ci/prepare-release-assets.py \
             --artifacts-dir artifacts \
-            --output-dir release-assets
+            --output-dir release-assets \
+            --pool-output-dir pool-assets
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -227,6 +228,18 @@ jobs:
           name: PyStudio toolchains r${{ github.run_number }}
           files: |
             release-assets/*
+
+      - name: Publish package pool releases
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_TAG: pystudio-toolchains-r${{ github.run_number }}
+        run: |
+          set -euo pipefail
+          python3 scripts/ci/publish-pool-assets.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --source-tag "$RELEASE_TAG" \
+            --pool-dir pool-assets
 
       - name: Trigger runtime package manifest sync
         shell: bash
@@ -243,7 +256,7 @@ jobs:
             jq -n \
               --arg repository "$GITHUB_REPOSITORY" \
               --arg release_tag "$RELEASE_TAG" \
-              '{event_type:"runtime-packages-sync", client_payload:{source_repository:$repository, release_tag:$release_tag}}'
+              '{event_type:"runtime-packages-sync", client_payload:{source_repository:$repository, release_tag:$release_tag, sync_modelscope:"true", update_gitee:"true"}}'
           )"
           curl --fail --show-error --silent --location \
             -X POST \

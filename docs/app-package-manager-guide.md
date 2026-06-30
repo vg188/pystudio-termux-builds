@@ -64,7 +64,10 @@ Use this resolver:
 7. Resolve `Depends` and `Pre-Depends`; for alternatives, prefer the first
    package available in the same index.
 8. Skip package/version/architecture tuples that are already installed.
-9. Download missing `.deb` files using `baseUrl + Filename`.
+9. Download missing `.deb` files from `repository.packagePools[]` first:
+   choose `Architecture = all` for `all` packages, otherwise choose the
+   current ABI pool; if no matching pool exists, fall back to `baseUrl +
+   Filename`.
 10. Verify `SHA256` and `Size`.
 11. Install with `dpkg --force-depends -i <deb>` in dependency order.
 12. Run `dpkg --configure -a`.

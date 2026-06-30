@@ -166,6 +166,24 @@ def modelscope_repo_path_from_base_url(base_url: str, resolve_base: str) -> str:
     return path.strip("/")
 
 
+def github_repo_slug(repository_url: str) -> str:
+    marker = "github.com/"
+    if marker in repository_url:
+        return repository_url.split(marker, 1)[1].strip("/")
+    return repository_url.strip("/")
+
+
+def bootstrap_modelscope_path(entry: dict[str, Any], arch: str, artifact: dict[str, Any]) -> str:
+    release = entry.get("release", {})
+    repository = github_repo_slug(str(release.get("repository", "")))
+    tag = str(release.get("tag", ""))
+    profile = str(entry.get("profile") or entry.get("id") or "bootstrap")
+    file_name = str(artifact.get("fileName", ""))
+    if not repository or not tag or not file_name:
+        raise RuntimeError(f"bootstrap artifact is missing repository/tag/fileName: {entry.get('id')}/{arch}")
+    return f"bootstrap/{repository}/{tag}/{profile}/{arch}/{file_name}"
+
+
 def parse_flat_index_packages(index_path: Path) -> list[dict[str, str]]:
     text = lzma.decompress(index_path.read_bytes()).decode("utf-8", errors="replace")
     packages: list[dict[str, str]] = []
@@ -236,6 +254,53 @@ def collect_flat_repositories(args: argparse.Namespace, manifest: dict[str, Any]
     return repositories
 
 
+def collect_bootstrap_artifacts(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    artifacts: list[dict[str, Any]] = []
+    for entry in manifest.get("entries", []):
+        if not isinstance(entry, dict) or entry.get("kind") != "bootstrap":
+            continue
+        for arch, arch_artifacts in (entry.get("artifacts") or {}).items():
+            if not isinstance(arch_artifacts, list):
+                continue
+            for artifact in arch_artifacts:
+                if not isinstance(artifact, dict) or not artifact.get("downloadUrl"):
+                    continue
+                artifacts.append(
+                    {
+                        "entryId": entry.get("id", ""),
+                        "arch": arch,
+                        "downloadUrl": str(artifact["downloadUrl"]),
+                        "fileName": str(artifact.get("fileName") or Path(urllib.parse.urlparse(str(artifact["downloadUrl"])).path).name),
+                        "pathInRepo": bootstrap_modelscope_path(entry, str(arch), artifact),
+                    }
+                )
+    return artifacts
+
+
+def upload_bootstrap_artifacts(args: argparse.Namespace, token: str, artifacts: list[dict[str, Any]], github_token: str) -> int:
+    uploaded = 0
+    cache_dir = Path(args.cache_dir)
+    for artifact in artifacts:
+        path_in_repo = str(artifact["pathInRepo"])
+        remote_url = modelscope_file_url(args.repo_id, path_in_repo, args.revision, args.endpoint)
+        if not args.force_upload and remote_file_exists(remote_url):
+            print(f"Remote file exists, skipping bootstrap: {path_in_repo}")
+            continue
+
+        local_path = cache_dir / "bootstrap" / safe_part(str(artifact["entryId"])) / safe_part(str(artifact["arch"])) / str(artifact["fileName"])
+        download_asset(
+            str(artifact["downloadUrl"]),
+            local_path,
+            github_token,
+            args.download_retries,
+            args.force_download,
+            args.progress_interval,
+        )
+        upload_file(args, token, local_path, path_in_repo, args.force_upload)
+        uploaded += 1
+    return uploaded
+
+
 def upload_flat_repository(args: argparse.Namespace, token: str, repository: dict[str, Any], github_token: str) -> int:
     cache_dir = Path(args.cache_dir)
     repo_cache = cache_dir / "flat" / safe_part(str(repository["repositoryId"]))
@@ -292,11 +357,15 @@ def run(args: argparse.Namespace) -> None:
     manifest_path = Path(args.manifest)
     manifest = read_manifest(manifest_path)
     repositories = collect_flat_repositories(args, manifest)
+    bootstrap_artifacts = collect_bootstrap_artifacts(manifest)
 
     if args.dry_run:
         print(f"Dry run: {len(repositories)} package repositories would be mirrored to {args.repo_id}.")
         for repository in repositories:
             print(f"{repository['indexUrl']} -> {repository['basePath']}/")
+        print(f"Dry run: {len(bootstrap_artifacts)} bootstrap artifacts would be mirrored to {args.repo_id}.")
+        for artifact in bootstrap_artifacts:
+            print(f"{artifact['downloadUrl']} -> {artifact['pathInRepo']}")
         print(f"{manifest_path} -> {args.output_manifest_name}")
         return
 
@@ -304,6 +373,7 @@ def run(args: argparse.Namespace) -> None:
         create_or_reuse_dataset(args, token)
 
     total_files = 0
+    total_files += upload_bootstrap_artifacts(args, token, bootstrap_artifacts, github_token)
     for repository in repositories:
         total_files += upload_flat_repository(args, token, repository, github_token)
 

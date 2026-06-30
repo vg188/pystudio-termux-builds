@@ -140,11 +140,13 @@ source for one profile/source/architecture build.
 }
 ```
 
-`github-release-flat` stores the `Packages.xz` index and each `.deb` as GitHub
-Release assets. The index rewrites `Filename` to the `.deb` asset name, so
-`baseUrl + Filename` downloads the package directly. ModelScope mirrors expose
-the same flat file layout. Toolchain tarballs are not part of the app-side
-package model.
+`github-release-flat` stores the `Packages.xz` index and metadata in the main
+release. `.deb` files are stored in `packagePools` releases, split by
+`Architecture = all` and by target ABI. The index rewrites `Filename` to the
+flat `.deb` asset name, so app-side download code should prefer a matching
+`packagePools[]` base URL and fall back to `baseUrl + Filename` only for legacy
+or emergency cases. ModelScope mirrors expose the same index and pool layout.
+Toolchain tarballs are not part of the app-side package model.
 
 ## App Install Flow
 
@@ -154,13 +156,37 @@ package model.
    extract it into the app prefix.
 4. For `kind = package-set`, read `repositoryRefs[abi]` and fetch the referenced
    repository index.
-5. Prefer `flat-release-repo` or `flat-package-repo` mirrors by priority. Download
-   `Packages.xz` from `indexUrl`, then download `.deb` files using
-   `baseUrl + Filename`.
-6. Resolve `Depends` and `Pre-Depends` from the package index, skip already
+5. Prefer `flat-release-repo` or `flat-package-repo` mirrors by priority and
+   download `Packages.xz` from `indexUrl`.
+6. For each `.deb`, prefer a matching `packagePools[]` mirror: `Architecture =
+   all` uses the `all` pool, otherwise use the current ABI pool. Fall back to
+   `baseUrl + Filename` only when no pool is declared.
+7. Resolve `Depends` and `Pre-Depends` from the package index, skip already
    installed package/version pairs, verify `SHA256`, and install missing `.deb`
    files with `dpkg`.
 
 Only real downloads use keys ending in `downloadUrl` or `indexUrl`. Gitee is a
 manifest-only mirror; it should not be treated as a full package source unless a
 future manifest explicitly marks it as one.
+
+## Gitee CN Mirror Index
+
+The GitHub copy of `runtime-packages.json` remains the authority. The Gitee copy
+is generated as a China-optimized lightweight entry point:
+
+- Gitee stores only JSON indexes: `runtime-packages.json`,
+  `package-assets.json`, `package-indexes.json`, and `mirror-status.json`.
+- Gitee does not store `.deb`, bootstrap, or tarball assets.
+- The Gitee `runtime-packages.json` rewrites mirror priorities so ModelScope is
+  preferred for large files and GitHub release assets remain the fallback.
+- Bootstrap artifacts in the Gitee manifest include `mirrors[]`, with
+  ModelScope first and GitHub second.
+- `mirror-status.json` records the source GitHub manifest, generated files, and
+  whether ModelScope was synced in the same workflow run.
+
+App-side download policy for users in mainland China should be:
+
+1. Fetch the Gitee manifest first.
+2. Prefer mirrors with `region = "CN"` and the lowest `priority`.
+3. Fall back to GitHub mirrors if ModelScope returns 404, times out, or fails
+   checksum verification.
