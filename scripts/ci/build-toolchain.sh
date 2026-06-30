@@ -55,6 +55,23 @@ dump_failure_context() {
   else
     echo "No .termux-build directory was found."
   fi
+  if command -v docker >/dev/null 2>&1 && docker container inspect termux-package-builder >/dev/null 2>&1; then
+    echo
+    echo "==> Docker builder logs"
+    docker exec termux-package-builder sh -lc '
+      if [ -d "$HOME/.termux-build" ]; then
+        find "$HOME/.termux-build" -type f \( -name "config.log" -o -name "*.log" \) | sort | tail -n 20 |
+          while IFS= read -r log_file; do
+            printf "\n==> %s\n" "$log_file"
+            tail -n 160 "$log_file"
+          done
+      else
+        echo "No container .termux-build directory was found."
+      fi
+    ' || true
+  else
+    echo "Docker builder container is not available for log collection."
+  fi
   echo "::endgroup::"
   exit "$status"
 }
