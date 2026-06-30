@@ -7,6 +7,7 @@ import json
 import lzma
 import os
 from pathlib import Path
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -24,8 +25,13 @@ ASSET_PACKAGE_KEYS = [
     "size",
     "sha256",
 ]
-INDEX_PACKAGE_KEYS = [
+PACKAGE_CACHE_KEYS = [
     *ASSET_PACKAGE_KEYS,
+    "debArchitecture",
+    "depends",
+    "preDepends",
+    "dependencyNames",
+    "commands",
     "profile",
     "source",
     "sourceRepository",
@@ -160,13 +166,24 @@ def entry_repository_map(manifest: dict[str, Any]) -> dict[str, str]:
 
 
 def base_package_record(file_name: str, package: dict[str, str], repository: dict[str, Any]) -> dict[str, Any]:
+    deb_architecture = package.get("Architecture", "")
+    architecture = str(repository.get("architecture", ""))
+    if deb_architecture and deb_architecture != "all":
+        architecture = deb_architecture
+    depends = package.get("Depends", "")
+    pre_depends = package.get("Pre-Depends", "")
     return {
         "fileName": file_name,
         "package": package.get("Package", ""),
         "version": package.get("Version", ""),
-        "architecture": package.get("Architecture", ""),
+        "architecture": architecture,
+        "debArchitecture": deb_architecture,
         "size": package.get("Size", ""),
         "sha256": package.get("SHA256", ""),
+        "depends": depends,
+        "preDepends": pre_depends,
+        "dependencyNames": dependency_names(",".join([pre_depends, depends])),
+        "commands": command_names(package.get("PyStudio-Commands", "")),
         "profile": package.get("PyStudio-Profile", repository.get("profile", "")),
         "source": package.get("PyStudio-Source", repository.get("sourceAdapter", "")),
         "sourceRepository": package.get("PyStudio-Source-Repository", ""),
@@ -192,11 +209,70 @@ def append_location_unique(items: list[dict[str, Any]], location: dict[str, Any]
         items.append(location)
 
 
+def dependency_names(value: str) -> list[str]:
+    names: list[str] = []
+    seen: set[str] = set()
+    for group in value.split(","):
+        for alternative in group.split("|"):
+            match = re.match(r"\s*([A-Za-z0-9+.-]+)", alternative)
+            if not match:
+                continue
+            name = match.group(1)
+            if name not in seen:
+                seen.add(name)
+                names.append(name)
+    return names
+
+
 def package_record_from_existing(record: dict[str, Any]) -> dict[str, Any]:
-    result = {key: record.get(key, "") for key in INDEX_PACKAGE_KEYS}
+    result = {key: record.get(key, "") for key in PACKAGE_CACHE_KEYS}
+    result["dependencyNames"] = list(record.get("dependencyNames", []))
+    result["commands"] = list(record.get("commands", []))
     result["locations"] = []
     result["usedBy"] = []
     return result
+
+
+def command_names(value: str) -> list[str]:
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def compact_package_record(record: dict[str, Any]) -> dict[str, Any]:
+    required_keys = (
+        "fileName",
+        "package",
+        "version",
+        "architecture",
+        "debArchitecture",
+        "size",
+        "sha256",
+    )
+    optional_keys = (
+        "depends",
+        "preDepends",
+        "dependencyNames",
+        "commands",
+        "profile",
+        "source",
+        "sourceRepository",
+        "sourceCommit",
+        "patchSet",
+        "patchHash",
+        "treeDiffHash",
+        "recipePath",
+        "recipeHash",
+    )
+    compact = {key: record.get(key, "") for key in required_keys}
+    for key in optional_keys:
+        value = record.get(key)
+        if value:
+            compact[key] = value
+
+    github = record.get("github", {})
+    compact_github = {key: value for key, value in github.items() if value}
+    if compact_github:
+        compact["github"] = compact_github
+    return compact
 
 
 def repository_index_unchanged(repository: dict[str, Any], old_repository: dict[str, Any] | None) -> bool:
@@ -342,18 +418,33 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
         }
         asset_packages[file_name]["locations"] = record.get("locations", [])
 
-    index_packages: dict[str, dict[str, Any]] = {}
+    index_packages: list[dict[str, Any]] = []
+    cache_packages: dict[str, dict[str, Any]] = {}
     for file_name, record in sorted(package_records.items()):
         github_location = next(
             (location for location in record.get("locations", []) if "github.com" in str(location.get("url", ""))),
             {},
         )
-        index_packages[file_name] = {
+        github_release = github_location.get("release", {})
+        index_packages.append(
+            compact_package_record(
+                {
+                    **record,
+                    "github": {
+                        "repository": github_release.get("repository", ""),
+                        "tag": github_release.get("tag", ""),
+                        "assetName": record.get("fileName", file_name),
+                        "url": github_location.get("url", ""),
+                    },
+                }
+            )
+        )
+        cache_packages[file_name] = {
             key: record.get(key, "")
-            for key in INDEX_PACKAGE_KEYS
+            for key in PACKAGE_CACHE_KEYS
         }
-        index_packages[file_name]["githubUrl"] = github_location.get("url", "")
-        index_packages[file_name]["release"] = github_location.get("release", {})
+        cache_packages[file_name]["dependencyNames"] = record.get("dependencyNames", [])
+        cache_packages[file_name]["commands"] = record.get("commands", [])
 
     return {
         "schemaVersion": 1,
@@ -370,6 +461,22 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             "packages": asset_packages,
         },
         "indexes": {
+            "schemaVersion": 2,
+            "generatedAt": generated_at,
+            "sourceManifest": source_manifest,
+            "summary": {
+                "uniquePackageFiles": len(package_records),
+                "architectures": sorted(
+                    {
+                        str(record.get("architecture", ""))
+                        for record in package_records.values()
+                        if record.get("architecture")
+                    }
+                ),
+            },
+            "packages": index_packages,
+        },
+        "cache": {
             "schemaVersion": 1,
             "generatedAt": generated_at,
             "sourceManifest": source_manifest,
@@ -381,9 +488,8 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
                 "reusedRepositoryIndexes": reused_repositories,
                 "downloadedRepositoryIndexes": downloaded_repositories,
             },
-            "entries": dict(sorted(entry_records.items())),
             "repositories": dict(sorted(repository_records.items())),
-            "packages": index_packages,
+            "packages": cache_packages,
         },
     }
 
@@ -391,25 +497,40 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
 def load_existing_indexes(
     assets_output: Path,
     indexes_output: Path,
+    cache_output: Path,
     legacy_output: Path,
     *,
     no_reuse: bool,
 ) -> dict[str, Any] | None:
     if no_reuse:
         return None
+    if cache_output.exists():
+        cache = json.loads(cache_output.read_text(encoding="utf-8"))
+        packages = cache.get("packages", {})
+        if isinstance(packages, dict):
+            return {
+                "packages": packages,
+                "repositories": cache.get("repositories", {}),
+            }
     if assets_output.exists() and indexes_output.exists():
         assets = json.loads(assets_output.read_text(encoding="utf-8"))
         indexes = json.loads(indexes_output.read_text(encoding="utf-8"))
-        return {
-            "packages": indexes.get("packages") or assets.get("packages", {}),
-            "repositories": indexes.get("repositories", {}),
-        }
+        packages = indexes.get("packages") or assets.get("packages", {})
+        repositories = indexes.get("repositories", {})
+        if indexes.get("schemaVersion") == 2 and isinstance(packages, dict) and repositories:
+            return {
+                "packages": packages,
+                "repositories": repositories,
+            }
     if legacy_output.exists():
         legacy = json.loads(legacy_output.read_text(encoding="utf-8"))
-        return {
-            "packages": legacy.get("packages", {}),
-            "repositories": legacy.get("repositories", {}),
-        }
+        packages = legacy.get("packages", {})
+        repositories = legacy.get("repositories", {})
+        if isinstance(packages, dict) and repositories:
+            return {
+                "packages": packages,
+                "repositories": repositories,
+            }
     return None
 
 
@@ -418,6 +539,7 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, default=Path("runtime-packages.json"))
     parser.add_argument("--assets-output", type=Path, default=Path("package-assets.json"))
     parser.add_argument("--indexes-output", type=Path, default=Path("package-indexes.json"))
+    parser.add_argument("--cache-output", type=Path, default=Path("package-index-cache.json"))
     parser.add_argument("--legacy-output", type=Path, default=Path("package-assets-index.json"))
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
     parser.add_argument("--no-reuse", action="store_true", help="Ignore existing index files and rebuild every index.")
@@ -427,18 +549,21 @@ def main() -> int:
     existing_index = load_existing_indexes(
         args.assets_output,
         args.indexes_output,
+        args.cache_output,
         args.legacy_output,
         no_reuse=args.no_reuse,
     )
     indexes = build_indexes(manifest, args.github_token, existing_index)
     args.assets_output.write_text(json.dumps(indexes["assets"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     args.indexes_output.write_text(json.dumps(indexes["indexes"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.cache_output.write_text(json.dumps(indexes["cache"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
         "Wrote "
         f"{args.assets_output} with {indexes['assets']['summary']['uniquePackageFiles']} unique package files "
-        f"and {args.indexes_output} with {indexes['indexes']['summary']['repositories']} repositories "
-        f"({indexes['indexes']['summary']['reusedRepositoryIndexes']} reused, "
-        f"{indexes['indexes']['summary']['downloadedRepositoryIndexes']} downloaded)."
+        f"and {args.indexes_output} with {indexes['indexes']['summary']['uniquePackageFiles']} package records "
+        f"using {args.cache_output} "
+        f"({indexes['cache']['summary']['reusedRepositoryIndexes']} reused, "
+        f"{indexes['cache']['summary']['downloadedRepositoryIndexes']} downloaded)."
     )
     return 0
 

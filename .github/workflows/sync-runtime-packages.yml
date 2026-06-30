@@ -87,9 +87,11 @@ jobs:
           python3 scripts/ci/update-package-assets-index.py \
             --manifest runtime-packages.json \
             --assets-output package-assets.json \
-            --indexes-output package-indexes.json
+            --indexes-output package-indexes.json \
+            --cache-output package-index-cache.json
           python3 -m json.tool package-assets.json >/dev/null
           python3 -m json.tool package-indexes.json >/dev/null
+          python3 -m json.tool package-index-cache.json >/dev/null
 
       - name: Install ModelScope CLI
         if: ${{ env.SYNC_MODELSCOPE == 'true' }}
@@ -117,7 +119,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add runtime-packages.json package-assets.json package-indexes.json
+          git add runtime-packages.json package-assets.json package-indexes.json package-index-cache.json
           if git diff --cached --quiet; then
             echo "No GitHub manifest changes to commit."
           else

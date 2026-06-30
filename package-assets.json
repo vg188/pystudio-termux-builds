@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T01:57:50Z",
+  "generatedAt": "2026-06-30T02:51:44Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -8,7 +8,7 @@
   },
   "summary": {
     "uniquePackageFiles": 1285,
-    "githubLocations": 2956
+    "githubLocations": 3166
   },
   "packages": {
     "abseil-cpp_20250814.1_aarch64.deb": {
@@ -661,17 +661,44 @@
       "fileName": "boost-headers_1.1.90.0-1_all.deb",
       "package": "boost-headers",
       "version": "1:1.90.0-1",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "10675892",
       "sha256": "6bfa80d2b9b05e22e1e609d0acd7f7707aada0a231b838b300d098733e14f9bf",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/boost-headers_1.1.90.0-1_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/boost-headers_1.1.90.0-1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/boost-headers_1.1.90.0-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/boost-headers_1.1.90.0-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/boost-headers_1.1.90.0-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
           }
         }
       ]
@@ -1200,17 +1227,44 @@
       "fileName": "build-essential_4.1_all.deb",
       "package": "build-essential",
       "version": "4.1",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "808",
       "sha256": "0102821194758d0701bea5349f56dd0b3502d32f4fd063779cb1e7d1435a85a4",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/build-essential_4.1_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/build-essential_4.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/build-essential_4.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/build-essential_4.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/build-essential_4.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
           }
         }
       ]
@@ -1623,44 +1677,152 @@
       "fileName": "ca-certificates-java_1.2026.03.19_all.deb",
       "package": "ca-certificates-java",
       "version": "1:2026.03.19",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "114176",
       "sha256": "3b4532aa1c4ac901fd88c127e65545b1c6d4fb57b8e234310c6aa2fda7d2ac90",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/ca-certificates-java_1.2026.03.19_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/ca-certificates-java_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/ca-certificates-java_1.2026.03.19_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/ca-certificates-java_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/ca-certificates-java_1.2026.03.19_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/ca-certificates-java_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/ca-certificates-java_1.2026.03.19_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/ca-certificates-java_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/ca-certificates-java_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -1669,35 +1831,116 @@
       "fileName": "ca-certificates-java_1.2026.05.14_all.deb",
       "package": "ca-certificates-java",
       "version": "1:2026.05.14",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "96472",
       "sha256": "71457f6776cafa83c9a9b38673f0737e76e5fdeeb117ac4e7a9513eb322539ba",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/ca-certificates-java_1.2026.05.14_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/ca-certificates-java_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/ca-certificates-java_1.2026.05.14_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/ca-certificates-java_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/ca-certificates-java_1.2026.05.14_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/ca-certificates-java_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
           }
         }
       ]
@@ -1706,44 +1949,152 @@
       "fileName": "ca-certificates_1.2026.03.19_all.deb",
       "package": "ca-certificates",
       "version": "1:2026.03.19",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "124724",
       "sha256": "bf3f904ca823ffc8de5fe5710f299706799ba8a20c49be5b9f9edef665da7193",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/ca-certificates_1.2026.03.19_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/ca-certificates_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/ca-certificates_1.2026.03.19_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/ca-certificates_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/ca-certificates_1.2026.03.19_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/ca-certificates_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/ca-certificates_1.2026.03.19_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/ca-certificates_1.2026.03.19_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/ca-certificates_1.2026.03.19_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -1752,35 +2103,116 @@
       "fileName": "ca-certificates_1.2026.05.14_all.deb",
       "package": "ca-certificates",
       "version": "1:2026.05.14",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "105732",
       "sha256": "f4c54e7ca4e156d574dca8f43246f675b68123f3df0149906c8f280aa85b66df",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/ca-certificates_1.2026.05.14_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/ca-certificates_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/ca-certificates_1.2026.05.14_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/ca-certificates_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/ca-certificates_1.2026.05.14_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/ca-certificates_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
           }
         }
       ]
@@ -2425,17 +2857,44 @@
       "fileName": "debugpy_1.8.21_all.deb",
       "package": "debugpy",
       "version": "1.8.21",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "1027904",
       "sha256": "96aea9930380f9fad053a6de623dd44b143d38f2c1055d161f5d144062986741",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/debugpy_1.8.21_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/debugpy_1.8.21_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/debugpy_1.8.21_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/debugpy_1.8.21_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/debugpy_1.8.21_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
           }
         }
       ]
@@ -5420,17 +5879,44 @@
       "fileName": "git-svn_2.54.0_all.deb",
       "package": "git-svn",
       "version": "2.54.0",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "75524",
       "sha256": "7ac05eed942c21a56e18d36cd0656f244db90dd1c7a4c1e3cfa2cee63802ad14",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/git-svn_2.54.0_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/git-svn_2.54.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/git-svn_2.54.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/git-svn_2.54.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/git-svn_2.54.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
           }
         }
       ]
@@ -5515,26 +6001,80 @@
       "fileName": "glib-cross_2.88.0_all.deb",
       "package": "glib-cross",
       "version": "2.88.0",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "12194544",
       "sha256": "22a11b95cb7c0089bf315696980469a537962d1e6dbb67c34202f72fa7a31a2f",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/glib-cross_2.88.0_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/glib-cross_2.88.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/glib-cross_2.88.0_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/glib-cross_2.88.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/glib-cross_2.88.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/glib-cross_2.88.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/glib-cross_2.88.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/glib-cross_2.88.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/glib-cross_2.88.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/glib-cross_2.88.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
           }
         }
       ]
@@ -28879,17 +29419,44 @@
       "fileName": "npm_11.13.0_all.deb",
       "package": "npm",
       "version": "11.13.0",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "1955300",
       "sha256": "3d9a8bd0e7342fff3094edfcc03d22228f61df0ba3f10c067fcdef2e9a342004",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/npm_11.13.0_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/npm_11.13.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/npm_11.13.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/npm_11.13.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/npm_11.13.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
           }
         }
       ]
@@ -31286,17 +31853,44 @@
       "fileName": "pyright_1.1.410_all.deb",
       "package": "pyright",
       "version": "1.1.410",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "2984480",
       "sha256": "ca2457eda99015f7a25b817c1df9e9cc45323b61641b2724a79919493a159a83",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/pyright_1.1.410_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/pyright_1.1.410_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/pyright_1.1.410_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/pyright_1.1.410_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/pyright_1.1.410_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
           }
         }
       ]
@@ -31381,53 +31975,188 @@
       "fileName": "python-ensurepip-wheels_3.13.13-1_all.deb",
       "package": "python-ensurepip-wheels",
       "version": "3.13.13-1",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "1713260",
       "sha256": "8936c1c07f1fb979909aa29f114eb58769b46ce67065139370b6bf2cbd7b1a41",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/python-ensurepip-wheels_3.13.13-1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/python-ensurepip-wheels_3.13.13-1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/python-ensurepip-wheels_3.13.13-1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/python-ensurepip-wheels_3.13.13-1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/python-ensurepip-wheels_3.13.13-1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/python-ensurepip-wheels_3.13.13-1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -31588,26 +32317,80 @@
       "fileName": "python-pip_26.1.2_all.deb",
       "package": "python-pip",
       "version": "26.1.2",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "1194244",
       "sha256": "39b261d215d08848019ae5501ca216b5adddfaef63255cb8d1bd8057070b9ba6",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/python-pip_26.1.2_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/python-pip_26.1.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/python-pip_26.1.2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/python-pip_26.1.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-arm-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/python-pip_26.1.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/python-pip_26.1.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/python-pip_26.1.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/python-pip_26.1.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/python-pip_26.1.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/python-pip_26.1.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
           }
         }
       ]
@@ -31616,26 +32399,80 @@
       "fileName": "python-pip_26.1_all.deb",
       "package": "python-pip",
       "version": "26.1",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "1193988",
       "sha256": "7f6060e0f3f4790047f4875c073830d682a865b798268c02a39ab496256c82fc",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/python-pip_26.1_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/python-pip_26.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/python-pip_26.1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/python-pip_26.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/python-pip_26.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/python-pip_26.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/python-pip_26.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/python-pip_26.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/python-pip_26.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/python-pip_26.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -32236,62 +33073,224 @@
       "fileName": "python-xcbgen_1.17.0-2_all.deb",
       "package": "python-xcbgen",
       "version": "1.17.0-2",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "15196",
       "sha256": "f570879fc2e9d5e1fd6903570e75e47ff5ca21230b4728c152b6369c2e5cb78f",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/python-xcbgen_1.17.0-2_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/python-xcbgen_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/python-xcbgen_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/python-xcbgen_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/python-xcbgen_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/python-xcbgen_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/python-xcbgen_1.17.0-2_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/python-xcbgen_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/python-xcbgen_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/python-xcbgen_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/python-xcbgen_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/python-xcbgen_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/python-xcbgen_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -32820,17 +33819,44 @@
       "fileName": "rapidjson_1.1.0-7_all.deb",
       "package": "rapidjson",
       "version": "1.1.0-7",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "99680",
       "sha256": "50c68c516e1f1093eb9e235fb80762c03e6ffcee2f897d6daff1d800470e93fe",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/rapidjson_1.1.0-7_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/rapidjson_1.1.0-7_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/rapidjson_1.1.0-7_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/rapidjson_1.1.0-7_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/rapidjson_1.1.0-7_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
           }
         }
       ]
@@ -36607,17 +37633,44 @@
       "fileName": "tree-sitter-parsers_0.26_all.deb",
       "package": "tree-sitter-parsers",
       "version": "0.26",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "824",
       "sha256": "6fde80dddb9cee0762e322ff53010461b0d25e7c0ac55b8d65da1d1b29b16659",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-all-r4/tree-sitter-parsers_0.26_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-aarch64-r4/tree-sitter-parsers_0.26_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
-            "tag": "pystudio-tree-sitter-toolchain-pool-all-r4"
+            "tag": "pystudio-tree-sitter-toolchain-pool-aarch64-r4"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-arm-r4/tree-sitter-parsers_0.26_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-arm-r4"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-i686-r4/tree-sitter-parsers_0.26_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-i686-r4"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-tree-sitter-toolchain/releases/download/pystudio-tree-sitter-toolchain-pool-x86_64-r4/tree-sitter-parsers_0.26_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
+            "tag": "pystudio-tree-sitter-toolchain-pool-x86_64-r4"
           }
         }
       ]
@@ -37498,62 +38551,224 @@
       "fileName": "ttf-dejavu_2.37-8_all.deb",
       "package": "ttf-dejavu",
       "version": "2.37-8",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "2461152",
       "sha256": "0d676bbe9c8f387991467dae60dc1a05ab0092fdcea2068f4d009fe0276a0490",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/ttf-dejavu_2.37-8_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/ttf-dejavu_2.37-8_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/ttf-dejavu_2.37-8_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/ttf-dejavu_2.37-8_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/ttf-dejavu_2.37-8_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/ttf-dejavu_2.37-8_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/ttf-dejavu_2.37-8_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/ttf-dejavu_2.37-8_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/ttf-dejavu_2.37-8_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/ttf-dejavu_2.37-8_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/ttf-dejavu_2.37-8_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/ttf-dejavu_2.37-8_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/ttf-dejavu_2.37-8_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -37562,17 +38777,44 @@
       "fileName": "utf8cpp_1.4.0.9_all.deb",
       "package": "utf8cpp",
       "version": "1:4.0.9",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "10292",
       "sha256": "694c81fd80d08e4f90f41fb64bbe53e8cc1a11c1899336273487ab221df4281a",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/utf8cpp_1.4.0.9_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/utf8cpp_1.4.0.9_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/utf8cpp_1.4.0.9_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/utf8cpp_1.4.0.9_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/utf8cpp_1.4.0.9_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
           }
         }
       ]
@@ -38033,62 +39275,224 @@
       "fileName": "xcb-proto_1.17.0-2_all.deb",
       "package": "xcb-proto",
       "version": "1.17.0-2",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "78600",
       "sha256": "5bf8afdb775cc597b419719292620b7cc4c35ab55b22a1974608b09f267e0ecf",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/xcb-proto_1.17.0-2_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/xcb-proto_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/xcb-proto_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/xcb-proto_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/xcb-proto_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/xcb-proto_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/xcb-proto_1.17.0-2_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/xcb-proto_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/xcb-proto_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/xcb-proto_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/xcb-proto_1.17.0-2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/xcb-proto_1.17.0-2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/xcb-proto_1.17.0-2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -38249,62 +39653,224 @@
       "fileName": "xorg-util-macros_1.20.2_all.deb",
       "package": "xorg-util-macros",
       "version": "1.20.2",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "21960",
       "sha256": "ee32e9c2421f2c977d0a7f3e85a0612efb759ce11f15278532b6704e0662d42c",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/xorg-util-macros_1.20.2_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/xorg-util-macros_1.20.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/xorg-util-macros_1.20.2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/xorg-util-macros_1.20.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/xorg-util-macros_1.20.2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/xorg-util-macros_1.20.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/xorg-util-macros_1.20.2_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/xorg-util-macros_1.20.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/xorg-util-macros_1.20.2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/xorg-util-macros_1.20.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/xorg-util-macros_1.20.2_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/xorg-util-macros_1.20.2_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/xorg-util-macros_1.20.2_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -38313,62 +39879,224 @@
       "fileName": "xorgproto_2025.1_all.deb",
       "package": "xorgproto",
       "version": "2025.1",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "249628",
       "sha256": "38cd344b5d3abf9c9102eb6453585d813156148c8db21ff4ffc55bc573dd2444",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/xorgproto_2025.1_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/xorgproto_2025.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/xorgproto_2025.1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/xorgproto_2025.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/xorgproto_2025.1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/xorgproto_2025.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/xorgproto_2025.1_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/xorgproto_2025.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/xorgproto_2025.1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/xorgproto_2025.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/xorgproto_2025.1_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/xorgproto_2025.1_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/xorgproto_2025.1_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
@@ -38453,62 +40181,224 @@
       "fileName": "xtrans_1.6.0_all.deb",
       "package": "xtrans",
       "version": "1.6.0",
-      "architecture": "all",
+      "architecture": "aarch64",
       "size": "39864",
       "sha256": "a60ad32a4745646eac49fe50372f2fe3040eafbd6231b47484efddfaceabdc52",
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-all-r6/xtrans_1.6.0_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-aarch64-r6/xtrans_1.6.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
-            "tag": "pystudio-cpp-toolchain-pool-all-r6"
+            "tag": "pystudio-cpp-toolchain-pool-aarch64-r6"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r14/xtrans_1.6.0_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-arm-r6/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-arm-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-i686-r6/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-i686-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
+            "tag": "pystudio-cpp-toolchain-pool-x86_64-r6"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r14/xtrans_1.6.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r14"
+            "tag": "pystudio-toolchains-pool-aarch64-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r16/xtrans_1.6.0_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r14/xtrans_1.6.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r16"
+            "tag": "pystudio-toolchains-pool-arm-r14"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-all-r17/xtrans_1.6.0_all.deb",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r14/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r14"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r16/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-aarch64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r16/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r16/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r16/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r16"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-aarch64-r17/xtrans_1.6.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-extensions",
-            "tag": "pystudio-python-extensions-pool-all-r17"
+            "tag": "pystudio-python-extensions-pool-aarch64-r17"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r18/xtrans_1.6.0_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-arm-r17/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-arm-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-i686-r17/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-i686-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-extensions/releases/download/pystudio-python-extensions-pool-x86_64-r17/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-extensions",
+            "tag": "pystudio-python-extensions-pool-x86_64-r17"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/xtrans_1.6.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-termux-builds",
-            "tag": "pystudio-toolchains-pool-all-r18"
+            "tag": "pystudio-toolchains-pool-aarch64-r18"
           }
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-all-r10/xtrans_1.6.0_all.deb",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-arm-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-i686-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-termux-builds",
+            "tag": "pystudio-toolchains-pool-x86_64-r18"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-aarch64-r10/xtrans_1.6.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-python-toolchain",
-            "tag": "pystudio-python-toolchain-pool-all-r10"
+            "tag": "pystudio-python-toolchain-pool-aarch64-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-arm-r10/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-arm-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-i686-r10/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-i686-r10"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-python-toolchain/releases/download/pystudio-python-toolchain-pool-x86_64-r10/xtrans_1.6.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-python-toolchain",
+            "tag": "pystudio-python-toolchain-pool-x86_64-r10"
           }
         }
       ]
