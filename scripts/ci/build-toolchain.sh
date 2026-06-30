@@ -42,6 +42,24 @@ build_metadata_file="$stage_dir/build-metadata.json"
 rm -rf "$work_dir" "$stage_dir"
 mkdir -p "$work_dir" "$stage_dir"
 
+dump_failure_context() {
+  local status="$?"
+  set +e
+  echo "::group::PyStudio build failure diagnostics"
+  if [[ -d "$source_dir/.termux-build" ]]; then
+    while IFS= read -r log_file; do
+      echo
+      echo "==> $log_file"
+      tail -n 160 "$log_file"
+    done < <(find "$source_dir/.termux-build" -type f \( -name "config.log" -o -name "*.log" \) | sort | tail -n 20)
+  else
+    echo "No .termux-build directory was found."
+  fi
+  echo "::endgroup::"
+  exit "$status"
+}
+trap dump_failure_context ERR
+
 echo "Profile: $PROFILE_NAME ($profile)"
 echo "Source: $SOURCE_NAME ($source_kind) -> $source_repo"
 echo "Patch set: ${SOURCE_PATCH_SET:-none}"
