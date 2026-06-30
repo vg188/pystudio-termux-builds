@@ -1,6 +1,6 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-06-29",
+  "generatedAt": "2026-06-30",
   "packageName": "com.vchangxiao.pystudio",
   "architectures": [
     "aarch64",
@@ -33,8 +33,8 @@
     }
   ],
   "repositories": {
-    "repo:proot:primary:aarch64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:aarch64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:aarch64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:aarch64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "kind": "apt-repository",
       "format": "apt-repo-v1",
       "transport": "flat-release-assets",
@@ -46,47 +46,47 @@
       "binaryPath": "dists/pystudio/main/binary-aarch64",
       "indexPath": "dists/pystudio/main/binary-aarch64/Packages.xz",
       "packageRoot": "pool/main",
-      "version": "r28",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r28"
+        "tag": "pystudio-toolchains-r30"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r30-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28-Packages.xz",
-        "size": 896,
-        "sha256": "e16bb979cdda388d395834923ae1599906ce36cbe1157dbd23495f596f46df84"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r30-Packages.xz",
+        "size": 1252,
+        "sha256": "13c76907047654b0af30a31c9a9025be97f0348cf82921b0860f213c9ed99d99"
       },
       "mirrors": [
         {
           "id": "github-release-flat",
           "kind": "flat-release-repo",
-          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/",
-          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28-Packages.xz",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/",
+          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r30-Packages.xz",
           "priority": 1
         },
         {
           "id": "modelscope",
           "kind": "flat-package-repo",
-          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/aarch64/",
-          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/aarch64/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28-Packages.xz",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/aarch64/",
+          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/aarch64/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r30-Packages.xz",
           "priority": 10,
           "region": "CN"
         }
       ],
       "metadata": {
         "role": "apt-repo-metadata",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28.json",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r30.json",
         "format": "json",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r28.json",
-        "size": 3064,
-        "sha256": "550be7742eb27079919fcf6a7731d592f5b53c0aa58bc5bf893a1e977515ee0d"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r30.json",
+        "size": 6262,
+        "sha256": "dbbaa67cae3ba7505c016a6389c10384714e69caa37bd49f772883d26658c1ea"
       }
     },
-    "repo:proot:primary:arm:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:arm:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:arm:pystudio-toolchains-r30:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:arm:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "kind": "apt-repository",
       "format": "apt-repo-v1",
       "transport": "flat-release-assets",
@@ -98,47 +98,47 @@
       "binaryPath": "dists/pystudio/main/binary-arm",
       "indexPath": "dists/pystudio/main/binary-arm/Packages.xz",
       "packageRoot": "pool/main",
-      "version": "r28",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r28"
+        "tag": "pystudio-toolchains-r30"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r30-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28-Packages.xz",
-        "size": 892,
-        "sha256": "4999f418635d25829c80f8dd53cffc20b051bcc1c592cc5f84ccf726f0bb99ef"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r30-Packages.xz",
+        "size": 1248,
+        "sha256": "13a12f11e06474a9c76710bc5db33510d983346163f7f0be5bfc3ac13f579176"
       },
       "mirrors": [
         {
           "id": "github-release-flat",
           "kind": "flat-release-repo",
-          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/",
-          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28-Packages.xz",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/",
+          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r30-Packages.xz",
           "priority": 1
         },
         {
           "id": "modelscope",
           "kind": "flat-package-repo",
-          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/arm/",
-          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/arm/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28-Packages.xz",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/arm/",
+          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/arm/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r30-Packages.xz",
           "priority": 10,
           "region": "CN"
         }
       ],
       "metadata": {
         "role": "apt-repo-metadata",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28.json",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r30.json",
         "format": "json",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r28.json",
-        "size": 2971,
-        "sha256": "618ff4e27486e3ed38d9c720a3ff0c1e880c36e8f0e1b0e5bc72c798dd950b99"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r30.json",
+        "size": 6169,
+        "sha256": "16da975d1973362a476fd72bc96d76421ad02047f59bc909a322a0d70fa220c3"
       }
     },
-    "repo:proot:primary:i686:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:i686:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:i686:pystudio-toolchains-r30:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:i686:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "kind": "apt-repository",
       "format": "apt-repo-v1",
       "transport": "flat-release-assets",
@@ -150,47 +150,47 @@
       "binaryPath": "dists/pystudio/main/binary-i686",
       "indexPath": "dists/pystudio/main/binary-i686/Packages.xz",
       "packageRoot": "pool/main",
-      "version": "r28",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r28"
+        "tag": "pystudio-toolchains-r30"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r30-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28-Packages.xz",
-        "size": 892,
-        "sha256": "21c9afa0f47eb3b98f21e28d38345f422be832955c5038ee479b27cf2076c367"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r30-Packages.xz",
+        "size": 1252,
+        "sha256": "0b1d5288d955f677305f5430c0e0d5e650d0ee4505922ce4b18efff6c6fb8eb9"
       },
       "mirrors": [
         {
           "id": "github-release-flat",
           "kind": "flat-release-repo",
-          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/",
-          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28-Packages.xz",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/",
+          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r30-Packages.xz",
           "priority": 1
         },
         {
           "id": "modelscope",
           "kind": "flat-package-repo",
-          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/i686/",
-          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/i686/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28-Packages.xz",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/i686/",
+          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/i686/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r30-Packages.xz",
           "priority": 10,
           "region": "CN"
         }
       ],
       "metadata": {
         "role": "apt-repo-metadata",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28.json",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r30.json",
         "format": "json",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r28.json",
-        "size": 2995,
-        "sha256": "2a0c5999a79e6ef55e7da0b5e706abb29b0135b0eccbdd16a338e8a1939bc140"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r30.json",
+        "size": 6193,
+        "sha256": "76eb1bb6700b6252277daa75e41183d9efb0c4aab0ceadda7ac740d04755c19f"
       }
     },
-    "repo:proot:primary:x86_64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:x86_64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:x86_64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:x86_64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "kind": "apt-repository",
       "format": "apt-repo-v1",
       "transport": "flat-release-assets",
@@ -202,43 +202,43 @@
       "binaryPath": "dists/pystudio/main/binary-x86_64",
       "indexPath": "dists/pystudio/main/binary-x86_64/Packages.xz",
       "packageRoot": "pool/main",
-      "version": "r28",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r28"
+        "tag": "pystudio-toolchains-r30"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r30-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28-Packages.xz",
-        "size": 896,
-        "sha256": "d7db6e37f832a2aa7bbe968d9f11bf1bf5b4f53a245629c47d8474d5548f58c8"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r30-Packages.xz",
+        "size": 1252,
+        "sha256": "06780ab5ea348b566b53b06570f65ea7fe88053e9dfd7d345dab01a538a498f1"
       },
       "mirrors": [
         {
           "id": "github-release-flat",
           "kind": "flat-release-repo",
-          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/",
-          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28-Packages.xz",
+          "baseUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/",
+          "indexUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r30-Packages.xz",
           "priority": 1
         },
         {
           "id": "modelscope",
           "kind": "flat-package-repo",
-          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/x86_64/",
-          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r28/pystudio-proot-toolchain-primary/x86_64/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28-Packages.xz",
+          "baseUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/x86_64/",
+          "indexUrl": "https://modelscope.cn/datasets/yourba/pystudio-termux-builds/resolve/master/repo/vg188/pystudio-termux-builds/pystudio-toolchains-r30/pystudio-proot-toolchain-primary/x86_64/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r30-Packages.xz",
           "priority": 10,
           "region": "CN"
         }
       ],
       "metadata": {
         "role": "apt-repo-metadata",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28.json",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r30.json",
         "format": "json",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r28/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r28.json",
-        "size": 3042,
-        "sha256": "5acd736760a6af371a655bbbeb7839714f1c2a51d519ff5404df17009cadee2c"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r30/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r30.json",
+        "size": 6240,
+        "sha256": "7569f1b1fd81891084b14ace9da390f3f4c7e77d10844dd8fb9ad416bdf29e2f"
       }
     },
     "repo:python:primary:aarch64:pystudio-python-toolchain-r10:pystudio-python-toolchain": {
@@ -6088,7 +6088,7 @@
       },
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r28"
+        "tag": "pystudio-toolchains-r30"
       },
       "install": {
         "mode": "install-from-package-repository",
@@ -6104,16 +6104,16 @@
         "x86_64"
       ],
       "repositoryRefs": {
-        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
-        "arm": "repo:proot:primary:arm:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
-        "i686": "repo:proot:primary:i686:pystudio-toolchains-r28:pystudio-proot-toolchain-primary",
-        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r28:pystudio-proot-toolchain-primary"
+        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
+        "arm": "repo:proot:primary:arm:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
+        "i686": "repo:proot:primary:i686:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
+        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary"
       },
       "indexSizeByArch": {
-        "aarch64": 896,
-        "arm": 892,
-        "i686": 892,
-        "x86_64": 896
+        "aarch64": 1252,
+        "arm": 1248,
+        "i686": 1252,
+        "x86_64": 1252
       }
     },
     {
