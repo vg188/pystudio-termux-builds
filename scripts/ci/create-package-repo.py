@@ -20,6 +20,8 @@ def main() -> int:
     parser.add_argument("--version", required=True)
     parser.add_argument("--distribution", default="pystudio")
     parser.add_argument("--component", default="main")
+    parser.add_argument("--source-root", type=Path)
+    parser.add_argument("--build-metadata", type=Path)
     args = parser.parse_args()
 
     metadata = build_repo_from_path(
@@ -32,6 +34,8 @@ def main() -> int:
         version=args.version,
         distribution=args.distribution,
         component=args.component,
+        source_root=args.source_root,
+        build_metadata_path=args.build_metadata,
     )
     args.metadata.parent.mkdir(parents=True, exist_ok=True)
     args.metadata.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

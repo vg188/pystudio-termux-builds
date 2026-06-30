@@ -35,6 +35,33 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def load_build_metadata(path: Path | None) -> dict[str, Any]:
+    if not path or not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data if isinstance(data, dict) else {}
+
+
+def package_recipe_dir(source_root: Path | None, package: str) -> Path | None:
+    if not source_root:
+        return None
+    for parent in ("packages", "root-packages", "x11-packages", "tur", "disabled-packages"):
+        candidate = source_root / parent / package
+        if candidate.is_dir():
+            return candidate
+    return None
+
+
+def directory_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    for item in sorted(child for child in path.rglob("*") if child.is_file()):
+        rel = item.relative_to(path).as_posix()
+        digest.update(rel.encode("utf-8") + b"\0")
+        digest.update(item.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
 def download_file(url: str, destination: Path, expected_sha256: str = "") -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists() and (not expected_sha256 or sha256_file(destination) == expected_sha256):
@@ -123,19 +150,67 @@ def re_split_stanzas(text: str) -> list[str]:
 def resolve_packages(index: dict[str, dict[str, str]], requested: list[str]) -> list[str]:
     resolved: list[str] = []
     seen: set[str] = set()
+    failed: set[str] = set()
 
-    def visit(package: str) -> None:
-        if package in seen or package not in index:
-            return
+    def visit(package: str) -> bool:
+        if package in failed:
+            return False
+        if package in seen:
+            return True
+        if package not in index:
+            failed.add(package)
+            return False
         seen.add(package)
         fields = index[package]
+        dependencies_ok = True
         for dependency in dependency_names(",".join([fields.get("Pre-Depends", ""), fields.get("Depends", "")])):
-            visit(dependency)
+            if not visit(dependency):
+                dependencies_ok = False
+        if not dependencies_ok:
+            failed.add(package)
+            return False
         resolved.append(package)
+        return True
 
     for package in requested:
         visit(package)
     return resolved
+
+
+def freshness_problem(
+    fields: dict[str, str],
+    *,
+    source_root: Path | None,
+    build_metadata: dict[str, Any],
+) -> str:
+    if not build_metadata:
+        return ""
+
+    expected_patch_set = str(build_metadata.get("patchSet", "") or "")
+    expected_patch_hash = str(build_metadata.get("patchHash", "") or "")
+    actual_patch_set = fields.get("PyStudio-Patch-Set", "")
+    actual_patch_hash = fields.get("PyStudio-Patch-Hash", "")
+    if expected_patch_set and actual_patch_set != expected_patch_set:
+        return f"patch set mismatch ({actual_patch_set or 'missing'} != {expected_patch_set})"
+    if expected_patch_hash and actual_patch_hash != expected_patch_hash:
+        return "patch hash mismatch"
+
+    package = fields.get("Package", "")
+    recipe_dir = package_recipe_dir(source_root, package)
+    expected_recipe_hash = directory_sha256(recipe_dir) if recipe_dir else ""
+    actual_recipe_hash = fields.get("PyStudio-Recipe-Hash", "")
+    if expected_recipe_hash:
+        if not actual_recipe_hash:
+            return "missing recipe hash"
+        if actual_recipe_hash != expected_recipe_hash:
+            return "recipe hash mismatch"
+
+    expected_source_commit = str(build_metadata.get("sourceCommit", "") or "")
+    actual_source_commit = fields.get("PyStudio-Source-Commit", "")
+    if expected_source_commit and not expected_recipe_hash and actual_source_commit != expected_source_commit:
+        return f"source commit mismatch ({actual_source_commit or 'missing'} != {expected_source_commit})"
+
+    return ""
 
 
 def data_member_name(path: Path) -> str:
@@ -177,6 +252,8 @@ def prefetch_repository(
     output_dir: Path,
     docker_data_dir: Path,
     cache_dir: Path,
+    source_root: Path | None,
+    build_metadata: dict[str, Any],
 ) -> set[str]:
     mirror = flat_release_mirror(repository)
     if not mirror:
@@ -188,6 +265,14 @@ def prefetch_repository(
     print(f"Prefetching index for {repository.get('id')} from GitHub Releases")
     download_file(str(mirror["indexUrl"]), index_path, str(repository.get("index", {}).get("sha256", "")))
     index = parse_packages_index(index_path.read_bytes())
+    fresh_index: dict[str, dict[str, str]] = {}
+    for package, fields in index.items():
+        problem = freshness_problem(fields, source_root=source_root, build_metadata=build_metadata)
+        if problem:
+            print(f"Skipping stale reusable package {package} from {repository.get('id')}: {problem}")
+            continue
+        fresh_index[package] = fields
+    index = fresh_index
     package_order = resolve_packages(index, requested_packages)
     if not package_order:
         print(f"No requested packages found in {repository.get('id')}")
@@ -235,10 +320,13 @@ def main() -> int:
     parser.add_argument("--docker-data-dir", required=True, type=Path)
     parser.add_argument("--cache-dir", required=True, type=Path)
     parser.add_argument("--missing-packages-file", required=True, type=Path)
+    parser.add_argument("--source-root", type=Path)
+    parser.add_argument("--build-metadata", type=Path)
     args = parser.parse_args()
 
     requested = [str(item).strip() for item in args.requested_package if str(item).strip()]
     package_sets = [str(item).strip() for item in args.package_set if str(item).strip()]
+    build_metadata = load_build_metadata(args.build_metadata)
     reused: set[str] = set()
 
     if package_sets:
@@ -266,6 +354,8 @@ def main() -> int:
                         output_dir=args.output_dir,
                         docker_data_dir=args.docker_data_dir,
                         cache_dir=args.cache_dir,
+                        source_root=args.source_root,
+                        build_metadata=build_metadata,
                     )
                 )
 

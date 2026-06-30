@@ -18,6 +18,8 @@ version="${5:-}"
 
 stage_dir="$ROOT/dist/toolchains/$profile/$source_kind/$arch"
 output_dir="$stage_dir/output"
+source_dir="$ROOT/work/toolchains/$profile/$source_kind/$arch/source"
+build_metadata_path="$stage_dir/build-metadata.json"
 artifact_slug="${artifact_prefix:-pystudio-$profile-toolchain-$source_kind}"
 repo_version="$(tr -cs 'A-Za-z0-9._+-' '-' <<< "$version" | sed 's/^-//;s/-$//')"
 repo_slug="$artifact_slug-apt-repo-v1-$arch-$repo_version"
@@ -39,7 +41,9 @@ python3 "$ROOT/scripts/ci/create-package-repo.py" \
   --profile "$profile" \
   --source "$source_kind" \
   --arch "$arch" \
-  --version "$repo_version"
+  --version "$repo_version" \
+  --source-root "$source_dir" \
+  --build-metadata "$build_metadata_path"
 
 python3 "$ROOT/scripts/ci/create-flat-release-repo.py" \
   --repo-dir "$repo_dir" \

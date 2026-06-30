@@ -37,6 +37,7 @@ fallback_root="$work_dir/fallback-sources"
 docker_data_dir="$work_dir/docker-data"
 reuse_cache_dir="$work_dir/reuse-cache"
 missing_packages_file="$work_dir/reuse/missing-packages.txt"
+build_metadata_file="$stage_dir/build-metadata.json"
 
 rm -rf "$work_dir" "$stage_dir"
 mkdir -p "$work_dir" "$stage_dir"
@@ -50,6 +51,7 @@ echo "Build-time reuse package sets: ${reuse_sets:-none}"
 echo "Android package: ${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
 
 git clone --depth 1 "$source_repo" "$source_dir"
+source_commit="$(git -C "$source_dir" rev-parse HEAD)"
 
 apply_source_patch_set() {
   local target_dir="$1"
@@ -89,6 +91,74 @@ apply_source_patch_set() {
 
 apply_source_patch_set "$source_dir" "${SOURCE_PATCH_SET:-}" "$source_kind"
 bash "$ROOT/scripts/ci/configure-termux-prefix.sh" "$source_dir" "${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
+
+compute_patch_set_hash() {
+  local patch_set="${1:-}"
+  PATCH_ROOT="$ROOT/patches/source-adapters" PATCH_SET="$patch_set" python3 - <<'PY'
+from __future__ import annotations
+
+import hashlib
+import os
+from pathlib import Path
+
+patch_set = os.environ.get("PATCH_SET", "")
+patch_root = Path(os.environ["PATCH_ROOT"])
+if not patch_set or patch_set == "none":
+    print("")
+    raise SystemExit(0)
+
+series = patch_root / patch_set / "series"
+if not series.exists():
+    print("")
+    raise SystemExit(0)
+
+digest = hashlib.sha256()
+for raw_line in series.read_text(encoding="utf-8").splitlines():
+    entry = raw_line.split("#", 1)[0].strip()
+    if not entry:
+        continue
+    path = series.parent / entry
+    digest.update(entry.encode("utf-8") + b"\0")
+    digest.update(path.read_bytes())
+    digest.update(b"\0")
+print(digest.hexdigest())
+PY
+}
+
+source_patch_hash="$(compute_patch_set_hash "${SOURCE_PATCH_SET:-}")"
+source_tree_diff_hash="$(git -C "$source_dir" diff --binary | sha256sum | awk '{print $1}')"
+mkdir -p "$stage_dir"
+BUILD_METADATA_FILE="$build_metadata_file" \
+PROFILE="$profile" \
+SOURCE_KIND="$source_kind" \
+SOURCE_REPO="$source_repo" \
+SOURCE_COMMIT="$source_commit" \
+SOURCE_PATCH_SET="${SOURCE_PATCH_SET:-}" \
+SOURCE_PATCH_HASH="$source_patch_hash" \
+SOURCE_TREE_DIFF_HASH="$source_tree_diff_hash" \
+PYSTUDIO_PACKAGE_NAME="${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}" \
+python3 - <<'PY'
+from __future__ import annotations
+
+import json
+import os
+from pathlib import Path
+
+metadata = {
+    "schemaVersion": 1,
+    "profile": os.environ["PROFILE"],
+    "source": os.environ["SOURCE_KIND"],
+    "sourceRepository": os.environ["SOURCE_REPO"],
+    "sourceCommit": os.environ["SOURCE_COMMIT"],
+    "patchSet": os.environ.get("SOURCE_PATCH_SET", ""),
+    "patchHash": os.environ.get("SOURCE_PATCH_HASH", ""),
+    "treeDiffHash": os.environ.get("SOURCE_TREE_DIFF_HASH", ""),
+    "pystudioPackageName": os.environ.get("PYSTUDIO_PACKAGE_NAME", ""),
+}
+path = Path(os.environ["BUILD_METADATA_FILE"])
+path.parent.mkdir(parents=True, exist_ok=True)
+path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+PY
 
 source_env_value() {
   local source_id="$1"
@@ -211,6 +281,8 @@ python3 "$ROOT/scripts/ci/prefetch-package-reuse.py" \
   --docker-data-dir "$docker_data_dir" \
   --cache-dir "$reuse_cache_dir" \
   --missing-packages-file "$missing_packages_file" \
+  --source-root "$source_dir" \
+  --build-metadata "$build_metadata_file" \
   "${prefetch_args[@]}"
 
 mapfile -t build_package_array < <(sed '/^$/d' "$missing_packages_file")

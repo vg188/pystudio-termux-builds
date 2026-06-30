@@ -16,13 +16,25 @@ from typing import Any
 
 ARCHITECTURES = ["aarch64", "arm", "i686", "x86_64"]
 RETRIES = 5
-PACKAGE_METADATA_KEYS = [
+ASSET_PACKAGE_KEYS = [
     "fileName",
     "package",
     "version",
     "architecture",
     "size",
     "sha256",
+]
+INDEX_PACKAGE_KEYS = [
+    *ASSET_PACKAGE_KEYS,
+    "profile",
+    "source",
+    "sourceRepository",
+    "sourceCommit",
+    "patchSet",
+    "patchHash",
+    "treeDiffHash",
+    "recipePath",
+    "recipeHash",
 ]
 
 
@@ -147,7 +159,7 @@ def entry_repository_map(manifest: dict[str, Any]) -> dict[str, str]:
     return mapping
 
 
-def base_package_record(file_name: str, package: dict[str, str]) -> dict[str, Any]:
+def base_package_record(file_name: str, package: dict[str, str], repository: dict[str, Any]) -> dict[str, Any]:
     return {
         "fileName": file_name,
         "package": package.get("Package", ""),
@@ -155,6 +167,15 @@ def base_package_record(file_name: str, package: dict[str, str]) -> dict[str, An
         "architecture": package.get("Architecture", ""),
         "size": package.get("Size", ""),
         "sha256": package.get("SHA256", ""),
+        "profile": package.get("PyStudio-Profile", repository.get("profile", "")),
+        "source": package.get("PyStudio-Source", repository.get("sourceAdapter", "")),
+        "sourceRepository": package.get("PyStudio-Source-Repository", ""),
+        "sourceCommit": package.get("PyStudio-Source-Commit", ""),
+        "patchSet": package.get("PyStudio-Patch-Set", ""),
+        "patchHash": package.get("PyStudio-Patch-Hash", ""),
+        "treeDiffHash": package.get("PyStudio-Tree-Diff-Hash", ""),
+        "recipePath": package.get("PyStudio-Recipe-Path", ""),
+        "recipeHash": package.get("PyStudio-Recipe-Hash", ""),
         "locations": [],
         "usedBy": [],
     }
@@ -172,7 +193,7 @@ def append_location_unique(items: list[dict[str, Any]], location: dict[str, Any]
 
 
 def package_record_from_existing(record: dict[str, Any]) -> dict[str, Any]:
-    result = {key: record.get(key, "") for key in PACKAGE_METADATA_KEYS}
+    result = {key: record.get(key, "") for key in INDEX_PACKAGE_KEYS}
     result["locations"] = []
     result["usedBy"] = []
     return result
@@ -218,7 +239,7 @@ def merge_package_use(
     }
     append_unique(package_records[file_name]["usedBy"], used_by)
     if entry_id in entry_records:
-        append_unique(entry_records[entry_id]["packageFiles"], file_name)
+        entry_records[entry_id]["packageUseCount"] = int(entry_records[entry_id].get("packageUseCount", 0)) + 1
 
 
 def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -243,7 +264,7 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             "release": entry.get("release", {}),
             "availableArchitectures": entry.get("availableArchitectures", []),
             "repositoryRefs": entry.get("repositoryRefs", {}),
-            "packageFiles": [],
+            "packageUseCount": 0,
         }
 
     for repository_id in sorted(repositories):
@@ -259,8 +280,6 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             "architecture": repository.get("architecture", ""),
             "release": repository.get("release", {}),
             "index": repository.get("index", {}),
-            "metadata": repository.get("metadata", {}),
-            "packagePools": repository.get("packagePools", []),
             "packageCount": 0,
             "packageFiles": package_files,
         }
@@ -294,7 +313,7 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             if not file_name.endswith(".deb"):
                 continue
             package_files.append(file_name)
-            record = package_records.setdefault(file_name, base_package_record(file_name, package))
+            record = package_records.setdefault(file_name, base_package_record(file_name, package, repository))
             for location in mirror_locations(repository, package, file_name):
                 append_location_unique(record["locations"], location)
             used_by = {
@@ -304,12 +323,10 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             }
             append_unique(record["usedBy"], used_by)
             if entry_id in entry_records:
-                append_unique(entry_records[entry_id]["packageFiles"], file_name)
+                entry_records[entry_id]["packageUseCount"] = int(entry_records[entry_id].get("packageUseCount", 0)) + 1
 
     for repository in repository_records.values():
         repository["packageFiles"] = sorted(set(repository["packageFiles"]))
-    for entry in entry_records.values():
-        entry["packageFiles"] = sorted(entry["packageFiles"])
 
     generated_at = now_iso()
     source_manifest = {
@@ -321,9 +338,22 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
     for file_name, record in sorted(package_records.items()):
         asset_packages[file_name] = {
             key: record.get(key, "")
-            for key in PACKAGE_METADATA_KEYS
+            for key in ASSET_PACKAGE_KEYS
         }
         asset_packages[file_name]["locations"] = record.get("locations", [])
+
+    index_packages: dict[str, dict[str, Any]] = {}
+    for file_name, record in sorted(package_records.items()):
+        github_location = next(
+            (location for location in record.get("locations", []) if "github.com" in str(location.get("url", ""))),
+            {},
+        )
+        index_packages[file_name] = {
+            key: record.get(key, "")
+            for key in INDEX_PACKAGE_KEYS
+        }
+        index_packages[file_name]["githubUrl"] = github_location.get("url", "")
+        index_packages[file_name]["release"] = github_location.get("release", {})
 
     return {
         "schemaVersion": 1,
@@ -353,6 +383,7 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             },
             "entries": dict(sorted(entry_records.items())),
             "repositories": dict(sorted(repository_records.items())),
+            "packages": index_packages,
         },
     }
 
@@ -370,7 +401,7 @@ def load_existing_indexes(
         assets = json.loads(assets_output.read_text(encoding="utf-8"))
         indexes = json.loads(indexes_output.read_text(encoding="utf-8"))
         return {
-            "packages": assets.get("packages", {}),
+            "packages": indexes.get("packages") or assets.get("packages", {}),
             "repositories": indexes.get("repositories", {}),
         }
     if legacy_output.exists():

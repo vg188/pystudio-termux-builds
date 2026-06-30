@@ -132,6 +132,67 @@ def write_release_file(
     release_path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def load_build_metadata(path: Path | None) -> dict[str, Any]:
+    if not path or not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data if isinstance(data, dict) else {}
+
+
+def package_recipe_dir(source_root: Path | None, package: str) -> Path | None:
+    if not source_root:
+        return None
+    for parent in ("packages", "root-packages", "x11-packages", "tur", "disabled-packages"):
+        candidate = source_root / parent / package
+        if candidate.is_dir():
+            return candidate
+    return None
+
+
+def directory_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    for item in sorted(child for child in path.rglob("*") if child.is_file()):
+        rel = item.relative_to(path).as_posix()
+        digest.update(rel.encode("utf-8") + b"\0")
+        digest.update(item.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def package_provenance_fields(
+    *,
+    package: str,
+    source_root: Path | None,
+    build_metadata: dict[str, Any],
+) -> tuple[dict[str, str], dict[str, str]]:
+    index_fields: dict[str, str] = {}
+    metadata_fields: dict[str, str] = {}
+    mapping = {
+        "sourceRepository": "PyStudio-Source-Repository",
+        "sourceCommit": "PyStudio-Source-Commit",
+        "patchSet": "PyStudio-Patch-Set",
+        "patchHash": "PyStudio-Patch-Hash",
+        "treeDiffHash": "PyStudio-Tree-Diff-Hash",
+        "pystudioPackageName": "PyStudio-Package-Name",
+    }
+    for metadata_key, control_key in mapping.items():
+        value = str(build_metadata.get(metadata_key, "") or "")
+        if value:
+            index_fields[control_key] = value
+            metadata_fields[metadata_key] = value
+
+    recipe_dir = package_recipe_dir(source_root, package)
+    if recipe_dir:
+        recipe_path = recipe_dir.relative_to(source_root).as_posix() if source_root else recipe_dir.as_posix()
+        recipe_hash = directory_sha256(recipe_dir)
+        index_fields["PyStudio-Recipe-Path"] = recipe_path
+        index_fields["PyStudio-Recipe-Hash"] = recipe_hash
+        metadata_fields["recipePath"] = recipe_path
+        metadata_fields["recipeHash"] = recipe_hash
+
+    return index_fields, metadata_fields
+
+
 def build_package_repo(
     *,
     debs: list[Path],
@@ -143,6 +204,8 @@ def build_package_repo(
     version: str,
     distribution: str = "pystudio",
     component: str = "main",
+    source_root: Path | None = None,
+    build_metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if arch not in ARCHES:
         raise ValueError(f"unsupported architecture: {arch}")
@@ -157,6 +220,8 @@ def build_package_repo(
 
     stanzas: list[str] = []
     packages: list[dict[str, Any]] = []
+    build_metadata = build_metadata or {}
+
     for deb in sorted(debs, key=lambda item: item.name):
         fields = deb_control_fields(deb)
         package = fields.get("Package")
@@ -175,6 +240,11 @@ def build_package_repo(
         depends = fields.get("Depends", "")
         pre_depends = fields.get("Pre-Depends", "")
         commands = deb_command_names(deb)
+        provenance_index_fields, provenance_metadata = package_provenance_fields(
+            package=package,
+            source_root=source_root,
+            build_metadata=build_metadata,
+        )
 
         extra = {
             "Filename": rel_path,
@@ -183,6 +253,7 @@ def build_package_repo(
             "PyStudio-Profile": profile,
             "PyStudio-Source": source,
         }
+        extra.update(provenance_index_fields)
         if commands:
             extra["PyStudio-Commands"] = ", ".join(commands)
 
@@ -201,6 +272,7 @@ def build_package_repo(
                 "preDepends": pre_depends,
                 "dependencyNames": dependency_names(",".join([pre_depends, depends])),
                 "commands": commands,
+                "provenance": provenance_metadata,
             }
         )
 
@@ -231,6 +303,7 @@ def build_package_repo(
         "binaryPath": f"dists/{distribution}/{component}/binary-{arch}",
         "indexPath": f"dists/{distribution}/{component}/binary-{arch}/Packages.xz",
         "packageCount": len(packages),
+        "sourceMetadata": build_metadata,
         "packages": packages,
     }
     (repo_dir / "repo-metadata.json").write_text(
@@ -251,6 +324,8 @@ def build_repo_from_path(
     version: str,
     distribution: str = "pystudio",
     component: str = "main",
+    source_root: Path | None = None,
+    build_metadata_path: Path | None = None,
 ) -> dict[str, Any]:
     debs = find_debs(input_path)
     if not debs:
@@ -265,4 +340,6 @@ def build_repo_from_path(
         version=version,
         distribution=distribution,
         component=component,
+        source_root=source_root,
+        build_metadata=load_build_metadata(build_metadata_path),
     )
