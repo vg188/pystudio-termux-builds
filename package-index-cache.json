@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T06:05:36Z",
+  "generatedAt": "2026-07-01T07:33:27Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -11,8 +11,8 @@
     "repositories": 64,
     "uniquePackageFiles": 1285,
     "packageFileUses": 5034,
-    "reusedRepositoryIndexes": 60,
-    "downloadedRepositoryIndexes": 4
+    "reusedRepositoryIndexes": 64,
+    "downloadedRepositoryIndexes": 0
   },
   "repositories": {
     "repo:cpp:primary:aarch64:pystudio-cpp-toolchain-r6:pystudio-cpp-toolchain": {
