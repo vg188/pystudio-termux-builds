@@ -349,4 +349,10 @@ python3 "$ROOT/scripts/ci/check-deb-prefix.py" \
   "$source_dir/output" \
   --package-name "${PYSTUDIO_PACKAGE_NAME:-com.vchangxiao.pystudio}"
 
+if [[ "$profile" == proot* ]] && find "$source_dir/output" -type f -name 'proot_*.deb' | grep -q .; then
+  python3 "$ROOT/scripts/ci/audit-proot-package.py" \
+    "$source_dir/output" \
+    --warn-only
+fi
+
 cp -a "$source_dir/output" "$stage_dir/output"
