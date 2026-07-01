@@ -19,6 +19,15 @@ on:
           - python-crypto-network
           - python-gui-tk
           - all-python
+          - pip-build-core
+          - native-libs-scientific
+          - native-libs-data
+          - native-libs-image
+          - native-libs-visualize
+          - native-libs-markup
+          - native-libs-crypto-network
+          - native-libs-media
+          - all-extensions
           - python-lsp
           - cpp-lsp
           - debug-tools
@@ -94,12 +103,15 @@ jobs:
           publish_release="${INPUT_PUBLISH_RELEASE:-true}"
 
           python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
+          extension_profiles="pip-build-core native-libs-scientific native-libs-data native-libs-image native-libs-visualize native-libs-markup native-libs-crypto-network native-libs-media"
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
 
           if [[ "$profile" == "all" ]]; then
-            profiles="python nodejs proot proot-distro cpp"
+            profiles="python nodejs proot proot-distro proot-full cpp $extension_profiles"
           elif [[ "$profile" == "all-python" ]]; then
             profiles="$python_profiles"
+          elif [[ "$profile" == "all-extensions" ]]; then
+            profiles="$extension_profiles"
           elif [[ "$profile" == "all-dev-tools" ]]; then
             profiles="$dev_tool_profiles"
           else

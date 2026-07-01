@@ -182,10 +182,11 @@ jobs:
         run: |
           set -euo pipefail
           python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
+          extension_profiles="pip-build-core native-libs-scientific native-libs-data native-libs-image native-libs-visualize native-libs-markup native-libs-crypto-network native-libs-media"
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
           sources="primary secondary tur"
           toolchain_matrix_json="$(
-            for p in python nodejs cpp proot proot-distro; do
+            for p in python nodejs cpp proot proot-distro proot-full $extension_profiles; do
               for s in $sources; do
                 for a in aarch64 arm i686 x86_64; do
                   jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
@@ -194,7 +195,7 @@ jobs:
               done
             done | jq -s -c .
           )"
-          jq -e 'length == 60' <<< "$toolchain_matrix_json"
+          jq -e 'length == 168' <<< "$toolchain_matrix_json"
 
           python_matrix_json="$(
             for p in $python_profiles; do
@@ -208,6 +209,19 @@ jobs:
             done | jq -s -c .
           )"
           jq -e 'length == 108' <<< "$python_matrix_json"
+
+          extension_matrix_json="$(
+            for p in $extension_profiles; do
+              test -f "profiles/toolchains/$p.env"
+              for s in $sources; do
+                for a in aarch64 arm i686 x86_64; do
+                  jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
+                    '{profile: $profile, source: $source, arch: $arch}'
+                done
+              done
+            done | jq -s -c .
+          )"
+          jq -e 'length == 96' <<< "$extension_matrix_json"
 
           tree_sitter_matrix_json="$(
             test -f "profiles/toolchains/tree-sitter.env"
