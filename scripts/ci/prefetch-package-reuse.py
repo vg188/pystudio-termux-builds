@@ -321,8 +321,14 @@ def prefetch_repository(
     print(f"Prefetching index for {repository.get('id')} from GitHub Releases")
     download_file(str(mirror["indexUrl"]), index_path, str(repository.get("index", {}).get("sha256", "")))
     index = parse_packages_index(index_path.read_bytes())
-    fresh_index: dict[str, dict[str, str]] = {}
-    for package, fields in index.items():
+    full_package_order = resolve_packages(index, requested_packages)
+    if not full_package_order:
+        print(f"No requested packages found in {repository.get('id')}")
+        return set()
+
+    package_order: list[str] = []
+    for package in full_package_order:
+        fields = index[package]
         problem = freshness_problem(
             fields,
             target_arch=str(repository.get("architecture", "")),
@@ -332,11 +338,9 @@ def prefetch_repository(
         if problem:
             print(f"Skipping stale reusable package {package} from {repository.get('id')}: {problem}")
             continue
-        fresh_index[package] = fields
-    index = fresh_index
-    package_order = resolve_packages(index, requested_packages)
+        package_order.append(package)
     if not package_order:
-        print(f"No requested packages found in {repository.get('id')}")
+        print(f"No fresh reusable packages found in {repository.get('id')}")
         return set()
 
     marker_dir = docker_data_dir / "data" / ".built-packages"
