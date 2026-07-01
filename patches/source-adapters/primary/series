@@ -3,3 +3,4 @@
 0013-ci-drop-termux-am-from-toolchain-termux-tools-deps.patch
 0017-add-pystudio-lsp-debug-packages.patch
 0018-fix-libbz2-source-url.patch
+0019-fix-krb5-source-url.patch
