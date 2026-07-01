@@ -716,8 +716,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-aarch64-r7-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-aarch64-r7-Packages.xz",
-        "size": 3716,
-        "sha256": "44002706d71947cadba7be789fb960f5d1db9221149ada7b659c6b0b9b227398"
+        "size": 4932,
+        "sha256": "7315543d1bcd9ec55087547d60b481b38044a28443f8beac1826ceaab04106d6"
       },
       "mirrors": [
         {
@@ -741,8 +741,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-aarch64-r7.json",
         "format": "json",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-aarch64-r7.json",
-        "size": 16818,
-        "sha256": "e8eab51bc09c9685b5021a237d65d43c281b91b6f4a9651ceef7eeb915b35c03"
+        "size": 34916,
+        "sha256": "3f223476fdb250435aa5cdb777531388216ff9374d445757b1691ecf42a8e833"
       },
       "packagePools": [
         {
@@ -808,8 +808,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-arm-r7-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-arm-r7-Packages.xz",
-        "size": 3708,
-        "sha256": "cc1c3067767789a659454ede2d3e20bc1d0d95f7ac9fa00b25483e55a9c2b9d8"
+        "size": 4928,
+        "sha256": "0b5999d37ad7dd284732e1f2f5cfe574a570fcb7f77373265b33ecb7dfbf236c"
       },
       "mirrors": [
         {
@@ -833,8 +833,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-arm-r7.json",
         "format": "json",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-arm-r7.json",
-        "size": 16378,
-        "sha256": "318367e90045ec95e09bc2c9324d590f6a5283269f99c440157b048d740f6c5c"
+        "size": 34442,
+        "sha256": "94ce11f66e70cfd3236bc160feaa1a9550c366e48d78aeda9aac6480f10ec26c"
       },
       "packagePools": [
         {
@@ -900,8 +900,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-i686-r7-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-i686-r7-Packages.xz",
-        "size": 3708,
-        "sha256": "ea509ab239c12fa54e933c4d46437ebdfd143badfc16ee9565c2b0f0f001dd72"
+        "size": 4924,
+        "sha256": "e640a0d056e44f71935f4135e9dd0144f03eb5cc9e2b84a214d9c4a08fa76f88"
       },
       "mirrors": [
         {
@@ -925,8 +925,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-i686-r7.json",
         "format": "json",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-i686-r7.json",
-        "size": 16489,
-        "sha256": "143ea65b50c383b19c35a4c093f5d007b91ee272f252d619cbc555c580dfed07"
+        "size": 34562,
+        "sha256": "8ae3e543f5d598b5c5847d9ec8bf8d8d93477a2d20269ed2dba4ff94feca3fa3"
       },
       "packagePools": [
         {
@@ -992,8 +992,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-x86_64-r7-Packages.xz",
         "format": "xz",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-x86_64-r7-Packages.xz",
-        "size": 3712,
-        "sha256": "b8a11794ac26b8323ae03f0344f5ea34a9490143fcee88d27a189ad09936a788"
+        "size": 4928,
+        "sha256": "33ab6c3f6cca6f962110927031f4d74dd831f191cc07e0c0bf5bfb244a67eadf"
       },
       "mirrors": [
         {
@@ -1017,8 +1017,8 @@
         "fileName": "pystudio-nodejs-toolchain-apt-repo-v1-x86_64-r7.json",
         "format": "json",
         "downloadUrl": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-r7/pystudio-nodejs-toolchain-apt-repo-v1-x86_64-r7.json",
-        "size": 16709,
-        "sha256": "35aeb5c67918ef9ea641b655f367b259c1b411bb7c851af254582964c388f5bc"
+        "size": 34797,
+        "sha256": "6dec2bec5d69de1f16d1da82c939cebfe134fb1fa3c5c3f5e53b9993fd980151"
       },
       "packagePools": [
         {
@@ -6145,10 +6145,10 @@
         "x86_64": "repo:nodejs:primary:x86_64:pystudio-nodejs-toolchain-r7:pystudio-nodejs-toolchain"
       },
       "indexSizeByArch": {
-        "aarch64": 3716,
-        "arm": 3708,
-        "i686": 3708,
-        "x86_64": 3712
+        "aarch64": 4932,
+        "arm": 4928,
+        "i686": 4924,
+        "x86_64": 4928
       }
     },
     {

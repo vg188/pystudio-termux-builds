@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-01T09:57:57Z",
+  "generatedAt": "2026-07-01T10:03:40Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
     "generatedAt": "2026-07-01"
   },
   "summary": {
-    "uniquePackageFiles": 1285,
+    "uniquePackageFiles": 1297,
     "architectures": [
       "aarch64",
       "arm",
@@ -15798,6 +15798,110 @@
       }
     },
     {
+      "fileName": "libsqlite-static_3.53.3_aarch64.deb",
+      "package": "libsqlite-static",
+      "version": "3.53.3",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "576012",
+      "sha256": "9c356654a8105915a759c4014df8a450bf91ac825bdef03630afc7a872483621",
+      "depends": "libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
+        "assetName": "libsqlite-static_3.53.3_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/libsqlite-static_3.53.3_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite-static_3.53.3_arm.deb",
+      "package": "libsqlite-static",
+      "version": "3.53.3",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "540864",
+      "sha256": "05faf5f1086636ccae9cd2c55ed2bbc9620803bb4564f77a40c3c93d538f436f",
+      "depends": "libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-arm-r7",
+        "assetName": "libsqlite-static_3.53.3_arm.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/libsqlite-static_3.53.3_arm.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite-static_3.53.3_i686.deb",
+      "package": "libsqlite-static",
+      "version": "3.53.3",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "607880",
+      "sha256": "300290ddf20f0022982e3c7c3db1bc555c5acd4ae4f9dbee08bc1367fd7a8c69",
+      "depends": "libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-i686-r7",
+        "assetName": "libsqlite-static_3.53.3_i686.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/libsqlite-static_3.53.3_i686.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite-static_3.53.3_x86_64.deb",
+      "package": "libsqlite-static",
+      "version": "3.53.3",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "605200",
+      "sha256": "fc33e183dd42ef10ed7226076bb141721fa086142bb411d2d3f077a2040f7ec2",
+      "depends": "libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7",
+        "assetName": "libsqlite-static_3.53.3_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/libsqlite-static_3.53.3_x86_64.deb"
+      }
+    },
+    {
       "fileName": "libsqlite-tcl_3.53.0_aarch64.deb",
       "package": "libsqlite-tcl",
       "version": "3.53.0",
@@ -15974,6 +16078,114 @@
       }
     },
     {
+      "fileName": "libsqlite-tcl_3.53.3_aarch64.deb",
+      "package": "libsqlite-tcl",
+      "version": "3.53.3",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "551656",
+      "sha256": "f4ec2fcf9fc7d48d9d1280d3c5557c2583f2d32a9d2f11d2fd89fd525c6f9c26",
+      "depends": "tcl, libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "tcl",
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
+        "assetName": "libsqlite-tcl_3.53.3_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/libsqlite-tcl_3.53.3_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite-tcl_3.53.3_arm.deb",
+      "package": "libsqlite-tcl",
+      "version": "3.53.3",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "507796",
+      "sha256": "414548632fea927edf6f83104babeae39b4e7dde1261adb77ef292319a3e878b",
+      "depends": "tcl, libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "tcl",
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-arm-r7",
+        "assetName": "libsqlite-tcl_3.53.3_arm.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/libsqlite-tcl_3.53.3_arm.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite-tcl_3.53.3_i686.deb",
+      "package": "libsqlite-tcl",
+      "version": "3.53.3",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "604728",
+      "sha256": "7b8333c51956ecfd97aa43406545d2f08dfadb8390a94ae4d87ebcc487357656",
+      "depends": "tcl, libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "tcl",
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-i686-r7",
+        "assetName": "libsqlite-tcl_3.53.3_i686.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/libsqlite-tcl_3.53.3_i686.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite-tcl_3.53.3_x86_64.deb",
+      "package": "libsqlite-tcl",
+      "version": "3.53.3",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "595744",
+      "sha256": "b40d27baf159b8c88adc58e0d0612fb2901deeb21473c209f34907a16282a10b",
+      "depends": "tcl, libsqlite (= 3.53.3)",
+      "dependencyNames": [
+        "tcl",
+        "libsqlite"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7",
+        "assetName": "libsqlite-tcl_3.53.3_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/libsqlite-tcl_3.53.3_x86_64.deb"
+      }
+    },
+    {
       "fileName": "libsqlite_3.53.0_aarch64.deb",
       "package": "libsqlite",
       "version": "3.53.0",
@@ -16139,6 +16351,122 @@
         "tag": "pystudio-toolchains-pool-x86_64-r14",
         "assetName": "libsqlite_3.53.2_x86_64.deb",
         "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/libsqlite_3.53.2_x86_64.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite_3.53.3_aarch64.deb",
+      "package": "libsqlite",
+      "version": "3.53.3",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "758980",
+      "sha256": "6e3e83c4f13f4deed7df26225461c3334f39151433123f0078b866e543dcfe47",
+      "depends": "zlib",
+      "dependencyNames": [
+        "zlib"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/libsqlite",
+      "recipeHash": "46587c157fc4c33cc0a656a18acba29d0a99a9fd4e3f94f7b95a9568e53c8419",
+      "recipeVersion": "3.53.3",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
+        "assetName": "libsqlite_3.53.3_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/libsqlite_3.53.3_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite_3.53.3_arm.deb",
+      "package": "libsqlite",
+      "version": "3.53.3",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "689780",
+      "sha256": "5075adbee3bb5985e354ae4c3fa852077abb04bd0e9204b5134ee16e35c6baf8",
+      "depends": "zlib",
+      "dependencyNames": [
+        "zlib"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/libsqlite",
+      "recipeHash": "46587c157fc4c33cc0a656a18acba29d0a99a9fd4e3f94f7b95a9568e53c8419",
+      "recipeVersion": "3.53.3",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-arm-r7",
+        "assetName": "libsqlite_3.53.3_arm.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/libsqlite_3.53.3_arm.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite_3.53.3_i686.deb",
+      "package": "libsqlite",
+      "version": "3.53.3",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "821108",
+      "sha256": "3803d69e6b74673fa0bfdc237142c50f99cc60fe181e72891b70f6135ebb3389",
+      "depends": "zlib",
+      "dependencyNames": [
+        "zlib"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/libsqlite",
+      "recipeHash": "46587c157fc4c33cc0a656a18acba29d0a99a9fd4e3f94f7b95a9568e53c8419",
+      "recipeVersion": "3.53.3",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-i686-r7",
+        "assetName": "libsqlite_3.53.3_i686.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/libsqlite_3.53.3_i686.deb"
+      }
+    },
+    {
+      "fileName": "libsqlite_3.53.3_x86_64.deb",
+      "package": "libsqlite",
+      "version": "3.53.3",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "805728",
+      "sha256": "13408c3f434b2ede695ac693459edfbc1171dc0f9a8ef6f46e4151765f2c7804",
+      "depends": "zlib",
+      "dependencyNames": [
+        "zlib"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/libsqlite",
+      "recipeHash": "46587c157fc4c33cc0a656a18acba29d0a99a9fd4e3f94f7b95a9568e53c8419",
+      "recipeVersion": "3.53.3",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7",
+        "assetName": "libsqlite_3.53.3_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/libsqlite_3.53.3_x86_64.deb"
       }
     },
     {
@@ -21922,129 +22250,13 @@
       }
     },
     {
-      "fileName": "nodejs_25.8.2_aarch64.deb",
-      "package": "nodejs",
-      "version": "25.8.2",
-      "architecture": "aarch64",
-      "debArchitecture": "aarch64",
-      "size": "9692472",
-      "sha256": "f7c4bd4bca40246cbf7831316d33e7e550da5e6ea1f455b94c595acd19e00a79",
-      "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib",
-      "dependencyNames": [
-        "libc++",
-        "openssl",
-        "c-ares",
-        "libicu",
-        "libsqlite",
-        "zlib"
-      ],
-      "commands": [
-        "node"
-      ],
-      "profile": "nodejs",
-      "source": "primary",
-      "github": {
-        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
-        "assetName": "nodejs_25.8.2_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/nodejs_25.8.2_aarch64.deb"
-      }
-    },
-    {
-      "fileName": "nodejs_25.8.2_arm.deb",
-      "package": "nodejs",
-      "version": "25.8.2",
-      "architecture": "arm",
-      "debArchitecture": "arm",
-      "size": "8574764",
-      "sha256": "e900a5680b66d12d04f5b311d2d8f8f2d72edc2b8aeebd672db42d59c80f7021",
-      "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib",
-      "dependencyNames": [
-        "libc++",
-        "openssl",
-        "c-ares",
-        "libicu",
-        "libsqlite",
-        "zlib"
-      ],
-      "commands": [
-        "node"
-      ],
-      "profile": "nodejs",
-      "source": "primary",
-      "github": {
-        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "tag": "pystudio-nodejs-toolchain-pool-arm-r7",
-        "assetName": "nodejs_25.8.2_arm.deb",
-        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/nodejs_25.8.2_arm.deb"
-      }
-    },
-    {
-      "fileName": "nodejs_25.8.2_i686.deb",
-      "package": "nodejs",
-      "version": "25.8.2",
-      "architecture": "i686",
-      "debArchitecture": "i686",
-      "size": "11073908",
-      "sha256": "3943ee88431dc8d5b503e4f7ec31ea636cda11d6a7831c94ce96d3da90216550",
-      "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib",
-      "dependencyNames": [
-        "libc++",
-        "openssl",
-        "c-ares",
-        "libicu",
-        "libsqlite",
-        "zlib"
-      ],
-      "commands": [
-        "node"
-      ],
-      "profile": "nodejs",
-      "source": "primary",
-      "github": {
-        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "tag": "pystudio-nodejs-toolchain-pool-i686-r7",
-        "assetName": "nodejs_25.8.2_i686.deb",
-        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/nodejs_25.8.2_i686.deb"
-      }
-    },
-    {
-      "fileName": "nodejs_25.8.2_x86_64.deb",
-      "package": "nodejs",
-      "version": "25.8.2",
-      "architecture": "x86_64",
-      "debArchitecture": "x86_64",
-      "size": "10131408",
-      "sha256": "af389bbf4987704b3912fddec98427301624bd0168cf23eed0ccb5a0c9844820",
-      "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib",
-      "dependencyNames": [
-        "libc++",
-        "openssl",
-        "c-ares",
-        "libicu",
-        "libsqlite",
-        "zlib"
-      ],
-      "commands": [
-        "node"
-      ],
-      "profile": "nodejs",
-      "source": "primary",
-      "github": {
-        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7",
-        "assetName": "nodejs_25.8.2_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/nodejs_25.8.2_x86_64.deb"
-      }
-    },
-    {
       "fileName": "nodejs_26.3.1_aarch64.deb",
       "package": "nodejs",
       "version": "26.3.1",
       "architecture": "aarch64",
       "debArchitecture": "aarch64",
-      "size": "10264468",
-      "sha256": "85b01452a66e4c526026384afdfde67a29774bfed5cb0273028a53d81a4f4ba3",
+      "size": "10280264",
+      "sha256": "e1a10a5b7030bcc950ca03515c28de366f8fef606d45f32412c0fe6f10ea05fa",
       "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib, libffi",
       "dependencyNames": [
         "libc++",
@@ -22058,13 +22270,21 @@
       "commands": [
         "node"
       ],
-      "profile": "python-lsp",
+      "profile": "nodejs",
       "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/nodejs",
+      "recipeHash": "227a2ed9aef6977186650ecd79033fd826327de7aafe2cb7fedc4ea34dcc4738",
+      "recipeVersion": "26.3.1",
       "github": {
-        "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r18",
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
         "assetName": "nodejs_26.3.1_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r18/nodejs_26.3.1_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/nodejs_26.3.1_aarch64.deb"
       }
     },
     {
@@ -22073,8 +22293,8 @@
       "version": "26.3.1",
       "architecture": "arm",
       "debArchitecture": "arm",
-      "size": "9109744",
-      "sha256": "4c0d0526beac70f0ec7c66edb6d61cbae41d851b6ee7757c9524768ed21ac5e8",
+      "size": "9162292",
+      "sha256": "c852a4aa7036b6eddc792c31db47415e02379fc151f6b0ce9342da0844e9f93b",
       "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib, libffi",
       "dependencyNames": [
         "libc++",
@@ -22088,13 +22308,21 @@
       "commands": [
         "node"
       ],
-      "profile": "python-lsp",
+      "profile": "nodejs",
       "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/nodejs",
+      "recipeHash": "227a2ed9aef6977186650ecd79033fd826327de7aafe2cb7fedc4ea34dcc4738",
+      "recipeVersion": "26.3.1",
       "github": {
-        "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r18",
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-arm-r7",
         "assetName": "nodejs_26.3.1_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r18/nodejs_26.3.1_arm.deb"
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/nodejs_26.3.1_arm.deb"
       }
     },
     {
@@ -22103,8 +22331,8 @@
       "version": "26.3.1",
       "architecture": "i686",
       "debArchitecture": "i686",
-      "size": "11735200",
-      "sha256": "751ef983e231e273d6d4876cb06016121a4af4e7804f4aec068fce46e132fb72",
+      "size": "11816560",
+      "sha256": "13e328f8b9d4b0139efc00f168231dd885e21fb26a7ae6508dc960e43a269016",
       "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib, libffi",
       "dependencyNames": [
         "libc++",
@@ -22118,13 +22346,21 @@
       "commands": [
         "node"
       ],
-      "profile": "python-lsp",
+      "profile": "nodejs",
       "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/nodejs",
+      "recipeHash": "227a2ed9aef6977186650ecd79033fd826327de7aafe2cb7fedc4ea34dcc4738",
+      "recipeVersion": "26.3.1",
       "github": {
-        "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r18",
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-i686-r7",
         "assetName": "nodejs_26.3.1_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r18/nodejs_26.3.1_i686.deb"
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/nodejs_26.3.1_i686.deb"
       }
     },
     {
@@ -22133,8 +22369,8 @@
       "version": "26.3.1",
       "architecture": "x86_64",
       "debArchitecture": "x86_64",
-      "size": "10753212",
-      "sha256": "b03d98638ac899f876af87c03f81207a4dfe65d4adbc4a247a35adefbe5a459c",
+      "size": "10772732",
+      "sha256": "c654b4937658ce42134fd164f549dff279f66f304f7361fe15ab035d5bcdd372",
       "depends": "libc++, openssl, c-ares, libicu, libsqlite, zlib, libffi",
       "dependencyNames": [
         "libc++",
@@ -22148,23 +22384,31 @@
       "commands": [
         "node"
       ],
-      "profile": "python-lsp",
+      "profile": "nodejs",
       "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/nodejs",
+      "recipeHash": "227a2ed9aef6977186650ecd79033fd826327de7aafe2cb7fedc4ea34dcc4738",
+      "recipeVersion": "26.3.1",
       "github": {
-        "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r18",
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7",
         "assetName": "nodejs_26.3.1_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r18/nodejs_26.3.1_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/nodejs_26.3.1_x86_64.deb"
       }
     },
     {
-      "fileName": "npm_11.13.0_all.deb",
+      "fileName": "npm_11.18.0_all.deb",
       "package": "npm",
-      "version": "11.13.0",
+      "version": "11.18.0",
       "architecture": "aarch64",
       "debArchitecture": "all",
-      "size": "1955300",
-      "sha256": "3d9a8bd0e7342fff3094edfcc03d22228f61df0ba3f10c067fcdef2e9a342004",
+      "size": "2031644",
+      "sha256": "bf3dccb6d44b146930749f40d17280cd655945612803d42d1f63046de6fc731c",
       "depends": "nodejs | nodejs-lts",
       "dependencyNames": [
         "nodejs",
@@ -22188,11 +22432,19 @@
       ],
       "profile": "nodejs",
       "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "recipePath": "packages/npm",
+      "recipeHash": "8c4353485a092f1dee27087daa77ab9d60084b0fce39398321dbaf53a76dde87",
+      "recipeVersion": "11.18.0",
       "github": {
         "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
-        "assetName": "npm_11.13.0_all.deb",
-        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/npm_11.13.0_all.deb"
+        "tag": "pystudio-nodejs-toolchain-pool-all-r7",
+        "assetName": "npm_11.18.0_all.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/npm_11.18.0_all.deb"
       }
     },
     {
@@ -26774,6 +27026,126 @@
         "tag": "pystudio-toolchains-pool-x86_64-r14",
         "assetName": "sqlite_3.53.2_x86_64.deb",
         "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/sqlite_3.53.2_x86_64.deb"
+      }
+    },
+    {
+      "fileName": "sqlite_3.53.3_aarch64.deb",
+      "package": "sqlite",
+      "version": "3.53.3",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "658816",
+      "sha256": "7ae38ff87a5852aa709906109880548df8fe572d60edf55903068bcdd0b251c6",
+      "depends": "readline, zlib",
+      "dependencyNames": [
+        "readline",
+        "zlib"
+      ],
+      "commands": [
+        "sqlite3"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
+        "assetName": "sqlite_3.53.3_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/sqlite_3.53.3_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "sqlite_3.53.3_arm.deb",
+      "package": "sqlite",
+      "version": "3.53.3",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "615200",
+      "sha256": "201c7d492cd3ace28e155266236e32eb20c94426771832e53cf6aaf82d80ac5e",
+      "depends": "readline, zlib",
+      "dependencyNames": [
+        "readline",
+        "zlib"
+      ],
+      "commands": [
+        "sqlite3"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-arm-r7",
+        "assetName": "sqlite_3.53.3_arm.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/sqlite_3.53.3_arm.deb"
+      }
+    },
+    {
+      "fileName": "sqlite_3.53.3_i686.deb",
+      "package": "sqlite",
+      "version": "3.53.3",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "723680",
+      "sha256": "7bc4eb850e1b970fda6e0af4b9937ccbbd113ce032448806d0e1c63ce8ed80b0",
+      "depends": "readline, zlib",
+      "dependencyNames": [
+        "readline",
+        "zlib"
+      ],
+      "commands": [
+        "sqlite3"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-i686-r7",
+        "assetName": "sqlite_3.53.3_i686.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/sqlite_3.53.3_i686.deb"
+      }
+    },
+    {
+      "fileName": "sqlite_3.53.3_x86_64.deb",
+      "package": "sqlite",
+      "version": "3.53.3",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "710352",
+      "sha256": "45b10beb9040397449af927909fbea2d7b827530aadb240a998654318734d04c",
+      "depends": "readline, zlib",
+      "dependencyNames": [
+        "readline",
+        "zlib"
+      ],
+      "commands": [
+        "sqlite3"
+      ],
+      "profile": "nodejs",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+        "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7",
+        "assetName": "sqlite_3.53.3_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/sqlite_3.53.3_x86_64.deb"
       }
     },
     {

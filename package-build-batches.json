@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T09:57:57Z",
+  "generatedAt": "2026-07-01T10:03:40Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -10,7 +10,7 @@
     "batches": 16,
     "entries": 18,
     "repositories": 64,
-    "uniquePackageFiles": 1285
+    "uniquePackageFiles": 1297
   },
   "batches": [
     {
@@ -12505,16 +12505,16 @@
         "x86_64": "repo:nodejs:primary:x86_64:pystudio-nodejs-toolchain-r7:pystudio-nodejs-toolchain"
       },
       "summary": {
-        "packageNames": 29,
-        "packageVersions": 29,
-        "packageFiles": 107
+        "packageNames": 31,
+        "packageVersions": 31,
+        "packageFiles": 115
       },
       "sourceMetadata": {
-        "sourceRepository": "",
-        "sourceCommit": "",
-        "patchSet": "",
-        "patchHash": "",
-        "treeDiffHash": ""
+        "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+        "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+        "patchSet": "primary",
+        "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+        "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c"
       },
       "packages": [
         {
@@ -12533,7 +12533,7 @@
         {
           "name": "ca-certificates",
           "versions": [
-            "1:2026.03.19"
+            "1:2026.05.14"
           ],
           "architectures": [
             "aarch64",
@@ -12546,7 +12546,7 @@
         {
           "name": "ca-certificates-java",
           "versions": [
-            "1:2026.03.19"
+            "1:2026.05.14"
           ],
           "architectures": [
             "aarch64",
@@ -12609,6 +12609,32 @@
           "fileCount": 4
         },
         {
+          "name": "libffi",
+          "versions": [
+            "3.5.2"
+          ],
+          "architectures": [
+            "aarch64",
+            "arm",
+            "i686",
+            "x86_64"
+          ],
+          "fileCount": 4
+        },
+        {
+          "name": "libffi-static",
+          "versions": [
+            "3.5.2"
+          ],
+          "architectures": [
+            "aarch64",
+            "arm",
+            "i686",
+            "x86_64"
+          ],
+          "fileCount": 4
+        },
+        {
           "name": "libicu",
           "versions": [
             "78.3"
@@ -12637,7 +12663,7 @@
         {
           "name": "libsqlite",
           "versions": [
-            "3.53.0"
+            "3.53.3"
           ],
           "architectures": [
             "aarch64",
@@ -12650,7 +12676,7 @@
         {
           "name": "libsqlite-static",
           "versions": [
-            "3.53.0"
+            "3.53.3"
           ],
           "architectures": [
             "aarch64",
@@ -12663,7 +12689,7 @@
         {
           "name": "libsqlite-tcl",
           "versions": [
-            "3.53.0"
+            "3.53.3"
           ],
           "architectures": [
             "aarch64",
@@ -12741,7 +12767,7 @@
         {
           "name": "nodejs",
           "versions": [
-            "25.8.2"
+            "26.3.1"
           ],
           "architectures": [
             "aarch64",
@@ -12754,7 +12780,7 @@
         {
           "name": "npm",
           "versions": [
-            "11.13.0"
+            "11.18.0"
           ],
           "architectures": [
             "aarch64",
@@ -12767,7 +12793,7 @@
         {
           "name": "openssl",
           "versions": [
-            "1:3.6.2"
+            "1:3.6.3"
           ],
           "architectures": [
             "aarch64",
@@ -12780,7 +12806,7 @@
         {
           "name": "openssl-static",
           "versions": [
-            "1:3.6.2"
+            "1:3.6.3"
           ],
           "architectures": [
             "aarch64",
@@ -12793,7 +12819,7 @@
         {
           "name": "openssl-tool",
           "versions": [
-            "1:3.6.2"
+            "1:3.6.3"
           ],
           "architectures": [
             "aarch64",
@@ -12845,7 +12871,7 @@
         {
           "name": "sqlite",
           "versions": [
-            "3.53.0"
+            "3.53.3"
           ],
           "architectures": [
             "aarch64",
@@ -15711,11 +15737,11 @@
         "packageFiles": 287
       },
       "sourceMetadata": {
-        "sourceRepository": "",
-        "sourceCommit": "",
-        "patchSet": "",
-        "patchHash": "",
-        "treeDiffHash": ""
+        "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+        "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+        "patchSet": "primary",
+        "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
+        "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c"
       },
       "packages": [
         {
