@@ -1,6 +1,6 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-06-30",
+  "generatedAt": "2026-07-01",
   "packageName": "com.vchangxiao.pystudio",
   "architectures": [
     "aarch64",
@@ -6075,13 +6075,10 @@
       "title": "PRoot Runtime",
       "description": "Standalone PRoot runtime with Termux-maintained Android compatibility patches.",
       "packages": [
-        "libandroid-shmem",
-        "libtalloc",
         "proot"
       ],
       "commands": [
-        "proot",
-        "termux-chroot"
+        "proot"
       ],
       "source": {
         "repository": "https://github.com/vg188/pystudio-termux-builds"
@@ -6093,8 +6090,7 @@
       "install": {
         "mode": "install-from-package-repository",
         "verifyCommands": [
-          "proot --version",
-          "termux-chroot -h"
+          "proot --version"
         ]
       },
       "availableArchitectures": [

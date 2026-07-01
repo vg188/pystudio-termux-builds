@@ -3,6 +3,9 @@
 This guide is for the agent that implements PyStudio's app-side runtime package
 manager. The app is not released yet, so implement schema 5 directly.
 
+For the full implementation checklist for the app-building agent, see
+`docs/app-agent-package-manager-system-guide.md`.
+
 ## Manifest
 
 Fetch `runtime-packages.json` from the preferred manifest mirror. Gitee is a

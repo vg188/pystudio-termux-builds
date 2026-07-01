@@ -122,8 +122,9 @@ PROFILE_OVERRIDES: dict[str, dict[str, Any]] = {
         "group": "runtime",
         "title": "PRoot Runtime",
         "description": "Standalone PRoot runtime with Termux-maintained Android compatibility patches.",
-        "commands": ["proot", "termux-chroot"],
-        "verifyCommands": ["proot --version", "termux-chroot -h"],
+        "packages": ["proot"],
+        "commands": ["proot"],
+        "verifyCommands": ["proot --version"],
     },
     "proot-distro": {
         "group": "runtime",
@@ -569,7 +570,7 @@ def profile_metadata(profile_id: str, env: dict[str, str] | None = None, migrati
     env = env or {}
     migration_meta = migration_meta or {}
     title = str(migration_meta.get("title") or override.get("title") or env.get("PROFILE_NAME") or profile_id.replace("-", " ").title())
-    packages = migration_meta.get("packages") or package_list_from_text(env.get("DEFAULT_PACKAGES", ""))
+    packages = migration_meta.get("packages") or override.get("packages") or package_list_from_text(env.get("DEFAULT_PACKAGES", ""))
     verify_commands = migration_meta.get("install", {}).get("verifyCommands") or override.get("verifyCommands", [])
     commands = migration_meta.get("commands") or override.get("commands") or command_names_from_verify([str(item) for item in verify_commands])
     return {
