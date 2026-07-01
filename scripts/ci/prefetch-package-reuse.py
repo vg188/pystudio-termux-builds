@@ -8,6 +8,7 @@ import hashlib
 import json
 import lzma
 import os
+import re
 from pathlib import Path
 import shutil
 import tarfile
@@ -50,6 +51,49 @@ def package_recipe_dir(source_root: Path | None, package: str) -> Path | None:
         if candidate.is_dir():
             return candidate
     return None
+
+
+def recipe_dir_from_fields(source_root: Path | None, fields: dict[str, str]) -> Path | None:
+    if not source_root:
+        return None
+    recipe_path = fields.get("PyStudio-Recipe-Path", "").strip()
+    if recipe_path:
+        candidate = (source_root / recipe_path).resolve()
+        try:
+            candidate.relative_to(source_root.resolve())
+        except ValueError:
+            return None
+        if candidate.is_dir():
+            return candidate
+    return package_recipe_dir(source_root, fields.get("Package", ""))
+
+
+def shell_assignment_value(path: Path, name: str) -> str:
+    if not path.exists():
+        return ""
+    pattern = re.compile(rf"^\s*(?:export\s+)?{re.escape(name)}=(?P<value>.+?)\s*$")
+    for raw_line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        match = pattern.match(raw_line)
+        if not match:
+            continue
+        value = match.group("value").split("#", 1)[0].strip()
+        if not value or value.startswith("(") or "$" in value or "`" in value:
+            return ""
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+            return value[1:-1]
+        return value
+    return ""
+
+
+def recipe_debian_version(recipe_dir: Path) -> str:
+    build_sh = recipe_dir / "build.sh"
+    version = shell_assignment_value(build_sh, "TERMUX_PKG_VERSION")
+    if not version:
+        return ""
+    revision = shell_assignment_value(build_sh, "TERMUX_PKG_REVISION")
+    if revision and revision != "0":
+        return f"{version}-{revision}"
+    return version
 
 
 def directory_sha256(path: Path) -> str:
@@ -180,9 +224,14 @@ def resolve_packages(index: dict[str, dict[str, str]], requested: list[str]) -> 
 def freshness_problem(
     fields: dict[str, str],
     *,
+    target_arch: str,
     source_root: Path | None,
     build_metadata: dict[str, Any],
 ) -> str:
+    package_arch = fields.get("Architecture", "")
+    if package_arch and package_arch not in {target_arch, "all"}:
+        return f"architecture mismatch ({package_arch} != {target_arch})"
+
     if not build_metadata:
         return ""
 
@@ -195,8 +244,15 @@ def freshness_problem(
     if expected_patch_hash and actual_patch_hash != expected_patch_hash:
         return "patch hash mismatch"
 
-    package = fields.get("Package", "")
-    recipe_dir = package_recipe_dir(source_root, package)
+    recipe_dir = recipe_dir_from_fields(source_root, fields)
+    actual_version = fields.get("Version", "")
+    if recipe_dir:
+        expected_version = recipe_debian_version(recipe_dir)
+        if not expected_version:
+            return "current recipe version unavailable"
+        if actual_version != expected_version:
+            return f"version mismatch ({actual_version or 'missing'} != {expected_version})"
+
     expected_recipe_hash = directory_sha256(recipe_dir) if recipe_dir else ""
     actual_recipe_hash = fields.get("PyStudio-Recipe-Hash", "")
     if expected_recipe_hash:
@@ -267,7 +323,12 @@ def prefetch_repository(
     index = parse_packages_index(index_path.read_bytes())
     fresh_index: dict[str, dict[str, str]] = {}
     for package, fields in index.items():
-        problem = freshness_problem(fields, source_root=source_root, build_metadata=build_metadata)
+        problem = freshness_problem(
+            fields,
+            target_arch=str(repository.get("architecture", "")),
+            source_root=source_root,
+            build_metadata=build_metadata,
+        )
         if problem:
             print(f"Skipping stale reusable package {package} from {repository.get('id')}: {problem}")
             continue
@@ -284,14 +345,14 @@ def prefetch_repository(
 
     reused: set[str] = set()
     for package in package_order:
-        fields = index[package]
-        filename = fields.get("Filename", "")
+        index_fields = index[package]
+        filename = index_fields.get("Filename", "")
         if not filename:
             continue
-        deb_url = package_pool_url(repository, fields, mirror)
+        deb_url = package_pool_url(repository, index_fields, mirror)
         deb_path = cache_dir / Path(filename).name
-        download_file(deb_url, deb_path, fields.get("SHA256", ""))
-        if fields.get("Size", "").isdigit() and deb_path.stat().st_size != int(fields["Size"]):
+        download_file(deb_url, deb_path, index_fields.get("SHA256", ""))
+        if index_fields.get("Size", "").isdigit() and deb_path.stat().st_size != int(index_fields["Size"]):
             raise RuntimeError(f"size mismatch for {deb_path.name}")
 
         deb = deb_path
@@ -300,6 +361,14 @@ def prefetch_repository(
         version = fields.get("Version", "")
         if not package or not version:
             continue
+        if package != index_fields.get("Package", ""):
+            raise RuntimeError(f"package mismatch for {deb.name}: {package} != {index_fields.get('Package', '')}")
+        if version != index_fields.get("Version", ""):
+            raise RuntimeError(f"version mismatch for {deb.name}: {version} != {index_fields.get('Version', '')}")
+        deb_arch = fields.get("Architecture", "")
+        index_arch = index_fields.get("Architecture", "")
+        if deb_arch != index_arch:
+            raise RuntimeError(f"architecture mismatch for {deb.name}: {deb_arch} != {index_arch}")
         target = output_dir / deb.name
         if not target.exists():
             shutil.copy2(deb, target)

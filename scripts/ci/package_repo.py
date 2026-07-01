@@ -149,6 +149,34 @@ def package_recipe_dir(source_root: Path | None, package: str) -> Path | None:
     return None
 
 
+def shell_assignment_value(path: Path, name: str) -> str:
+    if not path.exists():
+        return ""
+    pattern = re.compile(rf"^\s*(?:export\s+)?{re.escape(name)}=(?P<value>.+?)\s*$")
+    for raw_line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        match = pattern.match(raw_line)
+        if not match:
+            continue
+        value = match.group("value").split("#", 1)[0].strip()
+        if not value or value.startswith("(") or "$" in value or "`" in value:
+            return ""
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+            return value[1:-1]
+        return value
+    return ""
+
+
+def recipe_debian_version(recipe_dir: Path) -> str:
+    build_sh = recipe_dir / "build.sh"
+    version = shell_assignment_value(build_sh, "TERMUX_PKG_VERSION")
+    if not version:
+        return ""
+    revision = shell_assignment_value(build_sh, "TERMUX_PKG_REVISION")
+    if revision and revision != "0":
+        return f"{version}-{revision}"
+    return version
+
+
 def directory_sha256(path: Path) -> str:
     digest = hashlib.sha256()
     for item in sorted(child for child in path.rglob("*") if child.is_file()):
@@ -185,10 +213,14 @@ def package_provenance_fields(
     if recipe_dir:
         recipe_path = recipe_dir.relative_to(source_root).as_posix() if source_root else recipe_dir.as_posix()
         recipe_hash = directory_sha256(recipe_dir)
+        recipe_version = recipe_debian_version(recipe_dir)
         index_fields["PyStudio-Recipe-Path"] = recipe_path
         index_fields["PyStudio-Recipe-Hash"] = recipe_hash
         metadata_fields["recipePath"] = recipe_path
         metadata_fields["recipeHash"] = recipe_hash
+        if recipe_version:
+            index_fields["PyStudio-Recipe-Version"] = recipe_version
+            metadata_fields["recipeVersion"] = recipe_version
 
     return index_fields, metadata_fields
 

@@ -41,6 +41,7 @@ PACKAGE_CACHE_KEYS = [
     "treeDiffHash",
     "recipePath",
     "recipeHash",
+    "recipeVersion",
 ]
 
 
@@ -193,6 +194,7 @@ def base_package_record(file_name: str, package: dict[str, str], repository: dic
         "treeDiffHash": package.get("PyStudio-Tree-Diff-Hash", ""),
         "recipePath": package.get("PyStudio-Recipe-Path", ""),
         "recipeHash": package.get("PyStudio-Recipe-Hash", ""),
+        "recipeVersion": package.get("PyStudio-Recipe-Version", ""),
         "locations": [],
         "usedBy": [],
     }
@@ -261,6 +263,7 @@ def compact_package_record(record: dict[str, Any]) -> dict[str, Any]:
         "treeDiffHash",
         "recipePath",
         "recipeHash",
+        "recipeVersion",
     )
     compact = {key: record.get(key, "") for key in required_keys}
     for key in optional_keys:
