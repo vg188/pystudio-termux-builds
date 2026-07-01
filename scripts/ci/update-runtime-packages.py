@@ -299,6 +299,10 @@ def releases_for_repo(repo: str, token: str) -> list[dict[str, Any]]:
     return releases
 
 
+def release_tags_for_repo(repo: str, token: str) -> set[str]:
+    return {str(release.get("tag_name", "")) for release in releases_for_repo(repo, token)}
+
+
 def latest_release(repo: str, tag_prefix: str, token: str, explicit_tag: str = "") -> dict[str, Any] | None:
     owner, name = repo.split("/", 1)
     if explicit_tag:
@@ -411,12 +415,19 @@ def modelscope_pool_base_url(release_repo: str, pool_tag: str, pool_arch: str) -
     return urllib.parse.urljoin(MODELSCOPE_RESOLVE_BASE, urllib.parse.quote(path, safe="/"))
 
 
-def package_pool_entries(release_repo: str, source_tag: str, arch: str) -> list[dict[str, Any]]:
+def package_pool_entries(
+    release_repo: str,
+    source_tag: str,
+    arch: str,
+    existing_pool_tags: set[str] | None = None,
+) -> list[dict[str, Any]]:
     if not source_tag:
         return []
     entries: list[dict[str, Any]] = []
     for pool_arch in unique_strings(["all", arch]):
         tag = pool_release_tag(source_tag, pool_arch)
+        if existing_pool_tags is not None and tag not in existing_pool_tags:
+            continue
         entries.append(
             {
                 "id": f"github-release-pool-{pool_arch}",
@@ -454,6 +465,7 @@ def repository_from_flat_index(
     profile: str,
     source_adapter: str,
     package_pool_source_tag: str = "",
+    existing_pool_tags: set[str] | None = None,
 ) -> dict[str, Any]:
     info = flat_index_asset_info(asset_prefix, arch, str(index_asset["name"]))
     if not info:
@@ -510,7 +522,7 @@ def repository_from_flat_index(
     }
     if metadata_asset:
         repository["metadata"] = artifact_from_asset("apt-repo-metadata", metadata_asset)
-    pools = package_pool_entries(release_repo, package_pool_source_tag, arch)
+    pools = package_pool_entries(release_repo, package_pool_source_tag, arch, existing_pool_tags)
     if pools:
         repository["packagePools"] = pools
     return repository
@@ -709,6 +721,7 @@ def attach_package_repositories(
     asset_prefix: str,
     source_adapter: str,
     package_pool_source_tag: str = "",
+    existing_pool_tags: set[str] | None = None,
 ) -> int:
     assets = release_asset_map(release)
     count = 0
@@ -733,6 +746,7 @@ def attach_package_repositories(
             profile=str(entry["profile"]),
             source_adapter=source_adapter,
             package_pool_source_tag=package_pool_source_tag,
+            existing_pool_tags=existing_pool_tags,
         )
         manifest.setdefault("repositories", {})[repository["id"]] = repository
         set_arch_repository_ref(entry, arch, repository["id"], int(index_asset.get("size", 0)))
@@ -815,6 +829,7 @@ def upsert_profile_from_release(
     source_adapter: str,
     source_repository: str = "",
     package_pool_source_tag: str = "",
+    existing_pool_tags: set[str] | None = None,
 ) -> None:
     entry = base_entry(
         entry_id=profile_id,
@@ -839,6 +854,7 @@ def upsert_profile_from_release(
         asset_prefix=asset_prefix,
         source_adapter=source_adapter,
         package_pool_source_tag=package_pool_source_tag,
+        existing_pool_tags=existing_pool_tags,
     )
     if count == 0:
         print(f"Skipping {profile_id}: no flat package indexes found.")
@@ -886,6 +902,8 @@ def upsert_latest_toolchain_profiles(manifest: dict[str, Any], token: str) -> No
             release=release,
             asset_prefix=config["asset_prefix"],
             source_adapter=config["source_adapter"],
+            package_pool_source_tag=str(release["tag_name"]),
+            existing_pool_tags=release_tags_for_repo(config["release_repo"], token),
         )
 
 
@@ -965,6 +983,7 @@ def upsert_migration_plan_profiles(manifest: dict[str, Any], token: str, plan_pa
             source_adapter=source_adapter,
             source_repository=str(meta.get("source", {}).get("repository", f"https://github.com/{release_repo}")),
             package_pool_source_tag=source_release_tag if source_release_meta else "",
+            existing_pool_tags=release_tags_for_repo(release_repo, token),
         )
 
 

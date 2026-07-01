@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T03:53:32Z",
+  "generatedAt": "2026-07-01T04:13:49Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -14630,13 +14630,13 @@
       ]
     },
     {
-      "id": "proot:primary:r30",
+      "id": "proot:primary:r40",
       "profile": "proot",
       "source": "primary",
-      "version": "r30",
+      "version": "r40",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r30"
+        "tag": "pystudio-toolchains-r40"
       },
       "architectures": [
         "aarch64",
@@ -14652,10 +14652,10 @@
         }
       ],
       "repositories": {
-        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
-        "arm": "repo:proot:primary:arm:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
-        "i686": "repo:proot:primary:i686:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
-        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary"
+        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+        "arm": "repo:proot:primary:arm:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+        "i686": "repo:proot:primary:i686:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary"
       },
       "summary": {
         "packageNames": 5,
@@ -14664,7 +14664,7 @@
       },
       "sourceMetadata": {
         "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
-        "sourceCommit": "b065d50416ee44973753f96b17d7b1389c96844d",
+        "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
         "patchSet": "primary",
         "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
         "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c"

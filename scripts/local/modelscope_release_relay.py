@@ -330,6 +330,12 @@ def upload_flat_repository(args: argparse.Namespace, token: str, repository: dic
             source_url = urllib.parse.urljoin(str(github_pool["baseUrl"]), deb_name)
             target_base = modelscope_repo_path_from_base_url(str(modelscope_pool["baseUrl"]), args.resolve_base)
             path_in_repo = f"{target_base.rstrip('/')}/{deb_name}"
+        elif github_pools or modelscope_pools:
+            raise RuntimeError(
+                "repository declares package pools but no matching source/target pool "
+                f"was found for {repository['repositoryId']} package {deb_name} "
+                f"(Architecture: {arch})"
+            )
         else:
             source_url = urllib.parse.urljoin(str(repository["githubBaseUrl"]), filename)
             path_in_repo = f"{repository['basePath'].rstrip('/')}/{deb_name}"
