@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T05:56:52Z",
+  "generatedAt": "2026-07-01T06:05:36Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -11,8 +11,8 @@
     "repositories": 64,
     "uniquePackageFiles": 1285,
     "packageFileUses": 5034,
-    "reusedRepositoryIndexes": 64,
-    "downloadedRepositoryIndexes": 0
+    "reusedRepositoryIndexes": 60,
+    "downloadedRepositoryIndexes": 4
   },
   "repositories": {
     "repo:cpp:primary:aarch64:pystudio-cpp-toolchain-r6:pystudio-cpp-toolchain": {
@@ -5445,24 +5445,24 @@
         "zlib_1.3.2_x86_64.deb"
       ]
     },
-    "repo:proot:primary:aarch64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:aarch64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:aarch64:pystudio-toolchains-r49:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:aarch64:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
       "sourceAdapter": "primary",
       "architecture": "aarch64",
-      "version": "r40",
+      "version": "r49",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r40"
+        "tag": "pystudio-toolchains-r49"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r40-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r49-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r40/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r40-Packages.xz",
-        "size": 1252,
-        "sha256": "47a8c4fb093ec04b82ff303dab37a4195c51d1ee4ec7e71996c06e8d44ad8be4"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r49/pystudio-proot-toolchain-primary-apt-repo-v1-aarch64-r49-Packages.xz",
+        "size": 1268,
+        "sha256": "04dc0b80401e63a3fb2fa1055956c452fb12395c567b3a49cae499544e8df001"
       },
       "packageCount": 5,
       "packageFiles": [
@@ -5473,24 +5473,24 @@
         "proot_5.1.107.81_aarch64.deb"
       ]
     },
-    "repo:proot:primary:arm:pystudio-toolchains-r40:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:arm:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:arm:pystudio-toolchains-r49:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:arm:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
       "sourceAdapter": "primary",
       "architecture": "arm",
-      "version": "r40",
+      "version": "r49",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r40"
+        "tag": "pystudio-toolchains-r49"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r40-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-arm-r49-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r40/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r40-Packages.xz",
-        "size": 1248,
-        "sha256": "17b62089ad20da2241157cb1351ffccedc750cd23e7965c18161fdec0f4f1924"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r49/pystudio-proot-toolchain-primary-apt-repo-v1-arm-r49-Packages.xz",
+        "size": 1264,
+        "sha256": "b7aeb16a7a4b6fde3f79813926d84b5c2f785ce2905831c3a3ac2047795e4568"
       },
       "packageCount": 5,
       "packageFiles": [
@@ -5501,24 +5501,24 @@
         "proot_5.1.107.81_arm.deb"
       ]
     },
-    "repo:proot:primary:i686:pystudio-toolchains-r40:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:i686:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:i686:pystudio-toolchains-r49:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:i686:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
       "sourceAdapter": "primary",
       "architecture": "i686",
-      "version": "r40",
+      "version": "r49",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r40"
+        "tag": "pystudio-toolchains-r49"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r40-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-i686-r49-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r40/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r40-Packages.xz",
-        "size": 1252,
-        "sha256": "2cebd634eb8432d613ba52f3dc9354d2ae9d9045368e069a037d9eb77d5937e0"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r49/pystudio-proot-toolchain-primary-apt-repo-v1-i686-r49-Packages.xz",
+        "size": 1268,
+        "sha256": "70bf07411bfa2d78bf6f24110121aeda155fc61c793af9e2acc8d5abacef43ab"
       },
       "packageCount": 5,
       "packageFiles": [
@@ -5529,24 +5529,24 @@
         "proot_5.1.107.81_i686.deb"
       ]
     },
-    "repo:proot:primary:x86_64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary": {
-      "id": "repo:proot:primary:x86_64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
+    "repo:proot:primary:x86_64:pystudio-toolchains-r49:pystudio-proot-toolchain-primary": {
+      "id": "repo:proot:primary:x86_64:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
       "sourceAdapter": "primary",
       "architecture": "x86_64",
-      "version": "r40",
+      "version": "r49",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r40"
+        "tag": "pystudio-toolchains-r49"
       },
       "index": {
         "role": "package-index",
-        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r40-Packages.xz",
+        "fileName": "pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r49-Packages.xz",
         "format": "xz",
-        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r40/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r40-Packages.xz",
-        "size": 1252,
-        "sha256": "a9a8117cb749b55e1d1743bc2f0fe48fd86ba3e122b00b0f2081d1c280442b56"
+        "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-r49/pystudio-proot-toolchain-primary-apt-repo-v1-x86_64-r49-Packages.xz",
+        "size": 1272,
+        "sha256": "5a05364b0e884148fc8eb8270da66e59b5fc3bb317d5b195580688102a27f566"
       },
       "packageCount": 5,
       "packageFiles": [
@@ -15213,7 +15213,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
-      "recipeVersion": ""
+      "recipeVersion": "0.7"
     },
     "libandroid-shmem_0.7_arm.deb": {
       "fileName": "libandroid-shmem_0.7_arm.deb",
@@ -15236,7 +15236,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
-      "recipeVersion": ""
+      "recipeVersion": "0.7"
     },
     "libandroid-shmem_0.7_i686.deb": {
       "fileName": "libandroid-shmem_0.7_i686.deb",
@@ -15259,7 +15259,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
-      "recipeVersion": ""
+      "recipeVersion": "0.7"
     },
     "libandroid-shmem_0.7_x86_64.deb": {
       "fileName": "libandroid-shmem_0.7_x86_64.deb",
@@ -15282,7 +15282,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
-      "recipeVersion": ""
+      "recipeVersion": "0.7"
     },
     "libandroid-spawn-static_0.3_aarch64.deb": {
       "fileName": "libandroid-spawn-static_0.3_aarch64.deb",
@@ -25755,7 +25755,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
-      "recipeVersion": ""
+      "recipeVersion": "2.4.3"
     },
     "libtalloc_2.4.3_arm.deb": {
       "fileName": "libtalloc_2.4.3_arm.deb",
@@ -25778,7 +25778,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
-      "recipeVersion": ""
+      "recipeVersion": "2.4.3"
     },
     "libtalloc_2.4.3_i686.deb": {
       "fileName": "libtalloc_2.4.3_i686.deb",
@@ -25801,7 +25801,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
-      "recipeVersion": ""
+      "recipeVersion": "2.4.3"
     },
     "libtalloc_2.4.3_x86_64.deb": {
       "fileName": "libtalloc_2.4.3_x86_64.deb",
@@ -25824,7 +25824,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
-      "recipeVersion": ""
+      "recipeVersion": "2.4.3"
     },
     "libtiff-static_4.7.1_aarch64.deb": {
       "fileName": "libtiff-static_4.7.1_aarch64.deb",
@@ -34698,7 +34698,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
-      "recipeVersion": ""
+      "recipeVersion": "5.1.107.81"
     },
     "proot_5.1.107.81_arm.deb": {
       "fileName": "proot_5.1.107.81_arm.deb",
@@ -34727,7 +34727,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
-      "recipeVersion": ""
+      "recipeVersion": "5.1.107.81"
     },
     "proot_5.1.107.81_i686.deb": {
       "fileName": "proot_5.1.107.81_i686.deb",
@@ -34756,7 +34756,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
-      "recipeVersion": ""
+      "recipeVersion": "5.1.107.81"
     },
     "proot_5.1.107.81_x86_64.deb": {
       "fileName": "proot_5.1.107.81_x86_64.deb",
@@ -34785,7 +34785,7 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
-      "recipeVersion": ""
+      "recipeVersion": "5.1.107.81"
     },
     "protobuf_2.33.1-1_aarch64.deb": {
       "fileName": "protobuf_2.33.1-1_aarch64.deb",

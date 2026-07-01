@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T05:56:52Z",
+  "generatedAt": "2026-07-01T06:05:36Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -14630,13 +14630,13 @@
       ]
     },
     {
-      "id": "proot:primary:r40",
+      "id": "proot:primary:r49",
       "profile": "proot",
       "source": "primary",
-      "version": "r40",
+      "version": "r49",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-r40"
+        "tag": "pystudio-toolchains-r49"
       },
       "architectures": [
         "aarch64",
@@ -14652,10 +14652,10 @@
         }
       ],
       "repositories": {
-        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
-        "arm": "repo:proot:primary:arm:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
-        "i686": "repo:proot:primary:i686:pystudio-toolchains-r40:pystudio-proot-toolchain-primary",
-        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r40:pystudio-proot-toolchain-primary"
+        "aarch64": "repo:proot:primary:aarch64:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
+        "arm": "repo:proot:primary:arm:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
+        "i686": "repo:proot:primary:i686:pystudio-toolchains-r49:pystudio-proot-toolchain-primary",
+        "x86_64": "repo:proot:primary:x86_64:pystudio-toolchains-r49:pystudio-proot-toolchain-primary"
       },
       "summary": {
         "packageNames": 5,

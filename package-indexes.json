@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-01T05:56:52Z",
+  "generatedAt": "2026-07-01T06:05:36Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -7508,9 +7508,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r40",
+        "tag": "pystudio-toolchains-pool-aarch64-r49",
         "assetName": "libandroid-shmem-static_0.7_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r40/libandroid-shmem-static_0.7_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libandroid-shmem-static_0.7_aarch64.deb"
       }
     },
     {
@@ -7534,9 +7534,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r40",
+        "tag": "pystudio-toolchains-pool-arm-r49",
         "assetName": "libandroid-shmem-static_0.7_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r40/libandroid-shmem-static_0.7_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libandroid-shmem-static_0.7_arm.deb"
       }
     },
     {
@@ -7560,9 +7560,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r40",
+        "tag": "pystudio-toolchains-pool-i686-r49",
         "assetName": "libandroid-shmem-static_0.7_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r40/libandroid-shmem-static_0.7_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libandroid-shmem-static_0.7_i686.deb"
       }
     },
     {
@@ -7586,9 +7586,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r40",
+        "tag": "pystudio-toolchains-pool-x86_64-r49",
         "assetName": "libandroid-shmem-static_0.7_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r40/libandroid-shmem-static_0.7_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libandroid-shmem-static_0.7_x86_64.deb"
       }
     },
     {
@@ -7608,11 +7608,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
+      "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r40",
+        "tag": "pystudio-toolchains-pool-aarch64-r49",
         "assetName": "libandroid-shmem_0.7_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r40/libandroid-shmem_0.7_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libandroid-shmem_0.7_aarch64.deb"
       }
     },
     {
@@ -7632,11 +7633,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
+      "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r40",
+        "tag": "pystudio-toolchains-pool-arm-r49",
         "assetName": "libandroid-shmem_0.7_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r40/libandroid-shmem_0.7_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libandroid-shmem_0.7_arm.deb"
       }
     },
     {
@@ -7656,11 +7658,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
+      "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r40",
+        "tag": "pystudio-toolchains-pool-i686-r49",
         "assetName": "libandroid-shmem_0.7_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r40/libandroid-shmem_0.7_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libandroid-shmem_0.7_i686.deb"
       }
     },
     {
@@ -7680,11 +7683,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
+      "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r40",
+        "tag": "pystudio-toolchains-pool-x86_64-r49",
         "assetName": "libandroid-shmem_0.7_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r40/libandroid-shmem_0.7_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libandroid-shmem_0.7_x86_64.deb"
       }
     },
     {
@@ -16330,9 +16334,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r40",
+        "tag": "pystudio-toolchains-pool-aarch64-r49",
         "assetName": "libtalloc-static_2.4.3_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r40/libtalloc-static_2.4.3_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libtalloc-static_2.4.3_aarch64.deb"
       }
     },
     {
@@ -16356,9 +16360,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r40",
+        "tag": "pystudio-toolchains-pool-arm-r49",
         "assetName": "libtalloc-static_2.4.3_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r40/libtalloc-static_2.4.3_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libtalloc-static_2.4.3_arm.deb"
       }
     },
     {
@@ -16382,9 +16386,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r40",
+        "tag": "pystudio-toolchains-pool-i686-r49",
         "assetName": "libtalloc-static_2.4.3_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r40/libtalloc-static_2.4.3_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libtalloc-static_2.4.3_i686.deb"
       }
     },
     {
@@ -16408,9 +16412,9 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r40",
+        "tag": "pystudio-toolchains-pool-x86_64-r49",
         "assetName": "libtalloc-static_2.4.3_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r40/libtalloc-static_2.4.3_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libtalloc-static_2.4.3_x86_64.deb"
       }
     },
     {
@@ -16430,11 +16434,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
+      "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r40",
+        "tag": "pystudio-toolchains-pool-aarch64-r49",
         "assetName": "libtalloc_2.4.3_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r40/libtalloc_2.4.3_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libtalloc_2.4.3_aarch64.deb"
       }
     },
     {
@@ -16454,11 +16459,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
+      "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r40",
+        "tag": "pystudio-toolchains-pool-arm-r49",
         "assetName": "libtalloc_2.4.3_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r40/libtalloc_2.4.3_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libtalloc_2.4.3_arm.deb"
       }
     },
     {
@@ -16478,11 +16484,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
+      "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r40",
+        "tag": "pystudio-toolchains-pool-i686-r49",
         "assetName": "libtalloc_2.4.3_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r40/libtalloc_2.4.3_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libtalloc_2.4.3_i686.deb"
       }
     },
     {
@@ -16502,11 +16509,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
+      "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r40",
+        "tag": "pystudio-toolchains-pool-x86_64-r49",
         "assetName": "libtalloc_2.4.3_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r40/libtalloc_2.4.3_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libtalloc_2.4.3_x86_64.deb"
       }
     },
     {
@@ -24265,11 +24273,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
+      "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r40",
+        "tag": "pystudio-toolchains-pool-aarch64-r49",
         "assetName": "proot_5.1.107.81_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r40/proot_5.1.107.81_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/proot_5.1.107.81_aarch64.deb"
       }
     },
     {
@@ -24298,11 +24307,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
+      "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r40",
+        "tag": "pystudio-toolchains-pool-arm-r49",
         "assetName": "proot_5.1.107.81_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r40/proot_5.1.107.81_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/proot_5.1.107.81_arm.deb"
       }
     },
     {
@@ -24331,11 +24341,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
+      "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r40",
+        "tag": "pystudio-toolchains-pool-i686-r49",
         "assetName": "proot_5.1.107.81_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r40/proot_5.1.107.81_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/proot_5.1.107.81_i686.deb"
       }
     },
     {
@@ -24364,11 +24375,12 @@
       "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
+      "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r40",
+        "tag": "pystudio-toolchains-pool-x86_64-r49",
         "assetName": "proot_5.1.107.81_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r40/proot_5.1.107.81_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/proot_5.1.107.81_x86_64.deb"
       }
     },
     {
