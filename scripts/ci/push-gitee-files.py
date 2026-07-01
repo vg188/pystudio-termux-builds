@@ -48,6 +48,7 @@ def request_json(
     branch: str,
     payload: dict[str, str] | None = None,
     retries: int = 5,
+    timeout: int = 60,
 ) -> dict[str, Any] | None:
     query = {"access_token": token}
     if method == "GET":
@@ -66,7 +67,7 @@ def request_json(
     for attempt in range(1, retries + 1):
         request = urllib.request.Request(url, data=data, headers=headers, method=method)
         try:
-            with urllib.request.urlopen(request, timeout=180) as response:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
                 body = response.read()
                 if not body:
                     return None
@@ -110,8 +111,10 @@ def update_file(
     remote_path: str,
     message: str,
     retries: int,
+    timeout: int,
 ) -> str:
     local_bytes = local_path.read_bytes()
+    print(f"Gitee check: {remote_path} ({local_path.stat().st_size} bytes)", flush=True)
     remote = request_json(
         method="GET",
         owner=owner,
@@ -120,10 +123,11 @@ def update_file(
         token=token,
         branch=branch,
         retries=retries,
+        timeout=timeout,
     )
     remote_bytes = decode_remote_content(remote)
     if remote_bytes == local_bytes:
-        print(f"Gitee unchanged: {remote_path} ({local_path.stat().st_size} bytes)")
+        print(f"Gitee unchanged: {remote_path} ({local_path.stat().st_size} bytes)", flush=True)
         return "unchanged"
 
     payload = {
@@ -138,6 +142,7 @@ def update_file(
             payload["sha"] = sha
         method = "PUT"
 
+    print(f"Gitee {method}: {remote_path} ({local_path.stat().st_size} bytes)", flush=True)
     request_json(
         method=method,
         owner=owner,
@@ -147,8 +152,9 @@ def update_file(
         branch=branch,
         payload=payload,
         retries=retries,
+        timeout=timeout,
     )
-    print(f"Gitee updated: {remote_path} ({local_path.stat().st_size} bytes)")
+    print(f"Gitee updated: {remote_path} ({local_path.stat().st_size} bytes)", flush=True)
     return "updated"
 
 
@@ -167,6 +173,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--token", default=first_env_value("GITEE_TOKEN", "gitee_yourba", "GITEE_YOURBA"))
     parser.add_argument("--message", default="chore: update runtime package mirror index")
     parser.add_argument("--retries", type=int, default=5)
+    parser.add_argument("--timeout", type=int, default=60, help="Per-request timeout in seconds")
     parser.add_argument("--file", action="append", type=parse_file_mapping, required=True, help="LOCAL=REMOTE")
     return parser.parse_args()
 
@@ -191,6 +198,7 @@ def main() -> int:
             remote_path=remote_path,
             message=args.message,
             retries=args.retries,
+            timeout=args.timeout,
         )
         updated += int(result == "updated")
         unchanged += int(result == "unchanged")
