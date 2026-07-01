@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T03:12:38Z",
+  "generatedAt": "2026-07-01T03:53:32Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -19,7 +19,9 @@
       "id": "repo:cpp:primary:aarch64:pystudio-cpp-toolchain-r6:pystudio-cpp-toolchain",
       "entryId": "cpp",
       "profile": "cpp",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r6",
       "release": {
         "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
         "tag": "pystudio-cpp-toolchain-r6"
@@ -169,7 +171,9 @@
       "id": "repo:cpp:primary:arm:pystudio-cpp-toolchain-r6:pystudio-cpp-toolchain",
       "entryId": "cpp",
       "profile": "cpp",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r6",
       "release": {
         "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
         "tag": "pystudio-cpp-toolchain-r6"
@@ -319,7 +323,9 @@
       "id": "repo:cpp:primary:i686:pystudio-cpp-toolchain-r6:pystudio-cpp-toolchain",
       "entryId": "cpp",
       "profile": "cpp",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r6",
       "release": {
         "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
         "tag": "pystudio-cpp-toolchain-r6"
@@ -469,7 +475,9 @@
       "id": "repo:cpp:primary:x86_64:pystudio-cpp-toolchain-r6:pystudio-cpp-toolchain",
       "entryId": "cpp",
       "profile": "cpp",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r6",
       "release": {
         "repository": "https://github.com/vg188/pystudio-cpp-toolchain",
         "tag": "pystudio-cpp-toolchain-r6"
@@ -619,7 +627,9 @@
       "id": "repo:debug-tools:primary:aarch64:pystudio-toolchains-r14:pystudio-debug-tools-toolchain-primary",
       "entryId": "debug-tools",
       "profile": "debug-tools",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r14",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r14"
@@ -740,7 +750,9 @@
       "id": "repo:debug-tools:primary:arm:pystudio-toolchains-r14:pystudio-debug-tools-toolchain-primary",
       "entryId": "debug-tools",
       "profile": "debug-tools",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r14",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r14"
@@ -861,7 +873,9 @@
       "id": "repo:debug-tools:primary:i686:pystudio-toolchains-r14:pystudio-debug-tools-toolchain-primary",
       "entryId": "debug-tools",
       "profile": "debug-tools",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r14",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r14"
@@ -982,7 +996,9 @@
       "id": "repo:debug-tools:primary:x86_64:pystudio-toolchains-r14:pystudio-debug-tools-toolchain-primary",
       "entryId": "debug-tools",
       "profile": "debug-tools",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r14",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r14"
@@ -1103,7 +1119,9 @@
       "id": "repo:git:primary:aarch64:pystudio-toolchains-r16:pystudio-git-toolchain-primary",
       "entryId": "git",
       "profile": "git",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r16",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r16"
@@ -1249,7 +1267,9 @@
       "id": "repo:git:primary:arm:pystudio-toolchains-r16:pystudio-git-toolchain-primary",
       "entryId": "git",
       "profile": "git",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r16",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r16"
@@ -1395,7 +1415,9 @@
       "id": "repo:git:primary:i686:pystudio-toolchains-r16:pystudio-git-toolchain-primary",
       "entryId": "git",
       "profile": "git",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r16",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r16"
@@ -1541,7 +1563,9 @@
       "id": "repo:git:primary:x86_64:pystudio-toolchains-r16:pystudio-git-toolchain-primary",
       "entryId": "git",
       "profile": "git",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r16",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r16"
@@ -1687,7 +1711,9 @@
       "id": "repo:native-libs-crypto-network:primary:aarch64:pystudio-python-extensions-native-libs-crypto-network-r17:pystudio-python-extensions-native-libs-crypto-network",
       "entryId": "native-libs-crypto-network",
       "profile": "native-libs-crypto-network",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-crypto-network-r17"
@@ -1757,7 +1783,9 @@
       "id": "repo:native-libs-crypto-network:primary:arm:pystudio-python-extensions-native-libs-crypto-network-r17:pystudio-python-extensions-native-libs-crypto-network",
       "entryId": "native-libs-crypto-network",
       "profile": "native-libs-crypto-network",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-crypto-network-r17"
@@ -1827,7 +1855,9 @@
       "id": "repo:native-libs-crypto-network:primary:i686:pystudio-python-extensions-native-libs-crypto-network-r17:pystudio-python-extensions-native-libs-crypto-network",
       "entryId": "native-libs-crypto-network",
       "profile": "native-libs-crypto-network",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-crypto-network-r17"
@@ -1897,7 +1927,9 @@
       "id": "repo:native-libs-crypto-network:primary:x86_64:pystudio-python-extensions-native-libs-crypto-network-r17:pystudio-python-extensions-native-libs-crypto-network",
       "entryId": "native-libs-crypto-network",
       "profile": "native-libs-crypto-network",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-crypto-network-r17"
@@ -1967,7 +1999,9 @@
       "id": "repo:native-libs-data:primary:aarch64:pystudio-python-extensions-native-libs-data-r17:pystudio-python-extensions-native-libs-data",
       "entryId": "native-libs-data",
       "profile": "native-libs-data",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-data-r17"
@@ -2123,7 +2157,9 @@
       "id": "repo:native-libs-data:primary:arm:pystudio-python-extensions-native-libs-data-r17:pystudio-python-extensions-native-libs-data",
       "entryId": "native-libs-data",
       "profile": "native-libs-data",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-data-r17"
@@ -2279,7 +2315,9 @@
       "id": "repo:native-libs-data:primary:i686:pystudio-python-extensions-native-libs-data-r17:pystudio-python-extensions-native-libs-data",
       "entryId": "native-libs-data",
       "profile": "native-libs-data",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-data-r17"
@@ -2435,7 +2473,9 @@
       "id": "repo:native-libs-data:primary:x86_64:pystudio-python-extensions-native-libs-data-r17:pystudio-python-extensions-native-libs-data",
       "entryId": "native-libs-data",
       "profile": "native-libs-data",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-data-r17"
@@ -2591,7 +2631,9 @@
       "id": "repo:native-libs-image:primary:aarch64:pystudio-python-extensions-native-libs-image-r17:pystudio-python-extensions-native-libs-image",
       "entryId": "native-libs-image",
       "profile": "native-libs-image",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-image-r17"
@@ -2650,7 +2692,9 @@
       "id": "repo:native-libs-image:primary:arm:pystudio-python-extensions-native-libs-image-r17:pystudio-python-extensions-native-libs-image",
       "entryId": "native-libs-image",
       "profile": "native-libs-image",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-image-r17"
@@ -2709,7 +2753,9 @@
       "id": "repo:native-libs-image:primary:i686:pystudio-python-extensions-native-libs-image-r17:pystudio-python-extensions-native-libs-image",
       "entryId": "native-libs-image",
       "profile": "native-libs-image",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-image-r17"
@@ -2768,7 +2814,9 @@
       "id": "repo:native-libs-image:primary:x86_64:pystudio-python-extensions-native-libs-image-r17:pystudio-python-extensions-native-libs-image",
       "entryId": "native-libs-image",
       "profile": "native-libs-image",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-image-r17"
@@ -2827,7 +2875,9 @@
       "id": "repo:native-libs-markup:primary:aarch64:pystudio-python-extensions-native-libs-markup-r17:pystudio-python-extensions-native-libs-markup",
       "entryId": "native-libs-markup",
       "profile": "native-libs-markup",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-markup-r17"
@@ -2966,7 +3016,9 @@
       "id": "repo:native-libs-markup:primary:arm:pystudio-python-extensions-native-libs-markup-r17:pystudio-python-extensions-native-libs-markup",
       "entryId": "native-libs-markup",
       "profile": "native-libs-markup",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-markup-r17"
@@ -3105,7 +3157,9 @@
       "id": "repo:native-libs-markup:primary:i686:pystudio-python-extensions-native-libs-markup-r17:pystudio-python-extensions-native-libs-markup",
       "entryId": "native-libs-markup",
       "profile": "native-libs-markup",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-markup-r17"
@@ -3244,7 +3298,9 @@
       "id": "repo:native-libs-markup:primary:x86_64:pystudio-python-extensions-native-libs-markup-r17:pystudio-python-extensions-native-libs-markup",
       "entryId": "native-libs-markup",
       "profile": "native-libs-markup",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-markup-r17"
@@ -3383,7 +3439,9 @@
       "id": "repo:native-libs-media:primary:aarch64:pystudio-python-extensions-native-libs-media-r17:pystudio-python-extensions-native-libs-media",
       "entryId": "native-libs-media",
       "profile": "native-libs-media",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-media-r17"
@@ -3506,7 +3564,9 @@
       "id": "repo:native-libs-media:primary:arm:pystudio-python-extensions-native-libs-media-r17:pystudio-python-extensions-native-libs-media",
       "entryId": "native-libs-media",
       "profile": "native-libs-media",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-media-r17"
@@ -3629,7 +3689,9 @@
       "id": "repo:native-libs-media:primary:i686:pystudio-python-extensions-native-libs-media-r17:pystudio-python-extensions-native-libs-media",
       "entryId": "native-libs-media",
       "profile": "native-libs-media",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-media-r17"
@@ -3752,7 +3814,9 @@
       "id": "repo:native-libs-media:primary:x86_64:pystudio-python-extensions-native-libs-media-r17:pystudio-python-extensions-native-libs-media",
       "entryId": "native-libs-media",
       "profile": "native-libs-media",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-media-r17"
@@ -3875,7 +3939,9 @@
       "id": "repo:native-libs-scientific:primary:aarch64:pystudio-python-extensions-native-libs-scientific-r17:pystudio-python-extensions-native-libs-scientific",
       "entryId": "native-libs-scientific",
       "profile": "native-libs-scientific",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-scientific-r17"
@@ -4010,7 +4076,9 @@
       "id": "repo:native-libs-scientific:primary:arm:pystudio-python-extensions-native-libs-scientific-r17:pystudio-python-extensions-native-libs-scientific",
       "entryId": "native-libs-scientific",
       "profile": "native-libs-scientific",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-scientific-r17"
@@ -4136,7 +4204,9 @@
       "id": "repo:native-libs-scientific:primary:i686:pystudio-python-extensions-native-libs-scientific-r17:pystudio-python-extensions-native-libs-scientific",
       "entryId": "native-libs-scientific",
       "profile": "native-libs-scientific",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-scientific-r17"
@@ -4262,7 +4332,9 @@
       "id": "repo:native-libs-scientific:primary:x86_64:pystudio-python-extensions-native-libs-scientific-r17:pystudio-python-extensions-native-libs-scientific",
       "entryId": "native-libs-scientific",
       "profile": "native-libs-scientific",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-scientific-r17"
@@ -4397,7 +4469,9 @@
       "id": "repo:native-libs-visualize:primary:aarch64:pystudio-python-extensions-native-libs-visualize-r17:pystudio-python-extensions-native-libs-visualize",
       "entryId": "native-libs-visualize",
       "profile": "native-libs-visualize",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-visualize-r17"
@@ -4435,7 +4509,9 @@
       "id": "repo:native-libs-visualize:primary:arm:pystudio-python-extensions-native-libs-visualize-r17:pystudio-python-extensions-native-libs-visualize",
       "entryId": "native-libs-visualize",
       "profile": "native-libs-visualize",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-visualize-r17"
@@ -4473,7 +4549,9 @@
       "id": "repo:native-libs-visualize:primary:i686:pystudio-python-extensions-native-libs-visualize-r17:pystudio-python-extensions-native-libs-visualize",
       "entryId": "native-libs-visualize",
       "profile": "native-libs-visualize",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-visualize-r17"
@@ -4511,7 +4589,9 @@
       "id": "repo:native-libs-visualize:primary:x86_64:pystudio-python-extensions-native-libs-visualize-r17:pystudio-python-extensions-native-libs-visualize",
       "entryId": "native-libs-visualize",
       "profile": "native-libs-visualize",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-native-libs-visualize-r17"
@@ -4549,7 +4629,9 @@
       "id": "repo:nodejs:primary:aarch64:pystudio-nodejs-toolchain-r7:pystudio-nodejs-toolchain",
       "entryId": "nodejs",
       "profile": "nodejs",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r7",
       "release": {
         "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
         "tag": "pystudio-nodejs-toolchain-r7"
@@ -4599,7 +4681,9 @@
       "id": "repo:nodejs:primary:arm:pystudio-nodejs-toolchain-r7:pystudio-nodejs-toolchain",
       "entryId": "nodejs",
       "profile": "nodejs",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r7",
       "release": {
         "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
         "tag": "pystudio-nodejs-toolchain-r7"
@@ -4649,7 +4733,9 @@
       "id": "repo:nodejs:primary:i686:pystudio-nodejs-toolchain-r7:pystudio-nodejs-toolchain",
       "entryId": "nodejs",
       "profile": "nodejs",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r7",
       "release": {
         "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
         "tag": "pystudio-nodejs-toolchain-r7"
@@ -4699,7 +4785,9 @@
       "id": "repo:nodejs:primary:x86_64:pystudio-nodejs-toolchain-r7:pystudio-nodejs-toolchain",
       "entryId": "nodejs",
       "profile": "nodejs",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r7",
       "release": {
         "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
         "tag": "pystudio-nodejs-toolchain-r7"
@@ -4749,7 +4837,9 @@
       "id": "repo:pip-build-core:primary:aarch64:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
       "entryId": "pip-build-core",
       "profile": "pip-build-core",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-pip-build-core-r17"
@@ -4900,7 +4990,9 @@
       "id": "repo:pip-build-core:primary:arm:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
       "entryId": "pip-build-core",
       "profile": "pip-build-core",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-pip-build-core-r17"
@@ -5051,7 +5143,9 @@
       "id": "repo:pip-build-core:primary:i686:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
       "entryId": "pip-build-core",
       "profile": "pip-build-core",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-pip-build-core-r17"
@@ -5202,7 +5296,9 @@
       "id": "repo:pip-build-core:primary:x86_64:pystudio-python-extensions-pip-build-core-r17:pystudio-python-extensions-pip-build-core",
       "entryId": "pip-build-core",
       "profile": "pip-build-core",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r17",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-extensions",
         "tag": "pystudio-python-extensions-pip-build-core-r17"
@@ -5353,7 +5449,9 @@
       "id": "repo:proot:primary:aarch64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r30"
@@ -5379,7 +5477,9 @@
       "id": "repo:proot:primary:arm:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r30"
@@ -5405,7 +5505,9 @@
       "id": "repo:proot:primary:i686:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r30"
@@ -5431,7 +5533,9 @@
       "id": "repo:proot:primary:x86_64:pystudio-toolchains-r30:pystudio-proot-toolchain-primary",
       "entryId": "proot",
       "profile": "proot",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r30",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r30"
@@ -5457,7 +5561,9 @@
       "id": "repo:python-lsp:primary:aarch64:pystudio-toolchains-r18:pystudio-python-lsp-toolchain-primary",
       "entryId": "python-lsp",
       "profile": "python-lsp",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r18",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r18"
@@ -5558,7 +5664,9 @@
       "id": "repo:python-lsp:primary:arm:pystudio-toolchains-r18:pystudio-python-lsp-toolchain-primary",
       "entryId": "python-lsp",
       "profile": "python-lsp",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r18",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r18"
@@ -5659,7 +5767,9 @@
       "id": "repo:python-lsp:primary:i686:pystudio-toolchains-r18:pystudio-python-lsp-toolchain-primary",
       "entryId": "python-lsp",
       "profile": "python-lsp",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r18",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r18"
@@ -5760,7 +5870,9 @@
       "id": "repo:python-lsp:primary:x86_64:pystudio-toolchains-r18:pystudio-python-lsp-toolchain-primary",
       "entryId": "python-lsp",
       "profile": "python-lsp",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r18",
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
         "tag": "pystudio-toolchains-r18"
@@ -5861,7 +5973,9 @@
       "id": "repo:python:primary:aarch64:pystudio-python-toolchain-r10:pystudio-python-toolchain",
       "entryId": "python",
       "profile": "python",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r10",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-toolchain",
         "tag": "pystudio-python-toolchain-r10"
@@ -5951,7 +6065,9 @@
       "id": "repo:python:primary:arm:pystudio-python-toolchain-r10:pystudio-python-toolchain",
       "entryId": "python",
       "profile": "python",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r10",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-toolchain",
         "tag": "pystudio-python-toolchain-r10"
@@ -6041,7 +6157,9 @@
       "id": "repo:python:primary:i686:pystudio-python-toolchain-r10:pystudio-python-toolchain",
       "entryId": "python",
       "profile": "python",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r10",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-toolchain",
         "tag": "pystudio-python-toolchain-r10"
@@ -6131,7 +6249,9 @@
       "id": "repo:python:primary:x86_64:pystudio-python-toolchain-r10:pystudio-python-toolchain",
       "entryId": "python",
       "profile": "python",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r10",
       "release": {
         "repository": "https://github.com/vg188/pystudio-python-toolchain",
         "tag": "pystudio-python-toolchain-r10"
@@ -6221,7 +6341,9 @@
       "id": "repo:tree-sitter:primary:aarch64:pystudio-tree-sitter-toolchain-r4:pystudio-tree-sitter-toolchain",
       "entryId": "tree-sitter",
       "profile": "tree-sitter",
+      "sourceAdapter": "primary",
       "architecture": "aarch64",
+      "version": "r4",
       "release": {
         "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
         "tag": "pystudio-tree-sitter-toolchain-r4"
@@ -6265,7 +6387,9 @@
       "id": "repo:tree-sitter:primary:arm:pystudio-tree-sitter-toolchain-r4:pystudio-tree-sitter-toolchain",
       "entryId": "tree-sitter",
       "profile": "tree-sitter",
+      "sourceAdapter": "primary",
       "architecture": "arm",
+      "version": "r4",
       "release": {
         "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
         "tag": "pystudio-tree-sitter-toolchain-r4"
@@ -6309,7 +6433,9 @@
       "id": "repo:tree-sitter:primary:i686:pystudio-tree-sitter-toolchain-r4:pystudio-tree-sitter-toolchain",
       "entryId": "tree-sitter",
       "profile": "tree-sitter",
+      "sourceAdapter": "primary",
       "architecture": "i686",
+      "version": "r4",
       "release": {
         "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
         "tag": "pystudio-tree-sitter-toolchain-r4"
@@ -6353,7 +6479,9 @@
       "id": "repo:tree-sitter:primary:x86_64:pystudio-tree-sitter-toolchain-r4:pystudio-tree-sitter-toolchain",
       "entryId": "tree-sitter",
       "profile": "tree-sitter",
+      "sourceAdapter": "primary",
       "architecture": "x86_64",
+      "version": "r4",
       "release": {
         "repository": "https://github.com/vg188/pystudio-tree-sitter-toolchain",
         "tag": "pystudio-tree-sitter-toolchain-r4"

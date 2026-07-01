@@ -114,6 +114,15 @@ as install units. The app should resolve package names and dependencies from
 the index just like Termux `pkg`. See `docs/runtime-manifest-schema.md` for the
 current schema. See `docs/component-package-architecture.md` for the package
 repository build and resolver design.
+
+Maintainer-side indexes are regenerated with the runtime manifest:
+`package-assets.json` maps package files to GitHub locations,
+`package-indexes.json` is the searchable package summary,
+`package-index-cache.json` avoids re-downloading unchanged repository indexes,
+and `package-build-batches.json` groups packages by build release/profile/source
+so freshness checks and rebuild planning can see which batch produced each
+package version.
+
 See `docs/app-package-manager-guide.md` for app-side package manager
 implementation guidance.
 The legacy schema-2 package sets that need migration are listed in

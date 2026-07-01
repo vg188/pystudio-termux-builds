@@ -190,3 +190,21 @@ App-side download policy for users in mainland China should be:
 2. Prefer mirrors with `region = "CN"` and the lowest `priority`.
 3. Fall back to GitHub mirrors if ModelScope returns 404, times out, or fails
    checksum verification.
+
+## Maintainer Debug Indexes
+
+The sync workflow also writes maintainer-side JSON files beside the app-facing
+manifest. These files are not installation contracts:
+
+- `package-assets.json`: maps each unique `.deb` file to known GitHub asset
+  locations.
+- `package-indexes.json`: compact searchable package rows with package name,
+  version, architecture, dependencies, commands, provenance, and primary GitHub
+  location.
+- `package-index-cache.json`: repository/package cache used by CI to avoid
+  re-downloading unchanged `Packages.xz` indexes.
+- `package-build-batches.json`: lightweight batch index grouped by
+  release/profile/source/version. It records covered architectures, entry IDs,
+  repository IDs, source/patch metadata, and package names with their built
+  versions. Use it for rebuild planning, patch freshness audits, and release
+  debugging.

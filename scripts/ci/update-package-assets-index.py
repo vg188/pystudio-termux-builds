@@ -275,6 +275,176 @@ def compact_package_record(record: dict[str, Any]) -> dict[str, Any]:
     return compact
 
 
+def single_or_list(values: set[str]) -> str | list[str]:
+    cleaned = sorted(value for value in values if value)
+    if not cleaned:
+        return ""
+    if len(cleaned) == 1:
+        return cleaned[0]
+    return cleaned
+
+
+def batch_key(repository: dict[str, Any]) -> tuple[str, str, str, str, str]:
+    release = repository.get("release", {})
+    return (
+        str(release.get("repository", "")),
+        str(release.get("tag", "")),
+        str(repository.get("profile", "")),
+        str(repository.get("sourceAdapter", "")),
+        str(repository.get("version", "")),
+    )
+
+
+def build_batch_manifest(
+    *,
+    generated_at: str,
+    source_manifest: dict[str, Any],
+    package_records: dict[str, dict[str, Any]],
+    repository_records: dict[str, dict[str, Any]],
+    entry_records: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    batches: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
+
+    for repository_id, repository in sorted(repository_records.items()):
+        release_repository, release_tag, profile, source, version = batch_key(repository)
+        key = (release_repository, release_tag, profile, source, version)
+        batch_id_parts = [profile, source, version or release_tag]
+        batch = batches.setdefault(
+            key,
+            {
+                "id": ":".join(part for part in batch_id_parts if part),
+                "profile": profile,
+                "source": source,
+                "version": version,
+                "release": {
+                    "repository": release_repository,
+                    "tag": release_tag,
+                },
+                "architectures": set(),
+                "entries": {},
+                "repositories": {},
+                "packageFiles": set(),
+                "packageRecords": {},
+                "sourceRepositories": set(),
+                "sourceCommits": set(),
+                "patchSets": set(),
+                "patchHashes": set(),
+                "treeDiffHashes": set(),
+            },
+        )
+
+        architecture = str(repository.get("architecture", ""))
+        if architecture:
+            batch["architectures"].add(architecture)
+            batch["repositories"][architecture] = repository_id
+
+        entry_id = str(repository.get("entryId", ""))
+        if entry_id and entry_id in entry_records:
+            entry = entry_records[entry_id]
+            batch["entries"][entry_id] = {
+                "id": entry_id,
+                "group": entry.get("group", ""),
+                "title": entry.get("title", ""),
+            }
+
+        for file_name in repository.get("packageFiles", []):
+            record = package_records.get(file_name, {})
+            package_name = str(record.get("package", ""))
+            package_version = str(record.get("version", ""))
+            if not package_name:
+                continue
+            package_key = (package_name, package_version)
+            package_summary = batch["packageRecords"].setdefault(
+                package_key,
+                {
+                    "name": package_name,
+                    "versions": set(),
+                    "architectures": set(),
+                    "files": set(),
+                },
+            )
+            if package_version:
+                package_summary["versions"].add(package_version)
+            if architecture:
+                package_summary["architectures"].add(architecture)
+            package_summary["files"].add(file_name)
+            batch["packageFiles"].add(file_name)
+
+            for source_key, batch_key_name in (
+                ("sourceRepository", "sourceRepositories"),
+                ("sourceCommit", "sourceCommits"),
+                ("patchSet", "patchSets"),
+                ("patchHash", "patchHashes"),
+                ("treeDiffHash", "treeDiffHashes"),
+            ):
+                value = str(record.get(source_key, ""))
+                if value:
+                    batch[batch_key_name].add(value)
+
+    normalized_batches: list[dict[str, Any]] = []
+    for batch in batches.values():
+        package_summaries = []
+        for package in batch.pop("packageRecords").values():
+            package_summaries.append(
+                {
+                    "name": package["name"],
+                    "versions": sorted(package["versions"]),
+                    "architectures": sorted(package["architectures"]),
+                    "fileCount": len(package["files"]),
+                }
+            )
+
+        package_files = batch.pop("packageFiles")
+        source_repositories = batch.pop("sourceRepositories")
+        source_commits = batch.pop("sourceCommits")
+        patch_sets = batch.pop("patchSets")
+        patch_hashes = batch.pop("patchHashes")
+        tree_diff_hashes = batch.pop("treeDiffHashes")
+
+        normalized_batches.append(
+            {
+                **batch,
+                "architectures": sorted(batch["architectures"]),
+                "entries": [batch["entries"][key] for key in sorted(batch["entries"])],
+                "repositories": dict(sorted(batch["repositories"].items())),
+                "summary": {
+                    "packageNames": len({package["name"] for package in package_summaries}),
+                    "packageVersions": len(package_summaries),
+                    "packageFiles": len(package_files),
+                },
+                "sourceMetadata": {
+                    "sourceRepository": single_or_list(source_repositories),
+                    "sourceCommit": single_or_list(source_commits),
+                    "patchSet": single_or_list(patch_sets),
+                    "patchHash": single_or_list(patch_hashes),
+                    "treeDiffHash": single_or_list(tree_diff_hashes),
+                },
+                "packages": sorted(package_summaries, key=lambda item: (item["name"], item["versions"])),
+            }
+        )
+
+    normalized_batches.sort(
+        key=lambda item: (
+            str(item.get("profile", "")),
+            str(item.get("source", "")),
+            str((item.get("release") or {}).get("tag", "")),
+        )
+    )
+
+    return {
+        "schemaVersion": 1,
+        "generatedAt": generated_at,
+        "sourceManifest": source_manifest,
+        "summary": {
+            "batches": len(normalized_batches),
+            "entries": len(entry_records),
+            "repositories": len(repository_records),
+            "uniquePackageFiles": len(package_records),
+        },
+        "batches": normalized_batches,
+    }
+
+
 def repository_index_unchanged(repository: dict[str, Any], old_repository: dict[str, Any] | None) -> bool:
     if not old_repository:
         return False
@@ -353,7 +523,9 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             "id": repository_id,
             "entryId": entry_id,
             "profile": repository.get("profile", ""),
+            "sourceAdapter": repository.get("sourceAdapter", ""),
             "architecture": repository.get("architecture", ""),
+            "version": repository.get("version", ""),
             "release": repository.get("release", {}),
             "index": repository.get("index", {}),
             "packageCount": 0,
@@ -491,6 +663,13 @@ def build_indexes(manifest: dict[str, Any], token: str, existing_index: dict[str
             "repositories": dict(sorted(repository_records.items())),
             "packages": cache_packages,
         },
+        "batches": build_batch_manifest(
+            generated_at=generated_at,
+            source_manifest=source_manifest,
+            package_records=package_records,
+            repository_records=repository_records,
+            entry_records=entry_records,
+        ),
     }
 
 
@@ -540,6 +719,7 @@ def main() -> int:
     parser.add_argument("--assets-output", type=Path, default=Path("package-assets.json"))
     parser.add_argument("--indexes-output", type=Path, default=Path("package-indexes.json"))
     parser.add_argument("--cache-output", type=Path, default=Path("package-index-cache.json"))
+    parser.add_argument("--batches-output", type=Path, default=Path("package-build-batches.json"))
     parser.add_argument("--legacy-output", type=Path, default=Path("package-assets-index.json"))
     parser.add_argument("--github-token", default=os.environ.get("GITHUB_TOKEN", ""))
     parser.add_argument("--no-reuse", action="store_true", help="Ignore existing index files and rebuild every index.")
@@ -557,10 +737,12 @@ def main() -> int:
     args.assets_output.write_text(json.dumps(indexes["assets"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     args.indexes_output.write_text(json.dumps(indexes["indexes"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     args.cache_output.write_text(json.dumps(indexes["cache"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.batches_output.write_text(json.dumps(indexes["batches"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
         "Wrote "
         f"{args.assets_output} with {indexes['assets']['summary']['uniquePackageFiles']} unique package files "
         f"and {args.indexes_output} with {indexes['indexes']['summary']['uniquePackageFiles']} package records "
+        f"plus {args.batches_output} with {indexes['batches']['summary']['batches']} build batches "
         f"using {args.cache_output} "
         f"({indexes['cache']['summary']['reusedRepositoryIndexes']} reused, "
         f"{indexes['cache']['summary']['downloadedRepositoryIndexes']} downloaded)."
