@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-01T10:03:40Z",
+  "generatedAt": "2026-07-01T15:09:14Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -22442,9 +22442,9 @@
       "recipeVersion": "11.18.0",
       "github": {
         "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-        "tag": "pystudio-nodejs-toolchain-pool-all-r7",
+        "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7",
         "assetName": "npm_11.18.0_all.deb",
-        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/npm_11.18.0_all.deb"
+        "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/npm_11.18.0_all.deb"
       }
     },
     {

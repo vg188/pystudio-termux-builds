@@ -5878,7 +5878,7 @@
       },
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-bootstrap-profiles-r1"
+        "tag": "pystudio-bootstrap-profiles-r4"
       },
       "install": {
         "mode": "extract-rootfs",
@@ -5896,9 +5896,9 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-bootstrap-aarch64.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-aarch64.tar.xz",
-            "size": 19702696,
-            "sha256": "6e2bfcf15c4b3e7fe046c72fc6961ee2de12d8e0c514724eccd9c07dc1dc123a"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-bootstrap-aarch64.tar.xz",
+            "size": 19729568,
+            "sha256": "1e80290b2e2eb1def645e132b1e5fa1497c32ed5ad669eee3ee72a44c4f1260c"
           }
         ],
         "arm": [
@@ -5906,9 +5906,9 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-bootstrap-arm.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-arm.tar.xz",
-            "size": 18630184,
-            "sha256": "97ca6a240b15d17d4e1cd95074fff5ad63d41bb10e252662d7df4dee5fd89405"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-bootstrap-arm.tar.xz",
+            "size": 18677060,
+            "sha256": "9e10754145dd126fe9e7ef3fd4539c833bfafbab12b70cb47c9f7a154174e3e1"
           }
         ],
         "i686": [
@@ -5916,9 +5916,9 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-bootstrap-i686.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-i686.tar.xz",
-            "size": 20041152,
-            "sha256": "fb807c693f5ca0c5299914d1879ade3de08f15244c283d8e249d784c0280c4b1"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-bootstrap-i686.tar.xz",
+            "size": 20070536,
+            "sha256": "de89fde4243869fb321fed227ceee2cd15c71a28a98e51af7f43d0115c47e6fb"
           }
         ],
         "x86_64": [
@@ -5926,17 +5926,17 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-bootstrap-x86_64.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-bootstrap-x86_64.tar.xz",
-            "size": 20328920,
-            "sha256": "fa636561b61264f0bd4689cfcce8df718d880b97638dade37bea1db106ca59bf"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-bootstrap-x86_64.tar.xz",
+            "size": 20366536,
+            "sha256": "66f6d58d22df329a9483bd2d63b60b9f08a421e129c9e66ec485a5ee17dfb484"
           }
         ]
       },
       "sizeByArch": {
-        "aarch64": 19702696,
-        "arm": 18630184,
-        "i686": 20041152,
-        "x86_64": 20328920
+        "aarch64": 19729568,
+        "arm": 18677060,
+        "i686": 20070536,
+        "x86_64": 20366536
       }
     },
     {
@@ -5976,7 +5976,7 @@
       },
       "release": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-bootstrap-profiles-r1"
+        "tag": "pystudio-bootstrap-profiles-r4"
       },
       "install": {
         "mode": "extract-rootfs",
@@ -5994,9 +5994,9 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-aarch64.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-aarch64.tar.xz",
-            "size": 26142640,
-            "sha256": "9b3a5ffa008fabf024660af9d7c30474b517167ccffbe4f57b496be1ca7eb36a"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-aarch64.tar.xz",
+            "size": 26436044,
+            "sha256": "ce6b716a56aa3f021f6765ce4c43f2244cf21ac7b34578e696723853c57c21b1"
           }
         ],
         "arm": [
@@ -6004,9 +6004,9 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-arm.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-arm.tar.xz",
-            "size": 24891900,
-            "sha256": "2a8a75d7da7f21b1fa6094ddab89708cb2c8bb7ed2c238205cb377349c3639d7"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-arm.tar.xz",
+            "size": 25180776,
+            "sha256": "1151a6cb164251f3995e542f947c690db8944a4ce05bfddfb23bfe9a782e1766"
           }
         ],
         "i686": [
@@ -6014,9 +6014,9 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-i686.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-i686.tar.xz",
-            "size": 26713232,
-            "sha256": "87d13facbd3193b94f5f1e044fac2e0257842e4b6b9b7b49b7230a1bc34a3b5e"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-i686.tar.xz",
+            "size": 27031792,
+            "sha256": "090dea3ce3112c8ad9a293f072f4a44af10ebee51bc10591b7647f728703c868"
           }
         ],
         "x86_64": [
@@ -6024,17 +6024,17 @@
             "role": "rootfs",
             "fileName": "com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-x86_64.tar.xz",
             "format": "tar.xz",
-            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r1/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-x86_64.tar.xz",
-            "size": 27055576,
-            "sha256": "1beb2de1130121923e4ae83e2ac18e122568ab3713e9c81aeaa36242c6306c85"
+            "downloadUrl": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-bootstrap-profiles-r4/com.vchangxiao.pystudio-f-droid-python-pip-bootstrap-x86_64.tar.xz",
+            "size": 27358752,
+            "sha256": "a1150b182c15f80ca02bc57787c92230831ee10a03d16df7d4525f5043aeab76"
           }
         ]
       },
       "sizeByArch": {
-        "aarch64": 26142640,
-        "arm": 24891900,
-        "i686": 26713232,
-        "x86_64": 27055576
+        "aarch64": 26436044,
+        "arm": 25180776,
+        "i686": 27031792,
+        "x86_64": 27358752
       }
     },
     {

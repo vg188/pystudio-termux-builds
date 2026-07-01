@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-01T10:03:40Z",
+  "generatedAt": "2026-07-01T15:09:14Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -8,7 +8,7 @@
   },
   "summary": {
     "uniquePackageFiles": 1297,
-    "githubLocations": 3165
+    "githubLocations": 3174
   },
   "packages": {
     "abseil-cpp_20250814.1_aarch64.deb": {
@@ -1873,11 +1873,38 @@
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/ca-certificates-java_1.2026.05.14_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/ca-certificates-java_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/ca-certificates-java_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
           }
         },
         {
@@ -2118,11 +2145,38 @@
         },
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/ca-certificates_1.2026.05.14_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/ca-certificates_1.2026.05.14_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/ca-certificates_1.2026.05.14_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
           }
         },
         {
@@ -29523,11 +29577,38 @@
       "locations": [
         {
           "source": "package-pool",
-          "architecture": "all",
-          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-all-r7/npm_11.18.0_all.deb",
+          "architecture": "aarch64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-aarch64-r7/npm_11.18.0_all.deb",
           "release": {
             "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
-            "tag": "pystudio-nodejs-toolchain-pool-all-r7"
+            "tag": "pystudio-nodejs-toolchain-pool-aarch64-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "arm",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-arm-r7/npm_11.18.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-arm-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "i686",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-i686-r7/npm_11.18.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-i686-r7"
+          }
+        },
+        {
+          "source": "package-pool",
+          "architecture": "x86_64",
+          "url": "https://github.com/vg188/pystudio-nodejs-toolchain/releases/download/pystudio-nodejs-toolchain-pool-x86_64-r7/npm_11.18.0_all.deb",
+          "release": {
+            "repository": "https://github.com/vg188/pystudio-nodejs-toolchain",
+            "tag": "pystudio-nodejs-toolchain-pool-x86_64-r7"
           }
         }
       ]
