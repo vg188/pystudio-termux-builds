@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-01T18:22:33Z",
+  "generatedAt": "2026-07-01T19:35:46Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
     "generatedAt": "2026-07-01"
   },
   "summary": {
-    "uniquePackageFiles": 1297,
+    "uniquePackageFiles": 1314,
     "architectures": [
       "aarch64",
       "arm",
@@ -7499,18 +7499,18 @@
       "dependencyNames": [
         "libandroid-shmem"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r49",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
         "assetName": "libandroid-shmem-static_0.7_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libandroid-shmem-static_0.7_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libandroid-shmem-static_0.7_aarch64.deb"
       }
     },
     {
@@ -7525,18 +7525,18 @@
       "dependencyNames": [
         "libandroid-shmem"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r49",
+        "tag": "pystudio-toolchains-pool-arm-r66",
         "assetName": "libandroid-shmem-static_0.7_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libandroid-shmem-static_0.7_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libandroid-shmem-static_0.7_arm.deb"
       }
     },
     {
@@ -7551,18 +7551,18 @@
       "dependencyNames": [
         "libandroid-shmem"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r49",
+        "tag": "pystudio-toolchains-pool-i686-r66",
         "assetName": "libandroid-shmem-static_0.7_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libandroid-shmem-static_0.7_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libandroid-shmem-static_0.7_i686.deb"
       }
     },
     {
@@ -7577,18 +7577,18 @@
       "dependencyNames": [
         "libandroid-shmem"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r49",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
         "assetName": "libandroid-shmem-static_0.7_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libandroid-shmem-static_0.7_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libandroid-shmem-static_0.7_x86_64.deb"
       }
     },
     {
@@ -7599,21 +7599,21 @@
       "debArchitecture": "aarch64",
       "size": "7236",
       "sha256": "d5c2f1f3b0c20accad26bd021f3fec66723c28341fe672cc9ef61e61b2a8f75a",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
       "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r49",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
         "assetName": "libandroid-shmem_0.7_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libandroid-shmem_0.7_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libandroid-shmem_0.7_aarch64.deb"
       }
     },
     {
@@ -7624,21 +7624,21 @@
       "debArchitecture": "arm",
       "size": "6956",
       "sha256": "918718ad98ba1d38065dd5addfeff139d354611de7ac5ac2341543ed0ed4448d",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
       "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r49",
+        "tag": "pystudio-toolchains-pool-arm-r66",
         "assetName": "libandroid-shmem_0.7_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libandroid-shmem_0.7_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libandroid-shmem_0.7_arm.deb"
       }
     },
     {
@@ -7649,21 +7649,21 @@
       "debArchitecture": "i686",
       "size": "7200",
       "sha256": "e94f28ec80637e032da994bd78e9b09dda2ac04dfb598d3eb6d9eddb96037e44",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
       "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r49",
+        "tag": "pystudio-toolchains-pool-i686-r66",
         "assetName": "libandroid-shmem_0.7_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libandroid-shmem_0.7_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libandroid-shmem_0.7_i686.deb"
       }
     },
     {
@@ -7674,21 +7674,21 @@
       "debArchitecture": "x86_64",
       "size": "7400",
       "sha256": "c353aea6b386c3bbc6a40a5566c68d4357f62f9f2c5e203827c7ea7b4897d4ea",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libandroid-shmem",
       "recipeHash": "f8ade7f1d51192f251a7175c1175f4878fbef718ff938f263c9bf3011acce3c6",
       "recipeVersion": "0.7",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r49",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
         "assetName": "libandroid-shmem_0.7_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libandroid-shmem_0.7_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libandroid-shmem_0.7_x86_64.deb"
       }
     },
     {
@@ -10290,6 +10290,110 @@
       }
     },
     {
+      "fileName": "libexpat-static_2.8.2_aarch64.deb",
+      "package": "libexpat-static",
+      "version": "2.8.2",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "59568",
+      "sha256": "4321ba7a2f4283d56635e149a3e3f7200e5dc40ed86cc430be6b545b643d9154",
+      "depends": "libexpat (= 2.8.2)",
+      "dependencyNames": [
+        "libexpat"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
+        "assetName": "libexpat-static_2.8.2_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libexpat-static_2.8.2_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libexpat-static_2.8.2_arm.deb",
+      "package": "libexpat-static",
+      "version": "2.8.2",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "53440",
+      "sha256": "24916d749db8d4d9a0b6a80198392862fa38520f07931c2595783ef89da5b2ee",
+      "depends": "libexpat (= 2.8.2)",
+      "dependencyNames": [
+        "libexpat"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-arm-r66",
+        "assetName": "libexpat-static_2.8.2_arm.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libexpat-static_2.8.2_arm.deb"
+      }
+    },
+    {
+      "fileName": "libexpat-static_2.8.2_i686.deb",
+      "package": "libexpat-static",
+      "version": "2.8.2",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "60888",
+      "sha256": "ba1c59ad5bf8e172b4731f93e1367adcf3f7544f1ac9c55b3e0312a9fe6c400d",
+      "depends": "libexpat (= 2.8.2)",
+      "dependencyNames": [
+        "libexpat"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-i686-r66",
+        "assetName": "libexpat-static_2.8.2_i686.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libexpat-static_2.8.2_i686.deb"
+      }
+    },
+    {
+      "fileName": "libexpat-static_2.8.2_x86_64.deb",
+      "package": "libexpat-static",
+      "version": "2.8.2",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "65436",
+      "sha256": "4cad2b6dd1214f5f7a38ac7b89838bfd15c282a8a547aadfa5acea21333ab1c2",
+      "depends": "libexpat (= 2.8.2)",
+      "dependencyNames": [
+        "libexpat"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
+        "assetName": "libexpat-static_2.8.2_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libexpat-static_2.8.2_x86_64.deb"
+      }
+    },
+    {
       "fileName": "libexpat_2.8.0_aarch64.deb",
       "package": "libexpat",
       "version": "2.8.0",
@@ -10423,6 +10527,106 @@
         "tag": "pystudio-toolchains-pool-x86_64-r14",
         "assetName": "libexpat_2.8.1_x86_64.deb",
         "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r14/libexpat_2.8.1_x86_64.deb"
+      }
+    },
+    {
+      "fileName": "libexpat_2.8.2_aarch64.deb",
+      "package": "libexpat",
+      "version": "2.8.2",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "95588",
+      "sha256": "c5088ff89197500a5629f835baf6968913f51a4969df33536167a3cacfe62c31",
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libexpat",
+      "recipeHash": "0b44169feb0fea598b44864e47da2b8b47f978edd1462bf58bd69120a8221cef",
+      "recipeVersion": "2.8.2",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
+        "assetName": "libexpat_2.8.2_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libexpat_2.8.2_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libexpat_2.8.2_arm.deb",
+      "package": "libexpat",
+      "version": "2.8.2",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "90808",
+      "sha256": "d6f0eee9462f51d487af9b608ce8266325d01351f87a8eb4c71ceddfaa510341",
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libexpat",
+      "recipeHash": "0b44169feb0fea598b44864e47da2b8b47f978edd1462bf58bd69120a8221cef",
+      "recipeVersion": "2.8.2",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-arm-r66",
+        "assetName": "libexpat_2.8.2_arm.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libexpat_2.8.2_arm.deb"
+      }
+    },
+    {
+      "fileName": "libexpat_2.8.2_i686.deb",
+      "package": "libexpat",
+      "version": "2.8.2",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "99656",
+      "sha256": "f476d6b8c840f0dd7c51d0c024c8559c337819fa7a7a8fa7398a73805d5b54e1",
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libexpat",
+      "recipeHash": "0b44169feb0fea598b44864e47da2b8b47f978edd1462bf58bd69120a8221cef",
+      "recipeVersion": "2.8.2",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-i686-r66",
+        "assetName": "libexpat_2.8.2_i686.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libexpat_2.8.2_i686.deb"
+      }
+    },
+    {
+      "fileName": "libexpat_2.8.2_x86_64.deb",
+      "package": "libexpat",
+      "version": "2.8.2",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "101388",
+      "sha256": "995b740129032e9e6f3a0a1203426123280f0b31b7f16fc22af6a4e50152630e",
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libexpat",
+      "recipeHash": "0b44169feb0fea598b44864e47da2b8b47f978edd1462bf58bd69120a8221cef",
+      "recipeVersion": "2.8.2",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
+        "assetName": "libexpat_2.8.2_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libexpat_2.8.2_x86_64.deb"
       }
     },
     {
@@ -16653,18 +16857,18 @@
       "dependencyNames": [
         "libtalloc"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r49",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
         "assetName": "libtalloc-static_2.4.3_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libtalloc-static_2.4.3_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libtalloc-static_2.4.3_aarch64.deb"
       }
     },
     {
@@ -16679,18 +16883,18 @@
       "dependencyNames": [
         "libtalloc"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r49",
+        "tag": "pystudio-toolchains-pool-arm-r66",
         "assetName": "libtalloc-static_2.4.3_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libtalloc-static_2.4.3_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libtalloc-static_2.4.3_arm.deb"
       }
     },
     {
@@ -16705,18 +16909,18 @@
       "dependencyNames": [
         "libtalloc"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r49",
+        "tag": "pystudio-toolchains-pool-i686-r66",
         "assetName": "libtalloc-static_2.4.3_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libtalloc-static_2.4.3_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libtalloc-static_2.4.3_i686.deb"
       }
     },
     {
@@ -16731,18 +16935,18 @@
       "dependencyNames": [
         "libtalloc"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r49",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
         "assetName": "libtalloc-static_2.4.3_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libtalloc-static_2.4.3_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libtalloc-static_2.4.3_x86_64.deb"
       }
     },
     {
@@ -16753,21 +16957,21 @@
       "debArchitecture": "aarch64",
       "size": "33120",
       "sha256": "30af0fea0fcd371a3dbad6f42bda5350401688b29b9aa6009d2285f97371ed73",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
       "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r49",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
         "assetName": "libtalloc_2.4.3_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/libtalloc_2.4.3_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libtalloc_2.4.3_aarch64.deb"
       }
     },
     {
@@ -16778,21 +16982,21 @@
       "debArchitecture": "arm",
       "size": "31348",
       "sha256": "2d922c9a7a37370b364c8b0b38e50dd697e5fca0f17c668c76bd8f3df6d2000d",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
       "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r49",
+        "tag": "pystudio-toolchains-pool-arm-r66",
         "assetName": "libtalloc_2.4.3_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/libtalloc_2.4.3_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libtalloc_2.4.3_arm.deb"
       }
     },
     {
@@ -16803,21 +17007,21 @@
       "debArchitecture": "i686",
       "size": "33352",
       "sha256": "498fc60cbba1485c3b35922c9f48dfbab12b9bc028919afb5fae864e0b4ac20e",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
       "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r49",
+        "tag": "pystudio-toolchains-pool-i686-r66",
         "assetName": "libtalloc_2.4.3_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/libtalloc_2.4.3_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libtalloc_2.4.3_i686.deb"
       }
     },
     {
@@ -16828,21 +17032,21 @@
       "debArchitecture": "x86_64",
       "size": "33544",
       "sha256": "bcc5d1477d9372d1726c2952b2c3b5a2d381e7244be992364b2c9154283f1129",
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/libtalloc",
       "recipeHash": "a503f1d0431908042bdb07457ad610feff69e240c88cf4010c089d59b94589ae",
       "recipeVersion": "2.4.3",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r49",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
         "assetName": "libtalloc_2.4.3_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/libtalloc_2.4.3_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libtalloc_2.4.3_x86_64.deb"
       }
     },
     {
@@ -17902,6 +18106,110 @@
       }
     },
     {
+      "fileName": "libx11-static_1.8.13-1_aarch64.deb",
+      "package": "libx11-static",
+      "version": "1.8.13-1",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "567440",
+      "sha256": "e97721a8bc89a171b982d77e36a85a35fe474128bcc1f130362d6c8561e242f5",
+      "depends": "libx11 (= 1.8.13-1)",
+      "dependencyNames": [
+        "libx11"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
+        "assetName": "libx11-static_1.8.13-1_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libx11-static_1.8.13-1_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libx11-static_1.8.13-1_arm.deb",
+      "package": "libx11-static",
+      "version": "1.8.13-1",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "531624",
+      "sha256": "e06f3f389854fa23b3b4731ff2fabca4fd23286688dda710d3192790886074a4",
+      "depends": "libx11 (= 1.8.13-1)",
+      "dependencyNames": [
+        "libx11"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-arm-r66",
+        "assetName": "libx11-static_1.8.13-1_arm.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libx11-static_1.8.13-1_arm.deb"
+      }
+    },
+    {
+      "fileName": "libx11-static_1.8.13-1_i686.deb",
+      "package": "libx11-static",
+      "version": "1.8.13-1",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "564996",
+      "sha256": "2b92198b40f6956702e1ca51ccdc1c1140e5635991823c7bb86162cda830d288",
+      "depends": "libx11 (= 1.8.13-1)",
+      "dependencyNames": [
+        "libx11"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-i686-r66",
+        "assetName": "libx11-static_1.8.13-1_i686.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libx11-static_1.8.13-1_i686.deb"
+      }
+    },
+    {
+      "fileName": "libx11-static_1.8.13-1_x86_64.deb",
+      "package": "libx11-static",
+      "version": "1.8.13-1",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "568992",
+      "sha256": "0bcb36870f152398b857bad33614c55aed4fa50b574291bdebb90247bed0a505",
+      "depends": "libx11 (= 1.8.13-1)",
+      "dependencyNames": [
+        "libx11"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
+        "assetName": "libx11-static_1.8.13-1_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libx11-static_1.8.13-1_x86_64.deb"
+      }
+    },
+    {
       "fileName": "libx11-static_1.8.13_aarch64.deb",
       "package": "libx11-static",
       "version": "1.8.13",
@@ -17983,6 +18291,130 @@
         "tag": "pystudio-cpp-toolchain-pool-x86_64-r6",
         "assetName": "libx11-static_1.8.13_x86_64.deb",
         "url": "https://github.com/vg188/pystudio-cpp-toolchain/releases/download/pystudio-cpp-toolchain-pool-x86_64-r6/libx11-static_1.8.13_x86_64.deb"
+      }
+    },
+    {
+      "fileName": "libx11_1.8.13-1_aarch64.deb",
+      "package": "libx11",
+      "version": "1.8.13-1",
+      "architecture": "aarch64",
+      "debArchitecture": "aarch64",
+      "size": "1908708",
+      "sha256": "924cb444d4f011949e49613e4f78fc69ae38bfabc4a993684f11cb0c49384847",
+      "depends": "libandroid-support, libxcb, xorgproto",
+      "dependencyNames": [
+        "libandroid-support",
+        "libxcb",
+        "xorgproto"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libx11",
+      "recipeHash": "dd6f02d7fd154a7f9856adb7815c0c190899940aa6eb70247df36a3ca2631e47",
+      "recipeVersion": "1.8.13-1",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
+        "assetName": "libx11_1.8.13-1_aarch64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/libx11_1.8.13-1_aarch64.deb"
+      }
+    },
+    {
+      "fileName": "libx11_1.8.13-1_arm.deb",
+      "package": "libx11",
+      "version": "1.8.13-1",
+      "architecture": "arm",
+      "debArchitecture": "arm",
+      "size": "1878504",
+      "sha256": "93f45084b65f5654081c220399a05a95e6921ce5d9d8981e88eb34f9b7b57638",
+      "depends": "libandroid-support, libxcb, xorgproto",
+      "dependencyNames": [
+        "libandroid-support",
+        "libxcb",
+        "xorgproto"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libx11",
+      "recipeHash": "dd6f02d7fd154a7f9856adb7815c0c190899940aa6eb70247df36a3ca2631e47",
+      "recipeVersion": "1.8.13-1",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-arm-r66",
+        "assetName": "libx11_1.8.13-1_arm.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/libx11_1.8.13-1_arm.deb"
+      }
+    },
+    {
+      "fileName": "libx11_1.8.13-1_i686.deb",
+      "package": "libx11",
+      "version": "1.8.13-1",
+      "architecture": "i686",
+      "debArchitecture": "i686",
+      "size": "1924452",
+      "sha256": "6c890e758426bd0fbb3076d1aee6fcdd34ee9f85d8b7bd96daea68fd00be7a4f",
+      "depends": "libandroid-support, libxcb, xorgproto",
+      "dependencyNames": [
+        "libandroid-support",
+        "libxcb",
+        "xorgproto"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libx11",
+      "recipeHash": "dd6f02d7fd154a7f9856adb7815c0c190899940aa6eb70247df36a3ca2631e47",
+      "recipeVersion": "1.8.13-1",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-i686-r66",
+        "assetName": "libx11_1.8.13-1_i686.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/libx11_1.8.13-1_i686.deb"
+      }
+    },
+    {
+      "fileName": "libx11_1.8.13-1_x86_64.deb",
+      "package": "libx11",
+      "version": "1.8.13-1",
+      "architecture": "x86_64",
+      "debArchitecture": "x86_64",
+      "size": "1929100",
+      "sha256": "c3c6ccc6fee1ce43fd7d7091b124a8b734ab697fe44db13c631f507818f5c129",
+      "depends": "libandroid-support, libxcb, xorgproto",
+      "dependencyNames": [
+        "libandroid-support",
+        "libxcb",
+        "xorgproto"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/libx11",
+      "recipeHash": "dd6f02d7fd154a7f9856adb7815c0c190899940aa6eb70247df36a3ca2631e47",
+      "recipeVersion": "1.8.13-1",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
+        "assetName": "libx11_1.8.13-1_x86_64.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/libx11_1.8.13-1_x86_64.deb"
       }
     },
     {
@@ -24500,6 +24932,41 @@
       }
     },
     {
+      "fileName": "proot-distro_5.4.0_all.deb",
+      "package": "proot-distro",
+      "version": "5.4.0",
+      "architecture": "aarch64",
+      "debArchitecture": "all",
+      "size": "147052",
+      "sha256": "b3ba9ceb38e950278db00fe6e3f2016a35638e1e502cff8234fa8f47dec91137",
+      "depends": "proot (>= 5.1.107-71), python, python-pip",
+      "dependencyNames": [
+        "proot",
+        "python",
+        "python-pip"
+      ],
+      "commands": [
+        "pd",
+        "proot-distro"
+      ],
+      "profile": "proot-distro",
+      "source": "primary",
+      "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
+      "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
+      "patchSet": "primary",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
+      "recipePath": "packages/proot-distro",
+      "recipeHash": "0b931d527abb488321d16cc329041012dafb14458ff33f0407e647ef1a79a7ed",
+      "recipeVersion": "5.4.0",
+      "github": {
+        "repository": "https://github.com/vg188/pystudio-termux-builds",
+        "tag": "pystudio-toolchains-pool-all-r66",
+        "assetName": "proot-distro_5.4.0_all.deb",
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r66/proot-distro_5.4.0_all.deb"
+      }
+    },
+    {
       "fileName": "proot_5.1.107.81_aarch64.deb",
       "package": "proot",
       "version": "5.1.107.81",
@@ -24516,21 +24983,21 @@
         "proot",
         "termux-chroot"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
       "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-aarch64-r49",
+        "tag": "pystudio-toolchains-pool-aarch64-r66",
         "assetName": "proot_5.1.107.81_aarch64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r49/proot_5.1.107.81_aarch64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r66/proot_5.1.107.81_aarch64.deb"
       }
     },
     {
@@ -24550,21 +25017,21 @@
         "proot",
         "termux-chroot"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
       "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-arm-r49",
+        "tag": "pystudio-toolchains-pool-arm-r66",
         "assetName": "proot_5.1.107.81_arm.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r49/proot_5.1.107.81_arm.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-arm-r66/proot_5.1.107.81_arm.deb"
       }
     },
     {
@@ -24584,21 +25051,21 @@
         "proot",
         "termux-chroot"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
       "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-i686-r49",
+        "tag": "pystudio-toolchains-pool-i686-r66",
         "assetName": "proot_5.1.107.81_i686.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r49/proot_5.1.107.81_i686.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-i686-r66/proot_5.1.107.81_i686.deb"
       }
     },
     {
@@ -24618,21 +25085,21 @@
         "proot",
         "termux-chroot"
       ],
-      "profile": "proot",
+      "profile": "proot-distro",
       "source": "primary",
       "sourceRepository": "https://github.com/vg188/pystudio-termux-source-termux.git",
       "sourceCommit": "f8711dbfb6a073554267e9f6291721ca60d69788",
       "patchSet": "primary",
-      "patchHash": "a4fccecc3d6769fcc62e5077ed3f515bafd09455008be53ef6473cbaf90a7668",
-      "treeDiffHash": "7c16f73a10e07e593914e9aea57a10109eb335729f7546b93b927cd00a2c246c",
+      "patchHash": "bd37c3a9a42099c8b9ec040ec0cadbbc5d980fc4947f4cb3d4693f6eb5c7d923",
+      "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "recipePath": "packages/proot",
       "recipeHash": "0b2bf15caf68755ea8da6ba135a39e696c4644fb3119d5f7cdeaa656b9a39db5",
       "recipeVersion": "5.1.107.81",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-x86_64-r49",
+        "tag": "pystudio-toolchains-pool-x86_64-r66",
         "assetName": "proot_5.1.107.81_x86_64.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r49/proot_5.1.107.81_x86_64.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-x86_64-r66/proot_5.1.107.81_x86_64.deb"
       }
     },
     {
