@@ -184,9 +184,10 @@ jobs:
           python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
           extension_profiles="pip-build-core native-libs-scientific native-libs-data native-libs-image native-libs-visualize native-libs-markup native-libs-crypto-network native-libs-media"
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
+          core_profiles="nodejs node-build-core cpp proot proot-distro proot-full tree-sitter"
           sources="primary secondary tur"
           toolchain_matrix_json="$(
-            for p in python nodejs cpp proot proot-distro proot-full $extension_profiles; do
+            for p in $python_profiles $core_profiles $extension_profiles $dev_tool_profiles; do
               for s in $sources; do
                 for a in aarch64 arm i686 x86_64; do
                   jq -n --arg profile "$p" --arg source "$s" --arg arch "$a" \
@@ -195,7 +196,7 @@ jobs:
               done
             done | jq -s -c .
           )"
-          jq -e 'length == 168' <<< "$toolchain_matrix_json"
+          jq -e 'length == 336' <<< "$toolchain_matrix_json"
 
           python_matrix_json="$(
             for p in $python_profiles; do

@@ -37,7 +37,9 @@ on:
           - proot-distro
           - proot-full
           - nodejs
+          - node-build-core
           - cpp
+          - tree-sitter
           - all
       source:
         description: "Source adapter."
@@ -105,9 +107,10 @@ jobs:
           python_profiles="python python-build python-science python-data python-image python-viz python-xml-html python-crypto-network python-gui-tk"
           extension_profiles="pip-build-core native-libs-scientific native-libs-data native-libs-image native-libs-visualize native-libs-markup native-libs-crypto-network native-libs-media"
           dev_tool_profiles="python-lsp cpp-lsp debug-tools git"
+          core_profiles="nodejs node-build-core cpp proot proot-distro proot-full tree-sitter"
 
           if [[ "$profile" == "all" ]]; then
-            profiles="python nodejs proot proot-distro proot-full cpp $extension_profiles"
+            profiles="$python_profiles $core_profiles $extension_profiles $dev_tool_profiles"
           elif [[ "$profile" == "all-python" ]]; then
             profiles="$python_profiles"
           elif [[ "$profile" == "all-extensions" ]]; then
