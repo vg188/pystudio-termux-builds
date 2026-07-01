@@ -232,18 +232,6 @@ def freshness_problem(
     if package_arch and package_arch not in {target_arch, "all"}:
         return f"architecture mismatch ({package_arch} != {target_arch})"
 
-    if not build_metadata:
-        return ""
-
-    expected_patch_set = str(build_metadata.get("patchSet", "") or "")
-    expected_patch_hash = str(build_metadata.get("patchHash", "") or "")
-    actual_patch_set = fields.get("PyStudio-Patch-Set", "")
-    actual_patch_hash = fields.get("PyStudio-Patch-Hash", "")
-    if expected_patch_set and actual_patch_set != expected_patch_set:
-        return f"patch set mismatch ({actual_patch_set or 'missing'} != {expected_patch_set})"
-    if expected_patch_hash and actual_patch_hash != expected_patch_hash:
-        return "patch hash mismatch"
-
     recipe_dir = recipe_dir_from_fields(source_root, fields)
     actual_version = fields.get("Version", "")
     if recipe_dir:
@@ -260,6 +248,18 @@ def freshness_problem(
             return "missing recipe hash"
         if actual_recipe_hash != expected_recipe_hash:
             return "recipe hash mismatch"
+
+    if not build_metadata:
+        return ""
+
+    expected_patch_set = str(build_metadata.get("patchSet", "") or "")
+    expected_patch_hash = str(build_metadata.get("patchHash", "") or "")
+    actual_patch_set = fields.get("PyStudio-Patch-Set", "")
+    actual_patch_hash = fields.get("PyStudio-Patch-Hash", "")
+    if expected_patch_set and actual_patch_set != expected_patch_set:
+        return f"patch set mismatch ({actual_patch_set or 'missing'} != {expected_patch_set})"
+    if expected_patch_hash and actual_patch_hash != expected_patch_hash:
+        return "patch hash mismatch"
 
     expected_source_commit = str(build_metadata.get("sourceCommit", "") or "")
     actual_source_commit = fields.get("PyStudio-Source-Commit", "")
