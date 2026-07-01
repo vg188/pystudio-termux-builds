@@ -327,6 +327,7 @@ def prefetch_repository(
         return set()
 
     package_order: list[str] = []
+    freshness_problems: dict[str, str] = {}
     for package in full_package_order:
         fields = index[package]
         problem = freshness_problem(
@@ -335,7 +336,19 @@ def prefetch_repository(
             source_root=source_root,
             build_metadata=build_metadata,
         )
+        if not problem:
+            for dependency in dependency_names(",".join([fields.get("Pre-Depends", ""), fields.get("Depends", "")])):
+                if dependency not in full_package_order:
+                    continue
+                dependency_problem = freshness_problems.get(dependency)
+                if dependency_problem:
+                    problem = f"dependency {dependency} not reusable ({dependency_problem})"
+                    break
+                if dependency not in package_order:
+                    problem = f"dependency {dependency} not reusable"
+                    break
         if problem:
+            freshness_problems[package] = problem
             print(f"Skipping stale reusable package {package} from {repository.get('id')}: {problem}")
             continue
         package_order.append(package)
