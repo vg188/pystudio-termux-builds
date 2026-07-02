@@ -1,0 +1,11 @@
+diff --git a/packages/util-linux/build.sh b/packages/util-linux/build.sh
+index 1111111111111111111111111111111111111111..2222222222222222222222222222222222222222 100644
+--- a/packages/util-linux/build.sh
++++ b/packages/util-linux/build.sh
+@@ -75,4 +75,6 @@ termux_step_pre_configure() {
+ 
+ 	LDFLAGS+=" -landroid-posix-semaphore"
+ 	autoreconf -fi
++	# Git tag archives do not ship the release tarball's generated po files.
++	sed -i -E '/^SUBDIRS =/ s/(^|[[:space:]])po([[:space:]]|$)/ /' Makefile.in
+ }
