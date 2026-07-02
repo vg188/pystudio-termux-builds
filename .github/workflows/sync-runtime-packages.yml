@@ -159,6 +159,4 @@ jobs:
             --retries 3 \
             --timeout 60 \
             --file dist/gitee-mirror/runtime-packages.json=runtime-packages.json \
-            --file dist/gitee-mirror/package-assets.json=package-assets.json \
-            --file dist/gitee-mirror/package-indexes.json=package-indexes.json \
             --file dist/gitee-mirror/mirror-status.json=mirror-status.json
