@@ -125,6 +125,8 @@ PROFILE_OVERRIDES: dict[str, dict[str, Any]] = {
         "packages": ["proot"],
         "commands": ["proot"],
         "verifyCommands": ["proot --version"],
+        "manifestEnabled": False,
+        "manifestDisabledReason": "Current proot_5.1.107.81 embeds app-specific paths and fails PyStudio app-domain Alpine probes.",
     },
     "proot-distro": {
         "group": "runtime",
@@ -132,6 +134,8 @@ PROFILE_OVERRIDES: dict[str, dict[str, Any]] = {
         "description": "Termux proot-distro manager and its runtime helpers for installing Linux distributions.",
         "commands": ["proot-distro"],
         "verifyCommands": ["proot-distro --help"],
+        "manifestEnabled": False,
+        "manifestDisabledReason": "Depends on the current non-compliant proot package.",
     },
     "proot-full": {
         "group": "runtime",
@@ -161,6 +165,8 @@ PROFILE_OVERRIDES: dict[str, dict[str, Any]] = {
             "git --version",
             "clang --version",
         ],
+        "manifestEnabled": False,
+        "manifestDisabledReason": "Depends on the current non-compliant proot package.",
     },
     "node-build-core": {
         "group": "npm-toolchain",
@@ -876,6 +882,12 @@ def toolchain_profile_envs() -> dict[str, dict[str, str]]:
 
 def upsert_latest_toolchain_profiles(manifest: dict[str, Any], token: str) -> None:
     for profile_id, env in toolchain_profile_envs().items():
+        override = PROFILE_OVERRIDES.get(profile_id, {})
+        if override.get("manifestEnabled") is False:
+            reason = str(override.get("manifestDisabledReason") or "disabled by profile override")
+            print(f"Skipping {profile_id}: {reason}")
+            continue
+
         selected: tuple[dict[str, str], dict[str, Any]] | None = None
         for config in release_configs_for_profile(profile_id):
             release = latest_release_with_flat_index(
