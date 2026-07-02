@@ -27,7 +27,8 @@ repo_dir="$stage_dir/$repo_slug"
 metadata_path="$stage_dir/$repo_slug.json"
 flat_dir="$stage_dir/$repo_slug-flat"
 
-if ! find "$output_dir" -type f -name "*.deb" | grep -q .; then
+first_deb="$(find "$output_dir" -type f -name "*.deb" -print -quit)"
+if [[ -z "$first_deb" ]]; then
   die "no deb files were produced in $output_dir"
 fi
 

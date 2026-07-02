@@ -4,14 +4,14 @@ Date: Wed, 1 Jul 2026 20:15:00 +0800
 Subject: [PATCH] ci: add krb5 source mirror
 
 ---
- packages/krb5/build.sh | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ packages/krb5/build.sh | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/packages/krb5/build.sh b/packages/krb5/build.sh
 index 1111111111111111111111111111111111111111..2222222222222222222222222222222222222222 100644
 --- a/packages/krb5/build.sh
 +++ b/packages/krb5/build.sh
-@@ -4,7 +4,10 @@ TERMUX_PKG_LICENSE="custom"
+@@ -4,7 +4,13 @@ TERMUX_PKG_LICENSE="custom"
  TERMUX_PKG_LICENSE_FILE="../NOTICE"
  TERMUX_PKG_MAINTAINER="@termux"
  TERMUX_PKG_VERSION="1.22.2"
@@ -20,9 +20,12 @@ index 1111111111111111111111111111111111111111..22222222222222222222222222222222
 +https://web.mit.edu/kerberos/dist/krb5/$(grep -oP "^\d+\.\d+" <<< $TERMUX_PKG_VERSION)/krb5-$TERMUX_PKG_VERSION.tar.gz
 +https://kerberos.org/dist/krb5/$(grep -oP "^\d+\.\d+" <<< $TERMUX_PKG_VERSION)/krb5-$TERMUX_PKG_VERSION.tar.gz
 +)
- TERMUX_PKG_SHA256=3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13
+-TERMUX_PKG_SHA256=3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13
++TERMUX_PKG_SHA256=(
++3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13
++3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13
++)
  TERMUX_PKG_AUTO_UPDATE=true
  TERMUX_PKG_DEPENDS="libandroid-support, libandroid-glob, libresolv-wrapper, readline, openssl, libdb"
 -- 
 2.47.0.windows.2
-
