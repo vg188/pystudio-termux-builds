@@ -1,0 +1,15 @@
+diff --git a/packages/util-linux/build.sh b/packages/util-linux/build.sh
+index 1111111111111111111111111111111111111111..2222222222222222222222222222222222222222 100644
+--- a/packages/util-linux/build.sh
++++ b/packages/util-linux/build.sh
+@@ -11,8 +11,8 @@ TERMUX_PKG_LICENSE_FILE="
+ TERMUX_PKG_MAINTAINER="@termux"
+ TERMUX_PKG_VERSION="2.42.1"
+ TERMUX_PKG_REVISION=3
+-TERMUX_PKG_SRCURL="https://www.kernel.org/pub/linux/utils/util-linux/v${TERMUX_PKG_VERSION:0:4}/util-linux-${TERMUX_PKG_VERSION}.tar.xz"
+-TERMUX_PKG_SHA256=82e9158eb12a9b0b569d84e1687fed9dd18fe89ccd8ef5ac3427218a7c0d7f7f
++TERMUX_PKG_SRCURL="https://github.com/util-linux/util-linux/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz"
++TERMUX_PKG_SHA256=138a3bd9049afa5eeeea73f1e9c0ed7bddf3e55ba4ec29924965a932ec738f01
+ # <dependency>: <binaries linking to that dependency>
+ # libandroid-glob: lsclocks
+ # libandroid-posix-semaphore: lsipc and the lib{blkid,smartcols,uuid} subpackages

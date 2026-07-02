@@ -352,8 +352,7 @@ python3 "$ROOT/scripts/ci/check-deb-prefix.py" \
 first_proot_deb="$(find "$source_dir/output" -type f -name 'proot_*.deb' -print -quit)"
 if [[ "$profile" == proot* && -n "$first_proot_deb" ]]; then
   python3 "$ROOT/scripts/ci/audit-proot-package.py" \
-    "$source_dir/output" \
-    --warn-only
+    "$source_dir/output"
 fi
 
 cp -a "$source_dir/output" "$stage_dir/output"
