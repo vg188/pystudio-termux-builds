@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-01T21:55:00Z",
+  "generatedAt": "2026-07-01T23:59:33Z",
   "sourceManifest": {
     "file": "runtime-packages.json",
     "schemaVersion": 5,
@@ -5736,9 +5736,9 @@
       "treeDiffHash": "620554e2d64f1a561ed5acb333064504bf6fe57fa2b53db738ecb58bf93f0930",
       "github": {
         "repository": "https://github.com/vg188/pystudio-termux-builds",
-        "tag": "pystudio-toolchains-pool-all-r67",
+        "tag": "pystudio-toolchains-pool-aarch64-r67",
         "assetName": "glib-cross_2.88.2-1_all.deb",
-        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-all-r67/glib-cross_2.88.2-1_all.deb"
+        "url": "https://github.com/vg188/pystudio-termux-builds/releases/download/pystudio-toolchains-pool-aarch64-r67/glib-cross_2.88.2-1_all.deb"
       }
     },
     {
